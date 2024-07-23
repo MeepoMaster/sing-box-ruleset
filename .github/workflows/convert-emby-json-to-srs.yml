@@ -24,6 +24,11 @@ jobs:
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
+    - name: Check sing-box location
+      run: |
+        which sing-box
+        sing-box version
+
     - name: Convert JSON to SRS
       run: |
         sing-box rule-set compile --output emby.srs emby.json
