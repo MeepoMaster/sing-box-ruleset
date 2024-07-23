@@ -1,5 +1,4 @@
 {
-  "version": 1,
   "rules": [
     {
       "domain_suffix": [
@@ -7,5 +6,6 @@
         "285286.xyz"
       ]
     }
-  ]
+  ],
+  "version": 1
 }
