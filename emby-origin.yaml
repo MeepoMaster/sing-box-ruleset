@@ -2,5 +2,5 @@ version: 1
 rules:
   - domain_suffix:
     - emby.wtf
-  - domain: 
     - 581658.best
+    - 285286.xyz
