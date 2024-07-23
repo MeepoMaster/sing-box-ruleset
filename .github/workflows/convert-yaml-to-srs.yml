@@ -13,31 +13,34 @@ jobs:
 
     - name: Setup sing-box
       run: |
-        # 获取最新版本号
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         echo "Latest sing-box version: $LATEST_VERSION"
-        
-        # 下载最新版本
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        
-        # 解压并安装
         tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
-        
-        # 验证安装
         sing-box version
 
     - name: Convert YAML to SRS
       run: |
-        # 确保输出是正确的 SRS 格式
-        echo "version: 1" > emby.srs
-        echo "rules:" >> emby.srs
+        if [ ! -f emby.srs ]; then
+          echo "Creating new emby.srs file"
+          echo "version: 1" > emby.srs
+          echo "rules:" >> emby.srs
+        else
+          echo "Updating existing emby.srs file"
+          # 清空文件内容但保留文件
+          > emby.srs
+          echo "version: 1" > emby.srs
+          echo "rules:" >> emby.srs
+        fi
         cat emby-origin.yaml >> emby.srs
 
     - name: Commit and Push
+      env:
+        PAT: ${{ secrets.PAT }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add emby.srs
         git commit -m "Convert YAML to SRS" || echo "No changes to commit"
-        git push
+        git push https://$PAT@github.com/${{ github.repository }}.git
