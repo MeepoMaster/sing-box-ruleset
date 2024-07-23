@@ -1,4 +1,0 @@
-- name: Check sing-box location
-  run: |
-    which sing-box
-    sing-box version
