@@ -3,7 +3,7 @@ name: Convert Emby JSON to SRS
 on:
   push:
     paths:
-      - 'sing-box-ruleset/emby.json'
+      - 'emby.json'
   workflow_dispatch:
 
 permissions:
@@ -26,12 +26,12 @@ jobs:
 
     - name: Convert JSON to SRS
       run: |
-        sing-box rule-set compile --output sing-box-ruleset/emby.srs sing-box-ruleset/emby.json
+        sing-box rule-set compile --output emby.srs emby.json
 
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add sing-box-ruleset/emby.srs
+        git add emby.srs
         git commit -m "Convert emby.json to emby.srs" || echo "No changes to commit"
         git push
