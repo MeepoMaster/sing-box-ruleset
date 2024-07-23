@@ -3,7 +3,8 @@
   "rules": [
     {
       "domain_suffix": [
-        "emby.wtf"
+        "emby.wtf",
+        "285286.xyz"
       ]
     }
   ]
