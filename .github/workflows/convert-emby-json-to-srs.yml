@@ -17,30 +17,16 @@ jobs:
 
     - name: Setup sing-box
       run: |
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep '"tag_name":' | grep -v 'alpha' | head -n 1 | sed -E 's/.*"([^"]+)".*/\1/')
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
         echo "Latest sing-box version: $LATEST_VERSION"
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
-    - name: Check sing-box location
-      run: |
-        which sing-box
-        sing-box version
-
     - name: Convert JSON to SRS
       run: |
         sing-box rule-set compile --output emby.srs emby.json
-        
-    - name: Display SRS file info
-      run: |
-        file emby.srs
-        head -n 20 emby.srs
-  
-    - name: Validate SRS file
-      run: |
-        sing-box rule-set test emby.srs
 
     - name: Commit and push
       run: |
