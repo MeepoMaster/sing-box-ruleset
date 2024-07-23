@@ -24,9 +24,13 @@ jobs:
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
+    - name: Preprocess JSON
+      run: |
+        jq '.rules = [{"type": "logical_or", "rules": .rules}]' emby.json > emby_processed.json
+
     - name: Convert JSON to SRS
       run: |
-        sing-box rule-set compile --output emby.srs emby.json
+        sing-box rule-set compile --output emby.srs emby_processed.json
 
     - name: Commit and push
       run: |
