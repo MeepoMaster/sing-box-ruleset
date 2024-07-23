@@ -32,6 +32,15 @@ jobs:
     - name: Convert JSON to SRS
       run: |
         sing-box rule-set compile --output emby.srs emby.json
+        
+    - name: Display SRS file info
+      run: |
+        file emby.srs
+        head -n 20 emby.srs
+  
+    - name: Validate SRS file
+      run: |
+        sing-box rule-set test emby.srs
 
     - name: Commit and push
       run: |
