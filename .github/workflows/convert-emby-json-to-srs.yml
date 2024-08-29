@@ -1,10 +1,12 @@
-name: Convert Emby JSON to SRS
+name: Convert Emby JSON and AdGuard filters to SRS
 
 on:
   push:
     paths:
       - 'emby.json'
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"  # 每天 UTC 时间 00:00 运行
 
 permissions:
   contents: write
@@ -15,23 +17,77 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup sing-box
+    - name: Setup sing-box (pre-release)
       run: |
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-        echo "Latest sing-box version: $LATEST_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
+        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
-    - name: Convert JSON to SRS
+    - name: Convert Emby JSON to SRS
       run: |
-        sing-box rule-set compile --output emby.srs emby.json
+        if [ -f emby.json ]; then
+          sing-box rule-set compile --output emby.srs emby.json
+        else
+          echo "emby.json not found, skipping Emby conversion"
+        fi
+
+    - name: Download and merge AdGuard filters
+      run: |
+        combined_filters="combined_adguard_filters.txt"
+        > $combined_filters  # 创建一个空文件
+        filters=(
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_4.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_27.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_32.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_3.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_29.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_33.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_30.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_11.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_12.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_9.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_8.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_31.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_10.txt"
+          "https://hblock.molinero.dev/hosts_adblock.txt"
+          "https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt"
+          "https://raw.githubusercontent.com/banbendalao/ADgk/master/kill-baidu-ad.txt"
+          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/rule.txt"
+          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/mv.txt"
+          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/minority-mv.txt"
+          "https://raw.githubusercontent.com/bogachenko/fuckfuckadblock/master/fuckfuckadblock.txt"
+          "https://raw.githubusercontent.com/bogachenko/fuckfuckadblock/master/fuckfuckadblock-mining.txt"
+          "https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt"
+          "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt"
+        )
+        
+        for filter in "${filters[@]}"; do
+          wget -O - "$filter" >> $combined_filters || echo "下载 $filter 失败，继续"
+        done
+
+    - name: Convert combined AdGuard filters to adg-dns.srs
+      run: |
+        sing-box rule-set convert --type adguard --output adg-dns.srs combined_adguard_filters.txt
 
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add emby.srs
-        git commit -m "Convert emby.json to emby.srs" || echo "No changes to commit"
+        git add emby.srs adg-dns.srs
+        git commit -m "Convert Emby JSON and merge AdGuard filters to adg-dns.srs" || echo "No changes to commit"
         git push
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: sing-box-rule-sets
+        path: |
+          emby.srs
+          adg-dns.srs
