@@ -56,16 +56,7 @@ jobs:
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_8.txt"
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_31.txt"
           "https://adguardteam.github.io/HostlistsRegistry/assets/filter_10.txt"
-          "https://hblock.molinero.dev/hosts_adblock.txt"
-          "https://raw.githubusercontent.com/banbendalao/ADgk/master/ADgk.txt"
-          "https://raw.githubusercontent.com/banbendalao/ADgk/master/kill-baidu-ad.txt"
-          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/rule.txt"
-          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/mv.txt"
-          "https://github.com/xinggsf/Adblock-Plus-Rule/raw/master/minority-mv.txt"
-          "https://raw.githubusercontent.com/bogachenko/fuckfuckadblock/master/fuckfuckadblock.txt"
-          "https://raw.githubusercontent.com/bogachenko/fuckfuckadblock/master/fuckfuckadblock-mining.txt"
-          "https://raw.githubusercontent.com/cjx82630/cjxlist/master/cjx-annoyance.txt"
-          "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/AWAvenue-Ads-Rule.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt"
         )
         
         for filter in "${filters[@]}"; do
