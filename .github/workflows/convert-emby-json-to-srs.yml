@@ -39,8 +39,8 @@ jobs:
         combined_filters="combined_adguard_filters.txt"
         > $combined_filters  # 创建一个空文件
         filters=(
-          #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
-          #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt"
+          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt"
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_24.txt"
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_4.txt"
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_34.txt"
@@ -56,7 +56,7 @@ jobs:
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_8.txt"
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_31.txt"
           #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_10.txt"
-          "https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt"
+          #"https://adguardteam.github.io/HostlistsRegistry/assets/filter_53.txt"
         )
         
         for filter in "${filters[@]}"; do
