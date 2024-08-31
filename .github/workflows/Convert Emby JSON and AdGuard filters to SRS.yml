@@ -1,4 +1,4 @@
-name: Convert Emby JSON and AdGuard filters to SRS
+name: Convert Emby JSON and AdGuard filters to SRS (and JSON for AdGuard)
 on:
   push:
     paths:
@@ -58,12 +58,15 @@ jobs:
     - name: Convert combined AdGuard filters to adg-dns.srs
       run: |
         sing-box rule-set convert --type adguard --output adg-dns.srs combined_adguard_filters.txt
+    - name: Convert AdGuard SRS to JSON
+      run: |
+        sing-box rule-set show adg-dns.srs > adg-dns.json
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add emby.srs adg-dns.srs
-        git commit -m "Convert Emby JSON and merge AdGuard filters to adg-dns.srs" || echo "No changes to commit"
+        git add emby.srs adg-dns.srs adg-dns.json
+        git commit -m "Convert Emby JSON and merge AdGuard filters to SRS (and JSON for AdGuard)" || echo "No changes to commit"
         git push
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
@@ -72,3 +75,4 @@ jobs:
         path: |
           emby.srs
           adg-dns.srs
+          adg-dns.json
