@@ -35,8 +35,14 @@ jobs:
         # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         
-        # 从 JSON 文件中提取域名并添加到黑名单中
-        jq -r '.rules[].domain_suffix[]' awavenue_ads_rule_singbox.json > extracted_domains.txt
+        # 清理 JSON 文件中的注释
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+        
+        # 确保 JSON 文件格式正确
+        jq . awavenue_ads_rule_clean.json
+        
+        # 从清理后的 JSON 文件中提取域名并添加到黑名单中
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
         FILES+=("extracted_domains.txt")
 
         # 合并所有文件
