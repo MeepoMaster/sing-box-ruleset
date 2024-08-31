@@ -2,8 +2,8 @@ name: Update DNS Rules
 
 on:
   schedule:
-    - cron: '0 16 * * *'  # 每天午夜 UTC 运行
-  workflow_dispatch:  # 允许手动触发
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update-rules:
@@ -26,49 +26,44 @@ jobs:
       run: |
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         
-        # 处理黑名单
+        # Process blacklist domains
         grep '^\|\|' adblockdns.txt | sed 's/^||//;s/\^$//' | sort -u > new_blacklist.txt
         cat blacklist.txt new_blacklist.txt | sort -u > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
         
-        # 处理白名单
+        # Process whitelist domains
         grep '^@@||' adblockdns.txt | sed 's/^@@||//;s/\^$//' | sort -u > new_whitelist.txt
         cat whitelist.txt new_whitelist.txt | sort -u > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
         
-        # 从黑名单中移除白名单中的域名
+        # Remove whitelist domains from blacklist
         grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
     - name: Create adg-dns.json
       run: |
-        # 创建 adg-dns.json 文件
         echo '{
           "version": 2,
           "rules": [
             {
               "domain_suffix": [' > adg-dns.json
-
-        # 将域名添加到 JSON 中
         sed 's/.*/"&",/' blacklist.txt >> adg-dns.json
-
-        # 移除最后一个域名后的逗号并关闭 JSON 结构
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
             }
           ]
         }' >> adg-dns.json
 
-        # 输出 adg-dns.json 内容，调试使用
-        cat adg-dns.json
+    - name: Debug adg-dns.json
+      run: cat adg-dns.json
 
-    - name: Setup sing-box (pre-release)
+    - name: Setup sing-box (stable release)
       run: |
-        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
-        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        echo "Latest sing-box version: $LATEST_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Convert adg-dns.json to adg-dns.srs
