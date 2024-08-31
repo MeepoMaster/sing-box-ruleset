@@ -2,8 +2,8 @@ name: Update DNS Rules
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Run daily at midnight UTC
-  workflow_dispatch:  # Allow manual trigger
+    - cron: '0 16 * * *'  # 每天午夜 UTC 运行
+  workflow_dispatch:  # 允许手动触发
 
 jobs:
   update-rules:
@@ -26,33 +26,41 @@ jobs:
       run: |
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         
-        # Process blacklist
+        # 处理黑名单
         grep '^\|\|' adblockdns.txt | sed 's/^||//;s/\^$//' | sort -u > new_blacklist.txt
         cat blacklist.txt new_blacklist.txt | sort -u > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
         
-        # Process whitelist
+        # 处理白名单
         grep '^@@||' adblockdns.txt | sed 's/^@@||//;s/\^$//' | sort -u > new_whitelist.txt
         cat whitelist.txt new_whitelist.txt | sort -u > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
         
-        # Remove whitelist domains from blacklist
+        # 从黑名单中移除白名单中的域名
         grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
     - name: Create adg-dns.json
       run: |
+        # 创建 adg-dns.json 文件
         echo '{
           "version": 2,
           "rules": [
             {
               "domain_suffix": [' > adg-dns.json
+
+        # 将域名添加到 JSON 中
         sed 's/.*/"&",/' blacklist.txt >> adg-dns.json
+
+        # 移除最后一个域名后的逗号并关闭 JSON 结构
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
             }
           ]
         }' >> adg-dns.json
+
+        # 输出 adg-dns.json 内容，调试使用
+        cat adg-dns.json
 
     - name: Setup sing-box (pre-release)
       run: |
