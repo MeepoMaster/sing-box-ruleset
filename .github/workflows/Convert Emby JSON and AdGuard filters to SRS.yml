@@ -1,4 +1,4 @@
-name: Convert Emby JSON and AdGuard filters to SRS (and JSON for AdGuard)
+name: Convert Emby JSON and AdGuard filters to SRS and JSON
 on:
   push:
     paths:
@@ -21,10 +21,11 @@ jobs:
         tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
-    - name: Convert Emby JSON to SRS
+    - name: Compile Emby JSON to SRS
       run: |
         if [ -f emby.json ]; then
           sing-box rule-set compile --output emby.srs emby.json
+          echo "Emby JSON compiled to SRS"
         else
           echo "emby.json not found, skipping Emby conversion"
         fi
@@ -55,24 +56,56 @@ jobs:
         @@||emby.pilipiliultra.top^
         @@||knicks.jd.com^
         EOF
-    - name: Convert combined AdGuard filters to adg-dns.srs
+    - name: Convert combined AdGuard filters to SRS
       run: |
         sing-box rule-set convert --type adguard --output adg-dns.srs combined_adguard_filters.txt
-    - name: Convert AdGuard SRS to JSON
+        echo "AdGuard filters converted to SRS"
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Create SRS to JSON converter script
       run: |
-        sing-box rule-set show adg-dns.srs > adg-dns.json
+        cat > srs_to_json.py << EOL
+        ${{ steps.srs_to_json_script.outputs.content }}
+        EOL
+    - name: Convert SRS files to JSON
+      run: |
+        for srs_file in *.srs; do
+          json_file="${srs_file%.srs}.json"
+          python srs_to_json.py "$srs_file" "$json_file"
+          echo "Converted $srs_file to $json_file"
+          echo "First few lines of $json_file:"
+          head -n 10 "$json_file"
+        done
+    - name: Verify JSON content
+      run: |
+        for json_file in *.json; do
+          if [ -f "$json_file" ]; then
+            if ! jq empty "$json_file" 2>/dev/null; then
+              echo "Error: $json_file is not a valid JSON file"
+              cat "$json_file"
+              exit 1
+            else
+              echo "$json_file is a valid JSON file"
+            fi
+          else
+            echo "$json_file not found"
+            exit 1
+          fi
+        done
     - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add emby.srs adg-dns.srs adg-dns.json
-        git commit -m "Convert Emby JSON and merge AdGuard filters to SRS (and JSON for AdGuard)" || echo "No changes to commit"
+        git add *.srs *.json srs_to_json.py
+        git commit -m "Convert Emby JSON and AdGuard filters to SRS and JSON" || echo "No changes to commit"
         git push
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
         name: sing-box-rule-sets
         path: |
-          emby.srs
-          adg-dns.srs
-          adg-dns.json
+          *.srs
+          *.json
+          srs_to_json.py
