@@ -42,12 +42,17 @@ jobs:
 
     - name: Create adg-dns.json
       run: |
+        # 创建 adg-dns.json 文件
         echo '{
-          "version": 1,
+          "version": 2,
           "rules": [
             {
               "domain_suffix": [' > adg-dns.json
+
+        # 将域名添加到 JSON 中
         sed 's/.*/"&",/' blacklist.txt >> adg-dns.json
+
+        # 移除最后一个域名后的逗号并关闭 JSON 结构
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
             }
@@ -57,13 +62,13 @@ jobs:
     - name: Debug adg-dns.json
       run: cat adg-dns.json
 
-    - name: Setup sing-box (stable release)
+    - name: Setup sing-box (pre-release)
       run: |
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        echo "Latest sing-box version: $LATEST_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
+        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Convert adg-dns.json to adg-dns.srs
