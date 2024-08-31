@@ -54,14 +54,14 @@ jobs:
           ]
         }' >> adg-dns.json
 
-    - name: Install latest sing-box pre-release
+    - name: Setup sing-box (pre-release)
       run: |
-        LATEST_PRE=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep -i "prerelease" | grep "true" | head -n 1 | sed -n 's/.*"tag_name": "\(.*\)",/\1/p')
-        DOWNLOAD_URL="https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE}/sing-box-${LATEST_PRE}-linux-amd64.tar.gz"
-        wget $DOWNLOAD_URL
-        tar -xzvf sing-box-${LATEST_PRE}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_PRE}-linux-amd64/sing-box /usr/local/bin/
-        sudo chmod +x /usr/local/bin/sing-box
+        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
+        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
 
     - name: Convert adg-dns.json to adg-dns.srs
       run: |
