@@ -34,6 +34,7 @@ jobs:
         > $combined_filters  # 创建一个空文件
         filters=(
           "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt"
+          "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt"
         )
         
         for filter in "${filters[@]}"; do
