@@ -1,4 +1,4 @@
-name: Update DNS Rules
+name: Update DNS and emby rule
 
 on:
   schedule:
@@ -69,6 +69,10 @@ jobs:
     - name: Convert adg-dns.json to adg-dns.srs
       run: |
         sing-box rule-set compile --output adg-dns.srs adg-dns.json
+
+    - name: Convert emby.json to emby.srs
+      run: |
+        sing-box rule-set compile --output emby.srs emby.json
 
     - name: Commit and push changes
       run: |
