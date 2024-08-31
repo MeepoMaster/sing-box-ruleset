@@ -33,8 +33,9 @@ jobs:
         combined_filters="combined_adguard_filters.txt"
         > $combined_filters  # 创建一个空文件
         filters=(
-          "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt"
-          "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt"
+          #"https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt"
+          #"https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockfilters.txt"
+          "https://github.com/TG-Twilight/AWAvenue-Ads-Rule/blob/main/AWAvenue-Ads-Rule.txt"
         )
         
         for filter in "${filters[@]}"; do
