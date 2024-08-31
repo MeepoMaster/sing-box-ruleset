@@ -27,13 +27,13 @@ jobs:
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         
         # Process blacklist domains
-        grep '^\|\|' adblockdns.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u > new_blacklist.txt
-        cat blacklist.txt new_blacklist.txt | sort -u > temp_blacklist.txt
+        grep '^\|\|' adblockdns.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+        cat blacklist.txt new_blacklist.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
         
         # Process whitelist domains
-        grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u > new_whitelist.txt
-        cat whitelist.txt new_whitelist.txt | sort -u > temp_whitelist.txt
+        grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
+        cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
         
         # Remove whitelist domains from blacklist
@@ -42,17 +42,12 @@ jobs:
 
     - name: Create adg-dns.json
       run: |
-        # 创建 adg-dns.json 文件
         echo '{
           "version": 2,
           "rules": [
             {
               "domain_suffix": [' > adg-dns.json
-
-        # 将域名添加到 JSON 中
-        sed 's/.*/"&",/' blacklist.txt >> adg-dns.json
-
-        # 移除最后一个域名后的逗号并关闭 JSON 结构
+        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d' >> adg-dns.json
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
             }
