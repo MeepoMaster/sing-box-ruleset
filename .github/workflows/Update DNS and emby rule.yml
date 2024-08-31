@@ -23,23 +23,38 @@ jobs:
         pip install requests
         sudo apt-get update
         sudo apt-get install -y jq
-
+        
     - name: Download and process rules
       run: |
+        FILES=()
+
+        # 下载 adblockdns.txt 文件
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
-        
-        # Process blacklist domains
-        grep '^\|\|' adblockdns.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+        FILES+=("adblockdns.txt")
+
+        # 下载 AWAvenue-Ads-Rule-Adguard.txt 文件
+        curl -o awavenue_ads_rule.txt https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Adguard.txt
+        FILES+=("awavenue_ads_rule.txt")
+
+        # 合并所有文件
+        cat "${FILES[@]}" > combined_rules.txt
+
+        # 处理 blacklist 域名
+        grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+
+        # 合并新旧 blacklist 并去重
         cat blacklist.txt new_blacklist.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
-        
-        # Process whitelist domains
-        grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
+
+        # 处理 whitelist 域名
+        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
+
+        # 合并新旧 whitelist 并去重
         cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
-        
-        # Remove whitelist domains from blacklist
-        grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
+
+        # 从 blacklist 中删除 whitelist 域名
+        grep -vxFf whitelist.txt blacklist.txt | sort -u > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
     - name: Create adg-dns.json
