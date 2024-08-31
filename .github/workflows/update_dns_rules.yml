@@ -1,0 +1,76 @@
+name: Update DNS Rules
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Download and process rules
+      run: |
+        curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
+        
+        # Process blacklist
+        grep '^\|\|' adblockdns.txt | sed 's/^||//;s/\^$//' | sort -u > new_blacklist.txt
+        cat blacklist.txt new_blacklist.txt | sort -u > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
+        
+        # Process whitelist
+        grep '^@@||' adblockdns.txt | sed 's/^@@||//;s/\^$//' | sort -u > new_whitelist.txt
+        cat whitelist.txt new_whitelist.txt | sort -u > temp_whitelist.txt
+        mv temp_whitelist.txt whitelist.txt
+        
+        # Remove whitelist domains from blacklist
+        grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
+
+    - name: Create adg-dns.json
+      run: |
+        echo '{
+          "version": 2,
+          "rules": [
+            {
+              "domain_suffix": [' > adg-dns.json
+        sed 's/.*/"&",/' blacklist.txt >> adg-dns.json
+        sed -i '$ s/,$//' adg-dns.json
+        echo '      ]
+            }
+          ]
+        }' >> adg-dns.json
+
+    - name: Install latest sing-box pre-release
+      run: |
+        LATEST_PRE=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | grep -i "prerelease" | grep "true" | head -n 1 | sed -n 's/.*"tag_name": "\(.*\)",/\1/p')
+        DOWNLOAD_URL="https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE}/sing-box-${LATEST_PRE}-linux-amd64.tar.gz"
+        wget $DOWNLOAD_URL
+        tar -xzvf sing-box-${LATEST_PRE}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_PRE}-linux-amd64/sing-box /usr/local/bin/
+        sudo chmod +x /usr/local/bin/sing-box
+
+    - name: Convert adg-dns.json to adg-dns.srs
+      run: |
+        sing-box rule-set compile --output adg-dns.srs adg-dns.json
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add blacklist.txt whitelist.txt adg-dns.json adg-dns.srs
+        git commit -m "Update DNS rules" || echo "No changes to commit"
+        git push
