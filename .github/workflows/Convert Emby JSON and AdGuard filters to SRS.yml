@@ -41,21 +41,7 @@ jobs:
         for filter in "${filters[@]}"; do
           wget -O - "$filter" >> $combined_filters || echo "下载 $filter 失败，继续"
         done
-    - name: Add user rules
-      run: |
-        cat << EOF >> combined_adguard_filters.txt
-        @@||lanzouw.com^
-        @@||statics.123pan.com^
-        @@||a0.app.xiaomi.com^
-        @@||cn.app.chat.xiaomi.net^
-        @@||resolver.msg.xiaomi.net^
-        @@||t.co^
-        @@||click.taobao.com^
-        @@||uland.taobao.com^
-        @@||emby.imetyou.top^
-        @@||emby.pilipiliultra.top^
-        @@||knicks.jd.com^
-        EOF
+
     - name: Convert combined AdGuard filters to adg-dns.srs
       run: |
         sing-box rule-set convert --type adguard --output adg-dns.srs combined_adguard_filters.txt
