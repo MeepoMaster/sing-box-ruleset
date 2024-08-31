@@ -5,7 +5,7 @@ on:
       - 'emby.json'
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"  # 每天 UTC 时间 00:00 运行
+    - cron: "0 17 * * *"
 permissions:
   contents: write
 jobs:
