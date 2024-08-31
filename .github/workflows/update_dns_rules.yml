@@ -27,12 +27,12 @@ jobs:
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         
         # Process blacklist domains
-        grep '^\|\|' adblockdns.txt | sed 's/^||//;s/\^$//' | sort -u > new_blacklist.txt
+        grep '^\|\|' adblockdns.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u > new_blacklist.txt
         cat blacklist.txt new_blacklist.txt | sort -u > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
         
         # Process whitelist domains
-        grep '^@@||' adblockdns.txt | sed 's/^@@||//;s/\^$//' | sort -u > new_whitelist.txt
+        grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u > new_whitelist.txt
         cat whitelist.txt new_whitelist.txt | sort -u > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
         
