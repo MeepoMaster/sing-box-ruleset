@@ -27,11 +27,9 @@ jobs:
     - name: Download and process rules
       run: |
         FILES=()
-
         # 下载 adblockdns.txt 文件
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         FILES+=("adblockdns.txt")
-
         # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         
@@ -44,27 +42,29 @@ jobs:
         # 从清理后的 JSON 文件中提取域名并添加到黑名单中
         jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
         FILES+=("extracted_domains.txt")
-
         # 合并所有文件
         cat "${FILES[@]}" > combined_rules.txt
-
+        
         # 处理 blacklist 域名
         grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
         
         # 合并提取的域名到 blacklist 并去重
         cat extracted_domains.txt new_blacklist.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
-
+        
         # 处理 whitelist 域名
         grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
-
+        
         # 合并新旧 whitelist 并去重
         cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
-
+        
         # 从 blacklist 中删除 whitelist 域名
-        grep -vxFf whitelist.txt blacklist.txt | sort -u > temp_blacklist.txt
+        grep -vxFf <(sed 's/^/^/; s/$/$/;' whitelist.txt) blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
+        
+        # 删除 blacklist 中任何剩余的以 @@ 开头的条目
+        sed -i '/^@@/d' blacklist.txt
 
     - name: Create adg-dns.json
       run: |
@@ -73,7 +73,7 @@ jobs:
           "rules": [
             {
               "domain_suffix": [' > adg-dns.json
-        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d' >> adg-dns.json
+        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
             }
