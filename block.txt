@@ -1,0 +1,2 @@
+browser.sentry-cdn.com
+partnerads.ysm.yahoo.com
