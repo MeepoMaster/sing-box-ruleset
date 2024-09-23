@@ -30002,6 +30002,7 @@ browser.events.data.msn.cn
 browser.events.data.msn.com
 browser.gamingqogs.life
 browser.pipe.aria.microsoft.com
+browser.sentry-cdn.com
 browser9182.web.fc2.com
 browseraccelerator.com
 browserdownloadz.com
@@ -118883,6 +118884,7 @@ partner.zombeek.cz
 partner.zonky.cz
 partner.zvaracky-obchod.sk
 partnerad.l.google.com
+partnerads.ysm.yahoo.com
 partneralior.pl
 partnerapp.kravein.com.au
 partnerapp.urbanclap.com
