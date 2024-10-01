@@ -23,7 +23,7 @@ jobs:
         pip install requests
         sudo apt-get update
         sudo apt-get install -y jq
-        
+
     - name: Download and process rules
       run: |
         # 下载 adblockdns.txt 文件并仅提取白名单域名
@@ -38,16 +38,17 @@ jobs:
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
         # 清理 JSON 文件中的注释并修改版本号
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | sed '1,/^{/d' | sed '1s/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > temp_json.json
+        jq '.version = 2' temp_json.json > awavenue_ads_rule_clean.json
 
-        # 从 whitelist.txt 中删除匹配的域名
-        jq --slurpfile whitelist whitelist.txt '.rules[0].domain -= $whitelist[]' awavenue_ads_rule_clean.json > temp.json
+        # 从域名列表中删除 whitelist.txt 中的域名
+        jq --slurpfile whitelist <(jq -R . whitelist.txt | jq -s .) '.rules[0].domain -= $whitelist[]' awavenue_ads_rule_clean.json > temp.json
 
         # 添加 block.txt 中的域名
-        jq --slurpfile blocklist block.txt '.rules[0].domain += $blocklist[] | .rules[0].domain |= sort | unique' temp.json > adg-dns.json
+        jq --slurpfile blocklist <(jq -R . block.txt | jq -s .) '.rules[0].domain += $blocklist[] | .rules[0].domain |= sort | unique' temp.json > adg-dns.json
 
         # 清理临时文件
-        rm temp.json awavenue_ads_rule_clean.json
+        rm temp_json.json awavenue_ads_rule_clean.json temp.json
 
     - name: Debug adg-dns.json
       run: cat adg-dns.json
