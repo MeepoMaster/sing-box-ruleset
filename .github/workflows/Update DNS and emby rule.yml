@@ -47,10 +47,10 @@ jobs:
         # 从域名列表中删除 whitelist.txt 中的域名，并添加 blocklist.json 中的域名
         jq --arg whitelist "$(cat whitelist.txt | paste -sd "|" -)" \
            --slurpfile blocklist blocklist.json '
-          .rules[0].domain |= (
+          .rules[0].domain |= if (type == "array") then (
             . - (. | map(select(test($whitelist)))) + 
             $blocklist[]
-          ) | unique | sort
+          ) else . end | unique | sort
         ' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
