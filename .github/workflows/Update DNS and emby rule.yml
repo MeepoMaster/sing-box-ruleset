@@ -43,10 +43,10 @@ jobs:
 
         # 从域名列表中删除 whitelist.txt 中的域名，并添加 block.txt 中的域名
         jq --arg whitelist "$(cat whitelist.txt | paste -sd "|" -)" \
-           --slurpfile blocklist <(sed 's/^/"/; s/$/",/' block.txt | sed '$ s/,$//' | sed '1i[' | sed '$a]') '
+           --slurpfile blocklist block.txt '
           .rules[0].domain |= (
             . - (. | map(select(test($whitelist)))) + 
-            $blocklist[0]
+            ($blocklist | flatten)
           ) | unique | sort
         ' awavenue_ads_rule_clean.json > adg-dns.json
 
