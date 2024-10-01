@@ -1,4 +1,4 @@
-name: Update DNS and Emby Rule
+name: Update DNS and emby rule
 
 on:
   schedule:
@@ -26,9 +26,9 @@ jobs:
 
     - name: Download and process rules
       run: |
-        # 下载 adblockdns.txt 文件并仅提取白名单域名
+        # 下载 adblockdns.txt 文件并提取白名单域名
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
-        grep '^@@||' adblockdns.txt | sed 's/^@@||//; s/\^$//' | sort -u > new_whitelist.txt
+        grep '^@@||' adblockdns.txt | sed 's/^@@||//; s/\^$//' > new_whitelist.txt
 
         # 合并新旧 whitelist 并去重
         cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
@@ -38,43 +38,43 @@ jobs:
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
         # 清理 JSON 文件中的注释并修改版本号
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | 
-        sed 's/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | jq '.version = 2' > awavenue_ads_rule_clean.json
 
-        # 从 block.txt 中逐行读取并处理
-        echo "[" > adg-dns-temp.json
-        while read -r block_domain; do
-          # 删除 whitelist 中的域名
-          sed -i "/$block_domain/d" whitelist.txt
-          echo "\"$block_domain\"," >> adg-dns-temp.json
+        # 提取 JSON 文件中的域名
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+
+        # 比对 whitelist，删除 JSON 中的白名单域名
+        grep -vxFf whitelist.txt extracted_domains.txt > filtered_domains.txt
+
+        # 检查 block.txt，若不存在于 JSON 中则按顺序添加
+        while read -r domain; do
+          if ! grep -Fxq "$domain" filtered_domains.txt; then
+            echo "\"$domain\"," >> filtered_domains.txt
+          fi
         done < block.txt
 
-        # 处理生成后的 adg-dns-temp.json，确保格式正确
-        sed '$ s/,$//' adg-dns-temp.json >> adg-dns.json
-        echo "]" >> adg-dns.json
-        rm adg-dns-temp.json
+        # 按字母顺序排列域名并去重
+        sort -u filtered_domains.txt | sed '/^$/d' > final_domains.txt
+
+        # 将修改后的域名更新到原始 JSON 文件中，并生成新的 adg-dns.json
+        jq --slurpfile domains final_domains.txt '.rules[].domain = $domains' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
-      run: |
-        echo "Contents of adg-dns.json:"
-        cat adg-dns.json
+      run: cat adg-dns.json
 
     - name: Setup sing-box (pre-release)
       run: |
         LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
-        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
         tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Convert adg-dns.json to adg-dns.srs
-      run: |
-        sing-box rule-set compile --output adg-dns.srs adg-dns.json
+      run: sing-box rule-set compile --output adg-dns.srs adg-dns.json
 
     - name: Convert emby.json to emby.srs
-      run: |
-        sing-box rule-set compile --output emby.srs emby.json
+      run: sing-box rule-set compile --output emby.srs emby.json
 
     - name: Commit and push changes
       run: |
