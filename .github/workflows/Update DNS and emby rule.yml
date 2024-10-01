@@ -41,12 +41,15 @@ jobs:
         sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | 
         sed 's/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
 
-        # 从域名列表中删除 whitelist.txt 中的域名，并添加 block.txt 中的域名
+        # 将 block.txt 转换为 JSON 格式的数组
+        awk '{print "\""$1"\","}' block.txt | sed '$s/,$//' | sed '1i[' | sed '$a]' > blocklist.json
+
+        # 从域名列表中删除 whitelist.txt 中的域名，并添加 blocklist.json 中的域名
         jq --arg whitelist "$(cat whitelist.txt | paste -sd "|" -)" \
-           --slurpfile blocklist block.txt '
+           --slurpfile blocklist blocklist.json '
           .rules[0].domain |= (
             . - (. | map(select(test($whitelist)))) + 
-            ($blocklist | flatten)
+            $blocklist[]
           ) | unique | sort
         ' awavenue_ads_rule_clean.json > adg-dns.json
 
