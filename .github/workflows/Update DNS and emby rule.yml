@@ -44,17 +44,23 @@ jobs:
         # 将 block.txt 转换为 JSON 格式的数组
         awk '{print "\""$1"\","}' block.txt | sed '$s/,$//' | sed '1i[' | sed '$a]' > blocklist.json
 
+        # 检查 domain 字段是否为数组，如果不是，转换为数组
+        jq 'if (.rules[0].domain | type != "array") then .rules[0].domain = [.rules[0].domain] else . end' awavenue_ads_rule_clean.json > temp_awavenue_ads_rule_clean.json
+        mv temp_awavenue_ads_rule_clean.json awavenue_ads_rule_clean.json
+
         # 从域名列表中删除 whitelist.txt 中的域名，并添加 blocklist.json 中的域名
         jq --arg whitelist "$(cat whitelist.txt | paste -sd "|" -)" \
            --slurpfile blocklist blocklist.json '
-          .rules[0].domain |= if (type == "array") then (
+          .rules[0].domain |= (
             . - (. | map(select(test($whitelist)))) + 
             $blocklist[]
-          ) else . end | unique | sort
+          ) | unique | sort
         ' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
-      run: jq '.' adg-dns.json
+      run: |
+        echo "Contents of adg-dns.json:"
+        jq '.' adg-dns.json
 
     - name: Setup sing-box (pre-release)
       run: |
