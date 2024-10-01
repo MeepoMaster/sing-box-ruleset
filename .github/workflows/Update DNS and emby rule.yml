@@ -23,7 +23,7 @@ jobs:
         pip install requests
         sudo apt-get update
         sudo apt-get install -y jq
-
+        
     - name: Download and process rules
       run: |
         # 下载 adblockdns.txt 文件并提取白名单域名
@@ -49,12 +49,12 @@ jobs:
         # 检查 block.txt，若不存在于 JSON 中则按顺序添加
         while read -r domain; do
           if ! grep -Fxq "$domain" filtered_domains.txt; then
-            echo "\"$domain\"," >> filtered_domains.txt
+            echo "$domain" >> filtered_domains.txt
           fi
         done < block.txt
 
-        # 生成正确格式的 JSON 数组 (添加双引号和逗号)
-        sort -u filtered_domains.txt | sed '/^$/d' | sed 's/.*/"&"/' | paste -sd "," - > final_domains.json
+        # 生成正确格式的 JSON 数组
+        sort -u filtered_domains.txt | sed '/^$/d' | jq -R . | jq -s . > final_domains.json
 
         # 将修改后的域名更新到原始 JSON 文件中，并生成新的 adg-dns.json
         jq --slurpfile domains final_domains.json '.rules[].domain = $domains' awavenue_ads_rule_clean.json > adg-dns.json
@@ -83,6 +83,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add blacklist.txt whitelist.txt adg-dns.json adg-dns.srs
+        git add whitelist.txt blacklist.txt adg-dns.json adg-dns.srs
         git commit -m "Update DNS rules" || echo "No changes to commit"
         git push
