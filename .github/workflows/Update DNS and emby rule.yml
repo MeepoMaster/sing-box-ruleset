@@ -39,7 +39,7 @@ jobs:
 
         # 下载第三个文件并提取黑名单域名
         curl -o new_ads_rule_singbox.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/refs/heads/sing-box-ruleset/ads.json
-        jq -r '.rules[].domain[]' new_ads_rule_singbox.json > new_blacklist.txt
+        jq -r '.rules[].domain_suffix[]' new_ads_rule_singbox.json > new_blacklist.txt
 
         # 处理 whitelist 域名 (仅使用 adblockdns.txt 文件)
         grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
