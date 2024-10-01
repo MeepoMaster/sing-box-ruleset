@@ -26,45 +26,62 @@ jobs:
         
     - name: Download and process rules
       run: |
-        # 下载 adblockdns.txt 文件并提取白名单域名
+        FILES=()
+        # 下载 adblockdns.txt 文件
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
-        grep '^@@||' adblockdns.txt | sed 's/^@@||//; s/\^$//' > new_whitelist.txt
+        FILES+=("adblockdns.txt")
+        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
+        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
+        # 清理 JSON 文件中的注释
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+
+        # 确保 JSON 文件格式正确
+        jq . awavenue_ads_rule_clean.json
+
+        # 从清理后的 JSON 文件中提取域名并添加到黑名单中
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+        FILES+=("extracted_domains.txt")
+        # 合并所有文件
+        cat "${FILES[@]}" > combined_rules.txt
+
+        # 处理 blacklist 域名
+        grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+
+        # 处理 whitelist 域名
+        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
+        
         # 合并新旧 whitelist 并去重
         cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
 
-        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
-        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
+        # 合并提取的域名、新的 blacklist 和 block.txt 并去重
+        cat extracted_domains.txt new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
 
-        # 清理 JSON 文件中的注释并修改版本号
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | jq '.version = 2' > awavenue_ads_rule_clean.json
+        # 从 blacklist 中删除 whitelist 域名（确保每次都进行去重）
+        grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
 
-        # 提取 JSON 文件中的域名
-        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+        # 删除 blacklist 中任何剩余的以 @@ 开头的条目
+        sed -i '/^@@/d' blacklist.txt
 
-        # 比对 whitelist，删除 JSON 中的白名单域名
-        grep -vxFf whitelist.txt extracted_domains.txt > filtered_domains.txt
+    - name: Create adg-dns.json
+      run: |
+        echo '{
+          "version": 2,
+          "rules": [
+            {
+              "domain": [' > adg-dns.json
+        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
+        sed -i '$ s/,$//' adg-dns.json
+        echo '      ]
+            }
+          ]
+        }' >> adg-dns.json
 
-        # 检查 block.txt，若不存在于 JSON 中则按顺序添加
-        while read -r domain; do
-          if ! grep -Fxq "$domain" filtered_domains.txt; then
-            echo "$domain" >> filtered_domains.txt
-          fi
-        done < block.txt
-
-        # 生成正确的 JSON 格式域名数组
-        # 使用 jq 将每个域名格式化为标准格式
-        sort -u filtered_domains.txt | sed '/^$/d' | jq -R . | jq -s . > final_domains.json
-
-        # 将修改后的域名更新到 JSON 中的 "domain" 字段，并检查是否有多余的括号
-        jq --slurpfile domains final_domains.json '
-          if ( $domains | length ) == 1 and ($domains[0] | type) == "array" then
-            .rules[0].domain = $domains[0]
-          else
-            .rules[0].domain = $domains
-          end
-        ' awavenue_ads_rule_clean.json > adg-dns.json
+        jq . adg-dns.json > formatted_adg-dns.json
+        mv formatted_adg-dns.json adg-dns.json
 
     - name: Debug adg-dns.json
       run: cat adg-dns.json
