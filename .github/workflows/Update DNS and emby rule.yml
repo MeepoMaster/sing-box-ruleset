@@ -41,26 +41,23 @@ jobs:
         sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | 
         sed 's/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
 
-        # 将 block.txt 转换为 JSON 格式的数组
-        awk '{print "\""$1"\","}' block.txt | sed '$s/,$//' | sed '1i[' | sed '$a]' > blocklist.json
+        # 从 block.txt 中逐行读取并处理
+        echo "[" > adg-dns-temp.json
+        while read -r block_domain; do
+          # 删除 whitelist 中的域名
+          sed -i "/$block_domain/d" whitelist.txt
+          echo "\"$block_domain\"," >> adg-dns-temp.json
+        done < block.txt
 
-        # 检查 domain 字段是否为数组，如果不是，转换为数组
-        jq 'if (.rules[0].domain | type != "array") then .rules[0].domain = [.rules[0].domain] else . end' awavenue_ads_rule_clean.json > temp_awavenue_ads_rule_clean.json
-        mv temp_awavenue_ads_rule_clean.json awavenue_ads_rule_clean.json
-
-        # 从域名列表中删除 whitelist.txt 中的域名，并添加 blocklist.json 中的域名
-        jq --arg whitelist "$(cat whitelist.txt | paste -sd "|" -)" \
-           --slurpfile blocklist blocklist.json '
-          .rules[0].domain |= (
-            . - (. | map(select(test($whitelist)))) + 
-            $blocklist[]
-          ) | unique | sort
-        ' awavenue_ads_rule_clean.json > adg-dns.json
+        # 处理生成后的 adg-dns-temp.json，确保格式正确
+        sed '$ s/,$//' adg-dns-temp.json >> adg-dns.json
+        echo "]" >> adg-dns.json
+        rm adg-dns-temp.json
 
     - name: Debug adg-dns.json
       run: |
         echo "Contents of adg-dns.json:"
-        jq '.' adg-dns.json
+        cat adg-dns.json
 
     - name: Setup sing-box (pre-release)
       run: |
