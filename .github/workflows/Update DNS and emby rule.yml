@@ -53,11 +53,11 @@ jobs:
           fi
         done < block.txt
 
-        # 生成正确格式的 JSON 数组
+        # 生成正确的 JSON 格式域名数组
         sort -u filtered_domains.txt | sed '/^$/d' | jq -R . | jq -s . > final_domains.json
 
-        # 将修改后的域名更新到原始 JSON 文件中，并生成新的 adg-dns.json
-        jq --slurpfile domains final_domains.json '.rules[].domain = $domains' awavenue_ads_rule_clean.json > adg-dns.json
+        # 将修改后的域名更新到 JSON 中的 "domain" 字段
+        jq --slurpfile domains final_domains.json '.rules[].domain = $domains | .rules[].domain |= map(tostring)' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
       run: cat adg-dns.json
@@ -83,6 +83,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add whitelist.txt blacklist.txt adg-dns.json adg-dns.srs
+        git add blacklist.txt whitelist.txt adg-dns.json adg-dns.srs
         git commit -m "Update DNS rules" || echo "No changes to commit"
         git push
