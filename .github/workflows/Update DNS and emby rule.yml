@@ -42,9 +42,12 @@ jobs:
         sed 's/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
 
         # 从域名列表中删除 whitelist.txt 中的域名，并添加 block.txt 中的域名
-        jq --slurpfile whitelist whitelist.txt --slurpfile blocklist block.txt '
-          .rules[0].domain -= $whitelist[] | 
-          .rules[0].domain += $blocklist[] | 
+        jq --arg whitelist "$(cat whitelist.txt | tr '\n' '|' | sed 's/|$//')" \
+           --slurpfile blocklist <(sed 's/^/"/; s/$/",/' block.txt | sed '$ s/,$//' | sed '1i[' | sed '$a]') '
+          .rules[0].domain |= (
+            . - (. | map(select(test($whitelist)))) + 
+            $blocklist[]
+          ) | 
           .rules[0].domain |= (. + []) | unique | sort
         ' awavenue_ads_rule_clean.json > adg-dns.json
 
