@@ -58,7 +58,7 @@ jobs:
         sort -u filtered_domains.txt | sed '/^$/d' | jq -R . | jq -s . > final_domains.json
 
         # 将修改后的域名更新到 JSON 中的 "domain" 字段
-        jq --slurpfile domains final_domains.json '.rules[0].domain = $domains' awavenue_ads_rule_clean.json > adg-dns.json
+        jq --slurpfile domains final_domains.json '.rules[0].domain = $domains | add' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
       run: cat adg-dns.json
