@@ -38,17 +38,15 @@ jobs:
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
         # 清理 JSON 文件中的注释并修改版本号
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > temp_json.json
-        jq '.version = 2' temp_json.json > awavenue_ads_rule_clean.json
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json | 
+        sed 's/"version": 1,/"version": 2,/' > awavenue_ads_rule_clean.json
 
-        # 从域名列表中删除 whitelist.txt 中的域名
-        jq --slurpfile whitelist <(jq -R . whitelist.txt | jq -s .) '.rules[0].domain -= $whitelist[]' awavenue_ads_rule_clean.json > temp.json
-
-        # 添加 block.txt 中的域名
-        jq --slurpfile blocklist <(jq -R . block.txt | jq -s .) '.rules[0].domain += $blocklist[] | .rules[0].domain |= sort | unique' temp.json > adg-dns.json
-
-        # 清理临时文件
-        rm temp_json.json awavenue_ads_rule_clean.json temp.json
+        # 从域名列表中删除 whitelist.txt 中的域名，并添加 block.txt 中的域名
+        jq --slurpfile whitelist whitelist.txt --slurpfile blocklist block.txt '
+          .rules[0].domain -= $whitelist[] | 
+          .rules[0].domain += $blocklist[] | 
+          .rules[0].domain |= (. + []) | unique | sort
+        ' awavenue_ads_rule_clean.json > adg-dns.json
 
     - name: Debug adg-dns.json
       run: cat adg-dns.json
