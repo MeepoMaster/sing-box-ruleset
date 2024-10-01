@@ -1,2 +1,9 @@
 browser.sentry-cdn.com
 partnerads.ysm.yahoo.com
+mediavisor.doubleclick.net
+m.doubleclick.net
+static.doubleclick.net
+ad.doubleclick.net
+stats.g.doubleclick.net
+adservetx.media.net
+static.media.net
