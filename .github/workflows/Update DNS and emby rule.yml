@@ -23,43 +23,34 @@ jobs:
         pip install requests
         sudo apt-get update
         sudo apt-get install -y jq
-        
+
     - name: Download and process rules
       run: |
         FILES=()
-        # 下载 adblockdns.txt 文件
-        curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
+        # 下载 adblockdns.txt 文件 (仅用于提取白名单)
+        curl -o adblockdns.txt https://github.com/DustinWin/ruleset_geodata/blob/sing-box-ruleset/ads.json
         FILES+=("adblockdns.txt")
-        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
-        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
-
-        # 清理 JSON 文件中的注释
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
-
-        # 确保 JSON 文件格式正确
-        jq . awavenue_ads_rule_clean.json
-
-        # 从清理后的 JSON 文件中提取域名并添加到黑名单中
-        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
-        FILES+=("extracted_domains.txt")
-        # 合并所有文件
-        cat "${FILES[@]}" > combined_rules.txt
-
-        # 处理 blacklist 域名
-        grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
-
-        # 处理 whitelist 域名
-        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
         
-        # 合并新旧 whitelist 并去重
+        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
+        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+        jq . awavenue_ads_rule_clean.json
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+
+        # 下载第三个文件并提取黑名单域名
+        curl -o new_ads_rule_singbox.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/refs/heads/sing-box-ruleset/ads.json
+        jq -r '.rules[].domain[]' new_ads_rule_singbox.json > new_blacklist.txt
+
+        # 处理 whitelist 域名 (仅使用 adblockdns.txt 文件)
+        grep '^@@||' adblockdns.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
         cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
         mv temp_whitelist.txt whitelist.txt
 
-        # 合并提取的域名、新的 blacklist 和 block.txt 并去重
-        cat extracted_domains.txt new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
+        # 处理 blacklist 域名（从 extracted_domains.txt 和 new_blacklist.txt 生成，完全覆盖）
+        cat extracted_domains.txt new_blacklist.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
-        # 从 blacklist 中删除 whitelist 域名（确保每次都进行去重）
+        # 从 blacklist 中删除 whitelist 域名
         grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
