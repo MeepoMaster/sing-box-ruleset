@@ -8026,6 +8026,7 @@ adc.nine.com.au
 adc.ohmynews.com
 adc.tripple.at
 adc.xxxlshop.de
+adc3-launch.adcolony.com
 adcalls.nl
 adcalm.com
 adcamp.ru
@@ -8704,6 +8705,7 @@ adm.cloud.cnfol.com
 adm.dynamicyield.com
 adm.easou.com
 adm.funshion.com
+adm.hotjar.com
 adm.leju.com
 adm.leju.sina.com.cn
 adm.meiguo.com
@@ -10660,6 +10662,7 @@ ads3.telemagazyn.gratka.pl
 ads3.videy.co
 ads3.virtual-nights.com
 ads3.webdrive.no
+ads30.adcolony.com
 ads360.cn
 ads360.com
 ads4.gamecity.net
@@ -18330,6 +18333,7 @@ api.linkz.net
 api.locallogic.co
 api.locuslabs.com
 api.lookupmanager.com
+api.luckyorange.com
 api.madkudu.com
 api.magmamobile.com
 api.maropost.com
@@ -18345,6 +18349,7 @@ api.mobitech-content.xyz
 api.moengage.com
 api.monedata.io
 api.moneyoyo.org
+api.mouseflow.com
 api.mp.uc.cn
 api.mumuglobal.com
 api.myadsget.com
@@ -32155,6 +32160,7 @@ careergrow.co.za
 careerlifeguide.com
 careerpatroller.com
 careers.coniferhealth.com
+careers.hotjar.com
 careersadorable.com
 careersgrooming.com
 careersletbacks.com
@@ -32872,6 +32878,7 @@ cdn-sitegainer.com
 cdn-social.janrain.com
 cdn-spurit.com
 cdn-static.optimonk.com
+cdn-test.mouseflow.com
 cdn.0i-i0.com
 cdn.11h5.com
 cdn.1vag.com
@@ -33024,6 +33031,7 @@ cdn.locallogic.co
 cdn.lodeo.io
 cdn.logsnag.com
 cdn.lqm.io
+cdn.luckyorange.com
 cdn.madkudu.com
 cdn.manga9.co
 cdn.maropost.com
@@ -33042,6 +33050,7 @@ cdn.mobsocmedia.com
 cdn.moengage.com
 cdn.moji002.com
 cdn.monsido.com
+cdn.mouseflow.com
 cdn.muut.com
 cdn.myadmessenger.com
 cdn.myadsmyanmar.com
@@ -34883,6 +34892,7 @@ clarity-infographic.zebra.com
 clarity.abacast.com
 clarity.ms
 claritybeauty.com
+claritybt.freshmarketer.com
 claritytag.com
 clarium.global.ssl.fastly.net
 clarivoy.com
@@ -39992,6 +40002,7 @@ cs.coopeservidores.fi.cr
 cs.deals
 cs.float.co.cm
 cs.hot.net.il
+cs.luckyorange.net
 cs.montrealplus.ca
 cs.nexttv.co.il
 cs.zg-api.com
@@ -55899,6 +55910,7 @@ events.gfe.nvidia.com
 events.glory-global.com
 events.golubcapital.com
 events.hermanmiller.com
+events.hotjar.io
 events.iap.unity3d.com
 events.icmi.com
 events.ifunny.co
@@ -55971,6 +55983,7 @@ events.whisk.com
 events.yourcx.io
 events.zeddanews.com
 events2.www.edenfantasys.com
+events3alt.adcolony.com
 eventsapi.grocerkey.com
 eventsbands.com
 eventsink.api.redbee.live
@@ -62162,6 +62175,7 @@ fwolf.at
 fwpugy.savilerowco.com
 fwsgvo.takami-labo.com
 fwsoviw.com
+fwtracks.freshmarketer.com
 fwtrck.com
 fwukoulnhdlukik.info
 fwychy.moliera2.cz
@@ -68814,6 +68828,7 @@ gtm.lercio.it
 gtm.lidyana.com
 gtm.mandesager.dk
 gtm.moneybird.nl
+gtm.mouseflow.com
 gtm.perfectlybasics.nl
 gtm.prijsvrij.nl
 gtm.proff.dk
@@ -74153,6 +74168,7 @@ ideibiznesa2015.ru
 ideng.com
 identification.hotmart.com
 identifierssadlypreferred.com
+identify.hotjar.com
 identifyanybirdanywhere.com
 identifyillustration.com
 identity-licensing.api.seequent.systems
@@ -78729,6 +78745,7 @@ insights.golubcapital.com
 insights.goodandprosper.com
 insights.governmentresource.com
 insights.harvardbusiness.org
+insights.hotjar.com
 insights.hugheseurope.com
 insights.i-runway.com
 insights.jabian.com
@@ -106395,6 +106412,7 @@ o186239.ingest.sentry.io
 o1x-pln.torf.site
 o1x-shoppay89.765222.xyz
 o1xdispatch.goo-ds1.xyz
+o2.mouseflow.com
 o22381.ingest.sentry.io
 o244019.ingest.sentry.io
 o2c7dks4.de
@@ -125051,6 +125069,7 @@ realtime-profiling.datarize.ai
 realtime.bbcl.cl
 realtime.clinch.co
 realtime.liveperson.net
+realtime.luckyorange.com
 realtimeads.com
 realtimeanalytics.yext.com
 realtimeliveupdates.shop
@@ -130938,6 +130957,7 @@ script.ac
 script.anura.io
 script.e-space.se
 script.extellio.com
+script.hotjar.com
 script.ifdo.co.kr
 script.marquiz.ru
 script.theprimead.co.kr
@@ -132966,6 +132986,7 @@ settings-analytics.hotstar.com
 settings-sandbox.data.microsoft.com
 settings-win-ppe.data.microsoft.com
 settings-win.data.microsoft.com
+settings.luckyorange.net
 settingsfd-geo.trafficmanager.net
 settlecruise.org
 settledchagrinpass.com
@@ -142161,6 +142182,7 @@ ssl.cdn.turner.com
 ssl.citgo.com
 ssl.dfirma.pl
 ssl.eroscomix.com
+ssl.google-analytics.com
 ssl.graham-center.org
 ssl.image.appdriver.jp
 ssl.licensemag.com
@@ -146062,6 +146084,7 @@ surveyonline.top
 surveypass.com
 surveyremovertool.com
 surveys.executiveboard.com
+surveys.hotjar.com
 surveys.relevantid.com
 surveyscout.com
 surveysmasher.com
@@ -152369,6 +152392,7 @@ tools.kobieta.pl
 tools.mamotoja.pl
 tools.mojegotowanie.pl
 tools.mojpieknyogrod.pl
+tools.mouseflow.com
 tools.national-geographic.pl
 tools.naughtyamerica.com
 tools.pacinocash.com
@@ -160922,6 +160946,7 @@ uplitwickr.com
 upload-up.qtfm.cn
 upload.cc
 upload.kipa.co.il
+upload.luckyorange.net
 upload2.bbox.wtf
 upload4earn.org
 uploadcash.org
@@ -165661,6 +165686,7 @@ w1.iskwai.com
 w1.jskwai.com
 w1.kskwai.com
 w1.lskwai.com
+w1.luckyorange.com
 w1.mozzi.com
 w1.mskwai.com
 w1.nskwai.com
@@ -166407,6 +166433,7 @@ wcwshootingsports.org
 wcxegvp.com
 wcxo.activitpprog.top
 wcyjcl.goodyear.com
+wd.adcolony.com
 wd3odvadb7ka3151j4qqbedo.trendhitchhiker.com
 wda.com
 wdavrzv.com
