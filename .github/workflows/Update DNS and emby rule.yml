@@ -72,7 +72,7 @@ jobs:
           "version": 2,
           "rules": [
             {
-              "domain": [' > adg-dns.json
+              "domain_suffix": [' > adg-dns.json
         sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
         sed -i '$ s/,$//' adg-dns.json
         echo '      ]
