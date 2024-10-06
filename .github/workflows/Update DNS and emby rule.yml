@@ -101,9 +101,6 @@ jobs:
 
     - name: Force update emby.srs
       run: |
-        if [ -f emby.srs ]; then
-          rm emby.srs
-        fi
         sing-box rule-set compile --output emby.srs emby.json
         touch emby.srs  # 更新文件的时间戳
 
