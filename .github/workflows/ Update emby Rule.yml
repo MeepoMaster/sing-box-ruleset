@@ -1,8 +1,8 @@
-name: Update Emby Rule
+name: Update emby Rule
 
 on:
   schedule:
-    - cron: '0 16 * * *'  # 根据需要修改定时任务
+    - cron: '0 17 * * *'  # 根据需要修改定时任务
   workflow_dispatch:  # 手动触发工作流
 
 jobs:
