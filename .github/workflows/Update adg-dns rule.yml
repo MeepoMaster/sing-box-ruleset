@@ -99,11 +99,6 @@ jobs:
       run: |
         sing-box rule-set compile --output adg-dns.srs adg-dns.json
 
-    - name: Force update emby.srs
-      run: |
-        sing-box rule-set compile --output emby.srs emby.json
-        touch emby.srs  # 更新文件的时间戳
-
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
