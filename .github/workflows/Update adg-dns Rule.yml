@@ -1,4 +1,4 @@
-name: Update DNS and emby rule
+name: Update adg-dns Rule
 
 on:
   schedule:
