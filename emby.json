@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "rules": [
     {
       "domain_suffix": [
@@ -11,6 +11,7 @@
         "285286.xyz",
         "emby.eu.org",
         "bangumi.ca",
+        "pilipili.club",
         "embyplus.org",
         "pilipiliultra.top",
         "123456.al",
