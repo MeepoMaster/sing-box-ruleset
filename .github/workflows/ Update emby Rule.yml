@@ -32,10 +32,8 @@ jobs:
 
     - name: Setup sing-box (pre-release)
       run: |
-        # 获取最新的 pre-release 版本
         LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
         echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
-        # 下载并安装最新的 sing-box 预发布版本
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
         tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
