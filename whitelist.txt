@@ -181,5 +181,6 @@ wan.douyu.com
 webstatic.nero.com
 www.googleadservices.com
 www.jdoqocy.com
+pinnacle.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
