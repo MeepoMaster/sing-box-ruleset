@@ -2,7 +2,6 @@
 79423.analytics.edgekey.net
 a.adwolf.ru
 a.sellpoint.net
-a0.app.xiaomi.com
 ac.ebis.ne.jp
 acs-m.daraz.com.bd
 ad.10010.com
@@ -14,7 +13,6 @@ adlink.wf
 admin.dable.io
 admin.mailchimp.com
 adobelogin.com
-ads.tdbank.com
 adv.bloop.info
 advert.kf5.com
 afi-b.com
@@ -46,7 +44,6 @@ classliving.lpages.co
 click.appcast.io
 click.cptrack.de
 click.simba.taobao.com
-click.taobao.com
 click.trafficguard.ai
 click.virt.exacttarget.com
 clickattr.wayup.com
@@ -66,9 +63,6 @@ download.adguard.com
 e.customeriomail.com
 email.awscloud.com
 email.elitedangerous.com
-email.procook.co.uk
-emby.imetyou.top
-emby.pilipiliultra.top
 eum-blue-saas.instana.io
 f-gear.ec-optimizer.com
 feed.adrelayer.com
@@ -96,8 +90,6 @@ infolink.pavv.co.kr
 infra-api.newrelic.com
 intersport.peerius.com
 js.monitor.azure.com
-knicks.jd.com
-lanzouw.com
 leechers-paradise.org
 link.morningbrew.com
 linka.page
@@ -120,7 +112,6 @@ my.tealiumiq.com
 myqqjd.com
 netatmo.commander1.com
 nineto5mac-d.openx.net
-nwolb.com
 oa.tr.line.me
 obituaries.therecord.com
 official.paymaya.com
@@ -132,6 +123,7 @@ pagead.l.doubleclick.net
 partner.everydays.de
 pgpartner.com
 pics.porn300.com
+pinnacle.com
 privat24.privatbank.ua
 promo.gramedia.com
 proto2ad.durasite.net
@@ -156,24 +148,18 @@ sax.sina.com.cn
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 sobot.com
-sponsor.nitropay.com
 stash.roistat.com
 static.softlayer.com
-statics.123pan.com
 str.hit.gemius.pl
 support-beacon.nakanohito.jp
 support-widget.nakanohito.jp
 surveymyopinion.researchnow.com
-t.co
 tags.crwdcntrl.net
-thumbnail.thench.net
-tlaol.com
 tms.capitalone.com
 torimochi.line-apps.com
 tr.rdrtr.com
 track.rutarget.ru
 track.webgains.com
-uland.taobao.com
 validate.perfdrive.com
 vcentry3.valuecommerce.ne.jp
 vitacost.122.2o7.net
@@ -181,6 +167,5 @@ wan.douyu.com
 webstatic.nero.com
 www.googleadservices.com
 www.jdoqocy.com
-pinnacle.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
