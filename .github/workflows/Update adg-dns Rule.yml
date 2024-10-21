@@ -91,13 +91,13 @@ jobs:
     - name: Debug adg-dns.json
       run: cat adg-dns.json
 
-    - name: Setup sing-box (pre-release)
+    - name: Setup sing-box (release)
       run: |
-        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
-        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        echo "Latest sing-box version: $LATEST_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Convert adg-dns.json to adg-dns.srs
