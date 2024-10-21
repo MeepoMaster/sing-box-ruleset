@@ -24,19 +24,25 @@ jobs:
         pip install requests
         sudo apt-get update
         sudo apt-get install -y jq
-
+  
+    - name: Sort emby.json content
+      run: |
+        # 读取JSON文件并按字母排序后重写
+        jq -S '.' emby.json > emby_sorted.json
+        mv emby_sorted.json emby.json
+        
     - name: Debug emby.json format
       run: |
         # 检查 emby.json 的格式，确保文件是有效的 JSON 格式
         jq . emby.json
 
-    - name: Setup sing-box (pre-release)
+    - name: Setup sing-box (release)
       run: |
-        LATEST_PRE_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases | jq -r '[.[] | select(.prerelease == true)][0].tag_name')
-        echo "Latest sing-box pre-release version: $LATEST_PRE_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_PRE_VERSION}/sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_PRE_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_PRE_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        echo "Latest sing-box version: $LATEST_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Remove old emby.srs
