@@ -64,6 +64,12 @@ jobs:
 
         # 删除 blacklist 中任何剩余的以 @@ 开头的条目
         sed -i '/^@@/d' blacklist.txt
+        
+        # 将所有域名文件按字母顺序排序
+        sort -u -o blacklist.txt blacklist.txt
+        sort -u -o block.txt block.txt 
+        sort -u -o noblock.txt noblock.txt
+        sort -u -o whitelist.txt whitelist.txt
 
     - name: Create adg-dns.json
       run: |
