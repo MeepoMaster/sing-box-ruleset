@@ -1,1 +1,3 @@
-a0.app.xiaomi.com
+cn.app.chat.xiaomi.net
+pinnacle.com
+resolver.msg.xiaomi.net
