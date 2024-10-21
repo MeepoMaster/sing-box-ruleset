@@ -54,11 +54,11 @@ jobs:
         # 将提取的白名单与 noblock.txt 合并
         cat temp_whitelist.txt noblock.txt | sort -u | sed '/^$/d' > whitelist.txt
 
-        # 合并提取的域名、新的 blacklist 和 block.txt 并去重
-        cat extracted_domains.txt new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
+        # 新的 blacklist 和 block.txt 并去重
+        cat new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
-        # 从 blacklist 中删除 whitelist 域名（确保每次都进行去重）
+        # 从 blacklist 中删除 whitelist 域名
         grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
