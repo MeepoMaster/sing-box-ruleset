@@ -49,11 +49,10 @@ jobs:
         grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
 
         # 处理 whitelist 域名
-        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > new_whitelist.txt
+        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > temp_whitelist.txt
         
-        # 合并新旧 whitelist 并去重
-        cat whitelist.txt new_whitelist.txt | sort -u | sed '/^$/d' > temp_whitelist.txt
-        mv temp_whitelist.txt whitelist.txt
+        # 将提取的白名单与 noblock.txt 合并
+        cat temp_whitelist.txt noblock.txt | sort -u | sed '/^$/d' > whitelist.txt
 
         # 合并提取的域名、新的 blacklist 和 block.txt 并去重
         cat extracted_domains.txt new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
