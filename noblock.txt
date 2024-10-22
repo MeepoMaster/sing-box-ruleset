@@ -1,2 +1,3 @@
 cn.app.chat.xiaomi.net
 resolver.msg.xiaomi.net
+a0.app.xiaomi.com
