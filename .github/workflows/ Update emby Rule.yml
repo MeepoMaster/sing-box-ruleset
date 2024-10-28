@@ -2,7 +2,7 @@ name: Update emby Rule
 
 on: 
   schedule:
-    - cron: '0 0,8,16 * * *'
+    - cron: '30 0,8,16 * * *'
   workflow_dispatch:
 
 env:
