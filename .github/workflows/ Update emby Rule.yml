@@ -4,9 +4,6 @@ on:
   schedule:
     - cron: '0 1,9,17 * * *'
   workflow_dispatch:
-
-env:
-  TZ: Asia/Shanghai
   
 jobs:
   update-emby-rule:
