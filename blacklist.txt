@@ -8217,6 +8217,7 @@ ad.aucfan.com
 ad.auction.co.kr
 ad.aucview.com
 ad.autoview.co.kr
+ad.bandlab.io
 ad.batanga.com
 ad.batanga.net
 ad.bauermedia.com
@@ -8265,6 +8266,7 @@ ad.daum.net
 ad.ddestiny.ru
 ad.ddo.jp
 ad.dedecms.com
+ad.deepthought.industries
 ad.depositfiles.com
 ad.desibp.com
 ad.deviantart.com
@@ -10684,6 +10686,7 @@ ads.cnixon.com
 ads.cnpapers.com
 ads.co.com
 ads.cobrad.com
+ads.cocomobi.com
 ads.coingecko.com
 ads.collegclub.com
 ads.collegemix.com
@@ -16970,8 +16973,11 @@ ampkamis.shop
 amplify-com-mktg.imgix.net
 amplifyinteractions.com
 amplifynervesestate.com
+amplitude-experiment.bandlab.com
+amplitude.bandlab.com
 amplitude.chess.com
 amplitude.com
+amplitude.life360.com
 amplitudejenny.com
 amplitudereportmoscow.com
 amplitudesheriff.com
@@ -28115,6 +28121,7 @@ bison.stuffmatic.com
 bison.weitweit.at
 bisoni.beatbox365.com
 bisoupastry.com
+bisozkfiv.com
 bisque-beautifully-183806.framer.app
 bissailre.com
 bissonprevoid.website
@@ -34618,7 +34625,6 @@ cdn.neon.click
 cdn.net.dz.jumia.com
 cdn.net.elogia.net
 cdn.newcomer.com
-cdn.nhnace.com
 cdn.nimiq-network.com
 cdn.nsimg.net
 cdn.onescreen.net
@@ -38392,6 +38398,7 @@ cnwav.com
 cnx.xu7b.com
 cnxddc.lodenfrey.com
 cnxkhmtoa.com
+cnxlskkkebks.xyz
 cnxweb.com
 cny.yoyo.org
 cnychevrolet.com
@@ -41444,6 +41451,7 @@ coupteew.com
 couptoug.net
 courageousaway.com
 courageousbaby.com
+courageousdiedbow.com
 courier-gr.top
 courier-tracking.com
 couriereds.info
@@ -49688,6 +49696,7 @@ deathbysocial.com
 deathnetad.com
 deathpactmerch.com
 deauduafzgezzfgm.top
+deavelydragees.shop
 debashischoudhury.com
 debatablenow.com
 debateconsentvisitation.com
@@ -52960,6 +52969,7 @@ dollarsprofitstrategy-new.com
 dollarsurvey365.org
 dollinwurleys.com
 dollishreborndolls.com
+dollphoin.site
 dollsdeclare.com
 dollythesheepnft.com
 dolohatum.com
@@ -59986,6 +59996,7 @@ events.split.io
 events.splunk.com
 events.squarespace.com
 events.storifyme.com
+events.swiftlycontent.net
 events.swishapps.ai
 events.tafensw.edu.au
 events.textme-app.com
@@ -62833,6 +62844,7 @@ fibrefilamentherself.com
 fibrehighness.com
 fibreshelf.world
 fibrian.pl
+fibrilono.top
 fibromyalgiasummit.com
 fibrotechinnov.com
 fibstaff.com
@@ -68493,6 +68505,7 @@ ggh.valhaalla.xyz
 gghacks.com
 gghhe.com
 ggic.cmvideo.cn
+ggjqqmwwolbmhkr.com
 ggjs.d17.cc
 ggkk.xyz
 gglbu.trdeone.top
@@ -82263,6 +82276,7 @@ inlpostes.top
 inlposts.top
 inlugiar.com
 inmateauctions.com
+inmense.site
 inmespritr.com
 inmewa.com
 inmhh.com
@@ -83763,6 +83777,7 @@ iotgateway.aomg5bzv7.com
 iotmail.t-mobile.com
 iotprojeleri.com
 iou3w65r3f.weeblysite.com
+ioublio.top
 iov2zr.webwave.dev
 iovation.co.uk
 iovation.com
@@ -94332,6 +94347,7 @@ log.bunjang.co.kr
 log.byteoversea.com
 log.china.cn
 log.classting.com
+log.cleandesigner.live
 log.cloud.sbs.co.kr
 log.cmbchina.com
 log.codemarketing.cloud
@@ -113236,6 +113252,7 @@ nhlopez.com
 nhlvvh.sawadee.nl
 nhmrcsale.xyz
 nhn.dk
+nhnace.com
 nhnazx.outdoorlook.co.uk
 nhopaepzrh.com
 nhqkbl.semilac.pl
@@ -138261,6 +138278,7 @@ relaxationstation.xyz
 relaxingmuzic.com
 relaxtime24.biz
 relaxtrading.eu
+relay-event.talkie-ai.com
 relay-lien.com
 relay.fiverr.com
 relay.happ.social
@@ -138657,6 +138675,7 @@ rergeema.com
 reroplittrewheck.pro
 rerosefarts.com
 rerpartmentm.info
+rertessesse.xyz
 rertrc.abc-mart.net
 rerunja.com
 reryn2ce.com
@@ -145302,6 +145321,7 @@ sensors.snappea.com
 sensors.snaptube.app
 sensors.yodo1api.com
 sensorsdata.cn
+sensorsdata.glowapp.vip
 sensorsdata.ruguoapp.com
 sensorslink.olighthk.com
 sensorsmile.com
@@ -157312,6 +157332,7 @@ stats.hearthis.at
 stats.helsingborg.se
 stats.heyoya.com
 stats.his-j.com
+stats.hitwebcloud.de
 stats.hoeping.de
 stats.homestead.com
 stats.honeywell.com
@@ -158869,6 +158890,7 @@ sub7.blocked-site-hole-cert.pl
 sub8mgforsale.com
 sub9.blocked-site-hole-cert.pl
 subag.freexxxbase.com
+subanunpollee.shop
 subarnabasnet.com
 subashgoyal.com
 subashinstitutions.in
@@ -180528,6 +180550,7 @@ web-2703.web-interface.eu
 web-2745.web-interface.eu
 web-3-c6w4.onrender.com
 web-adblocker.com
+web-ads.10sq.net
 web-analytic.ghtk.vn
 web-analytics.botgenes.org
 web-analytics.huami.com
@@ -181007,6 +181030,7 @@ webmasterplan.com
 webmasterplan.de
 webmasters.h2porn.com
 webmasters.videarn.com
+webmaxlogger.net
 webmc6706e.dynip.online
 webmdailceznf65ame.is-very-evil.org
 webmedia.co.il
