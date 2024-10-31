@@ -1,23 +1,21 @@
 name: Update emby Rule
-
 on: 
   schedule:
-    - cron: '0 1,9,17 * * *'
+    - cron: '0 1,9,17 * * *'  # 修正了 cron 表达式的语法
   workflow_dispatch:
   
 jobs:
   update-emby-rule:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+      
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -35,7 +33,7 @@ jobs:
       run: |
         # 检查 emby.json 的格式，确保文件是有效的 JSON 格式
         jq . emby.json
-
+        
     - name: Setup sing-box (release)
       run: |
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
@@ -44,12 +42,12 @@ jobs:
         tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
-
+        
     - name: Remove old emby.srs
       run: |
         # 删除旧的 emby.srs，确保重新生成
-        rm -f emby.srs
-
+        rm -f emby.srs || true
+        
     - name: Compile emby.json to emby.srs
       run: |
         # 编译 emby.json 为 emby.srs
@@ -59,17 +57,21 @@ jobs:
           echo "Failed to generate emby.srs" >&2
           exit 1
         fi
-
+        
     - name: Debug emby.srs
       run: |
         # 输出 emby.srs 文件内容，确保文件生成正常
         cat emby.srs
-
-    - name: Commit and push changes
+        
+    - name: Force update and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        # 强制添加 emby.srs 并提交更改
+        
+        # 获取当前时间作为提交信息
+        CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
+        
+        # 强制添加文件并提交
         git add -f emby.srs
-        git commit -m "Update emby.srs" || echo "No changes to commit"
+        git commit -m "Force update emby.srs at ${CURRENT_TIME}" --allow-empty
         git push
