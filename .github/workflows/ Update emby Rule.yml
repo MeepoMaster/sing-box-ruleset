@@ -1,7 +1,7 @@
 name: Update emby Rule
 on: 
   schedule:
-    - cron: '0 1,9,17 * * *'  # 修正了 cron 表达式的语法
+    - cron: '0 1,9,17 * * *'
   workflow_dispatch:
   
 jobs:
@@ -10,7 +10,10 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # 获取完整的 git 历史
+        
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -25,13 +28,11 @@ jobs:
   
     - name: Sort emby.json content
       run: |
-        # 读取JSON文件并按字母排序后重写
         jq -S '.' emby.json > emby_sorted.json
         mv emby_sorted.json emby.json
         
     - name: Debug emby.json format
       run: |
-        # 检查 emby.json 的格式，确保文件是有效的 JSON 格式
         jq . emby.json
         
     - name: Setup sing-box (release)
@@ -45,14 +46,11 @@ jobs:
         
     - name: Remove old emby.srs
       run: |
-        # 删除旧的 emby.srs，确保重新生成
         rm -f emby.srs || true
         
     - name: Compile emby.json to emby.srs
       run: |
-        # 编译 emby.json 为 emby.srs
         sing-box rule-set compile --output emby.srs emby.json
-        # 检查 emby.srs 是否成功生成
         if [ ! -f "emby.srs" ]; then
           echo "Failed to generate emby.srs" >&2
           exit 1
@@ -60,7 +58,7 @@ jobs:
         
     - name: Debug emby.srs
       run: |
-        # 输出 emby.srs 文件内容，确保文件生成正常
+        ls -la emby.srs
         cat emby.srs
         
     - name: Force update and push changes
@@ -71,7 +69,12 @@ jobs:
         # 获取当前时间作为提交信息
         CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
         
-        # 强制添加文件并提交
+        # 强制添加并提交
         git add -f emby.srs
         git commit -m "Force update emby.srs at ${CURRENT_TIME}" --allow-empty
-        git push
+        
+        # 强制推送到主分支
+        git push origin HEAD:main --force
+        
+        # 如果你的默认分支不是 main，而是 master，使用下面这行替换上面的 push 命令
+        # git push origin HEAD:master --force
