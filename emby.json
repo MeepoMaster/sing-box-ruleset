@@ -3,22 +3,22 @@
   "rules": [
     {
       "domain_suffix": [
-        "emby.wtf",
-        "catlinks.co.uk",
-        "i109.com",
-        "7777777.buzz",
-        "carlos.trade",
-        "285286.xyz",
-        "emby.eu.org",
-        "bangumi.ca",
-        "pilipili.club",
-        "embyplus.org",
         "123456.al",
+        "285286.xyz",
+        "581658.best",
+        "7777777.buzz",
+        "aliz.work",
+        "bangumi.ca",
+        "carlos.trade",
+        "catlinks.co.uk",
+        "emby.eu.org",
+        "emby.wtf",
+        "embyplus.org",
         "hovervan.org",
+        "i109.com",
         "imetyou.top",
         "mius.uk",
-        "aliz.work",
-        "581658.best"
+        "pilipili.club"
       ]
     }
   ]
