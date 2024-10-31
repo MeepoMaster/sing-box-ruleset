@@ -6,11 +6,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  convert-rules:
+  update-rules:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+
+    - name: Install jq
+      run: sudo apt-get update && sudo apt-get install -y jq
+
+    - name: Sort and format emby.json
+      run: |
+        jq '
+          .rules[] |= 
+          if has("domain_suffix") then
+            .domain_suffix |= sort
+          else
+            .
+          end
+        ' emby.json > sorted_emby.json
+        
+        jq . sorted_emby.json > formatted_emby.json
+        mv formatted_emby.json emby.json
 
     - name: Setup sing-box
       run: |
