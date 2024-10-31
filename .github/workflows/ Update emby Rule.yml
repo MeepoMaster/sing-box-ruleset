@@ -1,41 +1,18 @@
-name: Update emby Rule
-on: 
+name: Update adg-dns Rule
+
+on:
   schedule:
     - cron: '0 1,9,17 * * *'
   workflow_dispatch:
-  
+
 jobs:
-  update-emby-rule:
+  convert-rules:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0  # 获取完整的 git 历史
-        
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
-        sudo apt-get update
-        sudo apt-get install -y jq
-  
-    - name: Sort emby.json content
-      run: |
-        jq -S '.' emby.json > emby_sorted.json
-        mv emby_sorted.json emby.json
-        
-    - name: Debug emby.json format
-      run: |
-        jq . emby.json
-        
-    - name: Setup sing-box (release)
+      uses: actions/checkout@v3
+
+    - name: Setup sing-box
       run: |
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
         echo "Latest sing-box version: $LATEST_VERSION"
@@ -43,38 +20,20 @@ jobs:
         tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
-        
-    - name: Remove old emby.srs
+
+    - name: Validate JSON format
       run: |
-        rm -f emby.srs || true
-        
-    - name: Compile emby.json to emby.srs
+        jq . emby.json > formatted_emby.json
+        mv formatted_emby.json emby.json
+
+    - name: Convert emby.json to emby.srs
       run: |
         sing-box rule-set compile --output emby.srs emby.json
-        if [ ! -f "emby.srs" ]; then
-          echo "Failed to generate emby.srs" >&2
-          exit 1
-        fi
-        
-    - name: Debug emby.srs
-      run: |
-        ls -la emby.srs
-        cat emby.srs
-        
-    - name: Force update and push changes
+
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        
-        # 获取当前时间作为提交信息
-        CURRENT_TIME=$(date '+%Y-%m-%d %H:%M:%S')
-        
-        # 强制添加并提交
-        git add -f emby.srs
-        git commit -m "Force update emby.srs at ${CURRENT_TIME}" --allow-empty
-        
-        # 强制推送到主分支
-        git push origin HEAD:main --force
-        
-        # 如果你的默认分支不是 main，而是 master，使用下面这行替换上面的 push 命令
-        # git push origin HEAD:master --force
+        git add emby.json emby.srs
+        git commit -m "Update emby rules" || echo "No changes to commit"
+        git push
