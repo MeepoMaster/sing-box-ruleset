@@ -7,6 +7,7 @@ ac.ebis.ne.jp
 acs-m.daraz.com.bd
 ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 adcdn.pingan.com
 adlink.wf
