@@ -3832,6 +3832,7 @@
 7mvmjg.www.emanualonline.com
 7mx.eider.com
 7mx.eidershop.com
+7ng6v3lu3c.execute-api.us-east-1.amazonaws.com
 7nkbwdf1uq.ru
 7nt9p4d4.de
 7offers.ru
@@ -10538,6 +10539,7 @@ ads-connect.com
 ads-d.viber.com
 ads-delivery.b-cdn.net
 ads-delivery.gameforge.com
+ads-delivery.gunosy.com
 ads-delivery.milenarmedia.pt
 ads-dev.pinterest.com
 ads-dot-fbc-web-2018.uc.r.appspot.com
@@ -11921,6 +11923,7 @@ adsbro.com
 adsbtrack.com
 adsbtrk.com
 adsbuyclick.com
+adsby.2bet.co.jp
 adsby.io
 adsby.klikki.com
 adsbydelema.com
@@ -17696,6 +17699,7 @@ analytics.afirstsoft.cn
 analytics.agenedia.com
 analytics.agoda.com
 analytics.ahrefs.com
+analytics.ahrefs.dev
 analytics.airindia.com
 analytics.airtron.com
 analytics.aita.gov.vn
@@ -61341,6 +61345,7 @@ ezofferz.com
 ezojs.com
 ezoliniawrozby.com
 ezralarson.com
+ezrcowa.icu
 ezsbhlpchu.com
 ezsportsbetting.com
 ezsportsbettingonline.com
@@ -90032,6 +90037,7 @@ kr-webtracking.app.tgos.de
 kr.sybspools.com
 kr.tradx.top
 kr9apzxosa.appspot.com
+kra18.com
 kraftonevent.com
 kragorortho.com
 krainajednorozca.pl
@@ -175479,6 +175485,7 @@ uwo.ijh.mybluehost.me
 uwoaptee.com
 uwougheels.net
 uwqghwfdwqywetqwfghewqeqweig.s3.ap-southeast-2.amazonaws.com
+uwsaqoi.icu
 uwselectie.be
 uwspolpracatakie.skin
 uwuxgb.carcraft.co.uk
@@ -178663,6 +178670,7 @@ vskin.pro
 vsmokhklbw.com
 vsn.eseal.org
 vsnoon.com
+vsojfsoj.com
 vspc.trdeone.top
 vsports.bet
 vsports.pro
