@@ -1,10 +1,10 @@
-cn.app.chat.xiaomi.net
-resolver.msg.xiaomi.net
 a0.app.xiaomi.com
-williamhill.com
 bet365.com
-sports.ladbrokes.com
-pinnacle.com
 betvictor.com
-paddypower.com
+cn.app.chat.xiaomi.net
 draftkings.com
+paddypower.com
+pinnacle.com
+resolver.msg.xiaomi.net
+sports.ladbrokes.com
+williamhill.com
