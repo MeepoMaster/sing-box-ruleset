@@ -65,11 +65,12 @@ jobs:
         # 删除 blacklist 中任何剩余的以 @@ 开头的条目
         sed -i '/^@@/d' blacklist.txt
         
-        # 将所有域名文件按字母顺序排序
-        sort -u -o blacklist.txt blacklist.txt
-        sort -u -o block.txt block.txt 
-        sort -u -o noblock.txt noblock.txt
-        sort -u -o whitelist.txt whitelist.txt
+        # 将所有域名文件按字母顺序排序，并强制标记为修改
+        LC_ALL=C sort -u -o blacklist.txt blacklist.txt
+        LC_ALL=C sort -u -o block.txt block.txt 
+        LC_ALL=C sort -u -o noblock.txt noblock.txt
+        LC_ALL=C sort -u -o whitelist.txt whitelist.txt
+        touch blacklist.txt block.txt noblock.txt whitelist.txt
 
     - name: Create adg-dns.json
       run: |
@@ -108,6 +109,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add blacklist.txt whitelist.txt adg-dns.json adg-dns.srs
-        git commit -m "Update DNS rules" || echo "No changes to commit"
+        git add blacklist.txt whitelist.txt block.txt noblock.txt adg-dns.json adg-dns.srs
+        git commit -m "Force update DNS rules with sorted files" || echo "No changes to commit"
         git push
