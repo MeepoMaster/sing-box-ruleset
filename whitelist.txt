@@ -29,8 +29,6 @@ app.appsflyer.com
 artifactory.appodeal.com
 awin1.com
 banner.dna.fi
-bet365.com
-betvictor.com
 buyad.bi-xenon.cn
 c.office.com
 captcha.su.baidu.com
@@ -63,7 +61,6 @@ data.digital.costco.ca
 data.digital.costco.com
 developers.google.com
 download.adguard.com
-draftkings.com
 e.customeriomail.com
 email.awscloud.com
 email.elitedangerous.com
@@ -123,13 +120,10 @@ omniture.walmart.com
 omsc.kpn.com
 oneline.nextday.media
 onl.bz
-paddypower.com
 pagead.l.doubleclick.net
 partner.everydays.de
 pgpartner.com
 pics.porn300.com
-pinnacle.com
-pm-bet.in
 privat24.privatbank.ua
 promo.gramedia.com
 proto2ad.durasite.net
@@ -154,7 +148,6 @@ sax.sina.com.cn
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 sobot.com
-sports.ladbrokes.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
@@ -172,7 +165,6 @@ vcentry3.valuecommerce.ne.jp
 vitacost.122.2o7.net
 wan.douyu.com
 webstatic.nero.com
-williamhill.com
 www.dogpile.com
 www.googleadservices.com
 www.jdoqocy.com
