@@ -43,7 +43,6 @@ citiintl.122.2o7.net
 cj.dotomi.com
 classliving.lpages.co
 click.appcast.io
-click.cptrack.de
 click.simba.taobao.com
 click.trafficguard.ai
 click.virt.exacttarget.com
@@ -75,7 +74,6 @@ goto.target.com
 goto.walmart.com
 grp07.ias.rakuten.co.jp
 gs.statcounter.com
-guce.advertising.com
 hb.afl.rakuten.co.jp
 hbbtv.prosieben.de
 hbbtv.redbutton.de
