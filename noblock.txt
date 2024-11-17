@@ -1,3 +1,4 @@
 a0.app.xiaomi.com
 cn.app.chat.xiaomi.net
 resolver.msg.xiaomi.net
+wtradv.market.xiaomi.com
