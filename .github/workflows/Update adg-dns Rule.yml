@@ -2,9 +2,12 @@ name: Update adg-dns Rule
 
 on: 
   schedule:
-    - cron: '0 0,8,16 * * *'
+    - cron: 0 0,8,16 * * *
   workflow_dispatch:
-  
+
+env:
+  TZ: Asia/Shanghai  
+
 jobs:
   update-rules:
     runs-on: ubuntu-latest
