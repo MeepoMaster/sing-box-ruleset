@@ -9781,6 +9781,7 @@ ads-api.production.nebula-drupal.stuff.co.nz
 ads-api.stuff.co.nz
 ads-api.tiktok.com
 ads-api.twitter.com
+ads-api.videy.co
 ads-au.onelouder.com
 ads-backend.chaincliq.com
 ads-bi.zenkube.com
@@ -19247,6 +19248,7 @@ app-09.engage.jio.com
 app-12.engage.jio.com
 app-ad.variflight.com
 app-adforce.jp
+app-ads-services.com
 app-analytics-in.huami.com
 app-analytics-ru.huami.com
 app-analytics-services.com
@@ -50845,6 +50847,7 @@ dmebzg.briefing-usa.com
 dmeq7blex6x1u.cloudfront.net
 dmetherearlyinhes.info
 dmeukeuktyoue.info
+dmevejjt.icu
 dmfpaloaltonetworks.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmg0877nfcvqj.cloudfront.net
@@ -65196,6 +65199,7 @@ gdyrozrywkaczy.lat
 gdzieonline.pl
 ge041b.cfd
 ge1.ca
+ge189.com
 ge6.getfto.com
 ge8.getfto.com
 gea-exchange-03.net.jumia.ug
@@ -102460,6 +102464,7 @@ mlegyu.xyz
 mlen.ratanqiyc.site
 mlew.kastaff.top
 mlfolu.nabava.net
+mlgowell.org
 mlgubn.autouncle.de
 mlhtmc.macnificos.com
 mlicci.xyz
@@ -112055,6 +112060,7 @@ ohbayersbur.pro
 ohbestdayever.com
 ohchat.net
 ohgfd.top
+ohgorbqcegig.com
 ohhmyoffers.com
 ohimunpracticalw.info
 ohiomm.com
@@ -120728,6 +120734,7 @@ pixel.coccoc.com
 pixel.condenastdigital.com
 pixel.convertize.io
 pixel.despegar.com
+pixel.dev.smartnews.com
 pixel.dugwood.com
 pixel.embed.su
 pixel.europapress.net
@@ -120767,6 +120774,7 @@ pixel.roymorgan.com
 pixel.safe-installation.com
 pixel.sellics.com
 pixel.smartmedia.tj
+pixel.smartnews.com
 pixel.smr8.ru
 pixel.sojern.com
 pixel.spotify.com
@@ -136512,6 +136520,7 @@ scootloor.com
 scopefile.com
 scopelight.com
 scorbark.com
+scorchads.com
 scorchsorchic.com
 score-feed.com
 score.zeroclickfraud.com
@@ -163916,6 +163925,7 @@ trck.my.elca.ch
 trck.naco-do.com
 trck.nuwlnuwl.com
 trck.outreach.vitalant.org
+trck.pocketmoon.me
 trck.propo.co.jp
 trck.ptvlogistics.com
 trck.repesta.com
@@ -168185,6 +168195,8 @@ usfpx.jsxvvyu.shop
 usfv.leotsav.xyz
 usfv.tchpnzim.top
 usfw.frgrps.top
+usgowell.com
+usgowell.org
 usgpsd.urqnxfv.xyz
 usgu.wlwgew.top
 usgymnasticscamps.com
@@ -176982,6 +176994,7 @@ wwclicknews.club
 wwclickserv.club
 wwe.ttradinn.top
 wwe2k14key.dlcodes.com
+wweisie.top
 wwew.worldinfo-lo.top
 wwfx.xyz
 wwgate.ru
@@ -182841,6 +182854,7 @@ yxgqgq.xyz
 yxhjt.com
 yxhouwezb.site
 yxiqqh.dealchecker.co.uk
+yxjcyxy.icu
 yxjsibeugmmj.com
 yxkbgg.xyz
 yxkzip.brastemp.com.br
