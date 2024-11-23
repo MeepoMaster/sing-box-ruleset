@@ -75,7 +75,6 @@ goto.target.com
 goto.walmart.com
 grp07.ias.rakuten.co.jp
 gs.statcounter.com
-guce.advertising.com
 hb.afl.rakuten.co.jp
 hbbtv.prosieben.de
 hbbtv.redbutton.de
@@ -128,7 +127,6 @@ privat24.privatbank.ua
 promo.gramedia.com
 proto2ad.durasite.net
 pt.afl.rakuten.co.jp
-public-cis.exponea.com
 puma.112.2o7.net
 px.a8.net
 radiofrance.targetspot.com
