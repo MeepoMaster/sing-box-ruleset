@@ -24019,8 +24019,6 @@ b-cdn.milliyet.com.tr
 b-cdn.posta.com.tr
 b-cdn.teve2.com.tr
 b-click.net
-b-gi.getui.net
-b-gtc.getui.net
 b-m.xyz
 b-online.de
 b-s.tercept.com
@@ -31742,7 +31740,6 @@ c-adash.m.taobao.com
 c-al-e1nder.com
 c-api-bit.shopeemobile.com
 c-c-c-inc.com
-c-gtc.getui.net
 c-nfa.jd.com
 c-o-u-n-t.com
 c-on-text.com
@@ -61775,6 +61772,7 @@ fieslobwg.com
 fiestafeijoa.xyz
 fiestagrandefm.com
 fiestasalou.com
+fiezaits.com
 fifa19.mobi
 fifa19.site
 fifa19android.com
@@ -67102,7 +67100,9 @@ gettran.com
 gettrf.org
 gettripiron.live
 gettyall.com
+getui.cn
 getui.com
+getui.net
 geturbobit.biz
 getvoltbox.com
 getvoltfuse.com
@@ -67355,7 +67355,6 @@ ghyxmovcyj.com
 ghyyss136.hkqwo.com
 ghzbut.fineart.no
 gi-client-tracking.goodgamestudios.com
-gi.getui.net
 gi.inhaabit.com
 gi4f.top
 gi7a.structube.com
@@ -131486,6 +131485,7 @@ qwe0231141.bj.bcebos.com
 qweasd.vip
 qweasdzxc142.wixsite.com
 qwebirc.swiftirc.net
+qweizay.top
 qwerfdx.com
 qwerggre.top
 qwert.autotrdes.top
@@ -139175,7 +139175,6 @@ sdk.markmedia.com.cn
 sdk.mobads.adwangmai.com
 sdk.moneyoyo.com
 sdk.native123.com
-sdk.open.talk.getui.net
 sdk.poltio.com
 sdk.postscript.io
 sdk.pulse.schibsted.com
@@ -157143,7 +157142,6 @@ talentztech.com
 talesapricot.com
 talimex.amadeuszsado.warszawa.pl
 taline.top
-talk.nz4.getui.net
 talk99.cn
 talkabout-tech.com
 talkahead.com
@@ -185349,6 +185347,7 @@ yooyoos.com
 yoozbit.com
 yopard.com
 yopp1c.webwave.dev
+yoqqiev.top
 yoredi.com
 york-24.dfirma.pl
 york.cqcsh.com
