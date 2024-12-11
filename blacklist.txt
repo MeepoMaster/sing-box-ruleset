@@ -4363,6 +4363,7 @@ a77.awicksin.com
 a776647af1.4b526a61a7.com
 a7a2789124.com
 a7bce5ef.resource-6726610e-344c-800a-ac85-c2e0dc6cf26e-notification.pages.dev
+a7c.icu
 a7cee49901.aliegro40.one
 a7e.monnierfreres.de
 a7e568cdc9.plus-dis.eu
@@ -8432,6 +8433,7 @@ add.sezzle.com
 add4.de
 addapptr.com
 addata.exxen.com
+addata.jd.com
 addb.interpark.com
 addc.dcinside.com
 adddumbestbarrow.com
@@ -15551,6 +15553,7 @@ alocdn.com
 aloftloan.com
 aloftriottomato.com
 alog.umeng.com
+alogus.umeng.com
 alohafromdeer.com
 alohasoftware.net
 alohazing.com
@@ -18730,6 +18733,7 @@ api.telemetry.watchabc.go.com
 api.tf4srv.com
 api.thetake.com
 api.tomi.ai
+api.touch-moblie.com
 api.touchcommerce.com
 api.tracksummer.com
 api.trafficfactory.com
@@ -19912,6 +19916,7 @@ appcaptcha.com
 appcast.io
 appcdn01.xyz
 appcentermobile.com
+appcfg.v.qq.com
 appchannel.html5.qq.com
 appclerks.com
 appclick.co
@@ -21481,6 +21486,7 @@ asparagusinterruption.com
 asparaguspallorspoken.com
 asparaguspopcorn.com
 aspartos.com
+aspect-upush.umeng.com
 aspectjcookbook.com
 aspectreinforce.com
 aspectsofcukorp.com
@@ -33118,6 +33124,7 @@ ccappuccinno.com
 ccatmastery.com
 ccbilleu.com
 ccbuus.dk
+ccc-x.jd.com
 ccc.aqualink.tokyo
 ccc.sys.intl.xiaomi.com
 ccc.sys.miui.com
@@ -35606,6 +35613,7 @@ claimtngo-rm1000.my.id
 clairecluttercoach.com
 clairedeco.shop
 clairekabobs.com
+clairpixum.com
 claitors.com
 clam.figmachina.com
 clam.mglaman.dev
@@ -39232,7 +39240,19 @@ continentcoaximprovement.com
 continuallycomplaints.com
 continuallyninetysole.com
 continuation423.fun
+continue.dasboard154-account.com
+continue.dasboard174-account.com
 continue.dasboard184-account.com
+continue.dasboard563-account.com
+continue.dasboard593-account.com
+continue.dasboard597-account.com
+continue.dasboard914-account.com
+continue.dasboard934-account.com
+continue.dasboard935-account.com
+continue.dasboard945-account.com
+continue.dasboard965-account.com
+continue.dasboard966-account.com
+continue.dasboard974-account.com
 continuousselfevidentinestimable.com
 contlist.com
 contntpro.media
@@ -52024,6 +52044,7 @@ dos.velek.com
 dosadnerzeczy.click
 dosagebreakfast.com
 dosamurottom.com
+dosawes.com
 doscarredwi.org
 dosconsiderate.com
 dosctrudnosci.click
@@ -59877,6 +59898,7 @@ f6b458ade2.0740d1e3bf.com
 f6b458fd.xyz
 f7.market.xiaomi.com
 f7.mtqys.com
+f703.twincities.com
 f70739.24houcryptowatcher.com
 f70d00bbcf.614c5b2887.com
 f72d5bcb246.johncornell.com
@@ -59889,6 +59911,7 @@ f769af9bbc.a6e8080fb1.com
 f775.thehour.com
 f77j6t2b.com
 f78085.cetusinvestmentsbtc.com
+f793.inc.com
 f79865.cetusinvestmentsbtc.com
 f7ae2f1035.2defeeb8b2.com
 f7b5084d954589d3bd4822cce98df58d.vistvx.pl
@@ -64378,6 +64401,7 @@ front-perf.imoim.net
 front-production.fitanalytics.com
 front.optimonk.com
 frontcognizance.com
+frontend-perf-service.e.kuaishou.com
 frontenddevelopernewyork.com
 fronthlpr.com
 frontier-aweme-hl.snssdk.com
@@ -65007,6 +65031,7 @@ fxclub.org
 fxddxf.com
 fxdepo.com
 fxfezg.bodylab24.de
+fxgate.baidu.com
 fxglobe.international
 fxgm.com
 fxipca.americanexpress.ca
@@ -87660,6 +87685,7 @@ kdcl.pchome.com.tw
 kdconstructionusa.com
 kddentalhospital.com
 kddflkdlkglhkflkgklghglgklkflkgfl.boostteen.top
+kde.qq.com
 kdf-podatki.pl
 kdh095.cn
 kdh8.com
@@ -88518,6 +88544,7 @@ klimexcm.com
 klings-ai.com
 klingsporsalesforum.com
 klingxai.com
+klink.volceapplog.com
 klinkerkjxer.life
 klinklan.us
 klipcatepiu0.shop
@@ -94038,6 +94065,8 @@ log-upload.mihoyo.com
 log-va-us-looki.capcutapi.com
 log-va-useast2a.tiktokv.com
 log-va.tiktokv.com
+log-verify.dutils.com
+log-verify.hiaiabc.com
 log-video.baotintuc.vn
 log-vietnamdaily.zadn.vn
 log-vietnamplus-vn.cdn.ampproject.org
@@ -95823,6 +95852,7 @@ lugtzejkowhi.com
 luhhcodutax.com
 luhidi.quickanswersonline.com
 luhoio.zum.com
+luimg.baidu.com
 luip88.gniewkokonrad.pl
 luisardo.com
 luisddargo.thsite.top
@@ -95960,6 +95990,7 @@ lustasserted.com
 lustre.ai
 lustroushaven.com
 lusupeiley.live
+lusupodum.com
 lutachechu.pro
 lutbzf.parfumgroup.de
 lutelu.com
@@ -110199,6 +110230,7 @@ mytomatosoup.com
 mytonwalleet.app
 mytoot.in
 mytop-in.net
+mytop.live.vkvideo.ru
 mytopf.com
 mytoyota.ts3canbic-accounts-login.paznyl.cn
 mytrack.ph143.fun
@@ -119614,7 +119646,6 @@ open.inkfrog.com
 open.isnssdk.com
 open.kidu.com
 open.kuaishouzt.com
-open.kwaishouzt.com
 open.kwaizt.com
 open.majelan.com
 open.makfir.top
@@ -125698,6 +125729,7 @@ playfulriver.com
 playfulsmiletrail749.sbs
 playfulwavequest132.sbs
 playgirl.com
+playgooglevn.vip
 playgril.com
 playgroundordinarilymess.com
 playhaven.com
@@ -157673,6 +157705,7 @@ suxaucmuny.com
 suxoxmnwolun.com
 suxqvc.pinksisly.com
 suydnc.wwf.it
+suzalsln.com
 suzanne.pro
 suzanneboswell.top
 suzbcnh.com
@@ -172757,6 +172790,7 @@ uranai-hit.com
 uranai-like.com
 uranai-su-ki.com
 uranus-ac.com
+uranus.jd.com
 urara02032023.com
 urasma.com
 urauvipsidu.com
@@ -177129,6 +177163,7 @@ volcanicred.com
 volcanoes.sbs
 volcanoexhibitmeaning.com
 volcanostricken.com
+volceapplog.com
 volcomofficial.com
 voldarinis.com
 vole.contemporaryartlibrary.org
@@ -178649,6 +178684,7 @@ wcnhhqqueu.com
 wco.crownpeak.com
 wcoaswaxkrt.com
 wcompetition.com
+wcp.taobao.com
 wcqkd.wang
 wcs.naver.com
 wcsmvmf.icu
@@ -181108,6 +181144,7 @@ wl-pixel.index.digital
 wl.bl.frequentvalues.com.au
 wl.gl
 wl.hd.sohu.com
+wl.jd.com
 wl.spotify.com
 wl.uqwjdhgv.top
 wl.yna.co.kr
