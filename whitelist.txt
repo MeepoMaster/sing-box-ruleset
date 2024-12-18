@@ -133,7 +133,6 @@ px.a8.net
 radiofrance.targetspot.com
 recommender.scarabresearch.com
 redir.ownpage.fr
-redir.tradedoubler.com
 redirect.appmetrica.yandex.com
 redirect.disqus.com
 refer.discover.com
