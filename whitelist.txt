@@ -129,7 +129,6 @@ pt.afl.rakuten.co.jp
 public-cis.exponea.com
 puma.112.2o7.net
 px.a8.net
-r.*.awstrack.me
 radiofrance.targetspot.com
 recommender.scarabresearch.com
 redir.ownpage.fr
