@@ -18297,7 +18297,6 @@ analytics.adavice.com
 analytics.adcanvas.com
 analytics.addigitech.com
 analytics.addressesandpostcodes.com
-analytics.adelaide.edu.au
 analytics.aderserve.com
 analytics.adfreetime.com
 analytics.adidas.com.cn
@@ -18994,7 +18993,6 @@ analytics.cn.ru
 analytics.cnblogs.com
 analytics.cnd-motionmedia.de
 analytics.cnnchile.com
-analytics.cnss.ma
 analytics.co.il
 analytics.co.in
 analytics.co.jp
@@ -19191,7 +19189,6 @@ analytics.dealerexpress.net
 analytics.dealervenom.com
 analytics.dealmaker.tech
 analytics.dealmoon.com
-analytics.dealogic.com
 analytics.debenhams.com
 analytics.decathlon.com
 analytics.decisionresourcesgroup.com
@@ -19222,7 +19219,6 @@ analytics.dev-nova.fox.com
 analytics.dev-nova.foxnews.com
 analytics.dev-nova.foxsports.com
 analytics.dev.azure.com
-analytics.dev.cornelsen.de
 analytics.dev.gamespot.com
 analytics.dev.gogpac.link
 analytics.dev.htmedia.in
@@ -19403,7 +19399,6 @@ analytics.elerion.com
 analytics.eletive.com
 analytics.elisaviihde.fi
 analytics.elle.se
-analytics.elliemae.io
 analytics.elo7.com.br
 analytics.elten-store.de
 analytics.elv.com
@@ -19501,7 +19496,6 @@ analytics.facebook.com
 analytics.faceitanalytics.com
 analytics.fairphone.com
 analytics.faitco.com
-analytics.faketattoo.top
 analytics.fam.ir
 analytics.famoid.com
 analytics.fandmstatebank.com
@@ -19517,7 +19511,6 @@ analytics.fawrycorp.com
 analytics.fbadtools.com
 analytics.fbgcdn.com
 analytics.fbxsolutions.com
-analytics.fcagroup.com
 analytics.fcgtalent.fi
 analytics.fcrtech.cz
 analytics.fddb.info
@@ -19564,7 +19557,6 @@ analytics.fitflop.com
 analytics.fitnessfirst.fi
 analytics.fivepaths.com
 analytics.fizik.com
-analytics.flawcra.cc
 analytics.fleetdefense.com
 analytics.fleurdumal.com
 analytics.flexifunnels.link
@@ -22169,7 +22161,6 @@ analytics.vortexscans.com
 analytics.vouchers-at-work.com
 analytics.voxbusinesscard.com
 analytics.voxcinemas.com
-analytics.vpc.duolingo.com
 analytics.vpcomm.umich.edu
 analytics.vpoint.gr
 analytics.vpplayer.tech
@@ -23366,6 +23357,7 @@ apcinfo.motorolasolutions.com
 apcinfo.vertexstandard.com
 apclass.com
 apcoi.com
+apconsultantgroup.com
 apcpaxwfej.com
 apd-pcdnwxlogin.teg.tencent-cloud.net
 apd-pcdnwxnat.teg.tencent-cloud.net
@@ -34751,6 +34743,7 @@ bravebrowser.filfar.eu
 bravedkarren.com
 bravefrontiercheats.com
 braveglobal.tv
+bravenetmedianetwork.com
 bravespace.pro
 bravetense.com
 bravia-cfgdst-ore-pro.bda.ndmdhs.com
@@ -53161,7 +53154,6 @@ dateclique.life
 datedate.today
 datedats2.com
 dateddeed.com
-dateesshop.com
 datefunclub.com
 dateguys.online
 datehomes.com
@@ -55894,7 +55886,6 @@ directorym.com
 directpaper.name
 directprimal.com
 directprofit.ru
-directr.xyz
 directrankcl.com
 directrix.ru
 directsearchzone.com
@@ -55978,7 +55969,6 @@ discordvip.createsocialcard.top
 discospiritirresponsible.com
 discount.s3blog.org
 discountclick.com
-discountlyforyou.com
 discountlypak.store
 discountplacidlysymphony.com
 discountsaredrastic.com
@@ -67136,7 +67126,6 @@ filasofighit.com
 filasseseeder.com
 filateliadimauro.com
 filbacc.com
-file-7.ru
 file-cdn.beeketing.com
 file-download.estudiosparrow.com
 file-save.com
@@ -82391,6 +82380,7 @@ hotstack.beauty
 hotstar.pubnub.net
 hotstoriesnews.best
 hottdates.com
+hottedholster.com
 hottercensorbeaker.com
 hottest-girls-online.com
 hottestnumbers.xyz
@@ -84242,6 +84232,7 @@ iekasurveyall.com
 ielmzzm.com
 ieluqiqttdwv.com
 iemcan.com
+iemhotqk.com
 iemiq.com
 iemqualifiers.com
 iemwbu.cn
@@ -110611,6 +110602,7 @@ metrics.bobthebuilder.com
 metrics.bodyandsoul.com.au
 metrics.boehringer-ingelheim.es
 metrics.boels.com
+metrics.bol.io
 metrics.boozallen.com
 metrics.boq.com.au
 metrics.borgatapoker.com
@@ -110846,7 +110838,6 @@ metrics.cottages.com
 metrics.cottonbird.fr
 metrics.couchbase.com
 metrics.countryfinancial.com
-metrics.coupahost.com
 metrics.couriermail.com.au
 metrics.covance.com
 metrics.coventryhealthcare.com
@@ -111056,7 +111047,6 @@ metrics.eu1.sentinelone.net
 metrics.euce1-ackcent-cybersecurity-apse2.sentinelone.net
 metrics.eurobet.it
 metrics.eurowings.com
-metrics.evergem.io
 metrics.evernote.com
 metrics.eversource.com
 metrics.everytable.com
@@ -112007,7 +111997,6 @@ metrics.pvh.com
 metrics.pytorch.org
 metrics.q3y.soucili.top
 metrics.qa.blastapi.io
-metrics.qa.cornelsen.de
 metrics.qa.stjude.org
 metrics.qatarairways.com
 metrics.qcnet.com
@@ -112297,6 +112286,7 @@ metrics.statestreet.com
 metrics.status.im
 metrics.steelcase.com
 metrics.steinhafels.com
+metrics.stg.bol.io
 metrics.stjude.org
 metrics.stockhead.com.au
 metrics.store.irobot.com
@@ -112363,7 +112353,6 @@ metrics.taylormadegolf.com
 metrics.taylors.edu.my
 metrics.tbliab.net
 metrics.tbs.com
-metrics.tc.elisa.fi
 metrics.tcm.com
 metrics.td.com
 metrics.tdn.com
@@ -129727,7 +129716,6 @@ pagospostpago.com
 paham.tech
 pahbasqibpih.com
 pahe.beatbox365.com
-pahlwan.tech
 paht.tech
 pahtag.tech
 pahtbt.tech
@@ -137774,7 +137762,6 @@ property-9821.shop
 property-98216.shop
 property.472782.bid
 property.aon.com
-propertybook.co.zw
 propertyofnews.com
 propertypotato.com
 propfirmcrm.com
@@ -142470,6 +142457,7 @@ rapid-glade-cde8.asoumare042024.workers.dev
 rapid-ocean-some.on-fleek.app
 rapidads.de
 rapideworks.com
+rapidfoxengine.com
 rapidgameshacks.com
 rapidhits.net
 rapidhunchback.com
@@ -147325,6 +147313,7 @@ rvv3.pdnegocios.cl
 rvvmynjd.love
 rvwifitv.com
 rvxdoi.ipekistanbul.com
+rvxmlj.icu
 rvz9.destinia.co.ro
 rvzlobj.cn
 rvzr-a.akamaihd.net
@@ -161114,6 +161103,7 @@ spoiledpresence.com
 spoilmagicstandard.com
 spoilphysiqueteenagers.com
 spoilqueens.com
+spokanchap.com
 spokeo.pl
 spokesperson254.fun
 spokojmiejski.click
@@ -162246,6 +162236,7 @@ ssp.moeli.net
 ssp.putaojiu.com
 ssp.qq.com
 ssp.rambler.ru
+ssp.rutube.ru
 ssp.seznam.cz
 ssp.subsidiesplan.online
 ssp.tencentmusic.com
@@ -173404,7 +173395,6 @@ toptrindexapsb.com
 topume.com
 topviralnewz.com
 topwwnews.com
-topxxx.info
 topyagames.com
 topzozzle.com
 toqsxdpx.xyz
@@ -187288,6 +187278,7 @@ vjugz.com
 vjvj.vj24co.com
 vjybuykaxz4.com
 vjz.actyprogss.top
+vjzvgvgz.icu
 vjzzpx.click-licht.de
 vk-ads.ru
 vk.com
@@ -193334,7 +193325,6 @@ www.bradenstoke.com
 www.branch.rocks
 www.brandmuseagency.co.za
 www.bravenet.com
-www.bravenetmedianetwork.com
 www.brescianacarrelli.it
 www.brie5jiff.com
 www.brillen.demarketing.net.brillen.pl
@@ -199287,7 +199277,6 @@ zepazupi.com
 zephyrcatalyst.com
 zephyrlabyrinth.com
 zephyronearc.com
-zeppy.io
 zerads.com
 zeratys.com
 zercenius.com
