@@ -10865,7 +10865,6 @@ ads.cc
 ads.cdn-surfline.com
 ads.cdn.live
 ads.cdn.rovio.com
-ads.cdn.tvb.com
 ads.cdn.viber.com
 ads.cdn2-img.net
 ads.cdnslate.com
@@ -11002,7 +11001,6 @@ ads.elcarado.com
 ads.electrocelt.com
 ads.elitetrader.com
 ads.elmaz.com
-ads.elo.qk8e.skat.dk
 ads.elpais.com.uy
 ads.eltemps.cat
 ads.emdee.ca
@@ -18332,7 +18330,6 @@ analytics-wcms.joins.net
 analytics-wol-fa.yinzcam.com
 analytics-zone-1.api.leadfamly.com
 analytics.007computer.com
-analytics.0znb7y32jspb5fv1slm.payfit.io
 analytics.10010.com
 analytics.10fastfingers.com
 analytics.116.ru
@@ -19260,7 +19257,6 @@ analytics.cube-cloud.com
 analytics.culturemap.com
 analytics.current.us
 analytics.curve.to
-analytics.cx.sonatype.com
 analytics.cyber-ny.com
 analytics.cyberoid.co.uk
 analytics.cykmyk.com
@@ -19341,7 +19337,6 @@ analytics.dev-nova.foxsports.com
 analytics.dev.azure.com
 analytics.dev.gogpac.link
 analytics.dev.htmedia.in
-analytics.dev.strava.com
 analytics.dev.tabint.net
 analytics.dev.trygr.io
 analytics.devart.com
@@ -21004,7 +20999,6 @@ analytics.pangle-ads.com
 analytics.pangle-ads.com.edgesuite.net
 analytics.panoskin.com
 analytics.papier-code.fr
-analytics.park.rambler.ru
 analytics.parkbee.com
 analytics.partcommunity.com
 analytics.partijvoordedieren.nl
@@ -21281,10 +21275,8 @@ analytics.rayjump.com
 analytics.rb24.ir
 analytics.rba-online.org
 analytics.rbauction.com
-analytics.rc.nextiva.xyz
 analytics.rca.fr
 analytics.rctiplus.com
-analytics.rdatasrv.net
 analytics.rdr-it.io
 analytics.readcube.com
 analytics.readid.com
@@ -21468,7 +21460,6 @@ analytics.se.com
 analytics.seagate.com
 analytics.search.amazon.com
 analytics.search.reactify.app
-analytics.seattletimes.com
 analytics.secure-club.com
 analytics.securebanklogin.com
 analytics.sedexonline.com
@@ -21569,7 +21560,6 @@ analytics.sketchup.com
 analytics.skillfulsardine.com
 analytics.skinit.com
 analytics.sknclinics.co.uk
-analytics.skrepka.top
 analytics.skroutz.gr
 analytics.skyeng.ru
 analytics.skyscanner.net
@@ -21654,7 +21644,6 @@ analytics.sportisimo.ro
 analytics.sportisimo.sk
 analytics.sports-tracker.com
 analytics.sports.ru
-analytics.sportsthread.com
 analytics.spotify.com
 analytics.spotify.net
 analytics.spotpet.com
@@ -21927,7 +21916,6 @@ analytics.tiendaenoferta.com
 analytics.tights.no
 analytics.tigocloud.net
 analytics.tiki.vn
-analytics.tiktok-boe.com
 analytics.tiktok.com
 analytics.tiktok.com.edgekey.net
 analytics.tileshop.com
@@ -25206,7 +25194,6 @@ appleid.apple.com-login.us
 appleking.pl
 appleld.apple.com.t5j2kdkc88dd2m423-verif.info
 applelogin.cloud
-applelounge.com
 applepc.com.my
 apples-24x7-customer-help-line.pages.dev
 apples-24x7-help.pages.dev
@@ -44851,6 +44838,7 @@ cookie.cynch.com
 cookie.disneylandparis.com
 cookie.fdih.dk
 cookie.gazeta.pl
+cookie.marsus.digital
 cookie.myamerigas.com
 cookie.pearshealthcyber.com
 cookie.support
@@ -69602,7 +69590,6 @@ freedomart.cz
 freedomdesignsonline.com
 freedomforpoles.com
 freedomfromnostalgia.com
-freedomgift50.com
 freedominfo.net
 freedomly.top
 freedomsaved.com
@@ -109976,7 +109963,6 @@ metric.4imprint.com
 metric.8pdttsylhokohx7f1.statuspage.io
 metric.8x8.vc
 metric.acadsoc.com.cn
-metric.acc.mobilevikings.be
 metric.admetric.io
 metric.adobeio.com
 metric.advanceautoparts.com
@@ -110125,7 +110111,6 @@ metric.ing.es
 metric.ingdirect.es
 metric.inner014.xyz
 metric.intermune.com
-metric.intern.oculus.com
 metric.internmc.facebook.com
 metric.ipv6test.net
 metric.ir-e1.cloudhub.io
@@ -110171,7 +110156,6 @@ metric.mod.io
 metric.modcloth.com
 metric.mongodb.com
 metric.monster.fr
-metric.moonriver.moonbeam.network
 metric.morganshotelgroup.com
 metric.motimateapp.com
 metric.movement.com
@@ -110545,7 +110529,6 @@ metrics.antena3.com
 metrics.anthem.com
 metrics.aohostels.com
 metrics.aon.com
-metrics.ap.tesla.services
 metrics.ap1-usea1-albertsons.sentinelone.net
 metrics.ap1.sentinelone.net
 metrics.ap1summitmaterials.sentinelone.net
@@ -110612,7 +110595,6 @@ metrics.autohebdo.net
 metrics.automobilemag.com
 metrics.autotrader.ca
 metrics.autotrader.com
-metrics.autous1.sentinelone.net
 metrics.avalara.com
 metrics.avastin-hcp.com
 metrics.avax.network
@@ -110863,7 +110845,6 @@ metrics.chronodrive.com
 metrics.chrysler.com
 metrics.churchcenter.com
 metrics.churchill.com
-metrics.ci.sonatype.dev
 metrics.cib.bnpparibas
 metrics.cigarsinternational.com
 metrics.citi.com
@@ -110892,6 +110873,7 @@ metrics.clojure.btx.com
 metrics.clojure.noon.com
 metrics.clojure.omnicard.com
 metrics.clojure.pulleyapp.com
+metrics.cloud.gcore.lu
 metrics.cloudflarebolt.com
 metrics.cluballiance.aaa.com
 metrics.clubmonaco.ca
@@ -111314,7 +111296,6 @@ metrics.globalgolf.com
 metrics.globalscape.com
 metrics.globe.com.ph
 metrics.globegazette.com
-metrics.gloo.shipt.com
 metrics.glucerna.net
 metrics.gmfinancial.com
 metrics.gnc.com
@@ -111374,6 +111355,7 @@ metrics.harley-davidson.com
 metrics.haroldandthepurplecrayon.movie
 metrics.hashport.network
 metrics.hatarako.net
+metrics.haufedev.systems
 metrics.havaianas-store.com
 metrics.hawaii.aaa.com
 metrics.hayesandjarvis.co.uk
@@ -112109,7 +112091,6 @@ metrics.puritan.com
 metrics.pvcase.com
 metrics.pvh.com
 metrics.pytorch.org
-metrics.q3y.soucili.top
 metrics.qa.blastapi.io
 metrics.qa.stjude.org
 metrics.qatarairways.com
@@ -112141,7 +112122,6 @@ metrics.rasmussen.edu
 metrics.rbcgam.com
 metrics.rbcgma.com
 metrics.rci.com
-metrics.rcluster.io
 metrics.rcn.com
 metrics.realclearpolitics.com
 metrics.realcommercial.com.au
@@ -112257,7 +112237,6 @@ metrics.scoutshop.org
 metrics.scribblelive.com
 metrics.sdcvisit.com
 metrics.seabourn.com
-metrics.seats.com
 metrics.seattlepi.com
 metrics.seawheeze.com
 metrics.seb.se
@@ -112288,7 +112267,6 @@ metrics.sharpusa.com
 metrics.shields.io
 metrics.shiftech.eu
 metrics.shinseibank.com
-metrics.shipt.com
 metrics.shiremedinfo.com
 metrics.shmeeb.net
 metrics.shoedazzle.com
@@ -112373,7 +112351,6 @@ metrics.spirithalloween.com
 metrics.spkt.io
 metrics.spontacts.com
 metrics.spoonflower.com
-metrics.spotify.net
 metrics.spusu.at
 metrics.sr.ht
 metrics.srpnet.com
@@ -112636,8 +112613,6 @@ metrics.univ-lille.fr
 metrics.unruly.io
 metrics.uol.com.br
 metrics.ups.com
-metrics.us-central1.shipt.com
-metrics.us-east4.shipt.com
 metrics.us.levi.com
 metrics.us.playstation.com
 metrics.us.pushtech.com
@@ -113427,7 +113402,6 @@ milena-malinka.blogspot.com
 milenium.site
 mileporn.com
 miles-card-vpbank.com
-miles.plumenetwork.xyz
 milesdebanners.com
 milestonecallcentersolutions.com
 milf-finder.pl
@@ -119017,7 +118991,6 @@ myrebelflag.com
 myredirect111.wpenginepowered.com
 myreferer.com
 myreff.com
-myregardslo.biz
 myrenewal-log.com
 myreqdcompany.com
 myretailar.com
@@ -119839,6 +119812,7 @@ navi56.com
 navi58.com
 navi59.ru
 navi6.com
+navi61.ru
 navi63.ru
 navi65.com
 navi66.ru
@@ -131441,7 +131415,6 @@ pbxdny.angrybeards.cz
 pbxphonenetwork.com
 pc-ads.com
 pc-agency24.de
-pc-fix-cleaner.com
 pc-mon.snssdk.com
 pc-mon.zijieapi.com
 pc-services.ru
@@ -132813,7 +132786,6 @@ pihzhhn.com
 piing.luxxeeu.com
 pijmahktoan.com
 pik.autotrdes.top
-pikacn.com
 pikbni.zoopers.pl
 pikoha.giftanddiscounts.com
 piksel.com
@@ -135971,7 +135943,6 @@ posthog.mon.mspbackups.com
 posthog.murj.com
 posthog.neontra.ca
 posthog.netdata.cloud
-posthog.pcdiga.com
 posthog.plasmic.app
 posthog.prakerja.go.id
 posthog.prod-europe.demarque.dev
@@ -140212,7 +140183,6 @@ puppytooth.com
 pups.baidu.com
 pups.bdimg.com
 pupspu.com
-puptyvocho.com
 pupur.net
 pupur.pro
 puq.librprograms.xyz
@@ -140762,6 +140732,7 @@ pysznatoskania.pl
 pysznepl.blogspot.com
 pytae.com
 pytamyozdanie.click
+pytexb.icu
 pytgg.xyz
 pythclickair.com
 python.casuallyprivate.com
@@ -141225,7 +141196,6 @@ qlqvej.bahia-principe.com
 qlsngs.paruvendu.fr
 qlspmy.xlmoto.be
 qlsszi.lululemon.co.nz
-qltuh.rtb-feed.com
 qluxglobal.com
 qlvftg.officeiten.jp
 qlvzjmtg.inqku.cn
@@ -144033,7 +144003,6 @@ reklamka360.click
 reklamko.pro
 reklamnative.com
 reklamnoe.agency
-reklampazar.com
 reklamport.com
 reklamstore.com
 reklamstore.cubecdn.net
@@ -166205,7 +166174,6 @@ superfastmobilepay.com
 superficialeyes.com
 superficialspring.com
 superficialsquare.com
-superfish.com
 superfluousexecutivefinch.com
 superfolder.net
 superfoodii.com
@@ -166507,7 +166475,6 @@ survata.com
 survata.net
 surveil365.com
 survey-daily-prizes.com
-survey-smiles.com
 survey-staging.mazda.com.au
 survey.axsmanager.com
 survey.china.alibaba.com
@@ -170188,7 +170155,6 @@ telemetry.ng.colortokens.com
 telemetry.nodejs.contrastsecurity.com
 telemetry.northcentralus.arcdataservices.com
 telemetry.northeurope.arcdataservices.com
-telemetry.norton.com
 telemetry.nugs.net
 telemetry.numworks.com
 telemetry.nvidia.com
@@ -180522,6 +180488,7 @@ u.ctrip.com
 u.dxsvr.com
 u.getgoose.com
 u.gmasken.top
+u.infotrackcd.top
 u.infotrackeqc.top
 u.knuffelwuff.at
 u.lucy-anne.com
@@ -181361,7 +181328,6 @@ umami.salvatorelab.es
 umami.smartz.cloud
 umami.spillover.com
 umami.subdavis.com
-umami.svalker.com
 umami.treasuremart.net
 umami.upupn.pro
 umami.useargo.com
@@ -183550,6 +183516,7 @@ usps.com-tracking-helpscinb.cc
 usps.com-tracking-helpscinl.cc
 usps.com-tracking-helpsco.cc
 usps.com-tracking-helpsdo.cc
+usps.com-tracking-helpsenf.xyz
 usps.com-tracking-helpseo.cc
 usps.com-tracking-helpset.cc
 usps.com-tracking-helpsew.cc
@@ -188978,6 +188945,7 @@ wallpapers-all.com
 wallpapersfacts.com
 wallstore.xyz
 wallstrads.com
+walmartchina.top
 walmartgiftcard.sbs
 walmartshoping.com
 walmikes.com
@@ -193537,6 +193505,7 @@ www.app-certs.com
 www.app-ingmovil-cliente.com
 www.app.profuturocompras.com.mx
 www.appfindr.org
+www.applelounge.com
 www.appsamurai.com
 www.appsolar-winds.xyz
 www.apteka-sadivnyka.ua
@@ -194600,6 +194569,7 @@ www.perspektiva.com.pe
 www.peteralexander.plus.com
 www.peterfishwick.free-online.co.uk
 www.phoenixazaccountingtax.com
+www.pikacn.com
 www.pinoytvzone.com
 www.pisocks.com
 www.pivata.net
@@ -196116,6 +196086,7 @@ xaljnh.iloom.com
 xalzny.xyz
 xamar.org
 xameleonads.com
+xamniksq.com
 xamssp.icu
 xanadu-du.com
 xanaduamp.lol
