@@ -3791,6 +3791,7 @@
 7xkfic.com2.z0.glb.qiniucdn.com
 7z66.com
 7zap.com
+7zb.fun
 7zip.es
 7zip.fr
 7zip.it
@@ -8154,7 +8155,6 @@ ad-cmp.hismarttv.com
 ad-configurator.6cloud.fr
 ad-count.jp
 ad-creative.projectcarmen.com
-ad-creative.pstatic.net
 ad-creatives-public.commondatastorage.googleapis.com
 ad-cupid.com
 ad-dal-prd-1056964492.ap-northeast-1.elb.amazonaws.com
@@ -33887,6 +33887,7 @@ bombrw.netshoes.com.br
 bombuj.now
 bombuj.town
 bomeixzhcg.com
+bomqonpfzx.com
 bomx.xyz
 bon.olled.xyz
 bona.arturwalczak.pl
@@ -34989,6 +34990,7 @@ brekus.org
 brelawunbung.click
 brennobrenno.com
 brenntags-asia.com
+brephras.com
 bresko.pl
 brespark.eccocar.com
 bretaverett.com
@@ -53316,6 +53318,7 @@ data.tw-email.princess.com
 data.tw-guest.princess.com
 data.txn.puntoscolombia.com
 data.ubi.com
+data.ublock-browser.com
 data.ucpa.se
 data.uk-email.princess.com
 data.uk-guest.princess.com
@@ -60747,6 +60750,7 @@ eejersenset.net
 eejgzgtkbk.pages.dev
 eejipukaijy.net
 eekeeghoolsy.com
+eekqdetpwnlj.com
 eekreeng.com
 eekrogrameety.net
 eeksoabo.com
@@ -72884,6 +72888,7 @@ getyourgiftnow2.blogspot.com
 getyourgiftnow3.blogspot.com
 getyoursoft.ru
 getzaragift.xyz
+geuba.xyz
 geumhuzzy.com
 geve.celestialiatlas.com
 gevmrjok.com
@@ -96732,6 +96737,7 @@ kyber.digital
 kybsbf.ruleoneproteins.com
 kyc-statistics.net
 kyccmn.com
+kychq.cn
 kycverifying.io
 kydcwp.landwirt.com
 kydzfldt.xyz
@@ -124913,7 +124919,6 @@ ntihwhqe.usatours.no
 ntihwhqe.usatours.se
 ntjlu.wang
 ntk-indo.com
-ntkimg.cloud
 ntl-verif.com
 ntlab.org
 ntlcgevw-u.one
@@ -193758,6 +193763,7 @@ wittypopcorn.com
 wittyshack.com
 wivtuhoftat.com
 wiwa.well-beingandstability.com
+wiwarrkazg.com
 wix-l.in
 wix.mastercasc.top
 wixjcl.maginon.de
@@ -199081,6 +199087,7 @@ xmsflzmygw.com
 xmshqh.com
 xmsqz.com
 xmtrading.com
+xmvxo.xyz
 xmysmy.cn
 xmyvhu.soxo.pl
 xmywlyh.cn
