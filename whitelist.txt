@@ -54,6 +54,7 @@ cm-beacon.nakanohito.jp
 cm-widget.nakanohito.jp
 cmp.inmobi.com
 cn.app.chat.xiaomi.net
+content.ingbank.pl
 crm-cdn.peek-cloppenburg.com
 cs.silverpop.com
 cutcaptcha.com
