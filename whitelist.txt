@@ -94,6 +94,7 @@ js.monitor.azure.com
 learn.khanacademy.org
 leechers-paradise.org
 link.morningbrew.com
+link.sylikes.com
 linka.page
 links.e.theatlantic.com
 links.getblueshift.com
@@ -133,6 +134,7 @@ public-cis.exponea.com
 puma.112.2o7.net
 px.a8.net
 radiofrance.targetspot.com
+rd.bizrate.com
 recommender.scarabresearch.com
 redir.ownpage.fr
 redirect.appmetrica.yandex.com
