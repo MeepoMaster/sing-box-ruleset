@@ -30,50 +30,40 @@ jobs:
     - name: Download and process rules
       run: |
         FILES=()
-        # 下载 adblockdns.txt 文件
+        # 下载 adblockdns.txt
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
         FILES+=("adblockdns.txt")
-        # 下载 AWAvenue-Ads-Rule-Singbox-regex.json 文件
+        
+        # 下载并清理 AWAvenue 规则文件
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
-
-        # 清理 JSON 文件中的注释
         sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+        jq . awavenue_ads_rule_clean.json  # 验证JSON格式
 
-        # 确保 JSON 文件格式正确
-        jq . awavenue_ads_rule_clean.json
-
-        # 从清理后的 JSON 文件中提取域名
+        # 提取域名和正则表达式
         jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+        jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex.txt
         FILES+=("extracted_domains.txt")
 
-        # 提取 domain_regex 正则表达式
-        jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex.txt
-        FILES+=("extracted_regex.txt")
-        
-        # 合并所有文件
+        # 合并所有规则文件
         cat "${FILES[@]}" > combined_rules.txt
 
-        # 处理 blacklist 域名
+        # 处理黑名单
         grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
 
-        # 处理 whitelist 域名
+        # 处理白名单
         grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > temp_whitelist.txt
-        
-        # 将提取的白名单与 noblock.txt 合并
         cat temp_whitelist.txt noblock.txt | sort -u | sed '/^$/d' > whitelist.txt
 
-        # 新的 blacklist 和 block.txt 并去重
+        # 合并黑名单并去重
         cat new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
 
-        # 从 blacklist 中删除 whitelist 域名
+        # 从黑名单中移除白名单域名
         grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
         mv temp_blacklist.txt blacklist.txt
-
-        # 删除 blacklist 中任何剩余的以 @@ 开头的条目
         sed -i '/^@@/d' blacklist.txt
-        
-        # 将所有域名文件按字母顺序排序，并强制标记为修改
+
+        # 排序所有文件
         LC_ALL=C sort -u -o blacklist.txt blacklist.txt
         LC_ALL=C sort -u -o block.txt block.txt 
         LC_ALL=C sort -u -o noblock.txt noblock.txt
@@ -82,25 +72,32 @@ jobs:
 
     - name: Create adg-dns.json
       run: |
-        # 将 blacklist.txt 转换为 JSON 数组（去除最后一个空行）
-        domain_suffix=$(jq -R -s -c 'split("\n")[:-1]' blacklist.txt)
-        # 将 extracted_regex.txt 转换为 JSON 数组（去除最后一个空行）
-        domain_regex=$(jq -R -s -c 'split("\n")[:-1]' extracted_regex.txt)
-        
-        # 使用 HEREDOC 输出完整的 JSON，变量会自动展开
-        cat <<EOF > adg-dns.json
-{
-  "version": 2,
-  "rules": [
-    {
-      "domain_suffix": $domain_suffix,
-      "domain_regex": $domain_regex
-    }
-  ]
-}
-EOF
+        # 初始化JSON结构
+        echo '{
+          "version": 2,
+          "rules": [
+            {' > adg-dns.json
 
-        # 格式化 JSON 文件
+        # 添加domain_regex字段（如果存在正则表达式）
+        if [ -s extracted_regex.txt ]; then
+          echo '      "domain_regex": [' >> adg-dns.json
+          sed 's/.*/"&",/' extracted_regex.txt | sed '/^""$/d' >> adg-dns.json
+          sed -i '$ s/,$//' adg-dns.json  # 移除末尾逗号
+          echo '      ],' >> adg-dns.json
+        fi
+
+        # 添加domain_suffix字段
+        echo '      "domain_suffix": [' >> adg-dns.json
+        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
+        sed -i '$ s/,$//' adg-dns.json
+        echo '      ]' >> adg-dns.json
+
+        # 闭合JSON结构
+        echo '    }' >> adg-dns.json
+        echo '  ]' >> adg-dns.json
+        echo '}' >> adg-dns.json
+
+        # 格式化并验证JSON
         jq . adg-dns.json > formatted_adg-dns.json
         mv formatted_adg-dns.json adg-dns.json
 
@@ -125,5 +122,5 @@ EOF
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add blacklist.txt whitelist.txt block.txt noblock.txt adg-dns.json adg-dns.srs
-        git commit -m "Force update DNS rules with sorted files" || echo "No changes to commit"
+        git commit -m "Update DNS rules with domain_regex support" || echo "No changes to commit"
         git push
