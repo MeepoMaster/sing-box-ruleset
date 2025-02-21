@@ -49,20 +49,39 @@ jobs:
 
       - name: Create adg-dns.json
         run: |
-          # 使用jq直接构建JSON（彻底避免手动拼接）
-          echo '{}' | jq \
-            --arg version "2" \
-            --slurpfile regex extracted_regex.txt \
-            --slurpfile domains blacklist.txt \
+          # 将正则表达式转换为JSON数组
+          if [ -s extracted_regex.txt ]; then
+            echo '[' > regex_array.json
+            sed 's/.*/"&",/' extracted_regex.txt | sed '$ s/,$//' >> regex_array.json
+            echo ']' >> regex_array.json
+            jq . regex_array.json > valid_regex.json
+          else
+            echo '[]' > valid_regex.json
+          fi
+
+          # 将域名转换为JSON数组
+          echo '[' > domain_array.json
+          sed 's/.*/"&",/' blacklist.txt | sed '/^"@@/d; $ s/,$//' >> domain_array.json
+          echo ']' >> domain_array.json
+          jq . domain_array.json > valid_domains.json
+
+          # 生成最终JSON（严格保持domain_suffix在前）
+          jq -n \
+            --argjson version 2 \
+            --slurpfile domains valid_domains.json \
+            --slurpfile regex valid_regex.json \
             '{
-              version: ($version | tonumber),
+              version: $version,
               rules: [
                 {
-                  domain_regex: $regex[],
-                  domain_suffix: $domains[]
+                  domain_suffix: $domains[0],
+                  domain_regex: $regex[0]
                 }
               ]
             }' > adg-dns.json
+
+          # 清理临时文件
+          rm -f regex_array.json valid_regex.json domain_array.json valid_domains.json
 
           # 格式化验证
           jq . adg-dns.json > formatted_adg-dns.json
@@ -76,5 +95,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add adg-dns.json
-          git commit -m "Update DNS rules" || echo "No changes to commit"
+          git commit -m "Update DNS rules (domain_suffix first)" || echo "No changes to commit"
           git push
