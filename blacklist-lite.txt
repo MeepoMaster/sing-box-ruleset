@@ -1315,7 +1315,6 @@ baihuwang.com
 baike.biz
 baitaiz.com
 baixing.com
-bakbitionb.com
 banana.le.com
 bar.baidu.com
 bartender.cc
@@ -1577,7 +1576,6 @@ cdn.exp.xiaomi.com
 cdn.fds-ssl.api.xiaomi.com
 cdn.fds.api.xiaomi.com
 cdn.haocaa.com
-cdn.hpplay.com.cn
 cdn.ksapisrv.com
 cdn.luckyorange.com
 cdn.moji002.com
@@ -1626,7 +1624,6 @@ child.sec.miui.com
 chiluyingxiao.com
 chinaapper.com
 chiq-cloud.com
-chn-track.adsrvr.cn
 chntdnc.cn
 chogory.cn
 cholo101.cn
@@ -1728,7 +1725,6 @@ codenow.cn
 coemergency.com.cn
 collect.alipay.com
 collect.babybus.com
-collect.futufin.com
 collect.kugou.com
 collect.vans.com.cn
 collect.wpsmail.net
@@ -1918,7 +1914,6 @@ daoyoudao.com
 daque.cn
 darren01.oss-cn-beijing.aliyuncs.com
 dashet.com
-data-ads-test.wanyol.com
 data-in-ads.realmemobile.com
 data-reporting.agora.io
 data-sdk-uuid-log.d.meituan.net
@@ -2393,7 +2388,6 @@ fidelius.cn
 file.blackint3.com
 file.cdn.mvideo.xiaomi.com
 file.daihuo.qq.com
-file.foxitreader.cn
 files.jb51.net
 files2.sogou.com
 finance.needtoday.com
@@ -2460,7 +2454,6 @@ fw.qq.com
 fwlrv.cn
 fwmbjrl.cn
 fwtracks.freshmarketer.com
-fx.bossgoo.com
 fxgate.baidu.com
 fy4zb.cn
 fyzdev.com
@@ -4068,17 +4061,13 @@ mycleanmymac.com
 mydisplay.ctfile.com
 myes.youku.com
 myhug.cn
-n-res.al-hiwar.com.cy-isp.com
 n-st.vip.com
 n.35kds.com
 n.3g.163.com
 n.baminw.com.cn
 n.cosbot.cn
 n.mark.letv.com
-n1.zuoyebang.cc
 n2.zuoyebang.cc
-n3.zuoyebang.cc
-n4.zuoyebang.cc
 n5.zuoyebang.cc
 na06.cn
 na61-na62-eu95.wagbridge.advertisement.tanx.com
@@ -4989,7 +4978,6 @@ sf2020-nebula.ksapisrv.com
 sf3-fe-tos.pglstatp-toutiao.com
 sf3-ttcdn-tos.pstatp.com
 sfaf-api1.ksapisrv.com
-sfaf.ksapisrv.com
 sfaf1.ksapisrv.com
 sfaf2.ksapisrv.com
 sfali-api.ksapisrv.com
@@ -5067,7 +5055,6 @@ sla-media.immomo.com
 slb-p2p.vcloud.ks-live.com
 slog.sina.com.cn
 sltint.adv.ott.cibntv.net
-sluban.com.cn
 slzs.52xiyou.com
 sm-tc.cn
 smad.ms.zhangyue.net
@@ -5285,7 +5272,6 @@ stats.feitianma.com
 stats.g.doubleclick.net
 stats.hanmaker.com
 stats.music.xiaomi.com
-stats.mysteel.com
 stats.pairmb.com
 stats.qiumibao.com
 stats.v.duowan.com
@@ -5659,7 +5645,6 @@ tracking.rus.miui.com
 tracking.t.mercedes-benz.com.cn
 tracking.tdk.com.cn
 tracking.ti.com.cn
-tracking.weikayun.com
 trackingio.com
 tracklog.58.com
 trackmarketing.staubli.cn
@@ -5897,7 +5882,6 @@ v-56.com
 v.adintl.cn
 v.adx.hubcloud.com.cn
 v.api.amgmedia.cn
-v.aplus.aliyun.com.gds.alibabadns.com
 v.miguvideo.com
 v1-ad.video.yximgs.com
 v1-feed.idreamsky.com
@@ -6207,7 +6191,6 @@ www.ynbojie.com
 www.ynxi.cn
 www.ysbaojia.com
 www.yuanchengxiezuo.com
-www.yugukj.com
 www.yuyue008.cn
 www.yx3377.com
 www.zhaohainan.cn
