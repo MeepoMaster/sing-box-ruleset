@@ -1,0 +1,109 @@
+name: Update adg-dns-lite Rule
+
+on: 
+  schedule:
+    - cron: "30 0,8,16 * * *"
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai  
+
+jobs:
+  update-rules-lite:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        sudo apt-get update
+        sudo apt-get install -y jq
+
+    - name: Download and process lite rules
+      run: |
+        FILES_LITE=()
+        # 下载 lite 版规则文件
+        curl -o adblockdnslite.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdnslite.txt
+        FILES_LITE+=("adblockdnslite.txt")
+        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
+        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
+
+        # 清理 JSON 文件中的注释
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+
+        # 确保 JSON 文件格式正确
+        jq . awavenue_ads_rule_clean.json
+
+        # 从清理后的 JSON 文件中提取域名，添加到黑名单中
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains_lite.txt
+        FILES_LITE+=("extracted_domains_lite.txt")
+        # 合并所有 lite 规则文件
+        cat "${FILES_LITE[@]}" > combined_rules_lite.txt
+
+        # 处理 blacklist-lite 域名（仅针对 lite 规则）
+        grep '^\|\|' combined_rules_lite.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist_lite.txt
+
+        # 将 new_blacklist_lite.txt 与 block.txt 合并生成 blacklist-lite.txt
+        cat new_blacklist_lite.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist_lite.txt
+        mv temp_blacklist_lite.txt blacklist-lite.txt
+
+        # 从 blacklist-lite.txt 中删除 whitelist.txt 中已有的域名
+        grep -vxFf whitelist.txt blacklist-lite.txt > temp_blacklist_lite.txt
+        mv temp_blacklist_lite.txt blacklist-lite.txt
+
+        # 删除 blacklist-lite.txt 中任何残留以 @@ 开头的条目
+        sed -i '/^@@/d' blacklist-lite.txt
+        
+        # 对 blacklist-lite.txt 和 block.txt 排序去重
+        LC_ALL=C sort -u -o blacklist-lite.txt blacklist-lite.txt
+        LC_ALL=C sort -u -o block.txt block.txt
+        touch blacklist-lite.txt block.txt
+
+    - name: Create adg-dns-lite.json
+      run: |
+        echo '{
+          "version": 2,
+          "rules": [
+            {
+              "domain_suffix": [' > adg-dns-lite.json
+        sed 's/.*/"&",/' blacklist-lite.txt | sed '/^""$/d; /^"@@/d' >> adg-dns-lite.json
+        sed -i '$ s/,$//' adg-dns-lite.json
+        echo '      ]
+            }
+          ]
+        }' >> adg-dns-lite.json
+
+        jq . adg-dns-lite.json > formatted_adg-dns-lite.json
+        mv formatted_adg-dns-lite.json adg-dns-lite.json
+
+    - name: Debug adg-dns-lite.json
+      run: cat adg-dns-lite.json
+
+    - name: Setup sing-box (release)
+      run: |
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        echo "Latest sing-box version: $LATEST_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
+
+    - name: Convert adg-dns-lite.json to adg-dns-lite.srs
+      run: |
+        sing-box rule-set compile --output adg-dns-lite.srs adg-dns-lite.json
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add blacklist-lite.txt adg-dns-lite.json adg-dns-lite.srs
+        git commit -m "Force update DNS lite rules with sorted files" || echo "No changes to commit"
+        git push
