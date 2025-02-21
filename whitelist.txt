@@ -77,6 +77,7 @@ goto.target.com
 goto.walmart.com
 grp07.ias.rakuten.co.jp
 gs.statcounter.com
+h-adashx.ut.taobao.com
 hb.afl.rakuten.co.jp
 hbbtv.prosieben.de
 hbbtv.redbutton.de
