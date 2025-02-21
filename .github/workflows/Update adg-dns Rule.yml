@@ -25,96 +25,130 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests
         sudo apt-get update
-        sudo apt-get install -y jq coreutils
+        sudo apt-get install -y jq
         
     - name: Download and process rules
       run: |
-        # 下载基础规则
+        FILES=()
+        # 下载 adblockdns.txt 文件
         curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
+        FILES+=("adblockdns.txt")
+        # 下载 AWAvenue-Ads-Rule-Singbox.json 文件
         curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
-        # 清理AWAvenue规则
-        sed '/^\/\//d' awavenue_ads_rule_singbox.json | jq . > awavenue_clean.json
+        # 清理 JSON 文件中的注释
+        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
 
-        # 提取域名 (精确匹配)
-        jq -r '.rules[].domain[]? | select(. != null)' awavenue_clean.json > extracted_domains.txt
-
-        # 提取正则表达式 (严格处理)
-        jq -r '.rules[].domain_regex[]? | select(. != null)' awavenue_clean.json \
-          | grep -vE '^(#|$)' \
-          | sed 's/\r$//' \
-          | awk 'NF { print "\"" $0 "\"," }' \
-          | head -c -2 > extracted_regex.txt  # 移除最后一个逗号
-
-        # 合并规则源
-        cat adblockdns.txt extracted_domains.txt > combined_sources.txt
-
-        # 处理黑名单
-        grep '^\|\|' combined_sources.txt \
-          | sed -E 's/^\|\|([^\/\^]+)[\/\^].*/\1/' \
-          | sort -u \
-          | grep -v '^!' > base_blacklist.txt
-
-        # 处理白名单
-        grep '^@@||' combined_sources.txt \
-          | sed -E 's/^@@\|\|([^\/\^]+)[\/\^].*/\1/' \
-          | sort -u > base_whitelist.txt
-
-        # 最终名单处理
-        comm -23 <(sort base_blacklist.txt) <(sort block.txt) | sort -u > temp_blacklist.txt
-        comm -23 <(sort temp_blacklist.txt) <(sort noblock.txt) | sort -u > blacklist.txt
-        comm -23 <(sort base_whitelist.txt) <(sort noblock.txt) | sort -u > whitelist.txt
-
-    - name: Generate adg-dns.json
-      run: |
-        # 生成JSON骨架
-        echo '{
-          "version": 2,
-          "rules": [
-            {' > adg-dns.json
-
-        # 添加domain_suffix
-        echo '      "domain_suffix": [' >> adg-dns.json
-        if [ -s blacklist.txt ]; then
-          sed 's/.*/        "&",/' blacklist.txt | sed '$ s/,$//' >> adg-dns.json
+        # 验证清理后的 JSON 文件格式
+        if ! jq empty awavenue_ads_rule_clean.json; then
+          echo "Error: Invalid JSON format in awavenue_ads_rule_clean.json"
+          exit 1
         fi
-        echo '      ],' >> adg-dns.json
 
-        # 添加domain_regex (严格格式化)
-        echo '      "domain_regex": [' >> adg-dns.json
-        if [ -s extracted_regex.txt ]; then
-          sed 's/^/        /' extracted_regex.txt >> adg-dns.json
+        # 从清理后的 JSON 文件中提取域名并添加到黑名单中
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt || true
+        FILES+=("extracted_domains.txt")
+        # 合并所有文件
+        cat "${FILES[@]}" > combined_rules.txt
+
+        # 处理 blacklist 域名
+        grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+
+        # 处理 whitelist 域名
+        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > temp_whitelist.txt
+        
+        # 将提取的白名单与 noblock.txt 合并
+        cat temp_whitelist.txt noblock.txt | sort -u | sed '/^$/d' > whitelist.txt
+
+        # 新的 blacklist 和 block.txt 并去重
+        cat new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
+
+        # 从 blacklist 中删除 whitelist 域名
+        grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
+        mv temp_blacklist.txt blacklist.txt
+
+        # 删除 blacklist 中任何剩余的以 @@ 开头的条目
+        sed -i '/^@@/d' blacklist.txt
+        
+        # 将所有域名文件按字母顺序排序，并强制标记为修改
+        LC_ALL=C sort -u -o blacklist.txt blacklist.txt
+        LC_ALL=C sort -u -o block.txt block.txt 
+        LC_ALL=C sort -u -o noblock.txt noblock.txt
+        LC_ALL=C sort -u -o whitelist.txt whitelist.txt
+        touch blacklist.txt block.txt noblock.txt whitelist.txt
+
+    - name: Create adg-dns.json
+      run: |
+        # 从源文件中提取 domain_regex 数组并验证其有效性
+        if ! domain_regex_raw=$(jq -r '.rules[0].domain_regex' awavenue_ads_rule_clean.json); then
+          echo "Error: Failed to extract domain_regex"
+          exit 1
         fi
-        echo '      ]' >> adg-dns.json
+        
+        # 验证提取的 domain_regex 是否为有效的 JSON 数组
+        if ! echo "$domain_regex_raw" | jq empty; then
+          echo "Error: Invalid domain_regex JSON format"
+          exit 1
+        fi
+        
+        # 创建临时文件以构建完整的 JSON
+        {
+          echo '{
+            "version": 2,
+            "rules": [
+              {
+                "domain_suffix": ['
+          
+          # 添加 domain_suffix 内容
+          sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' | sed '$ s/,$//'
+          
+          # 添加 domain_regex 部分
+          echo '                ],'
+          echo '                "domain_regex":'
+          echo "$domain_regex_raw"
+          echo '              }'
+          echo '            ]'
+          echo '          }'
+        } > temp_adg-dns.json
+        
+        # 验证生成的 JSON 文件格式
+        if ! jq empty temp_adg-dns.json; then
+          echo "Error: Invalid final JSON format"
+          exit 1
+        fi
+        
+        # 格式化最终的 JSON 文件
+        jq . temp_adg-dns.json > adg-dns.json
+        rm temp_adg-dns.json
 
-        # 闭合JSON结构
-        echo '    }
-          ]
-        }' >> adg-dns.json
-
-        # 格式化验证
-        jq . adg-dns.json > temp.json && mv temp.json adg-dns.json
-
-    - name: Debug output
+    - name: Debug adg-dns.json
       run: |
-        echo "=== 黑名单样例 ==="
-        head -n 5 blacklist.txt
-        echo "=== 正则表达式样例 ==="
-        head -n 5 extracted_regex.txt
-        echo "=== JSON 验证 ==="
-        jq empty adg-dns.json && echo "JSON验证通过" || exit 1
+        echo "Validating final JSON format..."
+        if ! jq empty adg-dns.json; then
+          echo "Error: Invalid JSON in final file"
+          exit 1
+        fi
+        echo "Final file content:"
+        cat adg-dns.json
 
-    - name: Generate sing-box rule
+    - name: Setup sing-box (release)
       run: |
-        LATEST_SB=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_SB}/sing-box-${LATEST_SB#v}-linux-amd64.tar.gz
-        tar -xzf sing-box-*-linux-amd64.tar.gz
-        ./sing-box-*/sing-box rule-set compile adg-dns.json -o adg-dns.srs
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        echo "Latest sing-box version: $LATEST_VERSION"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
 
-    - name: Commit changes
+    - name: Convert adg-dns.json to adg-dns.srs
+      run: |
+        sing-box rule-set compile --output adg-dns.srs adg-dns.json
+
+    - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add *.txt *.json *.srs
-        git commit -m "Update: $(date +'%Y-%m-%d %H:%M')" || echo "No changes"
+        git add blacklist.txt whitelist.txt block.txt noblock.txt adg-dns.json adg-dns.srs
+        git commit -m "Force update DNS rules with sorted files" || echo "No changes to commit"
         git push
