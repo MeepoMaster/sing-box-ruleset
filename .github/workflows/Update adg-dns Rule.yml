@@ -2,128 +2,79 @@ name: Update adg-dns Rule
 
 on: 
   schedule:
-    - cron: 0 0,8,16 * * *
+    - cron: "0 0,8,16 * * *"
   workflow_dispatch:
 
 env:
-  TZ: Asia/Shanghai  
+  TZ: Asia/Shanghai
 
 jobs:
   update-rules:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install requests
-        sudo apt-get update
-        sudo apt-get install -y jq
-        
-    - name: Download and process rules
-      run: |
-        FILES=()
-        # 下载 adblockdns.txt
-        curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
-        FILES+=("adblockdns.txt")
-        
-        # 下载并清理 AWAvenue 规则文件
-        curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
-        sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
-        jq . awavenue_ads_rule_clean.json  # 验证JSON格式
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+          sudo apt-get update
+          sudo apt-get install -y jq
 
-        # 提取域名和正则表达式
-        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
-        jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex_raw.txt
-        
-        # 关键修复：转义正则表达式中的反斜杠（每个 \ 转义为 \\）
-        sed 's/\\/\\\\/g' extracted_regex_raw.txt > extracted_regex.txt
-        FILES+=("extracted_domains.txt")
+      - name: Download and process rules
+        run: |
+          # 下载规则文件
+          curl -o adblockdns.txt https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockdns.txt
+          curl -o awavenue_ads_rule_singbox.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
 
-        # 合并所有规则文件
-        cat "${FILES[@]}" > combined_rules.txt
+          # 清理JSON注释并提取域名和正则
+          sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
+          jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
+          jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex.txt
 
-        # 处理黑名单
-        grep '^\|\|' combined_rules.txt | sed '/^!/d; s/^||//; s/\^$//' | sort -u | sed '/^$/d' > new_blacklist.txt
+          # 合并规则文件
+          cat adblockdns.txt extracted_domains.txt > combined_rules.txt
 
-        # 处理白名单
-        grep '^@@||' combined_rules.txt | sed '/^!/d; s/^@@||//; s/\^$//' | sort -u | sed '/^$/d' > temp_whitelist.txt
-        cat temp_whitelist.txt noblock.txt | sort -u | sed '/^$/d' > whitelist.txt
+          # 处理黑名单和白名单
+          grep '^\|\|' combined_rules.txt | sed 's/^||//; s/\^$//' | sort -u > new_blacklist.txt
+          grep '^@@||' combined_rules.txt | sed 's/^@@||//; s/\^$//' | sort -u > temp_whitelist.txt
+          cat temp_whitelist.txt noblock.txt | sort -u > whitelist.txt
+          grep -vxFf whitelist.txt new_blacklist.txt > blacklist.txt
 
-        # 合并黑名单并去重
-        cat new_blacklist.txt block.txt | sort -u | sed '/^$/d' > temp_blacklist.txt
-        mv temp_blacklist.txt blacklist.txt
+      - name: Create adg-dns.json
+        run: |
+          # 使用jq直接构建JSON（彻底避免手动拼接）
+          echo '{}' | jq \
+            --arg version "2" \
+            --slurpfile regex extracted_regex.txt \
+            --slurpfile domains blacklist.txt \
+            '{
+              version: ($version | tonumber),
+              rules: [
+                {
+                  domain_regex: $regex[],
+                  domain_suffix: $domains[]
+                }
+              ]
+            }' > adg-dns.json
 
-        # 从黑名单中移除白名单域名
-        grep -vxFf whitelist.txt blacklist.txt > temp_blacklist.txt
-        mv temp_blacklist.txt blacklist.txt
-        sed -i '/^@@/d' blacklist.txt
+          # 格式化验证
+          jq . adg-dns.json > formatted_adg-dns.json
+          mv formatted_adg-dns.json adg-dns.json
 
-        # 排序所有文件
-        LC_ALL=C sort -u -o blacklist.txt blacklist.txt
-        LC_ALL=C sort -u -o block.txt block.txt 
-        LC_ALL=C sort -u -o noblock.txt noblock.txt
-        LC_ALL=C sort -u -o whitelist.txt whitelist.txt
-        touch blacklist.txt block.txt noblock.txt whitelist.txt
+      - name: Debug adg-dns.json
+        run: cat adg-dns.json
 
-    - name: Create adg-dns.json
-      run: |
-        # 初始化JSON结构
-        echo '{
-          "version": 2,
-          "rules": [
-            {
-              "domain_regex": [' > adg-dns.json
-
-        # 写入转义后的正则表达式
-        if [ -s extracted_regex.txt ]; then
-          sed 's/.*/"&",/' extracted_regex.txt | sed '/^""$/d' >> adg-dns.json
-          sed -i '$ s/,$//' adg-dns.json  # 移除末尾逗号
-        fi
-
-        # 继续生成domain_suffix部分
-        echo '              ],
-              "domain_suffix": [' >> adg-dns.json
-        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
-        sed -i '$ s/,$//' adg-dns.json
-        
-        # 闭合JSON结构
-        echo '              ]
-            }
-          ]
-        }' >> adg-dns.json
-
-        # 验证JSON格式（禁用自动转义）
-        jq -r . adg-dns.json > formatted_adg-dns.json
-        mv formatted_adg-dns.json adg-dns.json
-
-    - name: Debug adg-dns.json
-      run: cat adg-dns.json
-
-    - name: Setup sing-box (release)
-      run: |
-        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        echo "Latest sing-box version: $LATEST_VERSION"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
-        sing-box version
-
-    - name: Convert adg-dns.json to adg-dns.srs
-      run: |
-        sing-box rule-set compile --output adg-dns.srs adg-dns.json
-
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add blacklist.txt whitelist.txt block.txt noblock.txt adg-dns.json adg-dns.srs
-        git commit -m "Update DNS rules with exact domain_regex match" || echo "No changes to commit"
-        git push
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add adg-dns.json
+          git commit -m "Update DNS rules" || echo "No changes to commit"
+          git push
