@@ -41,7 +41,10 @@ jobs:
 
         # 提取域名和正则表达式
         jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
-        jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex.txt
+        jq -r '.rules[].domain_regex[]' awavenue_ads_rule_clean.json > extracted_regex_raw.txt
+        
+        # 关键修复：转义正则表达式中的反斜杠（每个 \ 转义为 \\）
+        sed 's/\\/\\\\/g' extracted_regex_raw.txt > extracted_regex.txt
         FILES+=("extracted_domains.txt")
 
         # 合并所有规则文件
@@ -76,29 +79,29 @@ jobs:
         echo '{
           "version": 2,
           "rules": [
-            {' > adg-dns.json
+            {
+              "domain_regex": [' > adg-dns.json
 
-        # 添加domain_regex字段（如果存在正则表达式）
+        # 写入转义后的正则表达式
         if [ -s extracted_regex.txt ]; then
-          echo '      "domain_regex": [' >> adg-dns.json
           sed 's/.*/"&",/' extracted_regex.txt | sed '/^""$/d' >> adg-dns.json
           sed -i '$ s/,$//' adg-dns.json  # 移除末尾逗号
-          echo '      ],' >> adg-dns.json
         fi
 
-        # 添加domain_suffix字段
-        echo '      "domain_suffix": [' >> adg-dns.json
+        # 继续生成domain_suffix部分
+        echo '              ],
+              "domain_suffix": [' >> adg-dns.json
         sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
         sed -i '$ s/,$//' adg-dns.json
-        echo '      ]' >> adg-dns.json
-
+        
         # 闭合JSON结构
-        echo '    }' >> adg-dns.json
-        echo '  ]' >> adg-dns.json
-        echo '}' >> adg-dns.json
+        echo '              ]
+            }
+          ]
+        }' >> adg-dns.json
 
-        # 格式化并验证JSON
-        jq . adg-dns.json > formatted_adg-dns.json
+        # 验证JSON格式（禁用自动转义）
+        jq -r . adg-dns.json > formatted_adg-dns.json
         mv formatted_adg-dns.json adg-dns.json
 
     - name: Debug adg-dns.json
@@ -122,5 +125,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add blacklist.txt whitelist.txt block.txt noblock.txt adg-dns.json adg-dns.srs
-        git commit -m "Update DNS rules with domain_regex support" || echo "No changes to commit"
+        git commit -m "Update DNS rules with exact domain_regex match" || echo "No changes to commit"
         git push
