@@ -18,6 +18,7 @@ adv.bloop.info
 advert.kf5.com
 afi-b.com
 alllaw.112.2o7.net
+amdc.alipay.com
 analytics.amplitude.com
 anwb.webpower.eu
 api.ads.tvb.com

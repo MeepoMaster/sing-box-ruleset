@@ -1,6 +1,6 @@
 a0.app.xiaomi.com
+amdc.alipay.com
 cn.app.chat.xiaomi.net
 h-adashx.ut.taobao.com
 resolver.msg.xiaomi.net
 wtradv.market.xiaomi.com
-amdc.alipay.com
