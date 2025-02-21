@@ -42,7 +42,7 @@ jobs:
         # 确保 JSON 文件格式正确
         jq . awavenue_ads_rule_clean.json
 
-        # 从清理后的 JSON 文件中提取域名并添加到黑名单中
+        # 从清理后的 JSON 文件中提取域名
         jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains.txt
         FILES+=("extracted_domains.txt")
 
@@ -82,22 +82,25 @@ jobs:
 
     - name: Create adg-dns.json
       run: |
-        echo '{
-          "version": 2,
-          "rules": [
-            {
-              "domain_suffix": [' > adg-dns.json
-        sed 's/.*/"&",/' blacklist.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
-        sed -i '$ s/,$//' adg-dns.json
-        echo '      ],
-              "domain_regex": [' >> adg-dns.json
-        sed 's/.*/"&",/' extracted_regex.txt | sed '/^""$/d; /^"@@/d' >> adg-dns.json
-        sed -i '$ s/,$//' adg-dns.json
-        echo '      ]
-            }
-          ]
-        }' >> adg-dns.json
+        # 将 blacklist.txt 转换为 JSON 数组（去除最后一个空行）
+        domain_suffix=$(jq -R -s -c 'split("\n")[:-1]' blacklist.txt)
+        # 将 extracted_regex.txt 转换为 JSON 数组（去除最后一个空行）
+        domain_regex=$(jq -R -s -c 'split("\n")[:-1]' extracted_regex.txt)
+        
+        # 使用 HEREDOC 输出完整的 JSON，变量会自动展开
+        cat <<EOF > adg-dns.json
+{
+  "version": 2,
+  "rules": [
+    {
+      "domain_suffix": $domain_suffix,
+      "domain_regex": $domain_regex
+    }
+  ]
+}
+EOF
 
+        # 格式化 JSON 文件
         jq . adg-dns.json > formatted_adg-dns.json
         mv formatted_adg-dns.json adg-dns.json
 
