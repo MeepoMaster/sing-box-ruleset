@@ -45,6 +45,7 @@ cj.dotomi.com
 cl.link-ag.net
 classliving.lpages.co
 click.appcast.io
+click.avs.io
 click.cptrack.de
 click.simba.taobao.com
 click.trafficguard.ai
