@@ -1036,7 +1036,6 @@ api.content.intl.miui.com
 api.cupid.qiyi.com
 api.cxzudwk.com
 api.danmu.tv.sohu.com
-api.developer.xiaomi.com
 api.dewmobile.net
 api.e-toys.cn
 api.e.kuaishou.com
@@ -1690,7 +1689,6 @@ cname-asia-stsdk09.vivoglobal.com
 cname-in-bom01-nginxpool03.vivoglobal.com
 cname-sin01-stsdk09.vivoglobal.com
 cnbd1.appmobile.cn
-cnbj1.fds.api.xiaomi.com
 cnlogs.umeng.com
 cnlogs.umengcloud.com
 cns.wxdal.cn
@@ -2914,7 +2912,6 @@ i.mmcdn.cn
 i.stat.nearme.com.cn
 i.tddmp.com
 i.tianqi.com
-i.xiaomi.com
 i0.letvimg.com
 i3.letvimg.com
 i7ko6bz.cn
@@ -4796,7 +4793,6 @@ s1.hanlinzhijia.com
 s1.qq.com
 s11.cn
 s2-nocache.kskwai.com
-s2.kskwai.com
 s2.qq.com
 s2.zdmimg.com
 s3.kskwai.com
