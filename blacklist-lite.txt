@@ -556,6 +556,7 @@ ads.mi.com
 ads.mobring.co
 ads.mojicdn.com
 ads.music.126.net
+ads.nuonuo.com
 ads.oppomobile.com
 ads.oway.mobi
 ads.people.com.cn
@@ -1428,7 +1429,6 @@ blue-rain.com.cn
 bm.alimama.cn
 bm.h576.com
 bmjs.xzw.com
-bmlink.com
 bmret.cn
 bmvip.alimama.cn
 bny9.cn
@@ -1680,6 +1680,7 @@ cms.ucweb.com
 cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
+cn-api.anythinktech.com
 cn-api.mcsvc.samsung.com.cn
 cn6x.com
 cname-ali-asia-stsdk.vivoglobal.com
@@ -1921,6 +1922,7 @@ datamaster.com.cn
 datas.tianqistatic.com
 datasink.ziniao.com
 datayi.cn
+datk.anythinktech.com
 dazhantai.com
 dc.api.my7v.com
 dc.letv.com
@@ -5809,6 +5811,7 @@ v-56.com
 v.adintl.cn
 v.adx.hubcloud.com.cn
 v.api.amgmedia.cn
+v.aplus.aliyun.com.gds.alibabadns.com
 v.miguvideo.com
 v1-ad.video.yximgs.com
 v1-feed.idreamsky.com
