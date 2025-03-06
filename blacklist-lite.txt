@@ -598,6 +598,7 @@ ads.vipbaihe.com
 ads.weilitoutiao.net
 ads.yahoo.com
 ads.youtube.com
+ads.zhinengxiyifang.cn
 ads3-normal-hl.zijieapi.com
 ads3-normal-lf.zijieapi.com
 ads3-normal-lq.zijieapi.com
@@ -1142,6 +1143,7 @@ api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
+api.yfanads.com
 api.yidaomobi.com
 api.youngle.tech
 api.youtu.qq.com
