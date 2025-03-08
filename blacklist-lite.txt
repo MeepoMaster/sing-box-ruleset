@@ -1790,6 +1790,7 @@ cms.laifeng.com
 cms.sec.miui.com
 cms.tanx.com
 cms.ucweb.com
+cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
 cmtw.pinduoduo.com
@@ -2170,6 +2171,7 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
+dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -5019,7 +5021,6 @@ qzs.gdtimg.com
 r.51wnl-cq.com
 r.api.xoxknct.com
 r.browser.intl.miui.com
-r.dmp.sina.cn
 r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
