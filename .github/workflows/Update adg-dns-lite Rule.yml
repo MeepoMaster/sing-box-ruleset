@@ -39,11 +39,14 @@ jobs:
         # 清理 JSON 文件中的注释
         sed '/^\/\/.*$/d' awavenue_ads_rule_singbox.json > awavenue_ads_rule_clean.json
 
-        # 确保 JSON 文件格式正确
-        jq . awavenue_ads_rule_clean.json
+        # 验证清理后的 JSON 文件格式
+        if ! jq empty awavenue_ads_rule_clean.json; then
+          echo "Error: Invalid JSON format in awavenue_ads_rule_clean.json"
+          exit 1
+        fi
 
         # 从清理后的 JSON 文件中提取域名，添加到黑名单中
-        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains_lite.txt
+        jq -r '.rules[].domain[]' awavenue_ads_rule_clean.json > extracted_domains_lite.txt || true
         FILES_LITE+=("extracted_domains_lite.txt")
         # 合并所有 lite 规则文件
         cat "${FILES_LITE[@]}" > combined_rules_lite.txt
@@ -69,23 +72,57 @@ jobs:
 
     - name: Create adg-dns-lite.json
       run: |
-        echo '{
-          "version": 2,
-          "rules": [
-            {
-              "domain_suffix": [' > adg-dns-lite.json
-        sed 's/.*/"&",/' blacklist-lite.txt | sed '/^""$/d; /^"@@/d' >> adg-dns-lite.json
-        sed -i '$ s/,$//' adg-dns-lite.json
-        echo '      ]
-            }
-          ]
-        }' >> adg-dns-lite.json
-
-        jq . adg-dns-lite.json > formatted_adg-dns-lite.json
-        mv formatted_adg-dns-lite.json adg-dns-lite.json
+        # 从源文件中提取 domain_regex 数组并验证其有效性
+        if ! domain_regex_raw=$(jq -r '.rules[0].domain_regex' awavenue_ads_rule_clean.json); then
+          echo "Error: Failed to extract domain_regex"
+          exit 1
+        fi
+        
+        # 验证提取的 domain_regex 是否为有效的 JSON 数组
+        if ! echo "$domain_regex_raw" | jq empty; then
+          echo "Error: Invalid domain_regex JSON format"
+          exit 1
+        fi
+        
+        # 创建临时文件以构建完整的 JSON
+        {
+          echo '{
+            "version": 2,
+            "rules": [
+              {
+                "domain_suffix": ['
+          
+          # 添加 domain_suffix 内容
+          sed 's/.*/"&",/' blacklist-lite.txt | sed '/^""$/d; /^"@@/d' | sed '$ s/,$//'
+          
+          # 添加 domain_regex 部分
+          echo '                ],'
+          echo '                "domain_regex":'
+          echo "$domain_regex_raw"
+          echo '              }'
+          echo '            ]'
+          echo '          }'
+        } > temp_adg-dns-lite.json
+        
+        # 验证生成的 JSON 文件格式
+        if ! jq empty temp_adg-dns-lite.json; then
+          echo "Error: Invalid final JSON format"
+          exit 1
+        fi
+        
+        # 格式化最终的 JSON 文件
+        jq . temp_adg-dns-lite.json > adg-dns-lite.json
+        rm temp_adg-dns-lite.json
 
     - name: Debug adg-dns-lite.json
-      run: cat adg-dns-lite.json
+      run: |
+        echo "Validating final JSON format..."
+        if ! jq empty adg-dns-lite.json; then
+          echo "Error: Invalid JSON in final file"
+          exit 1
+        fi
+        echo "Final file content:"
+        cat adg-dns-lite.json
 
     - name: Setup sing-box (release)
       run: |
