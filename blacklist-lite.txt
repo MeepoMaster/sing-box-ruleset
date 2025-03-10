@@ -1098,7 +1098,6 @@ api.installer.xiaomi.com
 api.iplay.163.com
 api.jialiangad.com
 api.jietuhb.com
-api.jr.mi.com
 api.k.sohu.com
 api.kingdata.ksyun.com
 api.ksapisrv.com
@@ -1134,7 +1133,6 @@ api.tatagou.com.cn
 api.touch-moblie.com
 api.touchxd.com
 api.ts.feedback.qy.net
-api.tusdk.com
 api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
@@ -1440,7 +1438,6 @@ bdjs.daziba.cn
 bdjs.guangyuanol.cn
 bdjs.uimg.cn
 bdm.ye-su.cn
-bdmap1.ifeng.com
 bdmjs.xywy.com
 bdpretc.cn
 bds.snssdk.com
@@ -2917,7 +2914,6 @@ hao.360.cn
 hao.rising.cn
 hao123.xywy.com
 hao222.com
-haoma.baidu.com
 haostat.qihoo.com
 haoweb.top
 haowei.me
@@ -3221,7 +3217,6 @@ ilkibxendu.kpuatk.cn
 ilkwork.com
 im-x.jd.com
 im.tieba.baidu.com
-im.tradew.com
 imag8.pubmatic.com
 imag86.pubmatic.com
 image-ad.sm.cn
@@ -4630,7 +4625,6 @@ p3-ad-sign.byteimg.com.queniusy.com
 p3-be-pack-sign.pglstatp-toutiao.com
 p3-lm.adkwai.com
 p3-tt.byteimg.com
-p3.qhimgs0.com
 p3.ssl.qhimgs0.com
 p3p.sogou.com
 p4-be-pack-sign.pglstatp-toutiao.com
@@ -5375,7 +5369,6 @@ sentry.tapsvc.com
 sentry.umu.cn
 sentry.xiaoyuzhoufm.com
 sepro.baidu.com
-serconsole.vicp.cc
 server.m.pp.cn
 serveraddr.service.kugou.com
 service.ad.adesk.com
@@ -6164,6 +6157,7 @@ tuijian.baidu.com
 tumeite.cn
 tunion-api.m.taobao.com
 turbo2sdk-push.oupeng.com
+tusdk.com
 tutuapp.com
 tuvtpxp.cn
 tuxi.com.cn
