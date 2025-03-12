@@ -55,6 +55,7 @@
 12551-1311572332.cos.ap-shanghai.myqcloud.com
 126.cn
 1500020991.vodplayer.wxamedia.com
+1500026601.vodplayer.wxamedia.com
 1527ego.com
 163ns.com
 1640831964042.se-life.cn
