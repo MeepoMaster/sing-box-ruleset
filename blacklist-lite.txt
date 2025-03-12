@@ -1177,7 +1177,6 @@ apm.zhihu.com
 apmplus.ap-southeast-1.volces.com
 apmplus.volces.com
 apollo.caixin.com
-app-ad.variflight.com
 app-analytics-de.zepp.com
 app-analytics-in.huami.com
 app-analytics-ru.huami.com
@@ -1793,7 +1792,6 @@ cms.laifeng.com
 cms.sec.miui.com
 cms.tanx.com
 cms.ucweb.com
-cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
 cmtw.pinduoduo.com
@@ -2177,7 +2175,6 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
-dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -4726,7 +4723,6 @@ pdhhmf.cn
 pdiabbi.cn
 pdns.nudt.edu.cn
 pdweoyw.cn
-peiyou.com
 penxiangge.com
 pepnsnq.cn
 pepsico.com.cn
@@ -4767,7 +4763,6 @@ pics99.porn300.com
 picture.duokan.com
 pid.fly160.com
 pig.pupuapi.com
-pikacn.com
 pimlog.baidu.com
 pincai.com
 ping.pinyin.sogou.com
@@ -5010,6 +5005,7 @@ qzs.gdtimg.com
 r.51wnl-cq.com
 r.api.xoxknct.com
 r.browser.intl.miui.com
+r.dmp.sina.cn
 r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
@@ -6690,6 +6686,8 @@ www.mashangyoushu.cn
 www.meipian7.cn
 www.microvirt.com
 www.nvshenfan.com
+www.peiyou.com
+www.pikacn.com
 www.q4ee.top
 www.sailesi.cn
 www.shengxinwang.net
