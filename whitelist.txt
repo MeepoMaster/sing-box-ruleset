@@ -115,7 +115,6 @@ mhc-ajax-eu.myhomescreen.tv
 mhc-xpana-eu-s2.myhomescreen.tv
 mhc-xpana-eu.myhomescreen.tv
 my.tealiumiq.com
-myqqjd.com
 netatmo.commander1.com
 nineto5mac-d.openx.net
 oa.tr.line.me
