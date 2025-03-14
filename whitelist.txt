@@ -21,6 +21,7 @@ alllaw.112.2o7.net
 amdc.alipay.com
 analytics.amplitude.com
 anwb.webpower.eu
+ap01.records.in.treasuredata.com
 api.ads.tvb.com
 api.docodoco.jp
 api.karte.io
