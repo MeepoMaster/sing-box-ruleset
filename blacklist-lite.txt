@@ -375,7 +375,6 @@ acs4baichuan.m.taobao.com
 act.qq.com
 act.vip.iqiyi.com
 action-0fficial-pl.blogspot.com
-activation.easeus.com
 active.baofeng.com
 active.sangfor.com
 activities.alibaba.com
@@ -1866,7 +1865,6 @@ codenow.cn
 coemergency.com.cn
 collect.alipay.com
 collect.babybus.com
-collect.futufin.com
 collect.iteam-dress.com
 collect.kugou.com
 collect.vans.com.cn
@@ -2202,6 +2200,7 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
+dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -2411,7 +2410,6 @@ em.baidu.com
 email-ap.joneslanglasalle.com.cn
 email-cm.joneslanglasalle.com.cn
 email-em.joneslanglasalle.com.cn
-email.mail.conversations.godaddy.com
 emarbox.com
 emarketing.sina.com.cn
 emdcadvertise.eastmoney.com
@@ -2867,7 +2865,6 @@ guzsjdl.cn
 gvideo.qpic.cn
 gvt2-cn.com
 gvwck.cn
-gw-dana.ebuckler.com
 gw-iad-bid.ymmobi.com
 gw.365you.com
 gw.innotechx.com
@@ -3225,7 +3222,6 @@ image.gentags.com
 image.yafytg.cn
 imagelx.yidianzixun.com
 imageplus.baidu.com
-images.acspubs.org
 images.autonomyinfo.hp.com
 images.bluetime.com
 images.business.lenovo.com
@@ -3293,7 +3289,6 @@ impservice.dictapp.youdao.com
 impservice.dictword.youdao.com
 impservice.youdao.com
 imtmp.net
-imupdate.3g.cn
 in-adlog.vivoglobal.com
 in-adreq.vivoglobal.com
 in-adsjssdk.vivoglobal.com
@@ -3741,7 +3736,6 @@ lives.l.cp81.ott.cibntv.net
 lives.l.ott.video.qq.com
 lives1.ksapisrv.com
 lives2.ksapisrv.com
-livetech.shopee.co.id.txlivecdn.com
 livewebbs2pcdn.msstatic.com
 ljlgf.akgoj.cn
 ljvc0.icu
@@ -4357,7 +4351,6 @@ networkbench.com
 new.915yzt.cn
 news-l.play.ott.video.qq.com
 news-log.lsttnews.com
-news.mpush.qq.com
 news.push.126.net
 news.qcyz.cn
 news.reedexpo.com.cn
@@ -4919,7 +4912,6 @@ qziuwzn.cn
 qzs.gdtimg.com
 r.51wnl-cq.com
 r.browser.intl.miui.com
-r.dmp.sina.cn
 r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
@@ -5751,7 +5743,6 @@ tce.alicdn.com
 tchkcc.cn
 tci.oss-ap-southeast-1.aliyuncs.com
 tcl-icloudcdn.tclclouds.com
-tclicon5.ifmis.huan.tv
 tdc.qq.com
 tddz.ksapisrv.com
 tddznew.ksapisrv.com
@@ -6186,7 +6177,6 @@ urlqh.cn
 urmju.cn
 urqwzbu.cn
 us-behavior.apitd.net
-us-fp.apitd.net
 us.api.micloud.xiaomi.net
 us.l.qq.com
 us.statusapi.micloud.xiaomi.net
@@ -6194,7 +6184,6 @@ us01-analysis.ymcart.com
 usa.ime.cootek.com
 usejj.makepolo.cn
 user-analysis.7moor.com
-usercollection.chinadaily.com.cn
 userimg.qunar.com
 usp1.baidu.com
 usr-api.aiclk.com
@@ -6491,7 +6480,6 @@ www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
 www.018520.com
 www.067555.com
-www.12377.cn
 www.150170.com
 www.20171117.com
 www.2345at.com
