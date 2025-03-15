@@ -2012,7 +2012,6 @@ dns.m.sm.cn
 dns.weibo.cn
 dns.weixin.qq.com
 dns.ximalaya.com
-dnslog.cn
 dnyzbp.cn
 do-global.com
 doglobal.net
@@ -2712,7 +2711,6 @@ hfisngksng.com
 hfwld.cn
 hgjxp.cn
 hh.jiankang.com
-hhbs.hhu.edu.cn
 hhttm.top
 hiido.com
 hijack.baidu.com
