@@ -1468,6 +1468,7 @@ bieuc.icu
 bigdata-lbs-pri-c3.alb.xiaomi.com
 bigwww.com
 bihaipack.com
+bilinovel.com
 bill.agent.56.com
 bingads.microsoft.com
 bingdianhuanyuan.cn
