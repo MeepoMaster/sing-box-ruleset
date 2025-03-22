@@ -34,7 +34,6 @@
 1sapp.com
 1wkg.cn
 1x3x.com
-2.haory.cn
 2.haoxue360.com
 20091222.com
 2012.8684.com
@@ -3463,7 +3462,6 @@ js.passport.qihucdn.com
 js.shangxueba.com
 js.shunqi.com
 js.spreton.com
-js.telega.cn
 js.xuexila.com
 js.yanyue.cn
 js.yanyue.net
