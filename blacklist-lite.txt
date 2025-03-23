@@ -1885,7 +1885,6 @@ connperf.immomo.com
 controller.india.xiaomi.com
 conv.youdao.com
 coocaatv.com
-coocentpromotion.oss-us-west-1.aliyuncs.com
 cookies.joneslanglasalle.com.cn
 coolkaba.com
 cootek-dialer-download.oss-cn-hangzhou.aliyuncs.com
@@ -2187,7 +2186,6 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
-dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -2546,7 +2544,6 @@ fengyixin.com
 fengyukun03.cn
 fenxi.com
 fexclick.baidu.com
-ffnews.cn
 ffnvhig.cn
 fgcxdr.cn
 fghghh.cn
@@ -4492,7 +4489,6 @@ otmebdr.cn
 ott-v0-al.data.mgtv.com
 ott.v1.data.mgtv.com
 ottl7-l2.pandora.xiaomi.com
-ouj.vtqccm.com
 oumax.oupeng.com
 ounion.openadx.com
 ouplc.icu
@@ -4870,6 +4866,7 @@ qziuwzn.cn
 qzs.gdtimg.com
 r.51wnl-cq.com
 r.browser.intl.miui.com
+r.dmp.sina.cn
 r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
@@ -5330,7 +5327,6 @@ smetrics.solidigmtechnology.cn
 smetrics.tuvsud.cn
 smetrics.visitsingapore.com.cn
 smkt.edm.globalsources.com
-smr.snssdk.com
 sms.ads.oppomobile.com
 sms.info.smart.com
 smuc.cnnfootballclub.com
@@ -6032,7 +6028,6 @@ ujian.cc
 ujovcb.cn
 ukosgolfcart.com
 ulog-sdk.gifshow.com
-ulog-sdk.ksapisrv.com
 ulog.imap.baidu.com
 ulog3.ksapisrv.com
 ulogjs.gifshow.com
@@ -6260,7 +6255,6 @@ w1.kskwai.com
 w1.luckyorange.com
 w11.zhongkaohelp.com
 w18.9939.com
-w2.kskwai.com
 w59g.icu
 w8.com.cn
 wa.gtimg.com
@@ -6417,7 +6411,6 @@ www.00772229.com
 www.018520.com
 www.057555.com
 www.067555.com
-www.12377.cn
 www.150170.com
 www.20171117.com
 www.2345at.com
