@@ -1179,7 +1179,6 @@ api.tatagou.com.cn
 api.touch-moblie.com
 api.touchxd.com
 api.ts.feedback.qy.net
-api.tusdk.com
 api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
@@ -1862,7 +1861,6 @@ cms.laifeng.com
 cms.sec.miui.com
 cms.tanx.com
 cms.ucweb.com
-cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
 cn-api.anythinktech.com
@@ -2133,7 +2131,6 @@ datayi.cn
 datk.anythinktech.com
 datouniao.com
 dazhantai.com
-dc.api.my7v.com
 dc.letv.com
 dc.sigmob.cn
 dcads.sina.com.cn
@@ -3788,8 +3785,6 @@ liufenghua.com
 liujiahao6.cn
 live-api.immomo.com
 live-ifs.tanx.com
-live-redpackrain.ksapisrv.com
-live.ksapisrv.com
 live.xunlei.com
 liveats-vod.video.ptqy.gitv.tv
 livemonitor.huan.tv
@@ -4071,7 +4066,6 @@ matomo.anker-in.com
 matomo.cloud-hub.co
 matomo.dd-img.com
 matomo.decimalpoint.com.cn
-matomo.diningcity.asia
 matomo.huazhi.cloud
 matwbp.iask.sina.com.cn
 max-files.oupeng.com
@@ -4384,11 +4378,6 @@ n.3g.163.com
 n.baminw.com.cn
 n.cosbot.cn
 n.mark.letv.com
-n1.zuoyebang.cc
-n2.zuoyebang.cc
-n3.zuoyebang.cc
-n4.zuoyebang.cc
-n5.zuoyebang.cc
 n69.com
 na06.cn
 na61-na62-eu95.wagbridge.advertisement.tanx.com
@@ -4694,6 +4683,7 @@ pb.hd.sohu.com.cn
 pb.sogou.com
 pb3.pstatp.com
 pbaiyho.cn
+pbmp.ali213.net
 pc-mon.snssdk.com
 pc-mon.zijieapi.com
 pcapp-data-collect.youku.com
@@ -5332,7 +5322,6 @@ sf3-ttcdn-tos.pstatp.com
 sfaf-api1.ksapisrv.com
 sfaf1.ksapisrv.com
 sfaf2.ksapisrv.com
-sfali-api.ksapisrv.com
 sfbd-api.ksapisrv.com
 sflt-api1.ksapisrv.com
 sflt-api2.ksapisrv.com
@@ -6214,7 +6203,6 @@ update0.aiclk.com
 updatecenter.qq.com
 updatepage.kuwo.cn
 upgrade-update.hismarttv.com
-upgrade.api.my7v.com
 upgrade.m.tv.sohu.com
 upgrade.pandora.xiaomi.com
 upgrade.xl9.xunlei.com
