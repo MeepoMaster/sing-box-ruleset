@@ -97,7 +97,6 @@
 41grk.icu
 4399stat.5054399.com
 44629.com
-4a9.cn
 4cx5.icu
 4d0m.cn
 4fs3r.icu
@@ -372,7 +371,6 @@ ad.51wnl-cq.com
 ad.51wnl.com
 ad.a.yximgs.com
 ad.advst.cp33.ott.cibntv.net
-ad.aginomoto.com
 ad.altamob.xiaoying.co
 ad.api.3g.youku.com
 ad.api.mobile.youku.com
@@ -809,7 +807,6 @@ ai.bioon.com
 ai.m.taobao.com
 ai.taobao.com
 aihaoduo.cn
-aihuishou.com
 aikanvod.miguvideo.com
 aili.com
 ainu.intel.cn
@@ -1130,6 +1127,7 @@ api.tatagou.com.cn
 api.touch-moblie.com
 api.touchxd.com
 api.ts.feedback.qy.net
+api.tusdk.com
 api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
@@ -1482,6 +1480,7 @@ blog.770880520.xyz
 bm.alimama.cn
 bm.h576.com
 bmjs.xzw.com
+bmlink.com
 bmret.cn
 bmvip.alimama.cn
 bny9.cn
@@ -1739,7 +1738,6 @@ chiq-cloud.com
 chntdnc.cn
 cholo215.cn
 chshcms.net
-chunghwa.daxinlicai.com.cdn2.mlycdn.com
 chunmiaosh.com
 chunyuqiufeng.com
 chupl.icu
@@ -1748,7 +1746,6 @@ cj.qidian.com
 cjpczyi.cn
 ck.ads.oppomobile.com
 ckm.iqiyi.com
-cl2m.cn
 clarins.com.cn
 clarity.zepp.com
 claritybt.freshmarketer.com
@@ -1812,6 +1809,7 @@ cms.laifeng.com
 cms.sec.miui.com
 cms.tanx.com
 cms.ucweb.com
+cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
 cn-api.anythinktech.com
@@ -2232,7 +2230,6 @@ down.fwqlt.com
 down.nishuoa.com
 down.qqfarmer.com.cn
 down.rising.net.cn
-down.znshuru.com
 download.350.com
 download.56.com
 download.bav.baidu.com
@@ -2662,7 +2659,6 @@ g1.163.com
 g2.ganjing.world
 g3.iqilu.com
 g3.letv.com
-g3.ykimg.com
 g41i.icu
 ga1.3dmgame.com
 gafxa.code.mytanwan.com
@@ -2704,7 +2700,6 @@ gentian-frd.hjapi.com
 geo.yahoo.com
 geocounter.net
 geofence.sys.miui.com
-geoip.leigod.com
 gepush.com
 getui.cn
 getui.com
@@ -3386,7 +3381,6 @@ iovia-pmj.com
 ip-info.ff.avast.sec.miui.com
 ip.120ask.com
 ip.ptqy.gitv.tv
-ip.qiyutech.tech
 ip.tianqiapi.com
 ip193.cn
 ipad.pc899.cn
@@ -3545,7 +3539,6 @@ jsczde.cn
 jsebmcv.cn
 jsing.net
 jsmxkj.com
-jsnsgjy.cn
 jspassport.ssl.qhimg.com
 jswebcollects.kugou.com
 jszctech.com
@@ -3696,7 +3689,6 @@ l7u3kf.cn
 laawmmy.cn
 lady177.com
 ladymetro.com
-laiyouxi.com
 laomaotao.net
 launcher-us.yeshen.com
 launcher.smart-tv.cn
@@ -4306,7 +4298,6 @@ msite.baidu.com
 msoftdl.360.cn
 mssdk-bu.snssdk.com
 mssdk.bytedance.com
-mssdk.snssdk.com
 mssdk.volces.com
 mssdk.zijieapi.com
 mssdk3-normal-hj.zijieapi.com
@@ -4359,7 +4350,6 @@ n.mark.letv.com
 n69.com
 na06.cn
 na61-na62-eu95.wagbridge.advertisement.tanx.com
-na61-rmbsync-upaas.quark.cn
 nadvideo.baidu.com
 nadvideo2.baidu.com
 nalook.com
@@ -4664,7 +4654,6 @@ pb.hd.sohu.com.cn
 pb.sogou.com
 pb3.pstatp.com
 pbaiyho.cn
-pbmp.ali213.net
 pc-mon.snssdk.com
 pc-mon.zijieapi.com
 pcapp-data-collect.youku.com
@@ -4748,7 +4737,6 @@ playstats.v.duowan.com
 plbslog.umeng.com
 plmn5.com
 plt.data.pplive.com
-plugin-check.egret.com
 pmensrl.cn
 pmir.3g.qq.com
 pmir.sec.miui.com
@@ -4965,7 +4953,6 @@ r01.g1c5.com
 r39-g003-h8ig0w-u8f0we8-fgw0rgf-0we880e-rhgth.obs.ap-southeast-2.myhuaweicloud.com
 r528e.cn
 r75tia.cn
-r9n9ej2gmhde.sisiyy.com
 ra.gtimg.com
 rabc1.iteye.com
 raffle-entry.info.smart.com
@@ -5329,7 +5316,6 @@ sharele.cn
 shenbabao.com
 shence.cread.com
 shengminsy.com
-shihuo-new.log.shihuocdn.cn
 shilian168.cn
 shoes.app-xae.xiaomi.com
 shop.pandora.xiaomi.com
@@ -5558,7 +5544,6 @@ stat.zol.com.cn
 stat.zuimeitianqi.com
 stat2.openinstall.io
 statapp.iqilu.com
-static-alias-1.360buyimg.com
 static-ssp.yidianzixun.com
 static.ads-twitter.com
 static.alimama.com
@@ -6027,7 +6012,6 @@ tuijian.baidu.com
 tumeite.cn
 tunion-api.m.taobao.com
 turbo2sdk-push.oupeng.com
-tusdk.com
 tutuapp.com
 tuvtpxp.cn
 tuxi.com.cn
@@ -6283,7 +6267,6 @@ video.market.xiaomi.com
 video.wap.mpush.qq.com
 video231.oss-cn-beijing.aliyuncs.com
 videojj.com
-vidfree.net.cy-isp.com
 view.zijieapi.com
 vihppjk.cn
 vingroupinvestment.com
@@ -6578,7 +6561,6 @@ www.q4ee.top
 www.sailesi.cn
 www.shengxinwang.net
 www.shuqw.com
-www.simejiglobal.com
 www.soua.com
 www.thztv.net
 www.ttyyuuoo.com
