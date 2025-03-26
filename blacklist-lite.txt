@@ -1479,7 +1479,6 @@ blog.770880520.xyz
 bm.alimama.cn
 bm.h576.com
 bmjs.xzw.com
-bmlink.com
 bmret.cn
 bmvip.alimama.cn
 bny9.cn
@@ -1762,7 +1761,6 @@ code.wenbanzhu.com
 codenow.cn
 collect.alipay.com
 collect.babybus.com
-collect.futufin.com
 collect.iteam-dress.com
 collect.kugou.com
 collect.vans.com.cn
@@ -2583,7 +2581,6 @@ gecko-hl.snssdk.com
 gecko-lq.snssdk.com
 gecko.snssdk.com
 gemini.yahoo.com
-genericfixer.com
 genrena.com
 gentian-frd.hjapi.com
 geo.yahoo.com
@@ -5080,6 +5077,7 @@ sentry.music.163.com
 sentry.pay.xiaomi.com
 sentry.sec.miui.com
 sepyra.com
+serconsole.vicp.cc
 server.m.pp.cn
 serveraddr.service.kugou.com
 service.ad.adesk.com
@@ -6037,6 +6035,7 @@ v3.jiathis.com
 va.huya.com
 vabzndw.cn
 vaekkfv.cn
+valf.atm.cp31.ott.cibntv.net
 vali-g1.cp31.ott.cibntv.net
 vamaker.com
 vas-hl-x.snssdk.com
@@ -6053,7 +6052,6 @@ vegaschina.cn
 venace.cn
 vfgajrk.cn
 vfvdsati.com
-vicp.cc
 video-ad.sm.cn
 video-dsp.pddpic.com
 video.dispatch.tc.qq.com
@@ -6155,7 +6153,6 @@ wdswgjn.cn
 weather-analytics-events.apple.com
 weather-community-drcn.weather.dbankcloud.cn
 web-analytics.huami.com
-web-sentry.kurogame.com
 web-sentry.kurogame.net
 web-trace.ksapisrv.com
 web.51fishplace.com
@@ -6278,7 +6275,6 @@ www.805m.com
 www.aihuishou.com
 www.aqianniao.com
 www.baihe.com
-www.beiletoys.com
 www.benmoj.com
 www.biqubao.com
 www.bodog.eu
