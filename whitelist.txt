@@ -81,9 +81,6 @@ goto.walmart.com
 grp07.ias.rakuten.co.jp
 gs.statcounter.com
 hb.afl.rakuten.co.jp
-hbbtv.prosieben.de
-hbbtv.redbutton.de
-hbbtv.zdf.de
 health.halodoc.com
 hidive.com
 home.focusatwill.com
@@ -91,7 +88,6 @@ href.li
 ia.hit.interia.pl
 id.i2i.jp
 img.ads.tvb.com
-infolink.pavv.co.kr
 infra-api.newrelic.com
 intersport.peerius.com
 js.monitor.azure.com
@@ -111,10 +107,6 @@ ma135-r.analytics.edgekey.net
 manwa.me
 marketing.net.idealo-partner.com
 media-consumer365.desigual.com
-mhc-ajax-eu-s2.myhomescreen.tv
-mhc-ajax-eu.myhomescreen.tv
-mhc-xpana-eu-s2.myhomescreen.tv
-mhc-xpana-eu.myhomescreen.tv
 my.tealiumiq.com
 netatmo.commander1.com
 nineto5mac-d.openx.net
