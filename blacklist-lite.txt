@@ -375,7 +375,6 @@ acs.agent.56.com
 acs4baichuan.m.taobao.com
 act.qq.com
 act.vip.iqiyi.com
-activation.easeus.com
 active.baofeng.com
 active.sangfor.com
 activities.alibaba.com
@@ -1383,7 +1382,6 @@ bd3.chuiyue.com
 bd888.qizuang.com
 bdad.123pan.cn
 bdapi-ads.realmemobile.com
-bdapi-id-ads.realmemobile.com
 bdapi-in-ads.realmemobile.com
 bdapi.ads.oppomobile.com
 bdasd.chdbook.cn
@@ -5071,7 +5069,6 @@ sentry.music.163.com
 sentry.pay.xiaomi.com
 sentry.sec.miui.com
 sepyra.com
-serconsole.vicp.cc
 server.m.pp.cn
 serveraddr.service.kugou.com
 service.ad.adesk.com
@@ -5604,7 +5601,6 @@ th.suning.com
 th7.cn
 theta.sogoucdn.com
 thetestpage.39.net
-thethirdmedia.com
 thinkdream.com
 thinkingdata.cn
 thinkmd.cn
