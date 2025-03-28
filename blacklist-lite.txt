@@ -1873,7 +1873,6 @@ daffaite.com
 daima.ysdui.com
 dakawm.cc
 daliantong.com.cn
-damingweb.com
 dangongshijie.com
 daoyoudao.com
 daque.cn
@@ -2018,6 +2017,7 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
+dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -4593,7 +4593,6 @@ qxoyon.tqhmu.cn
 qzs.gdtimg.com
 r.51wnl-cq.com
 r.browser.intl.miui.com
-r.dmp.sina.cn
 r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
@@ -5209,7 +5208,6 @@ stats.g.doubleclick.net
 stats.gioneemobile.net
 stats.hanmaker.com
 stats.music.xiaomi.com
-stats.mysteel.com
 stats.pairmb.com
 stats.qiumibao.com
 stats.studyquicks.com
@@ -5765,7 +5763,6 @@ us01-analysis.ymcart.com
 usa.ime.cootek.com
 usejj.makepolo.cn
 user-analysis.7moor.com
-usercollection.chinadaily.com.cn
 userimg.qunar.com
 usp1.baidu.com
 usr-api.aiclk.com
@@ -6026,7 +6023,6 @@ wwads.cn
 wwjtdjj.cn
 www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
-www.12377.cn
 www.31d.net
 www.56.com
 www.588yw.com
