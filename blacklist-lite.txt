@@ -3677,6 +3677,7 @@ m.beehive.in.intl.miui.com
 m.doubleclick.net
 m.ercos.cn
 m.gongzhilian.com.cn
+m.gutousoft.com
 m.gz-bz.cn
 m.hwzgo2.cn
 m.ishangtong.com
@@ -6031,7 +6032,6 @@ www.6kwan.com
 www.800628.com
 www.805m.com
 www.aihuishou.com
-www.aqianniao.com
 www.baihe.com
 www.benmoj.com
 www.biqubao.com
