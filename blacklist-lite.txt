@@ -2,7 +2,6 @@
 0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn
 0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn
 00xvppy.cn
-011.com
 027dir.com
 027lyty.com
 0351dvd.cn
@@ -375,7 +374,6 @@ acs.agent.56.com
 acs4baichuan.m.taobao.com
 act.qq.com
 act.vip.iqiyi.com
-activation.easeus.com
 active.baofeng.com
 active.sangfor.com
 activities.alibaba.com
@@ -2262,7 +2260,6 @@ em.baidu.com
 email-ap.joneslanglasalle.com.cn
 email-cm.joneslanglasalle.com.cn
 email-em.joneslanglasalle.com.cn
-email.best.wondershare.com
 emarbox.com
 emarketing.sina.com.cn
 emdcadvertise.eastmoney.com
@@ -2483,7 +2480,6 @@ fw.qq.com
 fwlrv.cn
 fwmbjrl.cn
 fwtracks.freshmarketer.com
-fx.bossgoo.com
 fxcast.com
 fxgate.baidu.com
 fy60.icu
@@ -4276,6 +4272,7 @@ opensdk.wlanbanlv.com
 oppo.yidianzixun.com
 optimix.asia
 optimus-ads.amap.com
+optimus-ads.amap.com.w.alikunlun.com
 opwyrosjm.vxwezsp.cn
 oqyiapj.cn
 orange-dc.lazada.com
@@ -5171,7 +5168,6 @@ st.appsad.cn
 st.todesk.com
 st3.wagbridge.advertisement.tanx.com
 sta.ganji.com
-stackoom.com
 stadig.ifeng.com
 stadig0.ifeng.com
 staging.api.zhuti.n.xiaomi.com
@@ -5878,7 +5874,6 @@ v3-ad.video.yximgs.com
 v3.gdt.qq.com
 v3.jiathis.com
 va.huya.com
-valf.atm.cp31.ott.cibntv.net
 vali-g1.cp31.ott.cibntv.net
 vamaker.com
 vas-hl-x.snssdk.com
