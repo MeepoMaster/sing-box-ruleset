@@ -793,7 +793,6 @@ ai.bioon.com
 ai.m.taobao.com
 ai.taobao.com
 aihaoduo.cn
-aihuishou.com
 aili.com
 ainu.intel.cn
 aiq-in.ext.hp.com
@@ -1016,7 +1015,6 @@ api-analytics-us3.zepp.com
 api-analytics.zepp.com
 api-cn.cdo.heytapmobi.com
 api-flow.flyme.cn
-api-fp-retry-sa.fengkongcloud.com
 api-game.meizu.com
 api-gd.hiaiabc.com
 api-gl.cdo.heytapmobi.com
@@ -1313,7 +1311,6 @@ baihuwang.com
 baitaiz.com
 baixing.com
 bakbitionb.com
-balldollars.com
 banana.le.com
 bar.baidu.com
 bartender.cc
@@ -1437,7 +1434,6 @@ blog.770880520.xyz
 bm.alimama.cn
 bm.h576.com
 bmjs.xzw.com
-bmlink.com
 bmvip.alimama.cn
 bny9.cn
 boardx.huanqiu.com
@@ -1685,6 +1681,7 @@ cms.laifeng.com
 cms.sec.miui.com
 cms.tanx.com
 cms.ucweb.com
+cmsjs.eastmoney.com
 cmstool.youku.com
 cmta.yangkeduo.com
 cn-api.anythinktech.com
@@ -1943,7 +1940,6 @@ dataflow.biliapi.com
 datamaster.com.cn
 datas.tianqistatic.com
 datasink.ziniao.com
-datayi.cn
 datk.anythinktech.com
 datouniao.com
 dazhantai.com
@@ -2169,7 +2165,6 @@ e.qq.com
 e.weather.com.cn
 e1.feather.ifeng.com
 e1zin.icu
-e4l4.com
 e8d7.icu
 eagle-tex.cn
 eap.big5.enorth.com.cn
@@ -2440,7 +2435,6 @@ free-gta5.com
 freshmarketer.com
 frontend-perf-service.e.kuaishou.com
 frontier100-toutiao-lf.fqnovel.com
-fs-im-kefu.7moor-fs1.com
 fs-uc-nearme-com-cn.oss-cn-hangzhou.aliyuncs.com
 fsjjrbz.cn
 fsr.lenovomm.com
@@ -2484,7 +2478,6 @@ g1.163.com
 g2.ganjing.world
 g3.iqilu.com
 g3.letv.com
-g3.ykimg.com
 g41i.icu
 ga1.3dmgame.com
 gainifyads.com
@@ -2759,7 +2752,6 @@ heads-ak.spotify.com.edgesuite.net
 heads-fa.spotify.com
 hechaocheng.cn
 heima8.com
-helloimg.com
 helper-stats.wondershare.com
 heshun365.cn
 hexagon-analytics.com
@@ -3312,7 +3304,6 @@ jsczde.cn
 jsebmcv.cn
 jsing.net
 jsmxkj.com
-jsnsgjy.cn
 jspassport.ssl.qhimg.com
 jswebcollects.kugou.com
 jszctech.com
@@ -3531,7 +3522,6 @@ lnk0.com
 lnk8.cn
 location-traceroute-sg.bytedance.com
 location.ximalaya.com
-lock-domain.vicp.net
 lockview.cn
 lofter.httpdns.c.163.com
 log-abroad.avlyun.sec.miui.com
@@ -3724,7 +3714,6 @@ m.beehive.in.intl.miui.com
 m.doubleclick.net
 m.ercos.cn
 m.gongzhilian.com.cn
-m.gutousoft.com
 m.gz-bz.cn
 m.hwzgo2.cn
 m.ishangtong.com
@@ -3738,7 +3727,6 @@ m.qhxcdmfj.cn
 m.qianka.com
 m.simba.taobao.com
 m.slshiye.cn
-m.taopiaopiao.com
 m.vcsoat.cn
 m.wantemachine.com.cn
 m.yocvn.com
@@ -4093,7 +4081,6 @@ n.cosbot.cn
 n.mark.letv.com
 n69.com
 na61-na62-eu95.wagbridge.advertisement.tanx.com
-na61-rmbsync-upaas.quark.cn
 nadvideo.baidu.com
 nadvideo2.baidu.com
 nalook.com
@@ -4266,7 +4253,6 @@ opensdk.wlanbanlv.com
 oppo.yidianzixun.com
 optimix.asia
 optimus-ads.amap.com
-optimus-ads.amap.com.w.alikunlun.com
 opwyrosjm.vxwezsp.cn
 oqyiapj.cn
 orange-dc.lazada.com
@@ -4377,7 +4363,6 @@ pb.hd.sohu.com.cn
 pb.sogou.com
 pb3.pstatp.com
 pbaiyho.cn
-pbmp.ali213.net
 pc-mon.snssdk.com
 pc-mon.zijieapi.com
 pcapp-data-collect.youku.com
@@ -4456,7 +4441,6 @@ playlog.youku.com
 playstats.v.duowan.com
 plbslog.umeng.com
 plmn5.com
-plugin-check.egret.com
 pmensrl.cn
 pmir.3g.qq.com
 pmir.sec.miui.com
@@ -4698,7 +4682,6 @@ region.ksapisrv.com
 register.xmpush.global.xiaomi.com
 reke.at.sohu.com
 reksaidnslog.security.mihoyo.com
-relay-event.hailuoai.com
 relay-event.talkie-ai.com
 release.baidu.com
 renzhen8.cn
@@ -5154,7 +5137,6 @@ ssgg.chazidian.com
 ssl-google-analytics.l.google.com
 ssl.google-analytics.com
 sslir.icu
-ssp.1nmob.com
 ssp.21ic.com
 ssp.kdnet.net
 ssp.lionmobo.com
@@ -5456,7 +5438,6 @@ terms-drcn.platform.dbankcloud.cn
 teslaamg.obs.cn-east-3.myhuaweicloud.com
 test.ad.xiaomi.com
 test.surepush.cn
-testin.cn
 testit.miui.com
 textlink.simba.taobao.com
 tf.360.cn
@@ -5555,7 +5536,6 @@ tools.3g.qq.com
 tools.mouseflow.com
 top.h.qhimg.com
 topsem.com
-topstat.cn
 touclick.com
 toushibao.com
 toutanymm.asia
@@ -5813,7 +5793,6 @@ up4.ucweb.com
 upceshop.cn
 update.avlyun.sec.miui.com
 update.cg100iii.com
-update.estrongs.com
 update.lejiao.tv
 update.mobile.kugou.com
 update0.aiclk.com
@@ -5908,7 +5887,6 @@ video.market.xiaomi.com
 video.wap.mpush.qq.com
 video231.oss-cn-beijing.aliyuncs.com
 videojj.com
-vidfree.net.cy-isp.com
 view.zijieapi.com
 vihppjk.cn
 vingroupinvestment.com
@@ -6141,7 +6119,6 @@ www.peiyou.com
 www.pikacn.com
 www.q4ee.top
 www.shuqw.com
-www.simejiglobal.com
 www.soua.com
 www.thztv.net
 www.ttyyuuoo.com
