@@ -405,7 +405,6 @@ ad.51wnl-cq.com
 ad.51wnl.com
 ad.a.yximgs.com
 ad.advst.cp33.ott.cibntv.net
-ad.aginomoto.com
 ad.altamob.xiaoying.co
 ad.api.3g.youku.com
 ad.api.mobile.youku.com
@@ -5856,7 +5855,6 @@ us01-analysis.ymcart.com
 usa.ime.cootek.com
 usejj.makepolo.cn
 user-analysis.7moor.com
-usercollection.chinadaily.com.cn
 userimg.qunar.com
 usp1.baidu.com
 usr-api.aiclk.com
