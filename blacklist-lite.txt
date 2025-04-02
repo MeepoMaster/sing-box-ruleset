@@ -1070,6 +1070,7 @@ api.hzsanjiaomao.com
 api.immomo.com
 api.installer.xiaomi.com
 api.iplay.163.com
+api.jietuhb.com
 api.jr.mi.com
 api.kingdata.ksyun.com
 api.ksapisrv.com
@@ -2761,7 +2762,6 @@ hfisngksng.com
 hgjxp.cn
 hgprha.mizalle.com
 hh.jiankang.com
-hhbs.hhu.edu.cn
 hhttm.top
 hiido.com
 hijack.baidu.com
@@ -4176,7 +4176,6 @@ oaclrst.cn
 oadz.com
 oascentral.inq7.net
 oatdbtwdu.qnssl.com
-oauth-login-drcn.platform.dbankcloud.com
 obus-cn.dc.heytapmobi.com
 obus-config-cn.heytapmobi.com
 obus-dc10-cn.heytapmobi.com
