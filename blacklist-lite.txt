@@ -524,6 +524,8 @@ adcome.cn
 adcore.lenovomm.com
 addata.jd.com
 adeng.hpplay.cn
+adexp.chinaliftoff.io
+adexp.liftoff.io
 adexpo.tencentmusic.com
 adfilter.imtt.qq.com
 adfox.yandex.ru
@@ -739,6 +741,7 @@ aduu.cn
 adv-sv-show.focus.cn
 adv-sv-stat.focus.cn
 adv.ccb.com
+adv.fjtv.net
 adv.l7.34.sec.miui.com
 adv.sec.intl.miui.com
 adv.sec.miui.com
@@ -1616,12 +1619,14 @@ cdn-test.mouseflow.com
 cdn.0i-i0.com
 cdn.7nsc.cn
 cdn.aiclk.com
+cdn.chinaliftoff-creatives.io
 cdn.exp.xiaomi.com
 cdn.fds-ssl.api.xiaomi.com
 cdn.fds.api.xiaomi.com
 cdn.haocaa.com
 cdn.hpplay.com.cn
 cdn.ksapisrv.com
+cdn.liftoff-creatives.io
 cdn.luckyorange.com
 cdn.moji002.com
 cdn.mouseflow.com
@@ -1686,6 +1691,7 @@ click.aliyun.com
 click.bes.baidu.com
 click.bokecc.com
 click.cheshi.com
+click.chinaliftoff.io
 click.dangdang.com
 click.gamersky.com
 click.ganji.com
@@ -1693,12 +1699,14 @@ click.googleanalytics.com
 click.hd.sohu.com.cn
 click.iciba.com
 click.inplayable.com
+click.liftoff.io
 click.oneplus.cn
 click.qianqian.com
 click.tanx.com
 click.tz.simba.taobao.com
 click1n.soufun.com
 click2.hd.sohu.com
+click4.chinaliftoff.io
 clickcount.cnool.net
 clicki.cn
 clickm.fang.com
@@ -1861,7 +1869,6 @@ crash.163.com
 crash2.zhihu.com
 crasheye.cn
 crashlytics.163.com
-crashlytics.com
 crashlyticsreports-pa.googleapis.com
 crashsight.wetest.net
 cre-dp.sina.cn
@@ -2517,6 +2524,7 @@ fucnm.com
 fugetech.com
 fujincenter.com
 fumiad.dxys.pro
+fundingchoicesmessages.google.com
 fusion.qq.com
 fw.qq.com
 fwlrv.cn
@@ -2551,7 +2559,6 @@ g1.163.com
 g2.ganjing.world
 g3.iqilu.com
 g3.letv.com
-g3.ykimg.com
 g41i.icu
 ga1.3dmgame.com
 gainifyads.com
@@ -2573,7 +2580,6 @@ gamerplay67.space
 ganjituiguang.ganji.com
 gaoshouyou.com
 gatecollect.kugou.com
-gateway-bugly.ke.com
 gb.corp.163.com
 gc.his2nd.life
 gcbflvx.cn
@@ -2672,6 +2678,7 @@ gomaxits.com
 gongxifc.com
 google-analytics-cn.com
 google-analytics.com
+googleads.g.doubleclick-cn.net
 googleads.g.doubleclick.net
 googleadservices-cn.com
 googleadservices.com
@@ -3149,6 +3156,8 @@ imonitor.dhgate.com
 imop.com
 imp.go.sohu.com
 imp.zol.com.cn
+impression-asia.chinaliftoff.io
+impression-asia.liftoff.io
 improving.duckduckgo.com
 improving.wuzhuiso.com
 impservice.dictapp.youdao.com
@@ -3539,6 +3548,7 @@ lezbrja.cn
 lf3-ad-union-sdk.pglstatp-toutiao.com
 lf6-ad-union-sdk.pglstatp-toutiao.com
 lgygy.cn
+lh3.googleadsserving.cn
 lhippac.cn
 lianle.com
 lianmeng.360.cn
@@ -4280,6 +4290,7 @@ offerstrack.net
 offerwall.yandex.net
 officesoftcn.com
 ofkqiy.knowfashionstyle.com
+ogads-pa.clients6.google.com
 oimagea2.ydstatic.com
 oimsgad.qq.com
 oiu09.cn
@@ -4710,7 +4721,6 @@ qqlogo.qq.com
 qqxi6.icu
 qreport.qunar.com
 qring-tms.qq.com
-qs.shouji.sogou.com
 qscvli.com
 qss-client.qq.com
 qstzar.cn
@@ -5054,6 +5064,7 @@ sentry.music.163.com
 sentry.pay.xiaomi.com
 sentry.sec.miui.com
 sepyra.com
+serconsole.vicp.cc
 server.m.pp.cn
 serveraddr.service.kugou.com
 service.ad.adesk.com
@@ -5650,6 +5661,8 @@ toutiaopage.com
 tovppl.cn
 towmfs.com
 tp2p.kg.qq.com
+tpc.googlesyndication-cn.com
+tpc.googlesyndication.com
 tpns.tencent.com
 tpstelemetry.tencent.com
 tpush.html5.qq.com
@@ -5757,7 +5770,6 @@ trk1.17admob.com
 trustutn.org
 ts166.net
 tsearch.snssdk.com
-tsvrv.com
 ttmsg.qianqian.com
 tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
@@ -5991,6 +6003,7 @@ v3-ad.video.yximgs.com
 v3.gdt.qq.com
 v3.jiathis.com
 va.huya.com
+valf.atm.cp31.ott.cibntv.net
 vali-g1.cp31.ott.cibntv.net
 vamaker.com
 vas-hl-x.snssdk.com
@@ -6002,7 +6015,6 @@ vcs.zijieapi.com
 vegaschina.cn
 venace.cn
 vfvdsati.com
-vicp.cc
 video-ad.sm.cn
 video-dsp.pddpic.com
 video.dispatch.tc.qq.com
