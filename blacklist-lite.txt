@@ -3860,6 +3860,7 @@ material.xl7.xunlei.com
 mathtype.cn
 matomo.anker-in.com
 matomo.cloud-hub.co
+matomo.datasanalytics.com
 matomo.dd-img.com
 matomo.decimalpoint.com.cn
 matomo.huazhi.cloud
@@ -5373,7 +5374,6 @@ stats.g.doubleclick.net
 stats.gioneemobile.net
 stats.hanmaker.com
 stats.music.xiaomi.com
-stats.mysteel.com
 stats.pairmb.com
 stats.qiumibao.com
 stats.studyquicks.com
