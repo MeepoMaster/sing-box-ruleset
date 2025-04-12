@@ -5279,6 +5279,7 @@ sq59.cn
 sqdd.myapp.com
 srbzw.cn
 src.leju.com
+src1.minibai.com
 srd.simba.taobao.com
 srtb.msn.cn
 srv-ios.shouji.sogou.com
