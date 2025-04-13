@@ -2019,7 +2019,6 @@ dc.letv.com
 dc.sigmob.cn
 dcads.sina.com.cn
 dcbpm.suning.cn
-dd.browser.360.cn
 dd.iask.cn
 dd.yiche.com
 dd1.diymianmo.com
@@ -2095,7 +2094,6 @@ dl2.bav.baidu.com
 dlads.cn
 dle-news.xyz
 dlimg.lovfp.com
-dlog.wanmei.com
 dlogs.bwton.com
 dlres.ind9ed.com
 dlresctrl.phub.sandai.net
@@ -2586,7 +2584,6 @@ g41i.icu
 ga1.3dmgame.com
 gainifyads.com
 galeden.cn
-galileotelemetry.tencent.com
 gallery.cdn.pandora.xiaomi.com
 game-res.meizu.com
 game.51yund.com
@@ -2618,8 +2615,6 @@ gdtimg.com
 gecko-hl.snssdk.com
 gecko-lq.snssdk.com
 gecko.snssdk.com
-gecko3-lf.zijieapi.com
-gecko5-lf.zijieapi.com
 gemini.yahoo.com
 genrena.com
 gentian-frd.hjapi.com
@@ -3711,7 +3706,6 @@ log.pinterest.com
 log.popin.cc
 log.qcast.cn
 log.qiniuapi.com
-log.qookkagames.com
 log.qvb.qcloud.com
 log.sina.cn
 log.snssdk.com
@@ -3730,7 +3724,6 @@ log.vcgame.cn
 log.web.kugou.com
 log.webnovel.com
 log.wechatpay.cn
-log.weixin.qq.com
 log.wtlogin.qq.com
 log.ycapp.yiche.com
 log.yex.youdao.com
@@ -3751,7 +3744,6 @@ log3-applog-lf.fqnovel.com
 log3-misc-lf.amemv.com
 log3-misc-lq.amemv.com
 log3-normal-hl.toutiaoapi.com
-log3-normal-lf.toutiaoapi.com
 log3-normal-lq.toutiaoapi.com
 log5-applog-hl.zijieapi.com
 log5-applog-lf.zijieapi.com
@@ -4068,7 +4060,6 @@ mkazanc.com
 mkqdj.cn
 mlog.aipai.com
 mlog.m1905.cn
-mlog.wangsu.com
 mlzgazz.cn
 mm.nwell.net
 mm.paizi.net
@@ -4521,7 +4512,6 @@ pbaiyho.cn
 pc-mon.snssdk.com
 pc-mon.zijieapi.com
 pc.bugly.qcloud.com
-pc.perfsight.wetest.net
 pcapp-data-collect.youku.com
 pcdn.xmcdn.com
 pcfg.wps.cn
@@ -4587,7 +4577,6 @@ pingma.qq.com
 pingmid.qq.com
 pingtas.qq.com
 pinkomtag.com
-pis-tel-pcdn.youku.com
 pixel-insight.ucweb.com
 pixel.facebook.com
 pixon.ads-pixiv.net
@@ -4601,7 +4590,6 @@ placidocn.com
 platform.wondershare.com
 plausible.coinglass.com
 plausible.com.cn
-player-lg.youku.com
 playlog.youku.com
 playstats.v.duowan.com
 plbslog.umeng.com
@@ -4951,7 +4939,6 @@ rtb-uswest-ak.solomath.com
 rtb.voiceads.cn
 rtbapi.douyucdn.cn
 rtbasia.com
-rtlog3-applog-hl.toutiaoapi.com
 rtlog5-applog-lf.fqnovel.com
 rtmpott.pandora.xiaomi.com
 rtwebcollects.kugou.com
