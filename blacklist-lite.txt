@@ -384,9 +384,6 @@ ad-android.51wnl.com
 ad-api.cnblogs.com
 ad-cdn.qingting.fm
 ad-cdn.qtfm.cn
-ad-cmp.hismarttv.com
-ad-download.hismarttv.com
-ad-imp.hismarttv.com
 ad-log-upload-os.hoyoverse.com
 ad-plus.cn
 ad-scope.com
@@ -4080,6 +4077,7 @@ miaozhen.com
 miav-cse.avlyun.com
 mibi.api.xiaomi.com
 mibi.xiaomi.com
+micro-xdb.com
 microad-cn.com
 microad.jp
 midas.rong360.com
