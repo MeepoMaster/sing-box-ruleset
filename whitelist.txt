@@ -8,7 +8,6 @@ acs-m.daraz.com.bd
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -126,6 +125,7 @@ promo.gramedia.com
 proto2ad.durasite.net
 pt.afl.rakuten.co.jp
 public-cis.exponea.com
+puma.112.2o7.net
 px.a8.net
 radiofrance.targetspot.com
 rd.bizrate.com
@@ -145,6 +145,7 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
+sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
