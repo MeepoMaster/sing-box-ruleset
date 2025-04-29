@@ -152,6 +152,7 @@ support-beacon.nakanohito.jp
 support-widget.nakanohito.jp
 surveymyopinion.researchnow.com
 tags.crwdcntrl.net
+taiga.maven.io
 tlh.gedidigital.it
 tms.capitalone.com
 torimochi.line-apps.com
