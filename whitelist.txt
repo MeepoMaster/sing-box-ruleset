@@ -8,7 +8,6 @@ acs-m.daraz.com.bd
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -73,6 +72,7 @@ f-gear.ec-optimizer.com
 feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
+get.neofinancial.com
 go.scorptec.com.au
 goto.target.com
 goto.walmart.com
