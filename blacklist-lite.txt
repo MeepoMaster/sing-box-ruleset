@@ -432,6 +432,7 @@ ad.dzwww.com
 ad.entgroup.cn
 ad.exyws.org
 ad.fx168api.com
+ad.gameley.com
 ad.ganji.com
 ad.gmw.cn
 ad.house365.com
@@ -599,6 +600,7 @@ ads-img-al.xhscdn.com
 ads-img-qc.xhscdn.com
 ads-marketing-vivofs.vivo.com.cn
 ads-monitoring.shziyi.com
+ads-sdk-api.ranfenghd.com
 ads-sg.tiktok.com
 ads-union.jd.com
 ads-video-al.xhscdn.com
@@ -804,6 +806,7 @@ adx.kuaiyiad.com
 adx.mala.cn
 adx.maplehaze.cn
 adx.sogaha.cn
+adx.tuia.cn
 adx.tv.mi.com
 adx.xiaodutv.com
 adxlog-adnet.vivo.com.cn
@@ -2957,6 +2960,7 @@ hbcbly.com
 hbqabbg.cn
 hbv.tobeacon.cn
 hbzhenquan.cn
+hc-ssp.sm.cn
 hcadv.video.ums.uc.cn
 hcirentgh.360doc.cn
 hd.mi.com
@@ -4291,6 +4295,7 @@ mscbos.baidu.com
 msch.f.360.cn
 mscs.svaeuzh.cn
 msdk.qq.com
+msdk.voiceads.cn
 msg-em.hismarttv.com
 msg-intl.qy.net
 msg-na.hismarttv.com
@@ -6523,7 +6528,6 @@ wmbd.gamersky.com
 wmedia-track.uc.cn
 wmeng.feihuadns.com
 wmmax.com
-wn.x.jd.com
 wn68din.cn
 wneia.iaskhot.com
 wnp.com
