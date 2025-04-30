@@ -1878,11 +1878,6 @@ config001.cmpassport.com
 config1.cmpassport.com
 config2.cmpassport.com
 conn-service-gl-01.allawntech.com
-conn1.coloros.com
-conn2.coloros.com
-conn3.coloros.com
-conn4.coloros.com
-conn5.coloros.com
 connect-dre.dbankcloud.cn
 connect-dre.hispace.hicloud.com
 connperf.immomo.com
@@ -3220,8 +3215,6 @@ ifengad.3g.ifeng.com
 iflow.uczzd.com.cn
 iflyad.bj.openstorage.cn
 ifota-eu.coloros.com
-ifota-in.coloros.com
-ifota-term.coloros.com
 ifota.coloros.com
 ifrus-eu.coloros.com
 ifrus-in.coloros.com
