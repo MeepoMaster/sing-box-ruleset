@@ -5,9 +5,8 @@ a.sellpoint.net
 a0.app.xiaomi.com
 ac.ebis.ne.jp
 acs-m.daraz.com.bd
-action.metaffiliation.com
-ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -73,6 +72,7 @@ feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
 get.neofinancial.com
+go.adjust.com
 go.scorptec.com.au
 goto.target.com
 goto.walmart.com
