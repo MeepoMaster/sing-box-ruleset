@@ -5,8 +5,9 @@ a.sellpoint.net
 a0.app.xiaomi.com
 ac.ebis.ne.jp
 acs-m.daraz.com.bd
+action.metaffiliation.com
+ad.10010.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -96,7 +97,6 @@ link.sylikes.com
 linka.page
 links.e.theatlantic.com
 links.getblueshift.com
-local.adguard.org
 log.mmstat.com
 logentries.com
 login.gaijin.net
