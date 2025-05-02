@@ -97,6 +97,7 @@ link.sylikes.com
 linka.page
 links.e.theatlantic.com
 links.getblueshift.com
+local.adguard.org
 log.mmstat.com
 logentries.com
 login.gaijin.net
