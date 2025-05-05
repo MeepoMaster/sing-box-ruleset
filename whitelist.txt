@@ -5,6 +5,7 @@ a.sellpoint.net
 a0.app.xiaomi.com
 ac.ebis.ne.jp
 acs-m.daraz.com.bd
+acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
