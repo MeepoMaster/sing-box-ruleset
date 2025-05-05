@@ -72,7 +72,6 @@ f-gear.ec-optimizer.com
 feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
-get.neofinancial.com
 go.adjust.com
 go.scorptec.com.au
 goto.target.com
