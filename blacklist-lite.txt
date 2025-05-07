@@ -34,7 +34,6 @@
 1.zuowenjun.com
 100.pncdn.cn
 10000xing.cn
-101afrsatlarimzindirmlri.xyz
 11.96131.com.cn
 11.yiqig.cn
 114la.com
@@ -697,7 +696,6 @@ adtrack.uc.cn
 adtrack.ucweb.com
 adtrack.xiaojukeji.com
 adtx2.cn
-aduic.com
 adups.cn
 adups.com
 adutp.com
@@ -782,7 +780,6 @@ agn.aty.sohu.com
 agoodm.m.taobao.com
 ahm.jiankang123.net
 ahov1.top
-ahwangtao.com
 ai.bioon.com
 ai.m.taobao.com
 ai.taobao.com
@@ -3413,7 +3410,6 @@ kz-vcode-od.vivoglobal.com
 kz-vcode-or.vivoglobal.com
 kz-weather.vivoglobal.com
 kzchyhr.cn
-kzeaa.com
 kzjkexn.cn
 l.qq.com
 l.web.huya.com
@@ -5584,7 +5580,6 @@ tools.mouseflow.com
 top.h.qhimg.com
 topsem.com
 touclick.com
-toufangzhe.cn
 toushibao.com
 toutiao-frontier.snssdk.com
 toutiaopage.com
@@ -6138,7 +6133,6 @@ woniu.com
 woocall.sina.com.cn
 woodpecker.uc.cn
 worldwide.sogou.com
-wowostar.cn
 wpsweb-dc.wps.cn
 wpwpquse.cn
 wr.yiyouliao.com
@@ -6181,7 +6175,6 @@ www.benmoj.com
 www.biqubao.com
 www.bodog.eu
 www.cdcem.com
-www.cippe.com.cn
 www.claiks.com
 www.cm.ksmobile.com
 www.cvfww.cn
@@ -6225,6 +6218,7 @@ www.vgzjy.cn
 www.whalecloud.com
 www.wistfulness.cn
 www.world-flags.cn
+www.wowostar.cn
 www.xingpingmaoyi.cn
 www.xovrk.cn
 www.xpdyqax.cn
@@ -6289,7 +6283,6 @@ xiezhuo038.cn
 xifs.tanx.com
 xinbo-lora.cn
 xindalawyer.com
-xiniuz.com
 xiuxiu.android.dl.meitu.com
 xiuxiu.mobile.meitudata.com
 xjkugh.waterdropfilter.com
