@@ -1704,7 +1704,6 @@ cod.southmoney.com
 code.ditiezu.net
 code.wenbanzhu.com
 codenow.cn
-cointime.cloud
 collect.alipay.com
 collect.babybus.com
 collect.hupu.com
@@ -2776,7 +2775,6 @@ hffxc.com
 hfisngksng.com
 hgjxp.cn
 hgprha.mizalle.com
-hhbs.hhu.edu.cn
 hhttm.top
 hiido.com
 hijack.baidu.com
@@ -3273,6 +3271,7 @@ jiankongbao.com
 jiaoben.ganji.cn
 jiaoben.jucanw.com
 jiaopei.com
+jiayuan.com
 jiedaibao.com
 jiezoiq.cn
 jiguang.cn
@@ -3730,7 +3729,6 @@ luimg.baidu.com
 luyouxia.net
 lvip.youku.com
 lwlqsgr.cn
-lwtop.cloud
 lwvrv.icu
 lyapi.1391.com
 lydownload.net
@@ -4553,7 +4551,6 @@ ptgdb.cn
 ptmabek.cn
 ptmind.com
 pttggov.store
-pttmba.store
 pttposta.top
 pttpostr.top
 pttpttp.top
@@ -5140,7 +5137,6 @@ slog.sina.com.cn
 slotabrosdev.zharev.com
 slotabrosuat.zharev.com
 slpgw.cn
-slsdap.asia
 slzs.52xiyou.com
 sm-tc.cn
 smad.ms.zhangyue.net
@@ -6217,7 +6213,6 @@ www.guaikavideo.cn
 www.iiyout.cn
 www.jgjfr.cn
 www.jiathis.com
-www.jiayuan.com
 www.jmine.cn
 www.johnsoncontrols.top
 www.jrun.net.cn
