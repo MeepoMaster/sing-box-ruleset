@@ -546,7 +546,6 @@ ads.ce.cn
 ads.china.com
 ads.csdn.net
 ads.doit.com.cn
-ads.flurry.com
 ads.google.cn
 ads.house365.com
 ads.huan.tv
@@ -564,6 +563,7 @@ ads.people.com.cn
 ads.pinterest.com
 ads.privacy.qq.com
 ads.pubmatic.com
+ads.raidrive.com
 ads.reader.yueyouxs.com
 ads.servebom.com
 ads.service.kugou.com
@@ -1580,7 +1580,6 @@ chunmiaosh.com
 chupl.icu
 chuzushijian.cn
 cigoqcq.top
-cippe.com.cn
 cj.qidian.com
 cjcpq.cn
 ck.ads.oppomobile.com
@@ -2963,7 +2962,6 @@ ii.gdt.qq.com
 ii1.chajiaotong.com
 iimedia.cn
 ijinshan.com
-ikxnauqa.com
 ilce.alicdn.com
 ilkwork.com
 im-x.jd.com
@@ -4316,6 +4314,7 @@ patriot.cs.pp.cn
 pay.aqiu6.com
 pay.ksapisrv.com
 pay.mobile.sina.cn
+pay.sboot.cn
 payment.yodo1api.com
 paypaldev.com.cn
 pb.bi.gitv.tv
@@ -4482,12 +4481,6 @@ ptengine.cn
 ptgdb.cn
 ptmabek.cn
 ptmind.com
-pttgoam.life
-pttgoza.life
-pttjovr.life
-pttposta.top
-pttpostr.top
-pttpttp.top
 pub.funshion.com
 pub.se.360.cn
 public.app.autohome.com.cn
@@ -5916,7 +5909,6 @@ va.huya.com
 vali-g1.cp31.ott.cibntv.net
 vali-ugc.cp31.ott.cibntv.net
 vamaker.com
-vanaheim.cn
 vas-hl-x.snssdk.com
 vaycaptoc-vn.com
 vbok.asia
@@ -6099,6 +6091,7 @@ wmedia-track.uc.cn
 wmeng.feihuadns.com
 wmmax.com
 wmyx.asia
+wn.x.jd.com
 wn68din.cn
 wnp.com
 woniu.com
@@ -6145,6 +6138,7 @@ www.baihe.com
 www.benmoj.com
 www.bodog.eu
 www.cdcem.com
+www.cippe.com.cn
 www.claiks.com
 www.cm.ksmobile.com
 www.cvfww.cn
