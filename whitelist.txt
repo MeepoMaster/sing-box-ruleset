@@ -14,7 +14,6 @@ adblock.adguard.com
 adlink.wf
 admin.dable.io
 admin.mailchimp.com
-adobelogin.com
 adv.bloop.info
 advert.kf5.com
 afi-b.com
@@ -122,7 +121,6 @@ pagead.l.doubleclick.net
 partner.everydays.de
 pgpartner.com
 pics.porn300.com
-privat24.privatbank.ua
 promo.gramedia.com
 proto2ad.durasite.net
 pt.afl.rakuten.co.jp
