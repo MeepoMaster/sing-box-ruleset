@@ -238,7 +238,6 @@
 9991.com
 999aa666bb.com
 999bb222ww.com
-999d.com
 999xx333kk.com
 999xx999kk.com
 99box.com
@@ -927,7 +926,6 @@ analytics.yicai.com
 analytics.yinxiang.com
 analytics.yiyouliao.com
 analytics.zhihuiya.com
-analytics2.xdiarys.com
 analyticsengine.s3.amazonaws.com
 analyze.lemurbrowser.com
 andmlb.kshwtj.com
@@ -1694,6 +1692,7 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
+co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
@@ -2595,6 +2594,7 @@ gjtrack.ucweb.com
 gjtzz.cn
 gk.sina.cn
 gknybkl.cn
+gkzdujn.cn
 gl.zle.com
 global-ad-extranet-pri-azams.alb.xiaomi.com
 global-ad-intl-pri-alisgp.alb.xiaomi.com
@@ -3609,7 +3609,6 @@ log.iyunmai.com
 log.jd.com
 log.kuaigeng.com
 log.kuwo.cn
-log.liepin.com
 log.m.sm.cn
 log.mix.sina.com.cn
 log.music.baidu.com
@@ -5241,7 +5240,6 @@ ssp.zf313.com
 sssvd.china.com
 sstats.thermofisher.com.cn
 st-ads-jssdk.vivo.com.cn
-st.19mi.net
 st.appsad.cn
 st.todesk.com
 st3.wagbridge.advertisement.tanx.com
