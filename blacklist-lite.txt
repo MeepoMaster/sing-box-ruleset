@@ -20,7 +20,6 @@
 1.66law.cn
 1.78500.cn
 1.95ye.com
-1.arpun.com
 1.codesdq.com
 1.doudouditu.com
 1.feihua.com
@@ -1163,7 +1162,6 @@ as.weixin.qq.com
 as1.m.hao123.com
 as1.wenku.baidu.com
 asearch.alicdn.com
-ashow.pcpop.com
 asia-abeacdataonrt-stsdk.vivoglobal.com
 asia-abeacdataort-stsdk.vivoglobal.com
 asia-adlog.vivoglobal.com
@@ -1748,7 +1746,6 @@ count.cnblogs.com
 count.enet.com.cn
 count.mail.163.com
 count.pcauto.com.cn
-count.pcpop.com
 count.vrs.sohu.com
 count.west263.com
 count5.pconline.com.cn
@@ -3811,6 +3808,7 @@ mb.lenovomm.com
 mb.yidianzixun.com
 mbai.cn
 mbaobao.com
+mbd.baidu.com
 mbdlog.iqiyi.com
 mbrowser.news.haosou.com
 mbrowser.news.so.com
@@ -4402,6 +4400,7 @@ pcmx.autohome.com.cn
 pcookie.aliexpress.com
 pcookie.tanx.com
 pcookie.taobao.com
+pcpop.com
 pcstat.kugou.com
 pcstatbak.kugou.com
 pcweb.v1.mgtv.com
