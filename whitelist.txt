@@ -3,11 +3,13 @@
 a.adwolf.ru
 a.sellpoint.net
 a0.app.xiaomi.com
+ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -142,6 +144,7 @@ sax.sina.com.cn
 sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
+smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
 static.softlayer.com
