@@ -1215,7 +1215,6 @@ atb-stats-api.imolive.tv
 atiws.aipai.com
 ato.tooopen.com
 atom-log.3.cn
-au-sysupgrade-api.vivoglobal.com
 au.ff.avast.sec.miui.com
 auction.unityads.unity3d.com
 audid-api-sg.taobao.com
@@ -1551,7 +1550,6 @@ cdn.mouseflow.com
 cdn.scdng.com
 cdn.tanx.com
 cdn.xianchengyou.com
-cdn.xiaoduoai.com
 cdn.ynuf.aliapp.org
 cdn2.moji002.com
 cdnjs.hro-cosmetics.com
@@ -2002,6 +2000,7 @@ dl2.bav.baidu.com
 dlads.cn
 dle-news.xyz
 dlimg.lovfp.com
+dlog.wanmei.com
 dlogs.bwton.com
 dlres.ind9ed.com
 dlswbr.baidu.com
@@ -3307,6 +3306,7 @@ js.duotegame.com
 js.entm.top
 js.fengniao.com
 js.kalvinbg.cn
+js.passport.qihucdn.com
 js.shangxueba.com
 js.shunqi.com
 js.spreton.com
@@ -3429,7 +3429,6 @@ kxlogo.knet.cn
 ky595images.com
 kychq.cn
 kz-err-up.vivoglobal.com
-kz-monitor-stsdk.vivoglobal.com
 kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
@@ -5329,7 +5328,6 @@ stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
 statscollector-1-north-america.agora.io
-statscollector-1-oversea.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
 statsigapi.net
