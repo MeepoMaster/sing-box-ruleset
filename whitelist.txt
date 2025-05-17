@@ -61,7 +61,6 @@ content.ingbank.pl
 crm-cdn.peek-cloppenburg.com
 cs.silverpop.com
 cutcaptcha.com
-daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
 developers.google.com
@@ -74,7 +73,6 @@ feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
 get.neofinancial.com
-go.adjust.com
 go.scorptec.com.au
 goto.target.com
 goto.walmart.com
