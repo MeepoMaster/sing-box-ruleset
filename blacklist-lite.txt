@@ -192,21 +192,11 @@
 7daystodie.cn
 7dot.cn
 7f7rt.icu
-7fvk57.com1.z0.glb.clouddn.com
 7huohtog.cn
 7jkzmbd.cn
 7kjiiu.cn
 7moor.com
-7pn4yt.com1.z0.glb.clouddn.com
 7r227ut.cn
-7xi9g1.com1.z0.glb.clouddn.com
-7xiw31.com1.z0.glb.clouddn.com
-7xj5r6.com1.z0.glb.clouddn.com
-7xo6kd.com1.z0.glb.clouddn.com
-7xqaje.com1.z0.glb.clouddn.com
-7xqch8.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xti71.com1.z0.glb.clouddn.com
 80w19v.cn
 8131.qizhihaotian.cn
 8181zx.com
@@ -1196,9 +1186,7 @@ asia-prt-stsdk.vivoglobal.com
 asia-romsp-unifyconfig.vivoglobal.com
 asia-st-exappupgrade.vivoglobal.com
 asia-st-sl.vivoglobal.com
-asia-st-sysupgrade.vivoglobal.com
 asia-stsdk.vivoglobal.com
-asia-sysupgrade-api.vivoglobal.com
 asia-third-appstore.vivoglobal.com
 asia-timesync.vivoglobal.com
 asia-vcode-api.vivoglobal.com
@@ -2395,7 +2383,6 @@ fe-go.letv.com
 feed-image.baidu.com
 feed.baidu.com
 feedback-c.zijieapi.com
-feedback.miui.com
 feedback.uc.cn
 feedbackstorage.blob.core.chinacloudapi.cn
 feitian001.com
@@ -3613,7 +3600,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
@@ -4556,6 +4542,7 @@ pubstr.acspubs.org
 puds.ucweb.com
 pufhzpt.cn
 puma-api.iqiyi.com
+puma-api.ptqy.gitv.tv
 puma.api.iqiyi.com
 pups.baidu.com
 pups.bdimg.com
@@ -5223,6 +5210,7 @@ sssvd.china.com
 sstats.thermofisher.com.cn
 st-ads-jssdk.vivo.com.cn
 st.19mi.net
+st.appsad.cn
 st.todesk.com
 st3.wagbridge.advertisement.tanx.com
 sta.ganji.com
