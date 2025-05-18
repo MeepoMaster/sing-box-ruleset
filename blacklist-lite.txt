@@ -222,6 +222,7 @@
 9991.com
 999aa666bb.com
 999bb222ww.com
+999d.com
 999xx333kk.com
 999xx999kk.com
 99box.com
@@ -346,6 +347,7 @@ ad-cdn.qingting.fm
 ad-cdn.qtfm.cn
 ad-cmp.hismarttv.com
 ad-log-upload-os.hoyoverse.com
+ad-material.ys7.com
 ad-plus.cn
 ad-scope.com
 ad-scope.com.cn
@@ -782,7 +784,6 @@ aivaylaco.com
 aiwanma99.com
 aiwei365.net
 aixuntupian.oss-cn-hongkong.aliyuncs.com
-aizipai.cn
 ajiang.net
 ajpxs.xyz
 ajtdumo.cn
@@ -1515,6 +1516,7 @@ ccccc88kkkkk.com
 ccs.umeng.com
 cctv.adsunion.com
 cctvgb.com.cn
+ccutu.com
 cd.dabansuan.cn
 cddp-track.aligames.com
 cdgfa.ifeng.com
@@ -2661,7 +2663,6 @@ hao222.com
 haoghost.com
 haostat.qihoo.com
 haoweb.top
-haowei.me
 hapying.com
 hash.trafficmanager.net
 hashnest.com
@@ -3002,7 +3003,6 @@ imgapp.yeyou.com
 imgs.xinhuanet.com
 imgstat.baidu.com
 imindmap.cc
-imlb2c.com
 immob.cn
 imndl.icu
 imonitor.dhgate.com
@@ -3226,7 +3226,6 @@ js.duotegame.com
 js.entm.top
 js.fengniao.com
 js.kalvinbg.cn
-js.passport.qihucdn.com
 js.shangxueba.com
 js.shunqi.com
 js.spreton.com
@@ -3644,7 +3643,6 @@ lyszsz.cn
 lyua.cn
 m-adash.m.taobao.com
 m.1234567.com.cn
-m.1mpi.com
 m.38xs.com
 m.4rtjvm.cn
 m.91heima.cn
@@ -4700,7 +4698,6 @@ ro-up.vivoglobal.com
 ro.aiwan4399.com
 rodeoconfig.yodo1api.com
 roi.soulapp.cn
-rosettahome.cn
 rp.hpplay.cn
 rpahyhn.cn
 rpkcqtf.cn
@@ -4738,7 +4735,6 @@ ru-ort-stsdk.vivoglobal.com
 ru-os-config-appstore.vivoglobal.com
 ru-p.vivoglobal.com
 ru-pnrt-stsdk.vivoglobal.com
-ru-prt-stsdk.vivoglobal.com
 ru-romsp-unifyconfig.vivoglobal.com
 ru-st-exappupgrade.vivoglobal.com
 ru-st-sl.vivoglobal.com
@@ -4968,6 +4964,7 @@ sflt1.ksapisrv.com
 sflt2.ksapisrv.com
 sfp.safe.baidu.com
 sfsafsadfjbbj-dsafjnb-1321533417.cos.ap-beijing.myqcloud.com
+sg-cfg-stsdk.vivoglobal.com
 sg-open-set-api.shenshiads.com
 sg-public-data-api.hoyoverse.com
 sgg.southcn.com
@@ -5356,6 +5353,7 @@ tagcommander.com
 tagmanager.cn
 tags.roberthalf.cn
 tagtic.cn
+taiji.sina.cn
 takjttz.cn
 talk99.cn
 talkingdata.com
