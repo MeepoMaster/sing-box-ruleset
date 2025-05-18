@@ -910,7 +910,6 @@ analytics.yicai.com
 analytics.yinxiang.com
 analytics.yiyouliao.com
 analytics.zhihuiya.com
-analytics1.xdiarys.com
 analytics2.xdiarys.com
 analyticsengine.s3.amazonaws.com
 analyze.lemurbrowser.com
@@ -961,7 +960,6 @@ api-analytics-sg.huami.com
 api-analytics-us.zepp.com
 api-analytics-us3.zepp.com
 api-cn.cdo.heytapmobi.com
-api-data-collection.insta360.cn
 api-event.falconnet.app
 api-flow.flyme.cn
 api-fp-retry-bj.fengkongcloud.com
@@ -1791,7 +1789,6 @@ cre-dp.sina.cn
 cre.dp.sina.cn
 cre.mix.sina.com.cn
 cripto-robot.com
-crm.ws.ctrip.com
 crosspromotion.weplayer.cc
 crs.baidu.com
 cruiser.bayescom.cn
@@ -3294,6 +3291,7 @@ js.duotegame.com
 js.entm.top
 js.fengniao.com
 js.kalvinbg.cn
+js.passport.qihucdn.com
 js.shangxueba.com
 js.shunqi.com
 js.spreton.com
@@ -3586,7 +3584,6 @@ log.iyunmai.com
 log.jd.com
 log.kuaigeng.com
 log.kuwo.cn
-log.liepin.com
 log.m.sm.cn
 log.mix.sina.com.cn
 log.music.baidu.com
@@ -3983,7 +3980,6 @@ moquanad.com
 motsjnv.cn
 motuopj.cn
 mountain.zhidao.baidu.com
-mountain.zhidao.baidu.com.cname3466.yjs-cdn.com
 mouseflow.com
 mp83fkx.cn
 mparticle.uc.cn
@@ -5229,7 +5225,6 @@ stat.360safe.com
 stat.56.com
 stat.browser.nearme.com.cn
 stat.browser.oppomobile.com
-stat.doc88.com
 stat.dongqiudi.com
 stat.download.xunlei.com
 stat.duokanbox.com
@@ -5479,7 +5474,6 @@ telegram.uhho30.cn
 telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
-telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
