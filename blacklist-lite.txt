@@ -52,7 +52,6 @@
 1jok.icu
 1kanz.cn
 1l1.cc
-1mpi.com
 1p3yg.icu
 1qingdao.com
 1rtb.com
@@ -1661,7 +1660,6 @@ cmpxaup.cn
 cms.grandcloud.cn
 cms.tanx.com
 cms.ucweb.com
-cmsjs.eastmoney.com
 cmstool.youku.com
 cn-api.anythinktech.com
 cname-ali-asia-stsdk.vivoglobal.com
@@ -3831,7 +3829,6 @@ meta.video.qiyi.com
 metaversemolecule.com
 metok.sys.miui.com
 metric.huya.com
-metric.nuonuo.com
 metrics-dra.dt.dbankcloud.cn
 metrics-dra.dt.dbankcloud.com
 metrics-drcn.dt.dbankcloud.cn
@@ -5238,7 +5235,6 @@ ssp.zf313.com
 sssvd.china.com
 sstats.thermofisher.com.cn
 st-ads-jssdk.vivo.com.cn
-st.19mi.net
 st.appsad.cn
 st.todesk.com
 st3.wagbridge.advertisement.tanx.com
@@ -5286,7 +5282,6 @@ stat.sd.360.cn
 stat.simba.taobao.com
 stat.tpns.gz2.tencent.com
 stat.u.sb
-stat.umu.cn
 stat.uuu9.com
 stat.v.baidu.com
 stat.ws.126.net
@@ -5765,6 +5760,7 @@ tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tudxhzj.cn
 tuhzjrr.cn
+tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
@@ -6035,7 +6031,6 @@ video-dsp.pddpic.com
 video.dispatch.tc.qq.com
 video.market.xiaomi.com
 video231.oss-cn-beijing.aliyuncs.com
-videojj.com
 view.zijieapi.com
 viewsnet-termitet.gaeailz.cn
 vihppjk.cn
@@ -6447,7 +6442,6 @@ yinyouapp.com
 yiqifa.com
 yitongwl.cn
 yiwk.com
-yixui.com
 yiyuan.nagezan.net
 yj2nf.icu
 yje912.cn
