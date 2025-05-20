@@ -4,7 +4,6 @@ a.adwolf.ru
 a.sellpoint.net
 a0.app.xiaomi.com
 ac.ebis.ne.jp
-acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
@@ -75,6 +74,8 @@ forum.notebookreview.com
 gate.first-id.fr
 get.neofinancial.com
 go.scorptec.com.au
+goto.target.com
+goto.walmart.com
 grp07.ias.rakuten.co.jp
 gs.statcounter.com
 hb.afl.rakuten.co.jp
