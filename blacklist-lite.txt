@@ -403,7 +403,6 @@ ad.weibo.com
 ad.weixin.qq.com
 ad.weplayer.cc
 ad.winrar.com.cn
-ad.xiaomi.com
 ad.ximalaya.com
 ad.xunkids.com
 ad.yeshitv.com
@@ -484,7 +483,6 @@ adintl.cn
 adjb.5nd.com
 adjust.cn
 adjust.com
-adkwai.com
 adl.kkguan.com
 adlaunch.moji.com
 adlaunch.qingting.fm
@@ -680,7 +678,6 @@ adtrack.uc.cn
 adtrack.ucweb.com
 adtrack.xiaojukeji.com
 adtx2.cn
-adukwai.com
 adups.cn
 adups.com
 adutp.com
@@ -1116,7 +1113,6 @@ app.xizi.com
 appc.baidu.com
 appcfg.v.qq.com
 appchannel.html5.qq.com
-appcloud2.in.zhihu.com
 appconf.heytapdownload.com
 appdownload.alicdn.com
 appdriver.cn
@@ -1150,6 +1146,7 @@ appstore.cdn.pandora.xiaomi.com
 appstore.pandora.xiaomi.com
 appstore.ptmi.gitv.tv
 appsupport.qq.com
+appversion.115.com
 appwall.tv2phone.cn
 apsrgeo.amap.com
 aqc.gucheng.com
@@ -1212,7 +1209,6 @@ asycxtz.cn
 at-af.outfit7.com
 at1.doubanio.com
 at3.doubanio.com
-ata-sdk-uuid-report.dreport.meituan.net
 atanx.alicdn.com
 atanx2.alicdn.com
 atb-stats-api.imolive.tv
@@ -2148,7 +2144,6 @@ duicloud.cn
 duologinsupersdk.ewan.cn
 duomai.com
 duomeng.cn
-dutils.com
 dv0i.icu
 dv4ku.icu
 dvb.pandora.xiaomi.com
@@ -2568,7 +2563,6 @@ get.shouji.sogou.com
 getmyip.top
 getui.cn
 getui.com
-getui.net
 gf.umenglog.com
 gfrzzzx.cn
 gg.0598yu.com
@@ -2639,7 +2633,6 @@ googlesyndication.com
 googletagmanager-cn.com
 googletagmanager.com
 googletagservices-cn.com
-googletagservices.com
 googletraveladservices.com
 googlevads-cn.com
 gorgon.youdao.com
@@ -2673,7 +2666,6 @@ grs.dbankcloud.com
 grs.dbankcloud.eu
 grs.hicloud.com
 grs.hihonorcloud.com
-grs.platform.dbankcloud.ru
 gscatk.cn
 gslb.hpplay.cn
 gslive.edm.globalsources.com
@@ -2965,7 +2957,6 @@ hxrqgw.asia
 hy.huangye88.com.cn
 hy.huangye88.net
 hy90.cn
-hya.comp.360os.com
 hybrid.miniapp.taobao.com
 hydra.alibaba.com
 hye.comp.360os.com
@@ -3038,7 +3029,6 @@ ifsau-eu.coloros.com
 ifsau-in.coloros.com
 ifsau.coloros.com
 ifsk2.tanx.com
-igexin.com
 ignslkgs.com
 ihclam.cn
 ihtqqws.cn
@@ -3447,7 +3437,6 @@ kuaishang.cn
 kuaishang.com.cn
 kuaizip.com
 kuaizitech.com
-kuiniuca.com
 kunpeng-sc.csdnimg.cn
 kunpeng.csdn.net
 kunyu.csdn.net
@@ -3903,7 +3892,6 @@ metrics-dre.data.dbankcloud.cn
 metrics-dre.dt.dbankcloud.cn
 metrics-dre.dt.dbankcloud.com
 metrics.americanairlines.cn
-metrics.apple.com
 metrics.chacha.com
 metrics.citi.com.cn
 metrics.citibank.cn
@@ -4015,7 +4003,6 @@ mobilead.kuwo.cn
 mobilelog.kugou.com
 mobilelog.upqzfile.com
 mobilem.360.cn
-mobileservice.cn
 mobisage.cn
 mobsafe.update.360safe.com
 mobwsa.ximalaya.com
@@ -4731,7 +4718,6 @@ quintelligence.com
 qujishu.com
 qurl.f.360.cn
 qvonje.cn
-qwapi.apple.com
 qwe0231141.bj.bcebos.com
 qwer220.cn
 qzs.gdtimg.com
@@ -4948,12 +4934,9 @@ s.tantanapp.com
 s.zixuntop.com
 s.zlongad.com
 s1.hanlinzhijia.com
-s1.qq.com
 s1.wesiedu.com
-s2.qq.com
 s2.zdmimg.com
 s3.bytecdn.cn
-s3.qq.com
 s8t.teads.tv
 sa.adidas.cn
 sa.sina.cn
@@ -5973,7 +5956,6 @@ umkezbh.cn
 umlazada.alibaba.com
 ums-telemetry-cn.heytapmobi.com
 ums.pushpia.cn
-umsns.com
 un-acs.youku.com
 un1.lawyernet.cn
 unifi-report.ubnt.com
@@ -6425,8 +6407,6 @@ xiuxiu.mobile.meitudata.com
 xjkugh.waterdropfilter.com
 xkmwxwy.cn
 xkzjq.cn
-xlivrdr.com
-xlmzc.cnjp-exp.com
 xlog.jd.com
 xlog.snssdk.com
 xls.go.sohu.com
@@ -6565,7 +6545,6 @@ youmi.net
 youqunjx.com
 yousuode.cn
 youxi.baidu.com
-youxi.kugou.com
 yoyi.tv
 yptqys.tianqistatic.com
 yqlxkzs.cn
