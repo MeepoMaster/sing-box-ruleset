@@ -500,6 +500,7 @@ adintl.cn
 adjb.5nd.com
 adjust.cn
 adjust.com
+adks.hpplay.cn
 adl.kkguan.com
 adlaunch.moji.com
 adlaunch.qingting.fm
@@ -883,6 +884,7 @@ analytics.126.com
 analytics.163.com
 analytics.300624.com
 analytics.95516.com
+analytics.adjust.cn
 analytics.afirstsoft.cn
 analytics.apps.seabroadnet.com
 analytics.behr.com
