@@ -7,8 +7,6 @@ ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
-ad.10010.com
-ad.kazakinfo.com
 ad.ourgame.com
 adblock.adguard.com
 adlink.wf
@@ -145,7 +143,6 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
-sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
@@ -161,6 +158,8 @@ tr.rdrtr.com
 track.rutarget.ru
 track.webgains.com
 validate.perfdrive.com
+vcentry2.valuecommerce.ne.jp
+vcentry3.valuecommerce.ne.jp
 vitacost.122.2o7.net
 wan.douyu.com
 webstatic.nero.com
