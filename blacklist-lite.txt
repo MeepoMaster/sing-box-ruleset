@@ -318,7 +318,6 @@ acs.m.taobao.com
 acs4baichuan.m.taobao.com
 act.qq.com
 act.vip.iqiyi.com
-activation.easeus.com
 active.baofeng.com
 active.sangfor.com
 activities.alibaba.com
@@ -568,7 +567,6 @@ ads.linkedin.com
 ads.lmmob.com
 ads.mobring.co
 ads.music.126.net
-ads.nuonuo.com
 ads.people.com.cn
 ads.pinterest.com
 ads.privacy.qq.com
@@ -793,7 +791,6 @@ al.newxue.com
 album-cn01a.ocloud.heytapmobi.com
 album-sg01a.ocloud.heytapmobi.com
 ali-ad.a.yximgs.com
-ali-bj-pcdn-06.biliapi.net
 ali-bj-pcdn-07.biliapi.net
 ali-bj-pcdn-08.biliapi.net
 ali-bj-pcdn-09.biliapi.net
@@ -4973,7 +4970,6 @@ sentry.d.xiaomi.net
 sentry.eks.hoyoverse.com
 sentry.meitu-int.com
 sentry.music.163.com
-sentry.myoas.net
 sentry.pay.xiaomi.com
 sentry.sec.miui.com
 sentry.tapsvc.com
@@ -4982,6 +4978,7 @@ sentry.umu.cn
 sentry.wenxiaobai.com
 sentry.xiaoyuzhoufm.com
 sepyra.com
+serconsole.vicp.cc
 server.m.pp.cn
 serveraddr.service.kugou.com
 service.ad.adesk.com
@@ -5654,7 +5651,6 @@ tracking.cat898.com
 tracking.chacha.com
 tracking.eu.miui.com
 tracking.gurugame.ai
-tracking.ihipportb.com
 tracking.innote.com
 tracking.intl.miui.com
 tracking.iwhop.cn
@@ -5671,7 +5667,6 @@ tracking.tdk.cn
 tracking.ti.com
 tracking.ti.com.cn
 tracking.tpadx.com
-tracking.wosai.cn
 tracking.xinduoad.com
 tracking.xrxx365.com
 trackinginternal.ti.com
@@ -5963,7 +5958,6 @@ vhs.wwstat.com
 vhs.wwstat.com.eo.dnse0.com
 vhs.wwstat.com.eo.unicomcdn.com.cn
 vi.l.qq.com
-vicp.cc
 video-ad.sm.cn
 video-dsp.pddpic.com
 video.dispatch.tc.qq.com
@@ -6522,7 +6516,6 @@ zxcv.3g.qq.com
 zxptw.cn
 zxqiwe.cn
 zxrcfw.com
-zxrtb.com
 zxsruvd.cn
 zykwnj.cn
 zz.bdstatic.com
