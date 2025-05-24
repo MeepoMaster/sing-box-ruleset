@@ -191,6 +191,7 @@
 7kjiiu.cn
 7moor.com
 7r227ut.cn
+7xi9g1.com1.z0.glb.clouddn.com
 80w19v.cn
 8131.qizhihaotian.cn
 8181zx.com
@@ -544,7 +545,6 @@ ads.reader.yueyouxs.com
 ads.servebom.com
 ads.service.kugou.com
 ads.sina.com
-ads.sina.com.cn
 ads.sohu.com
 ads.tiktok.com
 ads.uc.cn
@@ -780,6 +780,7 @@ ali-bj-pcdn-24.biliapi.net
 ali-bj-pcdn-25.biliapi.net
 ali-bj-pcdn-26.biliapi.net
 ali-bj-pcdn-27.biliapi.net
+ali-bj-pcdn-28.biliapi.net
 ali-bj-pcdn-29.biliapi.net
 ali-bj-pcdn-30.biliapi.net
 ali-bj-pcdn-31.biliapi.net
@@ -1300,7 +1301,6 @@ beacons.gvt2.com
 becode.xiao84.com
 beencounter.com
 beizi.biz
-bencaogangmu.asia
 berlinchans.com
 bes-mtj.baidu.com
 bespoke-analytics.razerapi.com
@@ -1542,7 +1542,6 @@ chshcms.net
 chunmiaosh.com
 chupl.icu
 chuzushijian.cn
-cippe.com.cn
 cj.qidian.com
 cjcpq.cn
 ck.ads.oppomobile.com
@@ -1568,7 +1567,6 @@ click.inplayable.com
 click.liftoff.io
 click.oneplus.cn
 click.qianqian.com
-click.tanx.com
 click.tz.simba.taobao.com
 click1n.soufun.com
 click2.hd.sohu.com
@@ -2288,7 +2286,6 @@ f.qstatic.com
 f1.zaojv.com
 f5w.as12df.top
 f5zv2.icu
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 fair.sogou.com
 fakjkwp.cn
@@ -3034,7 +3031,6 @@ impservice.youdao.com
 in-adlog.vivoglobal.com
 in-adreq.vivoglobal.com
 in-adsjssdk.vivoglobal.com
-in-analyzer-appstore.vivoglobal.com
 in-apponrt-stsdk.vivoglobal.com
 in-apport-stsdk.vivoglobal.com
 in-apppnrt-stsdk.vivoglobal.com
@@ -3618,7 +3614,6 @@ logservice-dra.platform.hicloud.com
 logservice-dre.platform.dbankcloud.cn
 logservice-dre.platform.dbankcloud.com
 logservice-dre.platform.hicloud.com
-logservice-north-america.agora.io
 logservice-rtm.agora.io
 logservice.agora.io
 logservice.dbankcloud.cn
@@ -3932,6 +3927,7 @@ moquanad.com
 motsjnv.cn
 motuopj.cn
 mountain.zhidao.baidu.com
+mountain.zhidao.baidu.com.cname3466.yjs-cdn.com
 mouseflow.com
 mp83fkx.cn
 mparticle.uc.cn
@@ -4212,6 +4208,7 @@ ounion.openadx.com
 ouplc.icu
 outerinfo.com
 outlookads.live.com
+ouyaoxiazai.com
 ov8ct.icu
 overseauspider.yuanshen.com
 ovnrmvg.cn
@@ -4413,7 +4410,6 @@ policy.video.iqiyi.com
 policy.video.ptqy.gitv.tv
 polska-olx.111455.xyz
 polyfill-js.cn
-pop.uusee.com
 popme.163.com
 poqwua.cn
 poro.58.com
@@ -4988,7 +4984,6 @@ shence.cread.com
 shengminsy.com
 shijixinrui.cn
 shilian168.cn
-shiqi.asia
 shop.wot.360.cn
 shop115048570.taobao.com
 shouji.360.cn
@@ -5588,7 +5583,6 @@ tracking.mail.ti.com.cn
 tracking.miui.com
 tracking.nesox.com
 tracking.rus.miui.com
-tracking.shopee.cn
 tracking.smobird.cc
 tracking.t.mercedes-benz.com.cn
 tracking.tdk.cn
@@ -5608,7 +5602,6 @@ traditionallyobjectlessblinked.com
 tradplus.cn
 tradplus.com
 tradplusad.com
-traffic.uusee.com
 trafficjam.cn
 trail.71baomu.com
 trail.thomsonreuters.cn
@@ -6090,6 +6083,7 @@ www.805m.com
 www.baihe.com
 www.benmoj.com
 www.bodog.eu
+www.cippe.com.cn
 www.claiks.com
 www.cm.ksmobile.com
 www.cvfww.cn
