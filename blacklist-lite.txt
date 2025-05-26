@@ -797,7 +797,6 @@ ai.bioon.com
 ai.m.taobao.com
 ai.taobao.com
 aihaoduo.cn
-aihuishou.com
 aili.com
 ainu.intel.cn
 aiq-in.ext.hp.com
@@ -1083,7 +1082,6 @@ api.setting.intl.miui.com
 api.skyworthiot.com
 api.sms.intl.miui.com
 api.ssp.xcultur.com
-api.ssp.zxrtb.com
 api.statsig.com
 api.sve.cc
 api.taboola.sve.cc
@@ -1416,7 +1414,6 @@ bihaipack.com
 bill.agent.56.com
 bingads.microsoft.com
 bingdianhuanyuan.cn
-biqubao.com
 biz.gexing.com
 biz5.sandai.net
 bizrotator.com
@@ -1700,7 +1697,6 @@ cmpxaup.cn
 cms.grandcloud.cn
 cms.tanx.com
 cms.ucweb.com
-cmsjs.eastmoney.com
 cmstool.youku.com
 cn-api.anythinktech.com
 cname-ali-asia-stsdk.vivoglobal.com
@@ -3260,7 +3256,6 @@ itv.hexun.com
 itv2-up.openspeech.cn
 itxinrou.com
 ityangstudy.cn
-iuou.myadobe.cn
 ivnrrkx.cn
 ivqtrjt.cn
 ivy.pcauto.com.cn
@@ -3279,6 +3274,7 @@ j.kfd3sm2c.com
 j1.piaobing.com
 j6zh4g0.cn
 ja.gamersky.com
+ja2.gamersky.com
 jab88.com
 jaccs-visititude.shdqxgs.cn
 jaccsz.com
@@ -3306,7 +3302,6 @@ jiankongbao.com
 jiaoben.ganji.cn
 jiaoben.jucanw.com
 jiaopei.com
-jiayuan.com
 jiedaibao.com
 jiezoiq.cn
 jifen.asia
@@ -4046,7 +4041,6 @@ moquanad.com
 motsjnv.cn
 motuopj.cn
 mountain.zhidao.baidu.com
-mountain.zhidao.baidu.com.cname3466.yjs-cdn.com
 mouseflow.com
 mp83fkx.cn
 mparticle.uc.cn
@@ -4372,12 +4366,10 @@ p.data.cctv.com
 p.kugou.com
 p.l.qq.com
 p.niudashu.com
-p.qiao.baidu.com
 p.s.360.cn
 p.sdu8cvc.com
 p.tanx.com
 p.wktfkj.com
-p.wts.xinwen.cn
 p.www.xiaomi.com
 p.zol-img.com.cn
 p1-be-pack-sign.pglstatp-toutiao.com
@@ -4510,7 +4502,6 @@ pics.xgo-img.com.cn
 picture.duokan.com
 pid.fly160.com
 pig.pupuapi.com
-pikacn.com
 pimlog.baidu.com
 pin.hpplay.cn
 pincai.com
@@ -5095,7 +5086,6 @@ sentry.pay.xiaomi.com
 sentry.sec.miui.com
 sentry.tapsvc.com
 sentry.trademessenger.com
-sentry.umu.cn
 sentry.xiaoyuzhoufm.com
 sepyra.com
 server.m.pp.cn
@@ -5377,8 +5367,8 @@ stat.youpin.mi.com
 stat.zol.com.cn
 stat.zuimeitianqi.com
 stat2.openinstall.io
-static-alias-1.360buyimg.com
 static-ssp.yidianzixun.com
+static.3001.net
 static.ads-twitter.com
 static.alimama.com
 static.app.m.letv.com
@@ -5587,7 +5577,6 @@ telegram.uhho30.cn
 telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
-telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
@@ -5892,7 +5881,6 @@ u8.hujiang.com
 u88.cn
 uapi.ads.heytapmobi.com
 ub1.job592.com
-uba.huaweicloud.com
 ubacollect-drcn.cloud.dbankcloud.cn
 ubt-sin.tripcdn.com
 ubxqerc.cn
@@ -6306,8 +6294,10 @@ www.588yw.com
 www.6998cdn.com
 www.6kwan.com
 www.805m.com
+www.aihuishou.com
 www.baihe.com
 www.benmoj.com
+www.biqubao.com
 www.bodog.eu
 www.cippe.com.cn
 www.claiks.com
@@ -6324,6 +6314,7 @@ www.guaikavideo.cn
 www.iiyout.cn
 www.jgjfr.cn
 www.jiathis.com
+www.jiayuan.com
 www.jmine.cn
 www.johnsoncontrols.top
 www.jrun.net.cn
@@ -6334,6 +6325,7 @@ www.mashangyoushu.cn
 www.nvshenfan.com
 www.ooniu.com
 www.peiyou.com
+www.pikacn.com
 www.q4ee.top
 www.shuqw.com
 www.soua.com
