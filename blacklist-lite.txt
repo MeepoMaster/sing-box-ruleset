@@ -192,20 +192,10 @@
 7daystodie.cn
 7dot.cn
 7f7rt.icu
-7fvk57.com1.z0.glb.clouddn.com
 7jkzmbd.cn
 7kjiiu.cn
 7moor.com
-7pn4yt.com1.z0.glb.clouddn.com
 7r227ut.cn
-7xi9g1.com1.z0.glb.clouddn.com
-7xiw31.com1.z0.glb.clouddn.com
-7xj5r6.com1.z0.glb.clouddn.com
-7xo6kd.com1.z0.glb.clouddn.com
-7xqaje.com1.z0.glb.clouddn.com
-7xqch8.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xti71.com1.z0.glb.clouddn.com
 80w19v.cn
 8131.qizhihaotian.cn
 8181zx.com
@@ -412,7 +402,6 @@ ad.mi.com
 ad.mobile.youku.com
 ad.netgoo.com
 ad.nvdvr.cn
-ad.ourgame.com
 ad.partner.gifshow.com
 ad.qingting.fm
 ad.qq.com
@@ -946,7 +935,6 @@ analytics.yicai.com
 analytics.yinxiang.com
 analytics.yiyouliao.com
 analytics.zhihuiya.com
-analytics2.xdiarys.com
 analyticsengine.s3.amazonaws.com
 analyze.lemurbrowser.com
 andmlb.kshwtj.com
@@ -996,7 +984,6 @@ api-analytics-sg.huami.com
 api-analytics-us.zepp.com
 api-analytics-us3.zepp.com
 api-cn.cdo.heytapmobi.com
-api-data-collection.insta360.cn
 api-event.falconnet.app
 api-flow.flyme.cn
 api-fp-retry-bj.fengkongcloud.com
@@ -1702,7 +1689,6 @@ cn-api.anythinktech.com
 cname-ali-asia-stsdk.vivoglobal.com
 cname-asia-st-exappupgrade.vivoglobal.com
 cname-asia-stsdk09.vivoglobal.com
-cname-de-stsdk.vivoglobal.com
 cname-in-bom01-nginxpool03.vivoglobal.com
 cname-sin01-stsdk09.vivoglobal.com
 cnjsuwqa.com
@@ -1836,7 +1822,6 @@ cre-dp.sina.cn
 cre.dp.sina.cn
 cre.mix.sina.com.cn
 cripto-robot.com
-crm.ws.ctrip.com
 crosspromotion.weplayer.cc
 crs.baidu.com
 cruiser.bayescom.cn
@@ -2057,7 +2042,6 @@ dm1.ddwk8.cn
 dmapp.youku.com
 dmg-dd.oss-accelerate.aliyuncs.com
 dmm.aizhan.com
-dmp.sina.cn
 dmrtb.com
 dms.fx678.com
 dmtracking.1688.com
@@ -3639,7 +3623,6 @@ log.iyunmai.com
 log.jd.com
 log.kuaigeng.com
 log.kuwo.cn
-log.liepin.com
 log.m.sm.cn
 log.mix.sina.com.cn
 log.music.baidu.com
@@ -5308,7 +5291,6 @@ ssp.zf313.com
 sssvd.china.com
 sstats.thermofisher.com.cn
 st-ads-jssdk.vivo.com.cn
-st.19mi.net
 st.appsad.cn
 st.todesk.com
 st3.wagbridge.advertisement.tanx.com
@@ -5385,6 +5367,7 @@ static.media.net
 static.meijiacun.com
 static.meiqia.com
 static.ptqy.gitv.tv
+static.qiyi.com
 static.rongkao.com
 static.tieba.baidu.com
 static.topxgun.com
@@ -5832,6 +5815,7 @@ tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tudxhzj.cn
 tuhzjrr.cn
+tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
