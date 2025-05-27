@@ -44,14 +44,7 @@ cindyholbrook.lpages.co
 citiintl.122.2o7.net
 cj.dotomi.com
 cl.link-ag.net
-classliving.lpages.co
-click.appcast.io
-click.avs.io
-click.cptrack.de
-click.simba.taobao.com
 click.trafficguard.ai
-click.virt.exacttarget.com
-clickattr.wayup.com
 cloud.notification-naviextras.com
 cm-beacon.nakanohito.jp
 cm-widget.nakanohito.jp
@@ -145,7 +138,6 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
-sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
