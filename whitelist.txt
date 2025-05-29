@@ -64,7 +64,6 @@ cutcaptcha.com
 daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
-developers.google.com
 download.adguard.com
 e.customeriomail.com
 email.awscloud.com
@@ -145,6 +144,7 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
+sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
