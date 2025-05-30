@@ -225,6 +225,7 @@
 8gra3.icu
 8le8le.com
 8ox.cn
+8rn1y79f02-1.algolianet.com
 8xtm6i.cn
 93692zubo66936.com
 961.com
@@ -367,6 +368,8 @@ ad-scope.com.cn
 ad-sdk-config.youdao.com
 ad-sdk.altamob.xiaoying.co
 ad-sdk.huxiu.com
+ad-splash-tracking.hktvmall.com
+ad-splash.hktvmall.com
 ad.12306.cn
 ad.163.com
 ad.1kxun.com
@@ -3546,6 +3549,7 @@ lishuaibin.cn
 list.z.qingting.fm
 litchiads.com
 liufenghua.com
+live-api.hktvmall.com
 live-api.immomo.com
 live-ifs.tanx.com
 live-memory.ink
