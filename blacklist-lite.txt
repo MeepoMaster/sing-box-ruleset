@@ -2243,7 +2243,6 @@ easyliao.com
 easyrecoverychina.com
 easytomessage.com
 eavs02.eqifa.com
-eazysoko.art
 eb71.cn
 ebank.wmxba.com
 ebgihst.zjvizi.cn
@@ -4468,7 +4467,6 @@ pageview.kgsz.cn
 paimgcdn-feed.baidu.com
 pamzqm.yitechnology.com
 panda.kdnet.net
-pandapals.club
 pandora.mi.com
 pangolin-sdk-toutiao-b.com
 pangolin.snssdk.com
@@ -5645,7 +5643,6 @@ telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
