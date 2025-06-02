@@ -9,7 +9,6 @@ acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -145,6 +144,7 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
+sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
@@ -153,6 +153,7 @@ support-widget.nakanohito.jp
 surveymyopinion.researchnow.com
 tags.crwdcntrl.net
 taiga.maven.io
+thumbnail.thench.net
 tlh.gedidigital.it
 tms.capitalone.com
 torimochi.line-apps.com
