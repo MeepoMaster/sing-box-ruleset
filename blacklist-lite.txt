@@ -2707,6 +2707,7 @@ hseda.com
 hsrgnac.cn
 hstpnetwork.com
 hswfj.cn
+hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3452,6 +3453,7 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
+log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4449,6 +4451,7 @@ qn-fileserverpcdn.cdn.huya.com
 qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qooic.com
+qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
