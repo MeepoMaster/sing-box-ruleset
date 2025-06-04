@@ -9,6 +9,7 @@ acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
@@ -32,7 +33,6 @@ awin1.com
 banner.dna.fi
 buyad.bi-xenon.cn
 c.office.com
-captcha.su.baidu.com
 catchup.thisisdax.com
 cbsi.map.fastly.net
 cdn.datatables.net
@@ -63,7 +63,7 @@ cutcaptcha.com
 daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
-download.adguard.com
+developers.google.com
 e.customeriomail.com
 email.awscloud.com
 email.elitedangerous.com
@@ -71,6 +71,8 @@ f-gear.ec-optimizer.com
 feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
+get.neofinancial.com
+go.adjust.com
 go.scorptec.com.au
 goto.target.com
 goto.walmart.com
@@ -89,11 +91,6 @@ intersport.peerius.com
 js.monitor.azure.com
 learn.khanacademy.org
 leechers-paradise.org
-link.morningbrew.com
-link.sylikes.com
-linka.page
-links.e.theatlantic.com
-links.getblueshift.com
 local.adguard.org
 log.mmstat.com
 logentries.com
@@ -166,6 +163,5 @@ webstatic.nero.com
 wtradv.market.xiaomi.com
 www.dogpile.com
 www.googleadservices.com
-www.jdoqocy.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
