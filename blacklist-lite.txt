@@ -1148,7 +1148,6 @@ appdriver.cn
 appgift.sinaapp.com
 appgiftwall.oss-us-west-1.aliyuncs.com
 appimg.0575bbs.com
-apple-account-forget.top
 apple-box.net
 apple-dl.com
 apple-gx.cn
@@ -1597,7 +1596,6 @@ cdp.cloud.unity.cn
 cduno.cn
 cdxyb.cn
 cee1.iteye.com
-cehu9.com
 cenjq.cn
 ceshi127722.obs.cn-north-4.myhuaweicloud.com
 cesumin.cn
@@ -3348,7 +3346,6 @@ js1.122cha.com
 js1.dadiniu.cn
 js1.haoge500.com
 js22f.net
-jsaozna.com
 jsb.qianzhan.com
 jscode.acg68.com
 jsczde.cn
