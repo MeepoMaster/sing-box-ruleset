@@ -9,6 +9,7 @@ acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 adlink.wf
 admin.dable.io
