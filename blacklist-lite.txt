@@ -1344,8 +1344,6 @@ bigdata-lbs-pri-c3.alb.xiaomi.com
 bigwww.com
 bihaipack.com
 bill.agent.56.com
-bing.college
-bing.fashion
 bingads.microsoft.com
 bingdianhuanyuan.cn
 biz.gexing.com
@@ -1706,7 +1704,6 @@ counter.ksosoft.com
 counter.m1905.com
 counter.pcauto.com.cn
 counter.people.cn
-counter.pushauction.com
 counter.sina.com.cn
 counter.tantanapp.com
 counter.yesky.com
@@ -1928,16 +1925,6 @@ diauth.garmin.cn
 dig.bdurl.net
 dig.lianjia.com
 dig.zjurl.cn
-dijital-ziraatmobil.com
-dijitalgiris-ziraatmobil.com
-dijitalgirisweb-ziraatmobil.com
-dijitalhizmet-ziraatweb.com
-dijitalhizmetmerkezi-ziraatweb.com
-dijitalmobilvarlik-ziraatweb.com
-dijitalnet-ziraatmobil.com
-dijitalvarlik-ziraatweb.com
-dijitalvarliklar-ziraatweb.com
-dijitalweb-ziraatmobil.com
 dimfarlow.com
 ding.cxzudwk.com
 dingbu.bj.bcebos.com
@@ -3314,7 +3301,6 @@ kgmobilestatbak.kugou.com
 khrtac.xiangha.com
 kingdeecn.cn
 kinleung.cn
-kiomg.com
 kivo.fun
 kixlt.ksapisrv.com
 kixpg-log.ksapisrv.com
@@ -4492,6 +4478,7 @@ push.wps.cn
 push.zhangyue.com
 push.zhanzhang.baidu.com
 pushapi.lenovomm.com
+pushauction.com
 pv.cheshi.com
 pv.focus.cn
 pv.funshion.com
@@ -5192,7 +5179,6 @@ static.3001.net
 static.ads-twitter.com
 static.alimama.com
 static.app.m.letv.com
-static.diditaxi.com.cn
 static.doubleclick.net
 static.fengkongcloud.com
 static.flv.uuzuonline.com
@@ -5318,7 +5304,6 @@ t.h5data.com
 t.home.news.cn
 t.hypers.com.cn
 t.l.qq.com
-t.pushauction.com
 t.teads.tv
 t.track.ad.xiaomi.com
 t.uc.cn
@@ -5421,6 +5406,7 @@ test-perfops.ldgslb.com
 test.ad.xiaomi.com
 test.e.ad.xiaomi.com
 test.surepush.cn
+testin.cn
 textlink.simba.taobao.com
 tf.360.cn
 tf.logview.alimama.com
@@ -5636,6 +5622,7 @@ tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tudxhzj.cn
 tuhzjrr.cn
+tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
