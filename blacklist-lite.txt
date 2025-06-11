@@ -1113,7 +1113,6 @@ appdriver.cn
 appgift.sinaapp.com
 appgiftwall.oss-us-west-1.aliyuncs.com
 appimg.0575bbs.com
-apple-account-forget.top
 apple-box.net
 apple-dl.com
 apple.www.letv.com
@@ -4768,6 +4767,7 @@ sdk-log-upload-os.hoyoverse.com
 sdk-os-static.hoyoverse.com
 sdk.1rtb.net
 sdk.ad.smaato.net
+sdk.adx.adwangmai.com
 sdk.beizi.biz
 sdk.cferw.com
 sdk.e.qq.com
