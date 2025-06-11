@@ -35,19 +35,15 @@ jobs:
 
     - name: Extract domains and process blocklist
       run: |
-        # 提取 JSON 中的 domain 列表
         jq -r '.rules[0].domain[]' AWAvenue_clean.json > extracted_domains.txt
 
-        # 合并 block.txt 和 extracted_domains，去重
         cat block.txt extracted_domains.txt | sort -u > raw_block.txt
 
-        # 移除 whitelist.txt 和 noblock.txt 中的条目（放行）
         grep -vxFf whitelist.txt raw_block.txt | grep -vxFf noblock.txt > final_block.txt
 
-        # 转换为 JSON 数组格式的 domain_suffix 列表
         sed 's/.*/"&",/' final_block.txt | sed '$ s/,$//' > domain_suffix_formatted.txt
 
-    - name: Extract domain_regex and build awa.json
+    - name: Extract domain_regex and build adg-awa.json
       run: |
         # 提取 domain_regex 部分
         domain_regex=$(jq '.rules[0].domain_regex' AWAvenue_clean.json)
@@ -66,14 +62,11 @@ jobs:
           echo '              }
             ]
           }'
-        } > awa.json
+        } > adg-awa.json
 
-        #  使用 jq 进行格式化美化
-        jq . awa.json > tmp.json && mv tmp.json awa.json
+        jq . adg-awa.json > tmp.json && mv tmp.json adg-awa.json
 
-
-        # 验证格式
-        jq empty awa.json
+        jq empty adg-awa.json
 
     - name: Setup sing-box
       run: |
@@ -83,14 +76,14 @@ jobs:
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
-    - name: Convert awa.json to awa.srs
+    - name: Convert adg-awa.json to adg-awa.srs
       run: |
-        sing-box rule-set compile --output awa.srs awa.json
+        sing-box rule-set compile --output adg-awa.srs adg-awa.json
 
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add awa.json awa.srs
+        git add adg-awa.json adg-awa.srs
         git commit -m "Force update AWA rules with sorted files" || echo "No changes to commit"
         git push
