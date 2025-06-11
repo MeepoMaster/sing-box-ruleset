@@ -1,0 +1,92 @@
+name: Update awa Rule
+
+on:
+  schedule:
+    - cron: "30 0,8,16 * * *"
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  update-awa-rules:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+        sudo apt-get update
+        sudo apt-get install -y jq
+
+    - name: Download and clean AWAvenue Rule JSON
+      run: |
+        curl -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
+        sed '/^\/\//d' AWAvenue.json > AWAvenue_clean.json
+        jq empty AWAvenue_clean.json
+
+    - name: Extract domains and process blocklist
+      run: |
+        # 提取 JSON 中的 domain 列表
+        jq -r '.rules[0].domain[]' AWAvenue_clean.json > extracted_domains.txt
+
+        # 合并 block.txt 和 extracted_domains，去重
+        cat block.txt extracted_domains.txt | sort -u > raw_block.txt
+
+        # 移除 whitelist.txt 和 noblock.txt 中的条目（放行）
+        grep -vxFf whitelist.txt raw_block.txt | grep -vxFf noblock.txt > final_block.txt
+
+        # 转换为 JSON 数组格式的 domain_suffix 列表
+        sed 's/.*/"&",/' final_block.txt | sed '$ s/,$//' > domain_suffix_formatted.txt
+
+    - name: Extract domain_regex and build awa.json
+      run: |
+        # 提取 domain_regex 部分
+        domain_regex=$(jq '.rules[0].domain_regex' AWAvenue_clean.json)
+
+        # 拼接最终 JSON
+        {
+          echo '{
+            "version": 3,
+            "rules": [
+              {
+                "domain_suffix": ['
+          cat domain_suffix_formatted.txt
+          echo '],
+                "domain_regex":'
+          echo "$domain_regex"
+          echo '              }
+            ]
+          }'
+        } > awa.json
+
+        # 验证格式
+        jq empty awa.json
+
+    - name: Setup sing-box
+      run: |
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
+
+    - name: Convert awa.json to awa.srs
+      run: |
+        sing-box rule-set compile --output awa.srs awa.json
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add awa.json awa.srs
+        git commit -m "Update awa ruleset based on AWAvenue + block with whitelist/noblock filtered" || echo "No changes to commit"
+        git push
