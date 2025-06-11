@@ -1,4 +1,4 @@
-name: Update awa Rule
+name: Update adg-awa Rule
 
 on:
   schedule:
