@@ -95,7 +95,7 @@ jobs:
         # 创建临时文件以构建完整的 JSON
         {
           echo '{
-            "version": 2,
+            "version": 3,
             "rules": [
               {
                 "domain_suffix": ['
