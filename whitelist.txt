@@ -39,7 +39,6 @@ cbsi.map.fastly.net
 cdn.datatables.net
 cdn.duurzaam.greenchoice.nl
 cdn.rozetka.com.ua
-chaturbate.com
 cindyholbrook.lpages.co
 citiintl.122.2o7.net
 cj.dotomi.com
@@ -104,6 +103,7 @@ logentries.com
 login.gaijin.net
 login.sendpulse.com
 ma135-r.analytics.edgekey.net
+manwa.me
 marketing.net.idealo-partner.com
 media-consumer365.desigual.com
 my.tealiumiq.com
@@ -118,6 +118,8 @@ oneline.nextday.media
 onl.bz
 pagead.l.doubleclick.net
 partner.everydays.de
+pgpartner.com
+pics.porn300.com
 promo.gramedia.com
 proto2ad.durasite.net
 pt.afl.rakuten.co.jp
@@ -165,6 +167,7 @@ vitacost.122.2o7.net
 wan.douyu.com
 webstatic.nero.com
 wtradv.market.xiaomi.com
+www.dogpile.com
 www.googleadservices.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
