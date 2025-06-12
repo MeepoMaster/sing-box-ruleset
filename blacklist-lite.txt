@@ -1570,8 +1570,6 @@ cj.qidian.com
 cj49.cn
 ck.ads.oppomobile.com
 ckm.iqiyi.com
-cl-romsp-unifyconfig.vivoglobal.com
-cl-vcode-api.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
 clarins.com.cn
@@ -1898,7 +1896,6 @@ ddbuwo.cn
 ddc888.com
 ddi.ksapisrv.com
 de-gdpr-err-up.vivoglobal.com
-de-gdpr-vcode-od.vivoglobal.com
 de.as.pptv.com
 de.pandora.xiaomi.com
 de.tynt.com
@@ -1914,7 +1911,6 @@ denpne.modelones.com
 detaillog-global-dual.coolbcloud.com
 detaillog-global-dual.coolccloud.com
 detaillog-global-dual.coolzcloud.com
-detaillog-global.coolbcloud.com
 detaillog-global.coolccloud.com
 detaillog-global.coolzcloud.com
 device.fishmobi.com
@@ -2255,7 +2251,6 @@ events-dre-op-dbankcloud-com-dre.appacc.dbankedge.cn
 events-dre-op-hicloud-com-dre.appacc.dbankedge.cn
 events-dre.op.dbankcloud.com
 events-dre.op.hicloud.com
-events-drru.op.dbankcloud.com
 events-drru.op.dbankcloud.ru
 events-drru.op.hicloud.com
 events.hotjar.io
@@ -2284,7 +2279,6 @@ f1.pig66.com
 f1.zaojv.com
 f5w.as12df.top
 f5zv2.icu
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 fakjkwp.cn
 falal.cn
@@ -4319,7 +4313,6 @@ pms.mb.qq.com
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -5199,7 +5192,6 @@ syr66.com.cn
 sys.tv.india.xiaomi.com
 sys.zhangyue.com
 sys7.msg.xunlei.com
-syspress.onethingpcs.com
 syzjxz2018.cn
 sz88.oss-cn-shenzhen.aliyuncs.com
 szbdyd.com
@@ -5473,7 +5465,6 @@ tracking.mail.ti.com.cn
 tracking.miui.com
 tracking.nesox.com
 tracking.rus.miui.com
-tracking.shopee.cn
 tracking.smobird.cc
 tracking.t.mercedes-benz.com.cn
 tracking.tdk.cn
@@ -5953,7 +5944,6 @@ www.588yw.com
 www.6998cdn.com
 www.6kwan.com
 www.805m.com
-www.aihuishou.com
 www.bodog.eu
 www.destinationurl.com
 www.gentags.com
