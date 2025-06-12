@@ -1070,7 +1070,6 @@ api.taboola.sve.cc
 api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -2039,7 +2038,6 @@ doubleclick.ctfile.com
 doubleclick.net
 doumob.com
 douyaobuy.com
-dow.andylab.cn
 down.54nb.com
 down.fwqlt.com
 down.nishuoa.com
@@ -3526,7 +3524,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
@@ -4255,7 +4252,6 @@ p555.cc
 p6-ad-sign.byteimg.com
 p6-be-pack-sign.pglstatp-toutiao.com
 p6.zbjimg.com
-p6992.cn
 p9-ad-sign.byteimg.com
 paas-push-api-log.immomo.com
 paas-push-api.immomo.com
@@ -5309,7 +5305,6 @@ t1.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
-t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
@@ -6081,8 +6076,6 @@ www.peiyou.com
 www.pikacn.com
 www.pt168.com.cn
 www.q4ee.top
-www.rbajee4.club
-www.rbajee8.club
 www.shuqw.com
 www.soua.com
 www.thztv.net
