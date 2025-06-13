@@ -1577,7 +1577,6 @@ ck.ads.oppomobile.com
 ckm.iqiyi.com
 ckoffice.cn
 ckt4.cn
-cl-romsp-unifyconfig.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
 clarins.com.cn
