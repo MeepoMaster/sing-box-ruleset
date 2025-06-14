@@ -467,7 +467,6 @@ adash.m.taobao.com
 adash.man.aliyuncs.com
 adashbc.m.taobao.com
 adashbc.ut.taobao.com
-adashx.m.taobao.com
 adashx.ut.alibaba.com
 adashx.ut.amap.com
 adashx.ut.ele.me
@@ -626,7 +625,6 @@ ads5-normal-hl.zijieapi.com
 ads5-normal-lf.zijieapi.com
 ads5-normal-lq.zijieapi.com
 ads5-normal.zijieapi.com
-adsage.cn
 adsame.com
 adsame1.cnr.cn
 adsapi.manhuaren.com
@@ -951,6 +949,7 @@ api-analytics-sg.huami.com
 api-analytics-us.zepp.com
 api-analytics-us3.zepp.com
 api-cn.cdo.heytapmobi.com
+api-data-collection.insta360.cn
 api-event.falconnet.app
 api-flow.flyme.cn
 api-fp-retry-bj.fengkongcloud.com
@@ -977,7 +976,6 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
-api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.adsdk.adsaide.cn
@@ -1435,7 +1433,6 @@ bxwccii.cn
 by.dyq.cn
 byscy.cn
 bzclk.baidu.com
-c-adash.m.taobao.com
 c-live.cn
 c-nfa.jd.com
 c.autohome.com.cn
@@ -1626,7 +1623,6 @@ clkservice.youdao.com
 clog.miguvideo.com
 clog.skysrt.com
 cloud-log.yy.com
-cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
 cloudservice13.kingsoft-office-service.com
 cloudservice14.kingsoft-office-service.com
@@ -1658,7 +1654,6 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
-co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
@@ -2040,7 +2035,6 @@ doubleclick-cn.net
 doubleclick.ctfile.com
 doubleclick.net
 doumob.com
-down.nishuoa.com
 download.350.com
 download.56.com
 download.bav.baidu.com
@@ -2759,7 +2753,6 @@ hseda.com
 hsrgnac.cn
 hstpnetwork.com
 hswfj.cn
-hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3515,7 +3508,6 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
-log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -3613,7 +3605,6 @@ lyapi.1391.com
 lydownload.net
 lyszsz.cn
 lyua.cn
-m-adash.m.taobao.com
 m-adnet.hiaiabc.com
 m.1234567.com.cn
 m.38xs.com
@@ -4520,7 +4511,6 @@ qn-fileserverpcdn.cdn.huya.com
 qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qooic.com
-qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -6042,7 +6032,6 @@ wv.inner-active.mobi
 wvwqywz.cn
 wwads.cn
 www-google-analytics.l.google.com
-www-googletagmanager.l.google.com
 www.1ting.com
 www.31d.net
 www.3aym.cn
