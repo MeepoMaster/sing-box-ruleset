@@ -40,7 +40,6 @@
 2345.com
 24klm.cn
 25662zubo23739.com
-262j.com
 2mdn-cn.net
 3.5646.cn
 3.cjcp.cn
@@ -1293,7 +1292,6 @@ bigdata-lbs-pri-c3.alb.xiaomi.com
 bigwww.com
 bihaipack.com
 bill.agent.56.com
-binance-oex.cn
 bing.college
 bing.fashion
 bingads.microsoft.com
@@ -1315,7 +1313,6 @@ bjpg-log.ksapisrv.com
 bjsvp35.space
 bjsvp38.space
 bjvvqu.cn
-bjzsszt.com
 bkt.clouddn.com
 bla.gtimg.com
 black.qimo.ink
@@ -3841,7 +3838,6 @@ moquanad.com
 motsjnv.cn
 motuopj.cn
 mountain.zhidao.baidu.com
-mountain.zhidao.baidu.com.cname3466.yjs-cdn.com
 mouseflow.com
 mp83fkx.cn
 mparticle.uc.cn
@@ -4527,9 +4523,6 @@ rabc1.iteye.com
 raffle-entry.info.smart.com
 rankhit.china.com
 rbajee2.vip
-rbajee4.club
-rbajee6.club
-rbajee8.club
 rbift.icu
 rbioclv.cn
 rbrbr88p.cn
@@ -5330,7 +5323,6 @@ telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
