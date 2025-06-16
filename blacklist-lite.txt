@@ -748,7 +748,6 @@ adxvip.com
 adyea.com
 adyun.com
 adzp.cn
-ae-alimelog.taobao.com
 ae.bdstatic.com
 aecpm.alicdn.com
 aegis.qq.com
@@ -874,7 +873,6 @@ analytics.yahoo.com
 analytics.yicai.com
 analytics.yinxiang.com
 analytics.yiyouliao.com
-analytics.zhihuiya.com
 analytics2.xdiarys.com
 analyticsengine.s3.amazonaws.com
 analyze.lemurbrowser.com
@@ -974,6 +972,7 @@ api.danmu.tv.sohu.com
 api.dewmobile.net
 api.e-toys.cn
 api.e.kuaishou.com
+api.e.mi.com
 api.eu.hismarttv.com
 api.fu.xcultur.com
 api.g.micloud.xiaomi.net
@@ -2151,7 +2150,6 @@ e.ad.xiaomi.com
 e.baidu.com
 e.kuaishou.cn
 e.kuaishou.com
-e.mi.com
 e.qq.com
 e.weather.com.cn
 e1.feather.ifeng.com
@@ -3239,7 +3237,6 @@ jiaoben.jucanw.com
 jiaopei.com
 jiedaibao.com
 jiezoiq.cn
-jifen.asia
 jiguang.cn
 jihehuaban.com.cn
 jing.58.com
@@ -3708,14 +3705,12 @@ lyua.cn
 m-adash.m.taobao.com
 m-adnet.hiaiabc.com
 m.1234567.com.cn
-m.38xs.com
 m.91heima.cn
 m.ad.zhangyue.com
 m.analytics.126.net.split.ntes53.netease.com
 m.atm.youku.com
 m.aty.snmsohu.aisee.tv
 m.bchchk.cn
-m.beehive.in.intl.miui.com
 m.doubleclick.net
 m.ercos.cn
 m.gongzhilian.com.cn
@@ -3786,7 +3781,6 @@ mb.lenovomm.com
 mb.yidianzixun.com
 mbai.cn
 mbaobao.com
-mbd.baidu.com
 mbdlog.iqiyi.com
 mbrowser.news.haosou.com
 mbrowser.news.so.com
@@ -4673,7 +4667,6 @@ rabc1.iteye.com
 raffle-entry.info.smart.com
 rankhit.china.com
 rayjump.com
-rbajee2.vip
 rbift.icu
 rbioclv.cn
 rbrbr88p.cn
@@ -5308,6 +5301,7 @@ static.live.nagezan.net
 static.m.sjzhushou.com
 static.media.net
 static.ptqy.gitv.tv
+static.qiyi.com
 static.rongkao.com
 static.tieba.baidu.com
 staticfile.net
@@ -5743,6 +5737,7 @@ ttmsg.qianqian.com
 tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tuhzjrr.cn
+tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
@@ -6162,7 +6157,6 @@ woniu.com
 woocall.sina.com.cn
 woodpecker.uc.cn
 worldwide.sogou.com
-wot.360.cn
 wpsweb-dc.wps.cn
 wpwpquse.cn
 wqaef.cn
@@ -6452,7 +6446,6 @@ ytx-file.110route.cn
 yuedu.iqiyi.com
 yuhuads.com
 yukariyakumo.cn
-yule.360.com
 yule.sohu.com
 yun-hl.3g.qq.com
 yun.tuisnake.com
