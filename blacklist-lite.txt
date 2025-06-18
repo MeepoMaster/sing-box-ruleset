@@ -1018,7 +1018,6 @@ api.taboola.sve.cc
 api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1578,7 +1577,6 @@ ck.ads.oppomobile.com
 ckm.iqiyi.com
 ckoffice.cn
 ckt4.cn
-cl-romsp-unifyconfig.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
 clarins.com.cn
@@ -1656,7 +1654,6 @@ cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
 co-domaincfg.vivoglobal.com
-co-err-up.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
 co-pnrt-stsdk.vivoglobal.com
@@ -2291,7 +2288,6 @@ event.tradplusad.com
 event.wedobest.com.cn
 event.wondershare.com
 event.zhihu.com
-events-api-ak.outfit7.com
 events-dra-op-dbankcloud-cn-dra.appacc-region.dbankedge.cn
 events-dra-op-dbankcloud-cn-dra.appacc.dbankedge.cn
 events-dra-op-dbankcloud-com-dra.appacc.dbankedge.cn
@@ -2308,7 +2304,6 @@ events-dre-op-dbankcloud-com-dre.appacc.dbankedge.cn
 events-dre-op-hicloud-com-dre.appacc.dbankedge.cn
 events-dre.op.dbankcloud.com
 events-dre.op.hicloud.com
-events-drru.op.dbankcloud.com
 events-drru.op.dbankcloud.ru
 events-drru.op.hicloud.com
 events.hotjar.io
@@ -2336,7 +2331,6 @@ f1.pig66.com
 f1.zaojv.com
 f5w.as12df.top
 f5zv2.icu
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 fakjkwp.cn
 falal.cn
@@ -4459,7 +4453,6 @@ plmn5.com
 plugin-check.egret.com
 pmensrl.cn
 pmir.3g.qq.com
-pmir.sec.miui.com
 pmiskc.cn
 pmm.people.com.cn
 pmp-ad.cdn.bcebos.com
@@ -4467,7 +4460,6 @@ pms.mb.qq.com
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -5423,7 +5415,6 @@ t1.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
-t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
