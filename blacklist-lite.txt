@@ -385,7 +385,6 @@ ad.api.mobile.youku.com
 ad.api.moji.com
 ad.bandao.cn
 ad.beihai365.com
-ad.bn.netease.com
 ad.bwton.com
 ad.caiyunapp.com
 ad.ccement.com
@@ -3442,7 +3441,6 @@ kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
 kz-st-exappupgrade.vivoglobal.com
-kz-st-sl.vivoglobal.com
 kz-stsdk.vivoglobal.com
 kz-vcode-api.vivoglobal.com
 kz-vcode-od.vivoglobal.com
@@ -5362,7 +5360,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5533,7 +5530,6 @@ telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
@@ -6102,7 +6098,6 @@ wan.360.cn
 wan.sogou.com
 wan.youku.com
 wangmeng.baidu.com
-wangyouxs.cn
 wanproxy.127.net
 wap-dl-v6.shouji.sogou.com
 wap.koudaitong.com
