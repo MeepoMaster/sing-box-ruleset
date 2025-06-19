@@ -1525,7 +1525,6 @@ cdn.liftoff-creatives.io
 cdn.luckyorange.com
 cdn.moji002.com
 cdn.mouseflow.com
-cdn.outfit7.com
 cdn.scdng.com
 cdn.tanx.com
 cdn.xianchengyou.com
@@ -6187,7 +6186,6 @@ www.805m.com
 www.baihe.com
 www.bangqidq.com
 www.bodog.eu
-www.cippe.com.cn
 www.destinationurl.com
 www.feitianma.com
 www.gentags.com
