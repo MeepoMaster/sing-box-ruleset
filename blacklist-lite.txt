@@ -1571,7 +1571,6 @@ cdns.mbxt.net
 cdp.cloud.unity.cn
 cdxyb.cn
 cee1.iteye.com
-cehu9.com
 cengqinglin.cn
 cenjq.cn
 cenwsu.cn
@@ -4001,7 +4000,6 @@ moquanad.com
 motsjnv.cn
 motuopj.cn
 mountain.zhidao.baidu.com
-mountain.zhidao.baidu.com.cname3466.yjs-cdn.com
 mouseflow.com
 mp83fkx.cn
 mparticle.uc.cn
