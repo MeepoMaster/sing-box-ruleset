@@ -660,7 +660,6 @@ adsfile.qq.com
 adsfilebssdlbig.ali.kugou.com
 adsfileretry.service.kugou.com
 adsfs-id.oppomobile.com
-adsfs-in.oppomobile.com
 adsfs-sdkconfig.heytapimage.com
 adsfs.heytapimage.com
 adsfs.oppomobile.com
