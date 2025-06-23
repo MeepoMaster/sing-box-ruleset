@@ -852,7 +852,6 @@ analysis.yozocloud.cn
 analysys.cn
 analytics-api.dvdfab.cn
 analytics-api.samsunghealthcn.com
-analytics-api.smzdm.com
 analytics-gw.games.wanmei.com
 analytics-sg.tiktok.com
 analytics-union.xunlei.com
@@ -2259,7 +2258,6 @@ eoyqzzk.cn
 epoch-id.cdo.heytapmobi.com
 eqqi.cn
 er1h4.icu
-erebor.douban.com
 err-up.vivoglobal.com
 err.gflb.flysleep.cn
 err.gflb.zztfly.com
@@ -5042,7 +5040,6 @@ silkroad.csdn.net
 simaba.m.taobao.com
 simaba.taobao.com
 simba.6.cn
-simg.sinajs.cn
 simicloud.com
 sinahealth.com.cn
 sinawap.com
