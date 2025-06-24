@@ -78,7 +78,6 @@
 20091222.com
 2016.sina.cn
 2021.dxsbb.com
-20230329.com
 20wx.com
 21.fh21static.com
 2144.cn
@@ -1964,6 +1963,7 @@ ding.cxzudwk.com
 dingbu.bj.bcebos.com
 dipan.com
 discover.absciex.com.cn
+disk.accord1key.cn
 disp.titan.mgtv.com
 dispatcher-bsy.c360dn.com
 dispatcher.c360dn.com
@@ -2077,7 +2077,6 @@ downloada.dewmobile.net
 downloadxml.changhong.upgrade2.huan.tv
 downmini.kugou.com
 downmobile.kugou.com
-dozmeqybzde.cc
 dp.im.weibo.cn
 dp3.qq.com
 dpd-problem.abbjl.com
@@ -4018,7 +4017,6 @@ nadvideo.baidu.com
 nadvideo2.baidu.com
 nalook.com
 namcah.alipearlhair.com
-nanjing.baby
 napthetocchien.com
 nasimobi.com
 nativeapp.toutiao.com
@@ -4090,7 +4088,6 @@ ntfsformac.cc
 ntfsformac.cn
 nuzsc.cn
 nxet1.360doc.cn
-nxjsyq.com
 nxtdv.cn
 ny.lshdw.cc
 o-sdk.mediation.unity3d.com
