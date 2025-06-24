@@ -1602,7 +1602,6 @@ cname-asia-stsdk09.vivoglobal.com
 cname-de-stsdk.vivoglobal.com
 cname-in-bom01-nginxpool03.vivoglobal.com
 cname-sin01-stsdk09.vivoglobal.com
-cnet.chat
 cnjuwks.com
 cnlogs.umeng.com
 cnlogs.umengcloud.com
@@ -2712,7 +2711,6 @@ hnlphr.cn
 hnltcw.com
 hnol.net
 hnxxt.net
-hogyp.com
 holmeshelp.vidmate.mobi
 holmeshelptest.uc.cn
 home.edm.globalsources.com
@@ -3243,7 +3241,6 @@ kgmobilestatbak.kugou.com
 khrtac.xiangha.com
 kingdeecn.cn
 kinleung.cn
-kiomg.com
 kivo.fun
 kixlt.ksapisrv.com
 kixpg-log.ksapisrv.com
@@ -6062,7 +6059,6 @@ www.805m.com
 www.baihe.com
 www.bangqidq.com
 www.bodog.eu
-www.cippe.com.cn
 www.destinationurl.com
 www.feitianma.com
 www.gentags.com
