@@ -42,7 +42,6 @@
 11.96131.com.cn
 11.yiqig.cn
 1178.shucong.com
-118ex.cn
 11h5.com
 12.cookcai.com
 123.sogou.com
@@ -1353,8 +1352,6 @@ bigdata-lbs-pri-c3.alb.xiaomi.com
 bigwww.com
 bihaipack.com
 bill.agent.56.com
-bing.college
-bing.fashion
 bingads.microsoft.com
 bingdianhuanyuan.cn
 biqubao.com
@@ -1977,7 +1974,6 @@ dlimg.lovfp.com
 dlogs.bwton.com
 dlres.ind9ed.com
 dlswbr.baidu.com
-dltranslation.com
 dluat.pokerbros.net
 dm-hl.toutiao.com
 dm.bytedance.com
@@ -2405,7 +2401,6 @@ fwtracks.freshmarketer.com
 fxgate.baidu.com
 fy14.cn
 fy60.icu
-fygd168.com
 fz.tiansys.cn
 g-adnet.hiaiabc.com
 g-staic.ganjingworld.com
@@ -3781,7 +3776,6 @@ mime.baidu.com
 mimg.126.net
 mine.baidu.com
 minfo.wps.cn
-mingzhandaohang.com
 mini-prog-drm.vodplayvideo.net
 mini.eastday.com
 mini.hao123.com
@@ -6116,7 +6110,6 @@ x.jd.com
 x0or8.icu
 xa7j.icu
 xapi.apk.v-mate.mobi
-xavua.com
 xbtw.com
 xc.gdt.qq.com
 xcultur.com
@@ -6142,7 +6135,6 @@ xiezhuo038.cn
 xifs.tanx.com
 xinbo-lora.cn
 xindalawyer.com
-xinfax.com
 xiuxiu.android.dl.meitu.com
 xiuxiu.mobile.meitudata.com
 xjkugh.waterdropfilter.com
@@ -6254,7 +6246,6 @@ ymapp.com
 ymcdn.cn
 ymdxl.com
 ymima360.com
-ymjnd.com
 ymmobi.com
 yncjsc.cn
 yoda.kwd.inkuai.com
