@@ -147,6 +147,7 @@
 52kuwang.cn
 52mj.susuwei.cn
 52pk.com
+52wmb.com
 52z.com
 53kf.com
 546138.cn
@@ -623,7 +624,6 @@ ads5-normal-hl.zijieapi.com
 ads5-normal-lf.zijieapi.com
 ads5-normal-lq.zijieapi.com
 ads5-normal.zijieapi.com
-adsage.cn
 adsaide.cn
 adsame.com
 adsame1.cnr.cn
@@ -987,7 +987,6 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
-api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -2059,7 +2058,6 @@ doubleclick.net
 doumob.com
 down.54nb.com
 down.fwqlt.com
-down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -2786,7 +2784,6 @@ hseda.com
 hsrgnac.cn
 hstpnetwork.com
 hswfj.cn
-hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3548,7 +3545,6 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
-log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4287,7 +4283,6 @@ pay.ksapisrv.com
 pay.mobile.sina.cn
 pay.sboot.cn
 payment.yodo1api.com
-paypalnfo.cfd
 pb.bi.gitv.tv
 pb.hd.sohu.com
 pb.hd.sohu.com.cn
@@ -4412,7 +4407,6 @@ postut.cn
 poyang.com
 pp-cdnfile1pcdn.msstatic.com
 pp2.pptv.com
-ppaypalnfo.cfd
 ppedp.cn
 pqav.cn
 pqjprom.cn
@@ -4536,7 +4530,6 @@ qn-fileserverpcdn.cdn.huya.com
 qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qooic.com
-qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -6079,7 +6072,6 @@ wup.imtt.qq.com
 wv.inner-active.mobi
 wwads.cn
 www-google-analytics.l.google.com
-www-googletagmanager.l.google.com
 www.1ting.com
 www.31d.net
 www.3aym.cn
