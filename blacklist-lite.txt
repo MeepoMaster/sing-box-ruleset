@@ -3264,6 +3264,7 @@ kmpxq.cn
 kmr.enrosr.cn
 knicks.jd.com
 knliylh.cn
+kokojia.com
 kolsh.cn
 koowo.com
 koreniztreh.net
@@ -4344,7 +4345,6 @@ pms.mb.qq.com
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -4632,7 +4632,6 @@ rm.sina.com.cn
 rmonitor.qq.com
 rms-drcn.platform.dbankcloud.cn
 rmzbfum.cn
-rnd-aresocean-commercial.huawei.com
 ro-up.vivoglobal.com
 ro.aiwan4399.com
 rodeoconfig.yodo1api.com
@@ -4786,7 +4785,6 @@ script-bd.baixing.net
 script.hotjar.com
 scs.openspeech.cn
 sd6hon.cn
-sdac.lenovomm.com
 sdd.hi1718.com
 sdfp.snssdk.com
 sdk-ab-config.qquanquan.com
@@ -5189,7 +5187,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5291,7 +5288,6 @@ t1.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
-t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
