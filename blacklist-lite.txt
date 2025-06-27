@@ -147,7 +147,6 @@
 52kuwang.cn
 52mj.susuwei.cn
 52pk.com
-52wmb.com
 52z.com
 53kf.com
 546138.cn
@@ -238,6 +237,7 @@
 9991.com
 999aa666bb.com
 999bb222ww.com
+999d.com
 999xx333kk.com
 999xx999kk.com
 99box.com
@@ -1664,7 +1664,6 @@ cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
 co-domaincfg.vivoglobal.com
-co-err-up.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
 co-pnrt-stsdk.vivoglobal.com
@@ -1969,9 +1968,6 @@ dianying-1304791696.cos.ap-shanghai.myqcloud.com
 dig.bdurl.net
 dig.lianjia.com
 dig.zjurl.cn
-dijitalhizmetweb-ziraatbireysel.com
-dijitalwebgiris-ziraatbireysel.com
-dijitalwebhizmet-ziraatbireysel.com
 ding.cxzudwk.com
 dingbu.bj.bcebos.com
 dipan.com
@@ -2144,7 +2140,6 @@ dw-online.ksosoft.com
 dw.xcar.com.cn
 dweixin.cn
 dwtracking.sdo.com
-dwwmaster.com
 dx-cards-css.iqiyi.com
 dxp.baidu.com
 dxpmedia.com
@@ -2561,7 +2556,6 @@ global-staticplat.cdn.bcebos.com
 global.click.taobao.com
 globalapi.ad.xiaomi.com
 globalvideo.cdn.pandora.intl.xiaomi.com
-globalwits.cn
 glwxw.net
 gma.alicdn.com
 gndmnrh.cn
@@ -2714,7 +2708,6 @@ hb-af-us-central1.outfit7.com
 hb.ksapisrv.com
 hbqabbg.cn
 hbv.tobeacon.cn
-hbwjm.com
 hbzhenquan.cn
 hc-ssp.sm.cn
 hcirentgh.360doc.cn
@@ -2940,7 +2933,6 @@ ii.gdt.qq.com
 ii1.chajiaotong.com
 iimedia.cn
 ijinshan.com
-ikxnauqa.com
 ilce.alicdn.com
 ilkwork.com
 im-x.jd.com
@@ -3356,7 +3348,6 @@ kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
 kz-st-exappupgrade.vivoglobal.com
-kz-st-sl.vivoglobal.com
 kz-stsdk.vivoglobal.com
 kz-vcode-api.vivoglobal.com
 kz-vcode-od.vivoglobal.com
@@ -4052,7 +4043,6 @@ ng-vn-notice.gameitop.com
 ngmco.net
 nhjsw.cn
 nimaxrv.cn
-nishabii.xyz
 nisihu.com.cn
 nithisp.cn
 niu.xunlei.com
@@ -5272,7 +5262,6 @@ sv-video.play.aiseet.atianqi.com
 sv2fo.icu
 sv5nm.icu
 svdpgmt.cn
-sw2031.com
 swc.weather.com.cn
 swwwxww.oss-cn-hangzhou.aliyuncs.com
 sxk9m8x.cn
@@ -6340,7 +6329,6 @@ zhy333.com
 zhzzx.com
 zio.xcar.com.cn
 zio8.icu
-ziraatonay.vip
 ziyuan.baidu.com
 zjib0.icu
 zjliloveyou.ixiunv.com
