@@ -624,6 +624,7 @@ ads5-normal-hl.zijieapi.com
 ads5-normal-lf.zijieapi.com
 ads5-normal-lq.zijieapi.com
 ads5-normal.zijieapi.com
+adsage.cn
 adsaide.cn
 adsame.com
 adsame1.cnr.cn
@@ -987,6 +988,7 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
+api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -1051,7 +1053,6 @@ api.taboola.sve.cc
 api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1409,7 +1410,6 @@ books-analytics-events.apple.com
 books-top.com
 bootcss.com
 bpztsxx.com
-bqyvip.cn
 bqzsmvlnav.xdiheu.cn
 brandadsstatic.vivo.com.cn
 brands.aliexpress.com
@@ -1630,7 +1630,6 @@ clientlogsf.music.163.com
 clkservice.youdao.com
 clog.miguvideo.com
 clog.skysrt.com
-clog4.yuanfudao.com
 cloud-log.yy.com
 cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
@@ -2058,6 +2057,7 @@ doubleclick.net
 doumob.com
 down.54nb.com
 down.fwqlt.com
+down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -2784,6 +2784,7 @@ hseda.com
 hsrgnac.cn
 hstpnetwork.com
 hswfj.cn
+hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3306,7 +3307,6 @@ kmpxq.cn
 kmr.enrosr.cn
 knicks.jd.com
 knliylh.cn
-kokojia.com
 kolsh.cn
 koowo.com
 kpshx.douguo.com
@@ -3521,7 +3521,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
@@ -3545,6 +3544,7 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
+log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4041,7 +4041,6 @@ nfa.jd.com
 ng-vn-notice.gameitop.com
 ngmco.net
 nhjsw.cn
-nieniba.com
 nimaxrv.cn
 nisihu.com.cn
 nithisp.cn
@@ -4441,7 +4440,6 @@ ptmabek.cn
 ptmind.com
 pub.funshion.com
 pub.se.360.cn
-pubbirdf.com
 public.app.autohome.com.cn
 public.gdtimg.com
 publish-pic-cpu.baidu.com
@@ -4530,6 +4528,7 @@ qn-fileserverpcdn.cdn.huya.com
 qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qooic.com
+qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -5060,7 +5059,6 @@ sms.ads.oppomobile.com
 sms.info.smart.com
 smuc.cnnfootballclub.com
 smucdn.com
-snbjs.com
 sngapm.qq.com
 sngmta.qq.com
 snowflake.qq.com
@@ -6072,6 +6070,7 @@ wup.imtt.qq.com
 wv.inner-active.mobi
 wwads.cn
 www-google-analytics.l.google.com
+www-googletagmanager.l.google.com
 www.1ting.com
 www.31d.net
 www.3aym.cn
@@ -6149,7 +6148,6 @@ xcultur.com
 xdcs-collector.ximalaya.com
 xdrig.com
 xhkvff.cn
-xiald.com
 xiangshunjy.com
 xianshangzixun.com
 xianshangzixun.net
