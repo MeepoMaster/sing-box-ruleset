@@ -34,6 +34,7 @@ banner.dna.fi
 buyad.bi-xenon.cn
 c.office.com
 captcha.su.baidu.com
+catchup.thisisdax.com
 cbsi.map.fastly.net
 cdn.datatables.net
 cdn.duurzaam.greenchoice.nl
