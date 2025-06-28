@@ -45,10 +45,8 @@ jobs:
 
     - name: Extract domain_regex and build adg-awa.json
       run: |
-        # 提取 domain_regex 部分
         domain_regex=$(jq '.rules[0].domain_regex' AWAvenue_clean.json)
 
-        # 拼接原始 JSON 文件
         {
           echo '{
             "version": 3,
