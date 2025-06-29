@@ -116,7 +116,6 @@ omniture.walmart.com
 omsc.kpn.com
 oneline.nextday.media
 onl.bz
-pagead.l.doubleclick.net
 partner.everydays.de
 pgpartner.com
 pics.porn300.com
@@ -143,7 +142,6 @@ sax.sina.com.cn
 sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
-smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
 static.softlayer.com
