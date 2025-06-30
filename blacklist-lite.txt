@@ -149,6 +149,7 @@
 52kuwang.cn
 52mj.susuwei.cn
 52pk.com
+52wmb.com
 52z.com
 53kf.com
 546138.cn
@@ -237,7 +238,6 @@
 9991.com
 999aa666bb.com
 999bb222ww.com
-999d.com
 999xx333kk.com
 999xx999kk.com
 99box.com
@@ -3174,7 +3174,6 @@ jobsfe.funshion.com
 jojog.com
 jollyspring.com
 jp-datareceiver.aki-game.net
-jp-verify.com
 jp.as.pptv.com
 jpaasne.e.shifen.com
 jpg1.oss-cn-beijing.aliyuncs.com
@@ -3278,6 +3277,7 @@ kmpxq.cn
 kmr.enrosr.cn
 knicks.jd.com
 knliylh.cn
+kokojia.com
 kolsh.cn
 koowo.com
 koreniztreh.net
@@ -4997,7 +4997,6 @@ softstart.kugou.com
 solutions.refinitiv.cn
 somni.aussiespecialist.cn
 somni.australia.cn
-songmingyang.asia
 soorbka.cn
 soup.v.qq.com
 sp.dnqc.com
@@ -5242,7 +5241,6 @@ t1.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
-t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
