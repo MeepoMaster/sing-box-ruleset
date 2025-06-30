@@ -9,7 +9,6 @@ acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
@@ -35,9 +34,6 @@ c.office.com
 captcha.su.baidu.com
 catchup.thisisdax.com
 cbsi.map.fastly.net
-cdn.datatables.net
-cdn.duurzaam.greenchoice.nl
-cdn.rozetka.com.ua
 chaturbate.com
 cindyholbrook.lpages.co
 citiintl.122.2o7.net
@@ -116,6 +112,7 @@ omniture.walmart.com
 omsc.kpn.com
 oneline.nextday.media
 onl.bz
+pagead.l.doubleclick.net
 partner.everydays.de
 pgpartner.com
 pics.porn300.com
@@ -142,6 +139,7 @@ sax.sina.com.cn
 sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
+smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
 static.softlayer.com
@@ -167,5 +165,6 @@ webstatic.nero.com
 wtradv.market.xiaomi.com
 www.dogpile.com
 www.googleadservices.com
+www.jdoqocy.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
