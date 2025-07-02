@@ -625,7 +625,6 @@ ads5-normal-hl.zijieapi.com
 ads5-normal-lf.zijieapi.com
 ads5-normal-lq.zijieapi.com
 ads5-normal.zijieapi.com
-adsage.cn
 adsaide.cn
 adsame.com
 adsame1.cnr.cn
@@ -992,7 +991,6 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
-api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -2066,7 +2064,6 @@ doubleclick.net
 doumob.com
 down.54nb.com
 down.fwqlt.com
-down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -2791,7 +2788,6 @@ hseda.com
 hsrgnac.cn
 hstpnetwork.com
 hswfj.cn
-hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3550,7 +3546,6 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
-log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4545,7 +4540,6 @@ qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qnytr.cn
 qooic.com
-qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -5348,7 +5342,6 @@ t002.ottcn.com
 t1.58cdn.com.cn
 t1.612.com
 t1.a.market.xiaomi.com
-t1.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
@@ -5356,13 +5349,9 @@ t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
-t2.market.xiaomi.com
 t28goe.cn
 t3.58cdn.com.cn
 t3.a.market.xiaomi.com
-t3.market.xiaomi.com
-t4.market.xiaomi.com
-t5.market.xiaomi.com
 t6.china-xian.com
 t7z.cupid.iqiyi.com
 t7z.cupid.ptqy.gitv.tv
