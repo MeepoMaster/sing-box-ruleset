@@ -5401,7 +5401,6 @@ t1.a.market.xiaomi.com
 t1.teads.tv
 t1.xuefen.com.cn
 t101.cn
-t17.market.xiaomi.com
 t188.dazhonghua.cn
 t2.58cdn.com.cn
 t2.a.market.xiaomi.com
