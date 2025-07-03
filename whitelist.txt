@@ -15,7 +15,6 @@ admin.dable.io
 admin.mailchimp.com
 adv.bloop.info
 advert.kf5.com
-afi-b.com
 alllaw.112.2o7.net
 amdc.alipay.com
 analytics.amplitude.com
