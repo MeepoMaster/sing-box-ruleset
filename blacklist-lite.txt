@@ -554,7 +554,6 @@ adpic.chinadaily.com.cn
 adping.qq.com
 adpolestar.net
 adproxy.autohome.com.cn
-adpublish.ydstatic.com
 adq.chinaso.com
 adquan.com
 adreport.adtianmai.com
@@ -625,6 +624,7 @@ ads5-normal-hl.zijieapi.com
 ads5-normal-lf.zijieapi.com
 ads5-normal-lq.zijieapi.com
 ads5-normal.zijieapi.com
+adsage.cn
 adsaide.cn
 adsame.com
 adsame1.cnr.cn
@@ -991,6 +991,7 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
+api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -1003,7 +1004,6 @@ api.browser.intl.miui.com
 api.brs.intl.miui.com
 api.bugsnag.com
 api.bytegle.tech
-api.calendar.intl.miui.com
 api.callget.cn
 api.collect.data.intl.miui.com
 api.competition.intl.miui.com
@@ -1056,7 +1056,6 @@ api.taboola.sve.cc
 api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1167,7 +1166,6 @@ as.bjmama.net
 as.weixin.qq.com
 as1.m.hao123.com
 as1.wenku.baidu.com
-asdxxcg.top
 asdyui16.cn
 asearch.alicdn.com
 asia-abeacdataonrt-stsdk.vivoglobal.com
@@ -1585,7 +1583,6 @@ cj.qidian.com
 ck.ads.oppomobile.com
 ckm.iqiyi.com
 cl-romsp-unifyconfig.vivoglobal.com
-cl-st-sl.vivoglobal.com
 cl-vcode-api.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
@@ -2064,6 +2061,7 @@ doubleclick.net
 doumob.com
 down.54nb.com
 down.fwqlt.com
+down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -3163,7 +3161,6 @@ jbzj.com
 jc1.dayfund.com.cn
 jccgty.cn
 jcchunya.cn
-jccontainer.cn
 jcm.jd.com
 jcmonitor.xcar.com.cn
 jcxgg.cn
@@ -3346,7 +3343,6 @@ kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
 kz-st-exappupgrade.vivoglobal.com
-kz-st-sl.vivoglobal.com
 kz-stsdk.vivoglobal.com
 kz-vcode-api.vivoglobal.com
 kz-vcode-od.vivoglobal.com
@@ -4390,7 +4386,6 @@ pmtrj.cn
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -4808,7 +4803,6 @@ sbisecr.cn
 sc.shayugg.com
 sc.sonystyle.com.cn
 sc126.com
-sca-cota.vivoglobal.com
 sca-domaincfg.vivoglobal.com
 sca-err-up.vivoglobal.com
 sca-onrt-stsdk.vivoglobal.com
@@ -4835,7 +4829,6 @@ script-bd.baixing.net
 script.hotjar.com
 scs.openspeech.cn
 sd6hon.cn
-sdac.lenovomm.com
 sdd.hi1718.com
 sdfp.snssdk.com
 sdk-ab-config.qquanquan.com
@@ -5242,7 +5235,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5552,7 +5544,6 @@ tr-ort-stsdk.vivoglobal.com
 tr-p.vivoglobal.com
 tr-romsp-unifyconfig.vivoglobal.com
 tr-st-sl.vivoglobal.com
-tr-stsdk.vivoglobal.com
 tr-timesync.vivoglobal.com
 tr-vcode-api.vivoglobal.com
 tr-vcode-od.vivoglobal.com
