@@ -188,28 +188,10 @@
 7cbwus.cn
 7dot.cn
 7f7rt.icu
-7fvhfe.com1.z0.glb.clouddn.com
 7jkzmbd.cn
-7jpp1d.com1.z0.glb.clouddn.com
 7kjiiu.cn
 7moor.com
 7r227ut.cn
-7xi4pf.com1.z0.glb.clouddn.com
-7xi9g1.com1.z0.glb.clouddn.com
-7xjkuy.com1.z0.glb.clouddn.com
-7xjqvu.com1.z0.glb.clouddn.com
-7xkq88.com1.z0.glb.clouddn.com
-7xlsu7.com1.z0.glb.clouddn.com
-7xo0y8.com1.z0.glb.clouddn.com
-7xo6kd.com1.z0.glb.clouddn.com
-7xoghc.com1.z0.glb.clouddn.com
-7xqgba.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xqnme.com1.z0.glb.clouddn.com
-7xr4jm.com1.z0.glb.clouddn.com
-7xrgh9.com1.z0.glb.clouddn.com
-7xsm7w.com1.z0.glb.clouddn.com
-7xtxh3.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -3336,6 +3318,7 @@ kmr.enrosr.cn
 knicks.jd.com
 knliylh.cn
 knxjh.cn
+kokojia.com
 kolsh.cn
 koowo.com
 koreniztreh.net
@@ -3376,7 +3359,6 @@ kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
 kz-st-exappupgrade.vivoglobal.com
-kz-st-sl.vivoglobal.com
 kz-stsdk.vivoglobal.com
 kz-vcode-api.vivoglobal.com
 kz-vcode-od.vivoglobal.com
@@ -3555,7 +3537,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
@@ -3776,7 +3757,6 @@ mcs.snssdk.com
 mcs.zijieapi.com
 md.tvzhe.com
 mdevstat.qqlive.qq.com
-medad.med.wanfangdata.com.cn
 medal.blog.csdn.net
 media.adget.cn
 media.cheshi-img.com
@@ -4203,7 +4183,6 @@ open.play.cn
 open.snssdk.com
 open.snssdk.com.bytedns.net
 openapi-news.meizu.com
-openapi.guanjia.qq.com
 openapi.vip.ptqy.gitv.tv
 opencloud.wostore.cn
 openjmacs.m.taobao.com
@@ -5166,7 +5145,6 @@ sp0.baidu.com
 sp1.baidu.com
 sp2.baidu.com
 sp3.baidu.com
-speedhorse.site
 spider-tracker.xiaohongshu.com
 spinfo.wps.cn
 spkh.cn
@@ -5303,7 +5281,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5471,7 +5448,6 @@ telegramcn.co
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
@@ -6408,6 +6384,7 @@ yxgfcj.com
 yylady.cn
 yystzl.cn
 yywridi.cn
+yzkzixun.com
 yznwyng.cn
 z.grfyw.com
 z.nowscore.com
@@ -6443,7 +6420,6 @@ zhihu.xmcimg.com
 zhiping.online
 zhisuyunonline.cn
 zhiziyun.com
-zhlzdhr.cn
 zhongguociwang.com
 zhongguqiye.com
 zhongkaowu.com
