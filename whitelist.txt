@@ -9,6 +9,7 @@ acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
@@ -64,6 +65,8 @@ data.digital.costco.com
 developers.google.com
 download.adguard.com
 e.customeriomail.com
+email.awscloud.com
+email.elitedangerous.com
 f-gear.ec-optimizer.com
 feed.adrelayer.com
 forum.notebookreview.com
@@ -139,6 +142,7 @@ sax.sina.com.cn
 sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
+smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
 static.softlayer.com
