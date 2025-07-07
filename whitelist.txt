@@ -4,6 +4,7 @@ a.adwolf.ru
 a.sellpoint.net
 a0.app.xiaomi.com
 ac.ebis.ne.jp
+acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.10010.com
@@ -62,7 +63,6 @@ daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
 developers.google.com
-download.adguard.com
 e.customeriomail.com
 email.awscloud.com
 email.elitedangerous.com
@@ -110,9 +110,6 @@ nineto5mac-d.openx.net
 oa.tr.line.me
 obituaries.therecord.com
 official.paymaya.com
-omniture.walmart.com
-omsc.kpn.com
-oneline.nextday.media
 onl.bz
 pagead.l.doubleclick.net
 partner.everydays.de
