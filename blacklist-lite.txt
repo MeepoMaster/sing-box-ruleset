@@ -770,7 +770,6 @@ adxvip.com
 adyea.com
 adyun.com
 adzp.cn
-ae-alimelog.taobao.com
 ae.bdstatic.com
 aecpm.alicdn.com
 aegis.qq.com
@@ -3269,7 +3268,6 @@ kmr.enrosr.cn
 knicks.jd.com
 knliylh.cn
 knxjh.cn
-kokojia.com
 kolsh.cn
 koowo.com
 koreniztreh.net
@@ -3327,7 +3325,6 @@ laomaotao.net
 launcher-us.yeshen.com
 launcher.smart-tv.cn
 launcherimg.smart-tv.cn
-lazada-ad-workstation.oss-ap-southeast-1.aliyuncs.com
 lbprjdi.cn
 lccfjszp.cn
 lcd.aivote.com
@@ -5203,6 +5200,7 @@ static.live.nagezan.net
 static.m.sjzhushou.com
 static.media.net
 static.ptqy.gitv.tv
+static.qiyi.com
 static.rongkao.com
 static.tieba.baidu.com
 static.topxgun.com
