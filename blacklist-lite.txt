@@ -2831,7 +2831,6 @@ i.stat.nearme.com.cn
 i0.letvimg.com
 i2wq4.icu
 i3.letvimg.com
-i6.weather.oppomobile.com
 iad.apple.com
 iadctest.qwapi.com
 iadmat.nosdn.127.net
