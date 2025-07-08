@@ -7,7 +7,6 @@ ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
-ad.10010.com
 ad.kazakinfo.com
 ad.ourgame.com
 adblock.adguard.com
@@ -63,6 +62,7 @@ daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
 developers.google.com
+download.adguard.com
 e.customeriomail.com
 email.awscloud.com
 email.elitedangerous.com
@@ -110,6 +110,9 @@ nineto5mac-d.openx.net
 oa.tr.line.me
 obituaries.therecord.com
 official.paymaya.com
+omniture.walmart.com
+omsc.kpn.com
+oneline.nextday.media
 onl.bz
 pagead.l.doubleclick.net
 partner.everydays.de
@@ -139,7 +142,6 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
-sobot.com
 stash.roistat.com
 static.softlayer.com
 str.hit.gemius.pl
