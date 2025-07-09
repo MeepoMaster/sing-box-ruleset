@@ -1064,7 +1064,6 @@ api.taboola.sve.cc
 api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1594,7 +1593,6 @@ cippe.com.cn
 cj.qidian.com
 ck.ads.oppomobile.com
 ckm.iqiyi.com
-cl-romsp-unifyconfig.vivoglobal.com
 cl-vcode-api.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
@@ -1671,9 +1669,7 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
-co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
-co-err-up.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
 co-pnrt-stsdk.vivoglobal.com
@@ -1752,7 +1748,6 @@ counter.sina.com.cn
 counter.yesky.com
 countly-rel-usa.haimacloud.com
 countly.mail.163.com
-countly.unus.netease.com
 countpage.sznews.com
 countpvn.light.fang.com
 countubn.light.soufun.com
@@ -2610,7 +2605,6 @@ goe.edm.globalsources.com
 goforandroid.com
 gold.szonline.net
 goldbye.vicp.net
-gonglue1.com
 gongxifc.com
 google-analytics-cn.com
 google-analytics.com
@@ -3675,7 +3669,6 @@ lrswl.com
 lshuaibin.cn
 lstat.youku.com
 ltjlj.cn
-ltsgdty.gtimg.com
 lu2.luyouwang.com
 luaqxb.rainso.com
 luckyorange.com
@@ -4439,7 +4432,6 @@ pmtrj.cn
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -5149,7 +5141,6 @@ so.sina.cn
 soa-vip-ssl.xunlei.com
 soarpower.com
 sobar.baidu.com
-sobot.com
 social-touch.com
 sofire.baidu.com
 sofire.bdstatic.com
@@ -5308,7 +5299,6 @@ stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
 statscollector-1-north-america.agora.io
-statscollector-1-oversea.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
 statsigapi.net
@@ -5672,7 +5662,6 @@ tracking.mail.ti.com.cn
 tracking.miui.com
 tracking.nesox.com
 tracking.rus.miui.com
-tracking.shopee.cn
 tracking.smobird.cc
 tracking.t.mercedes-benz.com.cn
 tracking.tdk.cn
@@ -5713,7 +5702,6 @@ ttmsg.qianqian.com
 tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tuhzjrr.cn
-tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
