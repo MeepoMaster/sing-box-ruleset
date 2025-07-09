@@ -41,8 +41,6 @@
 11.96131.com.cn
 11.yiqig.cn
 1178.shucong.com
-118ex.cn
-11h5.com
 12.cookcai.com
 123.sogou.com
 123.ywxww.net
@@ -188,6 +186,7 @@
 6uzxtlv.cn
 6v4.work
 6v6.work
+7299tu75.cc
 73336zubo25326.com
 777bb111ww.com
 7aey.icu
@@ -195,11 +194,28 @@
 7cbwus.cn
 7dot.cn
 7f7rt.icu
+7fvhfe.com1.z0.glb.clouddn.com
 7jkzmbd.cn
+7jpp1d.com1.z0.glb.clouddn.com
 7kjiiu.cn
 7moor.com
 7r227ut.cn
+7xi4pf.com1.z0.glb.clouddn.com
 7xi9g1.com1.z0.glb.clouddn.com
+7xjkuy.com1.z0.glb.clouddn.com
+7xjqvu.com1.z0.glb.clouddn.com
+7xkq88.com1.z0.glb.clouddn.com
+7xlsu7.com1.z0.glb.clouddn.com
+7xo0y8.com1.z0.glb.clouddn.com
+7xo6kd.com1.z0.glb.clouddn.com
+7xoghc.com1.z0.glb.clouddn.com
+7xqgba.com1.z0.glb.clouddn.com
+7xqmjb.com1.z0.glb.clouddn.com
+7xqnme.com1.z0.glb.clouddn.com
+7xr4jm.com1.z0.glb.clouddn.com
+7xrgh9.com1.z0.glb.clouddn.com
+7xsm7w.com1.z0.glb.clouddn.com
+7xtxh3.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -259,6 +275,7 @@ a.munters.cn
 a.nowscore.com
 a.qunzou.com
 a.rohde-schwarz.com.cn
+a.tainengchong.com
 a.tanx.com
 a.tiyuxiu.com
 a.wanzhuang.com
@@ -282,6 +299,7 @@ a1.itc.cn
 a1.lshou.com
 a1.qqan.com
 a1.tbuz.com.cn
+a1.tuke8.com
 a2.rabbitpre.com
 a2.xinhuanet.com
 a2put.chinaz.com
@@ -679,6 +697,7 @@ adsp.xunlei.com
 adsqqclick.qq.com
 adsrich.qq.com
 adstat.izuiyou.com
+adstatic.zhihu.com
 adstatistics.av380.net
 adstats.tencentmusic.com
 adstextview.qq.com
@@ -770,25 +789,21 @@ adxvip.com
 adyea.com
 adyun.com
 adzp.cn
+ae-alimelog.taobao.com
 ae.bdstatic.com
 aecpm.alicdn.com
 aegis.qq.com
 aemetrics.aliexpress.ru
-aeon-archa.gdhpbjt.cn
 aeon-arcsure.xsftb.cn
 aeon-batature.xslht.cn
 aeon-closeit.dygxh.cn
-aeon-cretard.xsqgh.cn
 aeon-exetic.nklxt.cn
 aeon-night.nkkbx.cn
-aeon-nugaceous.dylwh.cn
-aeon-otherile.mxcxp.cn
 aeon-partism.pfprdvx.cn
 aeon-quirth.muaazuq.cn
 aeon-resultent.xdbqp.cn
 aeon-saltery.xwyoljo.cn
 aeon-seemel.mxcyg.cn
-aeon-septenee.fhbwk.cn
 af6s.icu
 afd.baidu.com
 afp.alicdn.com
@@ -1087,12 +1102,14 @@ apmplus.volces.com
 apollo.caixin.com
 app-analytics-in.huami.com
 app-analytics-ru.huami.com
+app-analytics-services-att.com
 app-analytics-services.com
 app-analytics-sg.huami.com
 app-analytics-us.huami.com
 app-analytics.huami.com
 app-analytics.zepp.com
 app-g.39.net
+app-log-oversea.immomo.com
 app-measurement.com
 app-monitor.ele.me
 app-sentry.taou.com
@@ -1359,7 +1376,6 @@ bianxian.com
 bianxianmao.com
 bidder.dsp.outfit7.com
 biddingx.com
-biegen.cn
 bieqpf.cn
 bieuc.icu
 bigdata-lbs-pri-c3.alb.xiaomi.com
@@ -1394,7 +1410,6 @@ bm.alimama.cn
 bm.h576.com
 bmjs.xzw.com
 bmvip.alimama.cn
-bnunyoueo.top
 boardx.huanqiu.com
 boardy.huanqiu.com
 bobo.163.com
@@ -1442,7 +1457,6 @@ bwz4e.icu
 bxqgk.icu
 bxwccii.cn
 by.dyq.cn
-byscy.cn
 bzclk.baidu.com
 c-adash.m.taobao.com
 c-nfa.jd.com
@@ -1624,6 +1638,7 @@ clientlogsf.music.163.com
 clkservice.youdao.com
 clog.miguvideo.com
 clog.skysrt.com
+clog2.yuanfudao.com
 cloud-log.yy.com
 cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
@@ -1650,7 +1665,6 @@ cname-asia-stsdk09.vivoglobal.com
 cname-de-stsdk.vivoglobal.com
 cname-in-bom01-nginxpool03.vivoglobal.com
 cname-sin01-stsdk09.vivoglobal.com
-cnjuwks.com
 cnlogs.umeng.com
 cnlogs.umengcloud.com
 cnt.zhaopin.com
@@ -1738,6 +1752,7 @@ counter.sina.com.cn
 counter.yesky.com
 countly-rel-usa.haimacloud.com
 countly.mail.163.com
+countly.unus.netease.com
 countpage.sznews.com
 countpvn.light.fang.com
 countubn.light.soufun.com
@@ -1752,6 +1767,7 @@ cpoml.iask.sina.com.cn
 cpro.baidu.com
 cpro.baidustatic.com
 cpro.bdrmb.cn
+cpro.xixiliya.cn
 cpro.zhidao.baidu.com
 cpro.zol.com.cn
 cps.360buy.com
@@ -1938,13 +1954,20 @@ delivery.wasu.cn
 deliverylogistics.top
 dengkanwen.com
 denpne.modelones.com
+detaillog-global-dual.coolacloud.com
 detaillog-global-dual.coolbcloud.com
 detaillog-global-dual.coolccloud.com
+detaillog-global-dual.coolgcloud.com
+detaillog-global-dual.coolhcloud.com
 detaillog-global-dual.coolzcloud.com
+detaillog-global.coolacloud.com
 detaillog-global.coolbcloud.com
 detaillog-global.coolccloud.com
 detaillog-global.coolzcloud.com
 detaillog-global.zego.im
+detaillog1442930085-api.zegocloud.com
+detaillog2871374591-api.zegocloud.com
+detaillog3281989059-api.zegocloud.com
 devlog-upload-os.hoyoverse.com
 dexinyi.cn
 df.huya.com
@@ -1977,6 +2000,8 @@ dispatcher.c360dn.com
 dispatcher.upmc.uc.cn
 dj.renren.com
 dj1.baidu.com
+dkasdeerw.xyz
+dkasffredf.xyz
 dksgo7.top
 dktad.com
 dl-vip.bav.baidu.com
@@ -2029,7 +2054,6 @@ dns.weixin.qq.com
 dnslog.cn
 dnyzbp.cn
 do-global.com
-docom-aboutee.ogbcld.cn
 docom-cavable.qgnbh.cn
 docom-cupar.tnrms.cn
 docom-opotellish.fbzdiw.cn
@@ -2156,6 +2180,7 @@ e1zin.icu
 e4l4.com
 e8aeb8bbdbbd7.cdn.sohucs.com
 e8d7.icu
+eagle-tex.cn
 eap.big5.enorth.com.cn
 eap.enorth.com.cn
 easou.com
@@ -2346,7 +2371,6 @@ favfav.xyz
 fbdhc.cn
 fbdlm.cn
 fbfdr.cn
-fbnps.cn
 fc-feed.cdn.bcebos.com
 fc.3dmgame.com
 fca6f.icu
@@ -2424,14 +2448,12 @@ fpbone.ihowguide.com
 fpsnk.cn
 fqrfx.cn
 fqxkj.cn
-fqxpr.cn
 fr.resolver.msg.global.xiaomi.net
 fr.swissquote.cn
 frbcy.cn
 free-cdn.oss-cn-shanghai.aliyuncs.com
 free-gta5.com
 freshmarketer.com
-frfgq.cn
 frgdd.cn
 frontend-perf-service.e.kuaishou.com
 frontier100-toutiao-lf.fqnovel.com
@@ -2453,6 +2475,7 @@ fwtracks.freshmarketer.com
 fxgate.baidu.com
 fy14.cn
 fy60.icu
+fz.tiansys.cn
 g-adnet.hiaiabc.com
 g-staic.ganjingworld.com
 g.163.com
@@ -2499,10 +2522,8 @@ gatecollect.kugou.com
 gateway-bugly.ke.com
 gator.volces.com
 gb.corp.163.com
-gbbjl.cn
 gbjct.cn
 gbllt.cn
-gbtzq.cn
 gcbflvx.cn
 gchtj.cn
 gcjgl.cn
@@ -2512,7 +2533,6 @@ gdl.zmqdez.ru
 gdt.qq.com
 gdtimg.com
 gecko-hl.snssdk.com
-gecko-lq.snssdk.com
 gecko.snssdk.com
 gecko3-lf.zijieapi.com
 gecko5-lf.zijieapi.com
@@ -2590,9 +2610,11 @@ goe.edm.globalsources.com
 goforandroid.com
 gold.szonline.net
 goldbye.vicp.net
+gonglue1.com
 gongxifc.com
 google-analytics-cn.com
 google-analytics.com
+googleadapis.l.google.com
 googleads.g.doubleclick-cn.net
 googleads.g.doubleclick.com
 googleads.g.doubleclick.net
@@ -2616,7 +2638,6 @@ goutong.baidu.com
 govkunming.cn
 gpxxbyf.cn
 gqdfgyz.cn
-gqpwo.cn
 grand.ele.me
 gridsum-vd.cntv.cn
 gridsum.com
@@ -2697,7 +2718,6 @@ h-adashx4yt.ut.taobao.com
 h.baminw.cn
 h.trace.qq.com
 h1.kukuw.com
-h1.wk2.com
 h30574.www3.hp.com
 h45pmx1.cn
 h5.analytics.126.net
@@ -2803,7 +2823,6 @@ hqdlhgx.cn
 hqnpwzu.cn
 hreport.meituan.com
 hrjwm.cn
-hrmrt.cn
 hseda.com
 hshlz.cn
 hsrgnac.cn
@@ -2813,7 +2832,6 @@ hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
-htrxp.cn
 httpdns-api.aliyuncs.com
 httpdns-browser.platform.dbankcloud.cn
 httpdns-sc.aliyuncs.com
@@ -2844,11 +2862,11 @@ httpdns.zybang.com
 httpdns1.cc.cdnhwc5.com
 httpring.qq.com
 httpsdns.baidu.com
-httrl.cn
 htwjo.com
 htzqf.cn
 huabian.com
 huanghanye.asia
+huanqiucaijing.cn
 huatuo.qq.com
 huaxiang.eastmoney.com
 hub5btmain.sandai.net
@@ -2866,7 +2884,6 @@ huichuan.sm.cn
 huishenghuiying.com.cn
 huitoukao.com
 hulichuang.mobi
-hunvl.cn
 huoche.com.cn
 huodong.m.taobao.com
 huohuo.huamuwo.com
@@ -3177,7 +3194,6 @@ ja2.gamersky.com
 jab88.com
 jaccs-aperts.aqgtw.cn
 jaccs-talouo.aqpjw.cn
-jaccs-whethe.aqnlw.cn
 janapi.jd.com
 japps.cn
 jasu8.com
@@ -3188,11 +3204,8 @@ jccgty.cn
 jcchunya.cn
 jcm.jd.com
 jcmonitor.xcar.com.cn
-jcrpf.cn
 jctnh.cn
-jcwkw.cn
 jcxgg.cn
-jcxhr.cn
 jddaw.com
 jdnlynb.cn
 jdpm.net.cn
@@ -3200,7 +3213,6 @@ jebe.renren.com
 jesgoo.com
 jeubw.cn
 jf365.boc.cn
-jfbgq.cn
 jg1668.com
 jgftp.cn
 jgstny.com
@@ -3244,7 +3256,6 @@ jpush.io
 jpushjd.m.jd.com
 jpushoa.com
 jquery.envi-met.com.cn
-jqvjo.cn
 jrad.jd.com
 jrclick.jd.com
 jrltdiu.cn
@@ -3394,6 +3405,7 @@ laomaotao.net
 launcher-us.yeshen.com
 launcher.smart-tv.cn
 launcherimg.smart-tv.cn
+lazada-ad-workstation.oss-ap-southeast-1.aliyuncs.com
 lbprjdi.cn
 lccfjszp.cn
 lcd.aivote.com
@@ -3467,7 +3479,6 @@ lm1.tuliu.com
 lm1.wkpcw.cn
 lm10111.jtrincc.cn
 lmeurbnjs.com
-lmgns.cn
 lmlmvip.com
 lmvotk.cn
 lmzy.cloud
@@ -3663,7 +3674,6 @@ lpmzt.cn
 lrswl.com
 lshuaibin.cn
 lstat.youku.com
-lsxbc.cn
 ltjlj.cn
 ltsgdty.gtimg.com
 lu2.luyouwang.com
@@ -3708,7 +3718,6 @@ m.slshiye.cn
 m.vcsoat.cn
 m.wantemachine.com.cn
 m.yocvn.com
-m.zowvins.cn
 m1.81312.com
 m1.ad.10010.com
 m1.baidu.com
@@ -3753,7 +3762,6 @@ max-files.oupeng.com
 mazu.3g.qq.com
 mazu.m.qq.com
 mazu.sec.miui.com
-mb.adres.wpscdn.cn
 mb.lenovomm.com
 mb.yidianzixun.com
 mbai.cn
@@ -3829,7 +3837,6 @@ metrics1-drcn.dt.dbankcloud.com
 metrics1.data.dbankcloud.cn
 metrics2.data.hicloud.com
 metrika.yandex.ru
-mezcl.cn
 mg.32r.com
 mg.zgcqxjzny.cn
 mg09.zhaopin.com
@@ -3866,7 +3873,6 @@ minigame5-normal-hl.zijieapi.com
 minigame5-normal-lq.zijieapi.com
 minisite.letv.com
 minor-api-os.hoyoverse.com
-mintegral.com
 mipcache.bdstatic.com
 mipengine.baidu.com
 mipsa.ciae.ac.cn
@@ -3893,6 +3899,7 @@ mm1qj.icu
 mmds.suning.com
 mmg.aty.snmsohu.aisee.tv
 mmgame.qpic.cn
+mmkkiivv.com
 mngjrn.cn
 mnnmnn.com
 mnqlog.ldmnq.com
@@ -4012,7 +4019,6 @@ mvconf.f.360.cn
 mvconf.lato.cloud.360safe.com
 mvconf.uk.cloud.360safe.com
 mvlkvth.cn
-mwqvl.cn
 mx-cota.vivoglobal.com
 mx-domaincfg.vivoglobal.com
 mx-err-up.vivoglobal.com
@@ -4128,7 +4134,6 @@ nt002.cn
 ntalker.com
 ntfsformac.cc
 ntfsformac.cn
-nuzsc.cn
 nxcm.cc
 nxet1.360doc.cn
 ny.lshdw.cc
@@ -4214,7 +4219,6 @@ opensdk.wlanbanlv.com
 oppo.yidianzixun.com
 optimix.asia
 optimus-ads.amap.com
-oqfmg.cn
 oqyiapj.cn
 orange-dc.lazada.com
 orange-dc.youku.com
@@ -4246,7 +4250,6 @@ outlookads.live.com
 ouyaoxiazai.com
 ov8ct.icu
 overseauspider.yuanshen.com
-ovrar.cn
 oyfnkle.cn
 oyhurln.cn
 oymfa.cn
@@ -4354,7 +4357,6 @@ pdfexpert.cc
 pdghm.cn
 pdhhmf.cn
 pdiabbi.cn
-pdmjr.cn
 pdmqz.cn
 pdncr.cn
 pdns.nudt.edu.cn
@@ -4364,7 +4366,6 @@ penxiangge.com
 pepnsnq.cn
 pepsico.com.cn
 perfsight.wetest.net
-pevto.kpuatk.cn
 pfkrd.cn
 pfmls.cn
 pfp.sina.com.cn
@@ -4467,7 +4468,6 @@ ppedp.cn
 pqav.cn
 pqd.org
 pqjprom.cn
-pqndc.cn
 pqydb.cn
 pqzjki.cn
 pr.nss.netease.com
@@ -4478,9 +4478,11 @@ preload.xiaomi.com
 premierbuyer.edm.globalsources.com
 prlioxb.cn
 pro-punto.cn
+pro-reward.cn
 prod-mediate-events.applovin.com
 projecta-common-1258344701.file.myqcloud.com
 promerica-puts.cn
+promerica-sn.cn
 promerica-svs.cn
 promote.caixin.com
 promotion-partner.kuaishou.com
@@ -4549,16 +4551,13 @@ pwdyp.cn
 px-intl.ucweb.com
 px.ucweb.com
 px.wpk.quark.cn
-pxgth.cn
 pxhuiben.com
 pxmcl.cn
 pxx.tnklrs.cn
 pygokay.cn
 pyk.in-neo.cn
 pymrh.cn
-pzjha.cn
 pzkrgcp.cn
-pzmhg.cn
 q.baminw.com.cn
 q.i.gdt.qq.com
 q2.qlogo.cn
@@ -4605,7 +4604,6 @@ qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
 qpb1.sohu.com.cname209.yjs-cdn.com
-qptxk.cn
 qpwbd.cn
 qpxfk.cn
 qqdata.ab.qq.com
@@ -4624,6 +4622,7 @@ qujishu.com
 qurl.f.360.cn
 qwe0231141.bj.bcebos.com
 qwer220.cn
+qyk666.chat
 qzs.gdtimg.com
 r.51wnl-cq.com
 r.browser.intl.miui.com
@@ -4650,6 +4649,7 @@ rcgi.video.qq.com
 rcqqlwb.cn
 rd.autohome.com.cn
 rd.kuaigames.com
+rdagt.club
 rdbd.xsread.com
 rdbousn.cn
 rdelivery.qq.com
@@ -4836,13 +4836,13 @@ s8t.teads.tv
 sa.adidas.cn
 sa.sina.cn
 sa.suning.cn
+saa.qualcomm.cn
 saad.ms.zhangyue.net
 saas.hpplay.cn
 sacre.cn
 safe.ucweb.com
 safe1.shouji.sogou.com
 safebrowsing.urlsec.qq.com
-sagawa-meraire.reg4hxg.cn
 sagetrc.com
 saitef.cn
 salary.xiao84.com
@@ -5069,7 +5069,6 @@ shuiguo.com
 shuyu2001.cn
 shuzilm.cn
 shzwsrc.ksapisrv.com
-siczb.cn
 sigmob.cn
 sigmob.com
 sikncs.com
@@ -5145,6 +5144,12 @@ smucdn.com
 sngapm.qq.com
 sngmta.qq.com
 snowflake.qq.com
+so.auto999.cn
+so.sina.cn
+soa-vip-ssl.xunlei.com
+soarpower.com
+sobar.baidu.com
+sobot.com
 social-touch.com
 sofire.baidu.com
 sofire.bdstatic.com
@@ -5332,7 +5337,6 @@ strip.alicdn.com
 strip.taobaocdn.com
 stsdk.vivo.com.cn
 stsdk.vivoglobal.com
-study.csen.org.cn
 studylabs.cn
 stun.douyucdn.cn
 stun.hitv.com
@@ -5462,9 +5466,6 @@ techgifts.tradeshow.globalsources.com
 tecunonline.com
 teddymobile.cn
 tejia.taobao.com
-telegram.qsy61.cn
-telegram.qsy62.cn
-telegram.qsy63.cn
 telegram.uhho30.cn
 telegramcn.co
 telemetry.api.joox.com
@@ -5483,7 +5484,6 @@ teleqpnm.cn
 telezgrme.cn
 temai.taobao.com
 temp.163.com
-tempo-client-metric-prod.s3.amazonaws.com
 tencent-dtv.m.cn.miaozhen.com
 tencentapigw.com
 tendata.com
@@ -5754,6 +5754,7 @@ u.meizu.com
 u.qxen.com
 u.sl.iciba.com
 u.uc123.com
+u.zhugeapi.net
 u1.img.mobile.sina.cn
 u4ccj.icu
 u51.me
@@ -5879,7 +5880,6 @@ ups.ksmobile.net
 upyzqf.cn
 upzabkw.cn
 uranus.jd.com
-urezv.cn
 uri6.com
 urlqh.cn
 us-behavior.apitd.net
@@ -5945,7 +5945,6 @@ vamaker.com
 vas-hl-x.snssdk.com
 vaxgyly.cn
 vaycaptoc-vn.com
-vbpsiw.kpuatk.cn
 vcardsdkservice.vivo.com.cn
 vcl-brain.snssdk.com
 vconf.f.360.cn
@@ -5965,7 +5964,6 @@ video.dispatch.tc.qq.com
 video.market.xiaomi.com
 video231.oss-cn-beijing.aliyuncs.com
 view.zijieapi.com
-vihgt.cn
 vihppjk.cn
 vingroupinvestment.com
 vip-chinanet.ynuf.aliapp.org
@@ -6085,7 +6083,6 @@ weq.me
 wesat.cn
 wgpjz.cn
 wgxdr.cn
-wgxsr.cn
 whfpbc.99.com.cn
 whgh1.icu
 whyfate.cn
@@ -6172,17 +6169,20 @@ www.gentags.com
 www.gome.com.cn
 www.govxian.cn
 www.iiyout.cn
+www.jiathis.com
+www.jiayuan.com
+www.jmine.cn
 www.ksapisrv.com
 www.lx167.com
 www.mashangyoushu.cn
 www.nvshenfan.com
 www.ooniu.com
 www.peiyou.com
-www.pwsnb.cn
 www.q4ee.top
 www.shuqw.com
 www.soua.com
 www.thztv.net
+www.ttyyuuoo.com
 www.tz-dsp.com
 www.uuboos.com
 www.v61.com
@@ -6284,7 +6284,6 @@ xue.zbyw.cn
 xueaaaw.cn
 xulizui6.com
 xwmr.com.cn
-xwuad.com
 xwvnhe.cn
 xxczdfb.cn
 xxxx68xxxx.com
@@ -6350,7 +6349,6 @@ yktj.yzz.cn
 yl04z4v.cn
 yladm.com
 ylog.huya.com
-ylosx.cn
 ylunion.com
 ylznwl.cn
 ymapp.com
@@ -6367,6 +6365,7 @@ youku-acs.m.taobao.com
 youku-crm-product.youku.com
 youmi.net
 youqunjx.com
+yousichuanmei.com
 yousuode.cn
 youxi.baidu.com
 youxiaoad.com
@@ -6442,7 +6441,6 @@ zhongguqiye.com
 zhongkaowu.com
 zhongsijiacheng.com
 zhongwangmy.cn
-zhongzhengyoule.com
 zhuangxiu567.com
 zhuhaiport.cn
 zhy333.com
@@ -6468,7 +6466,6 @@ zonst.com
 zoosnet.net
 zoossoft.net
 zowralr.cn
-zpcjn.cn
 zpservice.58.com
 zq.lansedir.com
 zsjxwj.com
