@@ -192,28 +192,10 @@
 7cbwus.cn
 7dot.cn
 7f7rt.icu
-7fvhfe.com1.z0.glb.clouddn.com
 7jkzmbd.cn
-7jpp1d.com1.z0.glb.clouddn.com
 7kjiiu.cn
 7moor.com
 7r227ut.cn
-7xi4pf.com1.z0.glb.clouddn.com
-7xi9g1.com1.z0.glb.clouddn.com
-7xjkuy.com1.z0.glb.clouddn.com
-7xjqvu.com1.z0.glb.clouddn.com
-7xkq88.com1.z0.glb.clouddn.com
-7xlsu7.com1.z0.glb.clouddn.com
-7xo0y8.com1.z0.glb.clouddn.com
-7xo6kd.com1.z0.glb.clouddn.com
-7xoghc.com1.z0.glb.clouddn.com
-7xqgba.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xqnme.com1.z0.glb.clouddn.com
-7xr4jm.com1.z0.glb.clouddn.com
-7xrgh9.com1.z0.glb.clouddn.com
-7xsm7w.com1.z0.glb.clouddn.com
-7xtxh3.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -1633,7 +1615,6 @@ clientlogsf.music.163.com
 clkservice.youdao.com
 clog.miguvideo.com
 clog.skysrt.com
-clog2.yuanfudao.com
 cloud-log.yy.com
 cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
@@ -2343,7 +2324,6 @@ f1.pig66.com
 f1.zaojv.com
 f5w.as12df.top
 f5zv2.icu
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 fakjkwp.cn
 falal.cn
@@ -2814,6 +2794,7 @@ hseda.com
 hshlz.cn
 hstpnetwork.com
 hswfj.cn
+hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3574,6 +3555,7 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
+log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4542,6 +4524,7 @@ qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qnytr.cn
 qooic.com
+qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -4805,7 +4788,6 @@ saxysec.com
 sbbd1.qulishi.com
 sbeacon.sina.com.cn
 sbird.xyz
-sbise.cn
 sbisecr.cn
 sc.shayugg.com
 sc.sonystyle.com.cn
