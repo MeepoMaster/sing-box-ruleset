@@ -1,4 +1,5 @@
 5471782.fls.doubleclick.net
+79423.analytics.edgekey.net
 a.adwolf.ru
 a.sellpoint.net
 a0.app.xiaomi.com
@@ -7,7 +8,6 @@ acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.kazakinfo.com
-ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
