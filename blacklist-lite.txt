@@ -952,7 +952,6 @@ api.danmu.tv.sohu.com
 api.dewmobile.net
 api.e-toys.cn
 api.e.kuaishou.com
-api.e.mi.com
 api.eu.hismarttv.com
 api.fu.xcultur.com
 api.g.micloud.xiaomi.net
@@ -1845,6 +1844,7 @@ data.video.qiyi.com
 data.waptime.cn
 data.yhydl.com
 datacollection.beymen.com
+datacollection.uve.weibo.com
 datacollector-dra.dt.dbankcloud.cn
 datacollector-drcn.dt.dbankcloud.cn
 datacollector-dre.dt.dbankcloud.cn
@@ -3687,6 +3687,7 @@ mb.lenovomm.com
 mb.yidianzixun.com
 mbai.cn
 mbaobao.com
+mbd.baidu.com
 mbdlog.iqiyi.com
 mbrowser.news.haosou.com
 mbrowser.news.so.com
