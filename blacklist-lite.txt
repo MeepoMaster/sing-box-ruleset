@@ -3558,7 +3558,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
