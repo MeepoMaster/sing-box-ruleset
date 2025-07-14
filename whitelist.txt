@@ -141,6 +141,7 @@ sax.sina.com.cn
 sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
+smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
 str.hit.gemius.pl
@@ -149,7 +150,6 @@ support-widget.nakanohito.jp
 surveymyopinion.researchnow.com
 tags.crwdcntrl.net
 taiga.maven.io
-thumbnail.thench.net
 tlh.gedidigital.it
 tms.capitalone.com
 torimochi.line-apps.com
