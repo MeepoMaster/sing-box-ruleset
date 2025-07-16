@@ -106,8 +106,6 @@
 360shuke.com
 365dmp.com
 370jj.icu
-37cs.com
-37gowan.com
 37wan.com
 39jz.com
 3i2i.com
@@ -292,7 +290,6 @@ aa.analog.com
 aa.qualcomm.cn
 aaid.umeng.com
 aaoffice.cn
-abbyychina.com
 abc.douguo.com
 abc.ruodian360.com
 abc.yebaike.com
@@ -1052,7 +1049,6 @@ api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
 api.yfanads.com
-api.youngle.tech
 api.youtu.qq.com
 api5-normal-quic-lf.ixigua.com
 apiapple.com
@@ -1365,7 +1361,6 @@ bigwww.com
 bihaipack.com
 bill.agent.56.com
 bingads.microsoft.com
-bingdianhuanyuan.cn
 biqubao.com
 biz.gexing.com
 biz5.sandai.net
@@ -1675,6 +1670,7 @@ co-vcode-od.vivoglobal.com
 co-vcode-or.vivoglobal.com
 coach.028csc.com
 cod.southmoney.com
+code.37cs.com
 code.ditiezu.net
 code.wenbanzhu.com
 codenow.cn
@@ -1926,7 +1922,6 @@ dcbpm.suning.cn
 dchdmhf.cn
 dd.browser.360.cn
 dd.iask.cn
-dd.yiche.com
 ddbuwo.cn
 ddc888.com
 ddi.ksapisrv.com
@@ -2270,7 +2265,6 @@ etc-homeorium.achvzgl.cn
 ethan.wang
 etl-xlmc-ssl.sandai.net
 etl.xlmc.sandai.net
-eu-cdn.youngle.tech
 eu-datareceiver.aki-game.net
 eu-domaincfg.vivoglobal.com
 eu-errup.vivoglobal.com
@@ -2359,6 +2353,7 @@ fashion.tradeshow.globalsources.com
 fastapi.net
 fav.simba.taobao.com
 favfav.xyz
+fb.37cs.com
 fbfdr.cn
 fc-feed.cdn.bcebos.com
 fc.3dmgame.com
@@ -2515,7 +2510,6 @@ gcbflvx.cn
 gchtj.cn
 gdfp.gifshow.com
 gdl.i9dhjx.ru
-gdl.youngle.tech
 gdl.zmqdez.ru
 gdt.qq.com
 gdtimg.com
@@ -3606,7 +3600,6 @@ loggw.alipay.com
 loggw.alipay.com.cn
 loggw.alipaydns.com
 login.alibaba-inc.com
-logoshejishi.com
 logrcv.aiclk.com
 logreport-global.coolccloud.com
 logs.51cto.com
@@ -4112,7 +4105,6 @@ nsp-logservice-hiview-p50-drcn.obs.cn-north-2.myhuaweicloud.com
 nsp-logservice-weardevice-p51-drcn.obs.cn-north-2.myhuaweicloud.com
 nt002.cn
 ntalker.com
-ntfsformac.cc
 ntfsformac.cn
 nxcm.cc
 nxet1.360doc.cn
@@ -4925,7 +4917,6 @@ search5-search-hl.ixigua.com
 search5-search.ixigua.com
 sec-cdn.static.xiaomi.net
 secgw-na61-na62.wagbridge.advertisement.tanx.com
-secshow.net
 securemetrics.apple.com
 securemetrics.apple.com.cn
 securepubads.g.doubleclick.net
@@ -5340,7 +5331,6 @@ sv-video.play.aiseet.atianqi.com
 sv2fo.icu
 sv5nm.icu
 svdpgmt.cn
-swc.weather.com.cn
 swwwxww.oss-cn-hangzhou.aliyuncs.com
 sxk9m8x.cn
 sxundrh.cn
@@ -5925,7 +5915,6 @@ vconf.f.360.cn
 vcs.zijieapi.com
 vd6.l.qq.com
 veepai-device-log.eye4.cn
-vegaschina.cn
 veryboys.com
 vfvdsati.com
 vhs.wwstat.com
@@ -6127,6 +6116,7 @@ www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
 www.1ting.com
 www.31d.net
+www.37cs.com
 www.3aym.cn
 www.3qqq.net
 www.51link.com
@@ -6137,6 +6127,7 @@ www.6kwan.com
 www.805m.com
 www.baihe.com
 www.bangqidq.com
+www.bingdianhuanyuan.cn
 www.bodog.eu
 www.destinationurl.com
 www.feitianma.com
@@ -6148,6 +6139,7 @@ www.jmine.cn
 www.ksapisrv.com
 www.lx167.com
 www.mashangyoushu.cn
+www.ntfsformac.cc
 www.nvshenfan.com
 www.ooniu.com
 www.peiyou.com
@@ -6159,6 +6151,7 @@ www.ttyyuuoo.com
 www.tz-dsp.com
 www.uuboos.com
 www.v61.com
+www.vegaschina.cn
 www.whalecloud.com
 www.wowostar.cn
 www.xingpingmaoyi.cn
@@ -6300,7 +6293,6 @@ yhjccj.cn
 yhz18.com
 yicha.cn
 yidop.com
-yihuifu.cn
 yijifen.com
 yin1.zgpingshu.com
 yingxiao.baidu.com
