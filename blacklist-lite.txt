@@ -552,7 +552,6 @@ adpic.chinadaily.com.cn
 adping.qq.com
 adpolestar.net
 adproxy.autohome.com.cn
-adpublish.ydstatic.com
 adq.chinaso.com
 adquan.com
 adreport.adtianmai.com
@@ -1397,7 +1396,6 @@ bjpg-log.ksapisrv.com
 bjsvp35.space
 bjsvp38.space
 bjvvqu.cn
-bjzhy.asia
 bkt.clouddn.com
 bla.gtimg.com
 black.qimo.ink
@@ -1604,7 +1602,6 @@ cl-data-id.ads.heytapmobi.com
 cl-data-in.ads.heytapmobi.com
 cl-data-sg.ads.heytapmobi.com
 cl-data.ads.heytapmobi.com
-cl-romsp-unifyconfig.vivoglobal.com
 cl-vcode-od.vivoglobal.com
 claiks.com
 clarins.com.cn
@@ -1969,7 +1966,6 @@ dexinyi.cn
 df.huya.com
 df.tanx.com
 dfan4.icu
-dfgdfd.asia
 dfp.suning.com
 dg186.cn
 dgaxxjq.cn
@@ -2356,7 +2352,6 @@ f1.pig66.com
 f1.zaojv.com
 f5w.as12df.top
 f5zv2.icu
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 falal.cn
 fancyapi.com
@@ -2730,7 +2725,6 @@ haejkmm.cn
 hahahaha-sdk.ksapisrv.com
 haili-spitzer.com
 haitao.9439.com
-hanhai-tiktok.com
 hanlanad.com
 hao.360.cn
 hao222.com
@@ -3170,7 +3164,6 @@ itv.hexun.com
 itv2-up.openspeech.cn
 itxinrou.com
 ityangstudy.cn
-iuyoiu.asia
 ivqtrjt.cn
 ivy.pcauto.com.cn
 ivy.pconline.com.cn
@@ -4419,14 +4412,12 @@ plbslog.umeng.com
 plugin-check.egret.com
 pmensrl.cn
 pmir.3g.qq.com
-pmir.sec.miui.com
 pmm.people.com.cn
 pmp-ad.cdn.bcebos.com
 pms.mb.qq.com
 pmvjh.cn
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 poke88.com
 polaris.zijieapi.com
@@ -4857,7 +4848,6 @@ sbisecr.cn
 sc.shayugg.com
 sc.sonystyle.com.cn
 sc126.com
-sca-cota.vivoglobal.com
 sca-domaincfg.vivoglobal.com
 sca-err-up.vivoglobal.com
 sca-onrt-stsdk.vivoglobal.com
@@ -4884,7 +4874,6 @@ script-bd.baixing.net
 script.hotjar.com
 scs.openspeech.cn
 sd6hon.cn
-sdac.lenovomm.com
 sdd.hi1718.com
 sdfp.snssdk.com
 sdk-ab-config.qquanquan.com
@@ -5212,7 +5201,6 @@ stat-z.xywy.com
 stat.10jqka.com.cn
 stat.360safe.com
 stat.56.com
-stat.browser.heytapmobi.com
 stat.browser.nearme.com.cn
 stat.browser.oppomobile.com
 stat.doc88.com
@@ -5295,7 +5283,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5515,7 +5502,6 @@ tiexing.com
 time.video.ptqy.gitv.tv
 timejs.game.163.com
 timon.zijieapi.com
-tingan.asia
 tingyun.com
 tips.shouji.sogou.com
 tisszhb.cn
