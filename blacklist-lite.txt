@@ -1270,7 +1270,6 @@ b1.engdvd.com
 b1.xiao84.com
 b2-data.ads.heytapmobi.com
 bablace.com
-baccucmei.com
 badding.oss-ap-southeast-1.aliyuncs.com
 badjs.weixinbridge.com
 baicai.asia
@@ -2899,7 +2898,6 @@ iadsdk.apple.com
 iadworkbench.apple.com
 iask.com.cn
 ib.snssdk.com
-ib88.cn
 ibozys.cn
 ibyrwvi.cn
 ic.ksosoft.com
@@ -3169,7 +3167,6 @@ jb.ecar168.cn
 jbzj.com
 jc1.dayfund.com.cn
 jccgty.cn
-jcchunya.cn
 jcm.jd.com
 jcmonitor.xcar.com.cn
 jctnh.cn
@@ -3202,7 +3199,6 @@ jiuyuntian3.cn
 jjjcyjj.cn
 jjyx.com
 jknrwe.cn
-jl368.cn
 jmacs-m.lazada.co.id
 jmacs-m.lazada.co.th
 jmacs-m.lazada.com.my
