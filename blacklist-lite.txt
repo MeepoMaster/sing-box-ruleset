@@ -1633,6 +1633,7 @@ clickcount.cnool.net
 clicki.cn
 clickm.fang.com
 clickn.fang.com
+clickserve.dartsearch.net
 clickserver.googleads.com
 clickx.autohome.com.cn
 client-api.ele.me
@@ -2097,7 +2098,6 @@ drcn-weather.cloud.huawei.com
 drdwy.com
 dreemdmbabys.oss-cn-guangzhou.aliyuncs.com
 dreport.meituan.net
-drivethelife.com
 drovs.excelliance.cn
 ds.ruanwengfa.com
 ds1.kaijia.com
@@ -3520,7 +3520,6 @@ log.qcast.cn
 log.qiniuapi.com
 log.qookkagames.com
 log.qvb.qcloud.com
-log.shimo.im
 log.sina.cn
 log.snssdk.com
 log.snssdk.com.bytedns.net
