@@ -185,29 +185,11 @@
 7cbwus.cn
 7dot.cn
 7f7rt.icu
-7fvhfe.com1.z0.glb.clouddn.com
 7jkzmbd.cn
-7jpp1d.com1.z0.glb.clouddn.com
 7kankan8.com
 7kjiiu.cn
 7moor.com
 7r227ut.cn
-7xi4pf.com1.z0.glb.clouddn.com
-7xi9g1.com1.z0.glb.clouddn.com
-7xjkuy.com1.z0.glb.clouddn.com
-7xjqvu.com1.z0.glb.clouddn.com
-7xkq88.com1.z0.glb.clouddn.com
-7xlsu7.com1.z0.glb.clouddn.com
-7xo0y8.com1.z0.glb.clouddn.com
-7xo6kd.com1.z0.glb.clouddn.com
-7xoghc.com1.z0.glb.clouddn.com
-7xqgba.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xqnme.com1.z0.glb.clouddn.com
-7xr4jm.com1.z0.glb.clouddn.com
-7xrgh9.com1.z0.glb.clouddn.com
-7xsm7w.com1.z0.glb.clouddn.com
-7xtxh3.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -418,7 +400,6 @@ ad.mi.com
 ad.mobile.youku.com
 ad.netgoo.com
 ad.nvdvr.cn
-ad.ourgame.com
 ad.partner.gifshow.com
 ad.qingting.fm
 ad.qq.com
@@ -823,7 +804,6 @@ aivaylaco.com
 aiwanma99.com
 aiwei365.net
 aixuntupian.oss-cn-hongkong.aliyuncs.com
-aizhigu.com.cn
 aizipai.cn
 ajiang.net
 al.autohome.com.cn
@@ -1059,7 +1039,6 @@ api.ssp.zxrtb.com
 api.statsig.com
 api.sve.cc
 api.taboola.sve.cc
-api.tatagou.com.cn
 api.touch-moblie.com
 api.tusdk.com
 api.wx.my7v.com
@@ -1273,7 +1252,6 @@ b2-data.ads.heytapmobi.com
 bablace.com
 badding.oss-ap-southeast-1.aliyuncs.com
 badjs.weixinbridge.com
-baicai.asia
 baichuan-sdk.alicdn.com
 baichuan-sdk.taobao.com
 baichuan.baidu.com
@@ -1593,7 +1571,6 @@ chunmiaosh.com
 chupl.icu
 chuzushijian.cn
 cippe.com.cn
-cj-dj.cn
 cj.qidian.com
 ck.ads.heytapmobi.com
 ck.ads.oppomobile.com
@@ -2966,7 +2943,6 @@ imageter.com
 imagzine.oppomobile.com
 imasdk.googleapis.com
 imdns.hpplay.cn
-imemj.cn
 img-c.heytapimage.com
 img-x.jd.com
 img.0279.net
@@ -4418,7 +4394,6 @@ ppedp.cn
 pqav.cn
 pqd.org
 pqjprom.cn
-pqydb.cn
 pqzjki.cn
 pr.nss.netease.com
 prdohgp.cn
@@ -4745,7 +4720,6 @@ rui61.cn
 ruiyangcn.com
 rumt-sg.com
 rumt-zh.com
-runlinga.cn
 rvbztg.cn
 rvyjbwr.cn
 rxys.cn
@@ -5142,7 +5116,6 @@ ssp.putaojiu.com
 ssp.qq.com
 ssp.tanx.com
 ssp.zf313.com
-sssowk.cn
 sssvd.china.com
 sstats.thermofisher.com.cn
 sstats.thermoscientific.cn
@@ -5223,6 +5196,7 @@ static.live.nagezan.net
 static.m.sjzhushou.com
 static.media.net
 static.ptqy.gitv.tv
+static.qiyi.com
 static.rongkao.com
 static.tieba.baidu.com
 staticfile.net
@@ -6017,7 +5991,6 @@ weidianyuedu.com
 weishi.baidu.com
 weld.uunice.com
 weld830.uunice.com
-wen49.cloud
 wenku-cms.bj.bcebos.com
 wenxue.youzhicn.com
 weq.me
@@ -6089,7 +6062,6 @@ wv.inner-active.mobi
 wwads.cn
 www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
-www.002321.cn
 www.1ting.com
 www.31d.net
 www.37cs.com
