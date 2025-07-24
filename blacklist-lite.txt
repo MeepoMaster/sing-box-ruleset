@@ -1614,6 +1614,7 @@ clickcount.cnool.net
 clicki.cn
 clickm.fang.com
 clickn.fang.com
+clickserve.dartsearch.net
 clickserver.googleads.com
 clickx.autohome.com.cn
 client-api.ele.me
@@ -6039,7 +6040,6 @@ www.588yw.com
 www.6998cdn.com
 www.6kwan.com
 www.805m.com
-www.aqianniao.com
 www.baihe.com
 www.bangqidq.com
 www.bingdianhuanyuan.cn
