@@ -8,6 +8,7 @@ acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
@@ -53,6 +54,7 @@ cm-beacon.nakanohito.jp
 cm-widget.nakanohito.jp
 cmp.inmobi.com
 cn.app.chat.xiaomi.net
+content.ingbank.pl
 crm-cdn.peek-cloppenburg.com
 cs.silverpop.com
 cutcaptcha.com
@@ -107,7 +109,6 @@ netatmo.commander1.com
 nineto5mac-d.openx.net
 oa.tr.line.me
 obituaries.therecord.com
-official.paymaya.com
 omniture.walmart.com
 omsc.kpn.com
 oneline.nextday.media
