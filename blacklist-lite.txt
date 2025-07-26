@@ -535,7 +535,6 @@ adpic.chinadaily.com.cn
 adping.qq.com
 adpolestar.net
 adproxy.autohome.com.cn
-adpublish.ydstatic.com
 adq.chinaso.com
 adquan.com
 adreal.cn
@@ -5357,7 +5356,6 @@ telegram-pc4.com.cn
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
