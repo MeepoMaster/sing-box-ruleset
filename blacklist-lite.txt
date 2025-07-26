@@ -1608,7 +1608,6 @@ click.inplayable.com
 click.liftoff.io
 click.oneplus.cn
 click.qianqian.com
-click.tanx.com
 click.tz.simba.taobao.com
 click1n.soufun.com
 click2.hd.sohu.com
@@ -1740,7 +1739,6 @@ counter.sina.com.cn
 counter.yesky.com
 countly-rel-usa.haimacloud.com
 countly.mail.163.com
-countly.unus.netease.com
 countpage.sznews.com
 countpvn.light.fang.com
 countubn.light.soufun.com
@@ -4791,7 +4789,6 @@ script-bd.baixing.net
 script.hotjar.com
 scs.openspeech.cn
 sd6hon.cn
-sdac.lenovomm.com
 sdd.hi1718.com
 sdfp.snssdk.com
 sdk-ab-config.qquanquan.com
@@ -5115,7 +5112,6 @@ stat-z.xywy.com
 stat.10jqka.com.cn
 stat.360safe.com
 stat.56.com
-stat.browser.heytapmobi.com
 stat.browser.nearme.com.cn
 stat.browser.oppomobile.com
 stat.doc88.com
