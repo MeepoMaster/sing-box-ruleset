@@ -6,6 +6,7 @@ a0.app.xiaomi.com
 ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
+action.metaffiliation.com
 ad.kazakinfo.com
 adblock.adguard.com
 admin.dable.io
@@ -70,6 +71,7 @@ forum.notebookreview.com
 gate.first-id.fr
 get.neofinancial.com
 go.adjust.com
+go.scorptec.com.au
 goto.target.com
 goto.walmart.com
 grp07.ias.rakuten.co.jp
