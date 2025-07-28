@@ -1044,7 +1044,6 @@ api.sec.miui.com
 api.setting.intl.miui.com
 api.sms.intl.miui.com
 api.ssp.xcultur.com
-api.ssp.zxrtb.com
 api.statsig.com
 api.sve.cc
 api.taboola.sve.cc
@@ -3643,7 +3642,6 @@ m1.we556.com
 m5.66077.cn
 ma-adx.ctrip.com
 madhouse.cn
-magic.lovegxn.com
 magicwindow.cn
 mail.kguapp.com
 mail.ksapisrv.com
@@ -4271,7 +4269,6 @@ pcstat.kugou.com
 pcstatbak.kugou.com
 pcweb.v1.mgtv.com
 pdfexpert.cc
-pdghm.cn
 pdhhmf.cn
 pdiabbi.cn
 pdns.nudt.edu.cn
@@ -5595,7 +5592,6 @@ tracking.ti.com.cn
 trackinginternal.ti.com
 trackinginternal.ti.com.cn
 trackingio.com
-trackings-nodative.xrqft.cn
 tracklog.58.com
 trackmarketing.staubli.cn
 tradeshow.edm.globalsources.com
@@ -5939,7 +5935,6 @@ wanproxy.127.net
 wap-dl-v6.shouji.sogou.com
 wap.koudaitong.com
 wap.tanwan.com
-wap.xajiaoshoujia.cn
 wap1.laogu.wang
 wap2.laogu.wang
 wappv.zol.com.cn
