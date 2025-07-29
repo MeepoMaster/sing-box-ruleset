@@ -176,6 +176,7 @@
 7kjiiu.cn
 7moor.com
 7r227ut.cn
+7xi9g1.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -520,7 +521,6 @@ adpic.chinadaily.com.cn
 adping.qq.com
 adpolestar.net
 adproxy.autohome.com.cn
-adpublish.ydstatic.com
 adq.chinaso.com
 adquan.com
 adreal.cn
@@ -930,7 +930,6 @@ api-analytics-in.huami.com
 api-analytics-sg.huami.com
 api-analytics-us.zepp.com
 api-analytics-us3.zepp.com
-api-cloudfalcon.hismarttv.com
 api-cn.cdo.heytapmobi.com
 api-data-collection.insta360.cn
 api-event.falconnet.app
@@ -957,7 +956,6 @@ api-push.meizu.com
 api-rec.stellar.intl.miui.com
 api-u-ssl.xunlei.com
 api-unionid.meituan.com
-api-vidaaasst.hismarttv.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
 api.52youtu.com
@@ -1025,7 +1023,6 @@ api.sve.cc
 api.taboola.sve.cc
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1634,9 +1631,7 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
-co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
-co-err-up.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
 co-pnrt-stsdk.vivoglobal.com
@@ -1897,7 +1892,6 @@ dd.iask.cn
 ddbuwo.cn
 ddi.ksapisrv.com
 de-gdpr-err-up.vivoglobal.com
-de-gdpr-vcode-od.vivoglobal.com
 de.pandora.xiaomi.com
 de.tynt.com
 debug.mssp.adunite.com
@@ -2043,7 +2037,6 @@ dpjzzgw.cn
 dpvc1.qqyy.com
 dr.soso.com
 dragate-cn.dc.heytapmobi.com
-dragate-in.dc.heytapmobi.com
 dragate-sg.dc.heytapmobi.com
 drcn-weather.cloud.huawei.com
 drdwy.com
@@ -2208,17 +2201,13 @@ et.tanx.com
 ethan.wang
 etl-xlmc-ssl.sandai.net
 etl.xlmc.sandai.net
-eu-album-api.vivoglobal.com
-eu-cota.vivoglobal.com
 eu-datareceiver.aki-game.net
 eu-domaincfg.vivoglobal.com
 eu-errup.vivoglobal.com
 eu-onrt-stsdk.vivoglobal.com
 eu-ort-stsdk.vivoglobal.com
-eu-pnrt-stsdk.vivoglobal.com
 eu-romsp-unifyconfig.vivoglobal.com
 eu-st-sl.vivoglobal.com
-eu-stsdk.vivoglobal.com
 eu-timesync.vivoglobal.com
 eu-vcode-api.vivoglobal.com
 eu-vcode-od.vivoglobal.com
@@ -2449,7 +2438,6 @@ gb.corp.163.com
 gcbflvx.cn
 gdfp.gifshow.com
 gdl.i9dhjx.ru
-gdl.zmqdez.ru
 gdt.qq.com
 gdtimg.com
 gdyjs.com
@@ -2505,7 +2493,6 @@ gk.sina.cn
 gknybkl.cn
 gl.zle.com
 global-ad-extranet-pri-azams.alb.xiaomi.com
-global-ad-extranet-pri-azpn.alb.xiaomi.com
 global-ad-intl-pri-alisgp.alb.xiaomi.com
 global-staticplat.cdn.bcebos.com
 global.click.taobao.com
@@ -2597,7 +2584,6 @@ guang.sdsgwy.com
 guang1.zhakao.cn
 guangzhuiyuan.com
 guaranty.com.cn
-guif-eu.coloros.com
 guif.coloros.com
 guitarpro.cc
 guzsjdl.cn
@@ -2973,7 +2959,6 @@ in-cota.vivoglobal.com
 in-ctdbonrt-stsdk.vivoglobal.com
 in-ctdbort-stsdk.vivoglobal.com
 in-ctdbpnrt-stsdk.vivoglobal.com
-in-ctdbprt-stsdk.vivoglobal.com
 in-domaincfg.vivoglobal.com
 in-errup.vivoglobal.com
 in-ex-adlog.vivoglobal.com
@@ -3286,12 +3271,9 @@ kz-err-up.vivoglobal.com
 kz-monitor-stsdk.vivoglobal.com
 kz-onrt-stsdk.vivoglobal.com
 kz-ort-stsdk.vivoglobal.com
-kz-p.vivoglobal.com
 kz-romsp-unifyconfig.vivoglobal.com
 kz-st-exappupgrade.vivoglobal.com
-kz-st-sl.vivoglobal.com
 kz-stsdk.vivoglobal.com
-kz-timesync.vivoglobal.com
 kz-vcode-api.vivoglobal.com
 kz-vcode-od.vivoglobal.com
 kz-vcode-or.vivoglobal.com
@@ -3412,7 +3394,6 @@ log-eap.coloros.com
 log-h5.cmpassport.com
 log-hl.snssdk.com
 log-klink.zijieapi.com
-log-lf.snssdk.com
 log-lq.snssdk.com
 log-report.com
 log-sdk.clickwifi.net
@@ -3515,7 +3496,6 @@ log5-applog-lf.zijieapi.com
 log5-misc-lf.amemv.com
 log5-misc-lq.amemv.com
 log6.reader.qq.com
-logagent-rum-292398709.cn-north-1.elb.amazonaws.com.cn
 logapi-and.zhipin.com
 logapi-ios.zhipin.com
 logapi.zhipin.com
@@ -3575,7 +3555,6 @@ lpmzt.cn
 lrswl.com
 lshuaibin.cn
 lstat.youku.com
-ltsgdty.gtimg.com
 lu2.luyouwang.com
 luckyorange.com
 luimg.baidu.com
@@ -4112,7 +4091,6 @@ orange-dc.lazada.com
 orange-dc.youku.com
 orbit.jd.com
 ort-stsdk.vivo.com.cn
-ort-stsdk.vivoglobal.com
 os-adtracking.medproad.com
 os-mon.snssdk.com
 os-mon.zijieapi.com
@@ -4666,7 +4644,6 @@ ru-ort-stsdk.vivoglobal.com
 ru-os-config-appstore.vivoglobal.com
 ru-p.vivoglobal.com
 ru-pnrt-stsdk.vivoglobal.com
-ru-prt-stsdk.vivoglobal.com
 ru-romsp-unifyconfig.vivoglobal.com
 ru-st-exappupgrade.vivoglobal.com
 ru-st-sl.vivoglobal.com
@@ -4837,7 +4814,6 @@ seeder.igetget.com
 seiya.tantanapp.com
 sellfox.com
 senbiaojita.com
-senlog.cmpassport.com
 sensors-log.dongqiudi.com
 sensors.cloud.tencent.com
 sensors.h5.xed.plus
@@ -5177,7 +5153,6 @@ stats.qiumibao.com
 stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
-statscollector-1-asia.agora.io
 statscollector-1-north-america.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
@@ -5495,7 +5470,6 @@ tr-ort-stsdk.vivoglobal.com
 tr-p.vivoglobal.com
 tr-romsp-unifyconfig.vivoglobal.com
 tr-st-sl.vivoglobal.com
-tr-stsdk.vivoglobal.com
 tr-timesync.vivoglobal.com
 tr-vcode-api.vivoglobal.com
 tr-vcode-od.vivoglobal.com
@@ -5556,7 +5530,6 @@ tracking.mail.ti.com.cn
 tracking.miui.com
 tracking.nesox.com
 tracking.rus.miui.com
-tracking.shopee.cn
 tracking.smobird.cc
 tracking.t.mercedes-benz.com.cn
 tracking.tdk.cn
@@ -5597,7 +5570,6 @@ ttmsg.qianqian.com
 tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tuhzjrr.cn
-tui.gtimg.com
 tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
@@ -5719,7 +5691,6 @@ ums-telemetry-cn.heytapmobi.com
 ums.pushpia.cn
 un-acs.youku.com
 un1.lawyernet.cn
-unbelievableoffice.top
 unifi-report.ubnt.com
 unified-ter-na.hismarttv.com
 union.55haitao.com
@@ -5778,7 +5749,6 @@ usa.ime.cootek.com
 usejj.makepolo.cn
 usercollection.chinadaily.com.cn
 userimg.qunar.com
-userprofile.push.heytapmobi.com
 usp1.baidu.com
 usr-api.aiclk.com
 usrzh.cn
