@@ -4023,7 +4023,6 @@ p555.cc
 p6-ad-sign.byteimg.com
 p6-be-pack-sign.pglstatp-toutiao.com
 p6.zbjimg.com
-p6992.cn
 p9-ad-sign.byteimg.com
 paas-push-api-log.immomo.com
 paas-push-api.immomo.com
@@ -4874,7 +4873,6 @@ sp0.baidu.com
 sp1.baidu.com
 sp2.baidu.com
 sp3.baidu.com
-speedhorse.site
 spider-tracker.xiaohongshu.com
 spinfo.wps.cn
 spkh.cn
@@ -5442,7 +5440,6 @@ tvabqt.cn
 tvapp.hpplay.cn
 tvdpebx.cn
 tvuser-ch.cedock.com
-twgswz.com
 twjsx.cn
 twzui6.com
 tx-ad.a.yximgs.com
