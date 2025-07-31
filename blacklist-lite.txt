@@ -3477,7 +3477,6 @@ logtj.kugou.com
 logupdate.avlyun.sec.miui.com
 logwebs.kugou.com
 loispp.com
-lolblog.cn
 lomark.cn
 looyu.com
 lop.lamimi.cn
@@ -4553,7 +4552,6 @@ rr.knet.cn
 rs.sinajs.cn
 rs1.qq.com
 rs2.qq.com
-rsdpg.cn
 rsvqlz.cn
 rt.applovin.com
 rt.applvn.com
@@ -4935,7 +4933,6 @@ soft.110route.com
 soft.data.weather.360.cn
 soft.tbs.imtt.qq.com
 softstart.kugou.com
-sojoin.net
 solutions.refinitiv.cn
 somni.australia.cn
 soorbka.cn
@@ -6121,7 +6118,6 @@ ykad-data.cp31.ott.cibntv.net
 ykad-data.youku.com
 ykad-gateway.youku.com
 ykcjxvg.cn
-ykd-delivery.com
 ykkbwdf.cn
 yklfg.cn
 ykrec.youku.com
@@ -6150,7 +6146,6 @@ youxi.baidu.com
 youxiaoad.com
 yoyi.tv
 yptqys.tianqistatic.com
-yq-live.com
 yqtpm.cn
 ys-log-upload-os.hoyoverse.com
 ys630.com
