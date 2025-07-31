@@ -96,7 +96,6 @@
 30edu.com.cn
 31up.icu
 32.huanqiu.com
-3389.iis7.com
 360ads.com
 360in.com
 360kuai.com
@@ -188,17 +187,13 @@
 7xi4pf.com1.z0.glb.clouddn.com
 7xi9g1.com1.z0.glb.clouddn.com
 7xjkuy.com1.z0.glb.clouddn.com
-7xjqvu.com1.z0.glb.clouddn.com
 7xkq88.com1.z0.glb.clouddn.com
 7xlsu7.com1.z0.glb.clouddn.com
 7xo0y8.com1.z0.glb.clouddn.com
 7xo6kd.com1.z0.glb.clouddn.com
 7xoghc.com1.z0.glb.clouddn.com
 7xqgba.com1.z0.glb.clouddn.com
-7xqmjb.com1.z0.glb.clouddn.com
-7xqnme.com1.z0.glb.clouddn.com
 7xr4jm.com1.z0.glb.clouddn.com
-7xrgh9.com1.z0.glb.clouddn.com
 7xsm7w.com1.z0.glb.clouddn.com
 7xtxh3.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
@@ -1740,7 +1735,6 @@ countly.mail.163.com
 countpvn.light.fang.com
 countubn.light.soufun.com
 cp.7y7.com
-cp.eastmoney.com
 cp.gs307.com
 cp.jfcdns.com
 cp.oupeng.com
@@ -2212,7 +2206,6 @@ event.wedobest.com.cn
 event.wondershare.com
 event.zhihu.com
 eventlog.jackpot.de
-events-api-ak.outfit7.com
 events-dra-op-dbankcloud-cn-dra.appacc-region.dbankedge.cn
 events-dra-op-dbankcloud-cn-dra.appacc.dbankedge.cn
 events-dra-op-dbankcloud-cn-dra.edge.dbankedge.cn
@@ -2717,7 +2710,6 @@ iadmat.nosdn.127.net
 iadmatvideo.nosdn.127.net
 iadmusicmat.music.126.net
 iadmusicmatvideo.music.126.net
-iadpush.com
 iadsdk.apple.com
 iadworkbench.apple.com
 iask.com.cn
@@ -2826,7 +2818,6 @@ imgadpai.thepaper.cn
 imgaliyun.res.mgtv.com
 imgapp.yeyou.com
 imgs.xinhuanet.com
-imgsize.ph.126.net
 imgstat.baidu.com
 imindmap.cc
 imlb2c.com
@@ -3806,7 +3797,6 @@ new.915yzt.cn
 news.qcyz.cn
 news.qhstatic.com
 news.reedexpo.com.cn
-news.yeyou.com
 newspush.sinajs.cn
 newswifiapi.dfshurufa.com
 newton-api.ele.me
@@ -4153,7 +4143,6 @@ pmp-ad.cdn.bcebos.com
 pms.mb.qq.com
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 pocketcard-regio.wzwzsp.cn
 poke88.com
@@ -4198,7 +4187,6 @@ premierbuyer.edm.globalsources.com
 prlioxb.cn
 prod-mediate-events.applovin.com
 projecta-common-1258344701.file.myqcloud.com
-promote.caixin.com
 promotion-en.xmeye.net
 promotion-partner.kuaishou.com
 promotion.aliyun.com
@@ -4859,7 +4847,6 @@ sofire.bdstatic.com
 soft.110route.com
 soft.data.weather.360.cn
 soft.tbs.imtt.qq.com
-soft.wsyhn.com
 softstart.kugou.com
 sojoin.net
 solutions.refinitiv.cn
@@ -5053,7 +5040,6 @@ sugar.zhihu.com
 suggestion.baidu.com
 sugs.m.sm.cn
 summit.edm.globalsources.com
-sums.suning.com
 sunriseoutdoor.cn
 suo.im
 super.cat898.com
@@ -5123,7 +5109,6 @@ t28goe.cn
 t3.58cdn.com.cn
 t3.a.market.xiaomi.com
 t6.china-xian.com
-t7.market.xiaomi.com
 t7z.cupid.iqiyi.com
 t7z.cupid.ptqy.gitv.tv
 ta.pinduoduo.com
@@ -5429,7 +5414,6 @@ tui.weibo.com
 tuia.cn
 tuiguang.meitu.com
 tuijian.baidu.com
-tulaoshi.com
 tumeite.cn
 tunion-api.m.taobao.com
 turbo2sdk-push.oupeng.com
