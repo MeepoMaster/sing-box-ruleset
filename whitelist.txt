@@ -8,6 +8,7 @@ acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
@@ -69,6 +70,7 @@ feed.adrelayer.com
 forum.notebookreview.com
 gate.first-id.fr
 get.neofinancial.com
+go.adjust.com
 go.scorptec.com.au
 goto.target.com
 goto.walmart.com
@@ -161,6 +163,5 @@ webstatic.nero.com
 wtradv.market.xiaomi.com
 www.dogpile.com
 www.googleadservices.com
-www.jdoqocy.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
