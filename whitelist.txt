@@ -61,6 +61,7 @@ cutcaptcha.com
 daikoku.ebis.ne.jp
 data.digital.costco.ca
 data.digital.costco.com
+developers.google.com
 download.adguard.com
 e.customeriomail.com
 email.awscloud.com
@@ -108,6 +109,7 @@ netatmo.commander1.com
 nineto5mac-d.openx.net
 oa.tr.line.me
 obituaries.therecord.com
+official.paymaya.com
 omniture.walmart.com
 omsc.kpn.com
 oneline.nextday.media
@@ -163,5 +165,6 @@ webstatic.nero.com
 wtradv.market.xiaomi.com
 www.dogpile.com
 www.googleadservices.com
+www.jdoqocy.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
