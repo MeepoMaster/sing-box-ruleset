@@ -1604,7 +1604,6 @@ click.inplayable.com
 click.liftoff.io
 click.oneplus.cn
 click.qianqian.com
-click.tanx.com
 click.tz.simba.taobao.com
 click1n.soufun.com
 click2.hd.sohu.com
@@ -1657,7 +1656,6 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
-co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
@@ -4296,7 +4294,6 @@ plugin-check.egret.com
 plugin.mobopay.baidu.com
 pmensrl.cn
 pmir.3g.qq.com
-pmir.sec.miui.com
 pmiskc.cn
 pmm.people.com.cn
 pmp-ad.cdn.bcebos.com
@@ -5992,7 +5989,6 @@ wv.inner-active.mobi
 wwads.cn
 www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
-www-instagram-vncom.com
 www.1ting.com
 www.31d.net
 www.37cs.com
