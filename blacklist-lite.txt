@@ -1573,7 +1573,6 @@ cholor201115.cn
 chshcms.net
 chupl.icu
 chuzushijian.cn
-cippe.com.cn
 cj.qidian.com
 ck.ads.heytapmobi.com
 ck.ads.oppomobile.com
@@ -2130,7 +2129,6 @@ e.kuaishou.com
 e.qq.com
 e.weather.com.cn
 e1.feather.ifeng.com
-e4l4.com
 e8aeb8bbdbbd7.cdn.sohucs.com
 e8d7.icu
 eagle-tex.cn
@@ -6004,6 +6002,7 @@ www.baihe.com
 www.bangqidq.com
 www.bingdianhuanyuan.cn
 www.bodog.eu
+www.cippe.com.cn
 www.destinationurl.com
 www.feitianma.com
 www.gentags.com
