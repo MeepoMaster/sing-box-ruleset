@@ -729,7 +729,6 @@ adxvip.com
 adyea.com
 adyun.com
 adzp.cn
-ae-alimelog.taobao.com
 ae.bdstatic.com
 aecpm.alicdn.com
 aegis.qq.com
@@ -995,7 +994,6 @@ api.sve.cc
 api.taboola.sve.cc
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.wx.my7v.com
 api.xiaohuxi.cn
 api.xmpush.global.xiaomi.com
@@ -1346,7 +1344,6 @@ browser.gwdang.com
 browser.sentry-cdn.com
 browsercfg-drcn.cloud.dbankcloud.cn
 browserkernel.baidu.com
-brt-it.website
 bsbaswq.cn
 bsrv.qq.com
 bss.pandora.xiaomi.com
@@ -1539,7 +1536,6 @@ clientlogsf.music.163.com
 clog.miguvideo.com
 clog.skysrt.com
 clog.tanshudata.com
-clog.yuanfudao.com
 cloud-log.yy.com
 cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
@@ -3540,7 +3536,6 @@ metrics.dt.dbankcloud.cn
 metrics.egencia.cn
 metrics.ellechina.com
 metrics.ford.com
-metrics.hktdc.com
 metrics.icloud.com
 metrics.kone.cn
 metrics.lululemon.cn
@@ -5093,7 +5088,6 @@ telegram-pc4.com.cn
 telemetry.api.joox.com
 telemetry.canva.cn
 telemetry.cell-0.cn-north-1.prod.tangerinebox.console.aws.a2z.org.cn
-telemetry.cell-0.cn-northwest-1.prod.tangerinebox.console.aws.a2z.org.cn
 telemetry.pod1.prod.avatar.ext.hp.com
 telemetry.pod3.prod.avatar.ext.hp.com
 telemetry.pod4.prod.avatar.ext.hp.com
