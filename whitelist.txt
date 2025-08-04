@@ -134,6 +134,7 @@ remembering.ca
 reports.adguard.com
 res.ads.nicovideo.jp
 resolver.msg.xiaomi.net
+s.bluecore.com
 s.optnx.com
 s1.wp.com
 sax.sina.com.cn
@@ -155,6 +156,7 @@ torimochi.line-apps.com
 tr.rdrtr.com
 track.rutarget.ru
 track.webgains.com
+trk.ecomm.lenovo.com
 validate.perfdrive.com
 vcentry2.valuecommerce.ne.jp
 vcentry3.valuecommerce.ne.jp
