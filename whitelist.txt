@@ -142,7 +142,6 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
-sobot.com
 stash.roistat.com
 str.hit.gemius.pl
 support-beacon.nakanohito.jp
