@@ -1009,7 +1009,6 @@ api.brs.intl.miui.com
 api.bugsnag.com
 api.bytegle.site
 api.bytegle.tech
-api.calendar.intl.miui.com
 api.callget.cn
 api.collect.data.intl.miui.com
 api.competition.intl.miui.com
@@ -1617,7 +1616,6 @@ clickcount.cnool.net
 clicki.cn
 clickm.fang.com
 clickn.fang.com
-clickserve.dartsearch.net
 clickserver.googleads.com
 clickx.autohome.com.cn
 client-api.ele.me
@@ -1662,7 +1660,6 @@ cnt.zhaopin.com
 cnzz.cn
 cnzz.com
 cnzz.trafficmanager.net
-co-cota.vivoglobal.com
 co-domaincfg.vivoglobal.com
 co-onrt-stsdk.vivoglobal.com
 co-ort-stsdk.vivoglobal.com
@@ -1985,7 +1982,6 @@ dlads.cn
 dle-news.xyz
 dlimg.lovfp.com
 dloffice.net.cn
-dlog.wanmei.com
 dlogs.bwton.com
 dlres.ind9ed.com
 dlswbr.baidu.com
@@ -2073,12 +2069,12 @@ dpjzzgw.cn
 dpvc1.qqyy.com
 dr.soso.com
 dragate-cn.dc.heytapmobi.com
-dragate-in.dc.heytapmobi.com
 dragate-sg.dc.heytapmobi.com
 drcn-weather.cloud.huawei.com
 drdwy.com
 dreemdmbabys.oss-cn-guangzhou.aliyuncs.com
 dreport.meituan.net
+drivethelife.com
 drovs.excelliance.cn
 ds.ruanwengfa.com
 ds1.kaijia.com
@@ -2244,7 +2240,6 @@ etc-mentsav.dbqegb.cn
 ethan.wang
 etl-xlmc-ssl.sandai.net
 etl.xlmc.sandai.net
-eu-cota.vivoglobal.com
 eu-datareceiver.aki-game.net
 eu-domaincfg.vivoglobal.com
 eu-errup.vivoglobal.com
@@ -2252,7 +2247,6 @@ eu-onrt-stsdk.vivoglobal.com
 eu-ort-stsdk.vivoglobal.com
 eu-romsp-unifyconfig.vivoglobal.com
 eu-st-sl.vivoglobal.com
-eu-stsdk.vivoglobal.com
 eu-timesync.vivoglobal.com
 eu-vcode-api.vivoglobal.com
 eu-vcode-od.vivoglobal.com
@@ -2317,7 +2311,6 @@ f.qstatic.com
 f1.pig66.com
 f1.zaojv.com
 f5w.as12df.top
-fa.163.com
 facai383.oss-cn-guangzhou.aliyuncs.com
 fakjkwp.cn
 fancyapi.com
@@ -2537,7 +2530,6 @@ gk.sina.cn
 gknybkl.cn
 gl.zle.com
 global-ad-extranet-pri-azams.alb.xiaomi.com
-global-ad-extranet-pri-azpn.alb.xiaomi.com
 global-ad-intl-pri-alisgp.alb.xiaomi.com
 global-staticplat.cdn.bcebos.com
 global.click.taobao.com
@@ -3407,7 +3399,6 @@ lives2.ksapisrv.com
 livetech.shopee.co.id.txlivecdn.com
 livetech.shopee.co.th.tlivecdn.com
 livetech.shopee.co.th.txlivecdn.com
-livetech.shopee.ph.txlivecdn.com
 livetech.shopee.vn.txlivecdn.com
 livewebbs2pcdn.msstatic.com
 lixiangmo.com
@@ -4397,7 +4388,6 @@ pmp-ad.cdn.bcebos.com
 pms.mb.qq.com
 pmvlwjy.cn
 pnrt-stsdk.vivo.com.cn
-pnrt-stsdk.vivoglobal.com
 po.funshion.com
 pocztex.bdmi.cyou
 pocztex.djad.cyou
