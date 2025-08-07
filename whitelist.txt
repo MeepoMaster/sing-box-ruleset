@@ -1,4 +1,3 @@
-5471782.fls.doubleclick.net
 79423.analytics.edgekey.net
 a.adwolf.ru
 a.sellpoint.net
@@ -7,7 +6,6 @@ ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
-ad.kazakinfo.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
@@ -142,6 +140,7 @@ sbs.demdex.net
 secureimage.securedataimages.com
 sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
+sobot.com
 stash.roistat.com
 str.hit.gemius.pl
 support-beacon.nakanohito.jp
