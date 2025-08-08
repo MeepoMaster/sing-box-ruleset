@@ -461,6 +461,7 @@ adm.cloud.cnfol.com
 adm.funshion.com
 adm.hotjar.com
 adm.leju.com
+adm.leju.sina.com.cn
 adm.xmfish.com
 adm.zookingsoft.com
 adm2.autoimg.cn
@@ -1541,7 +1542,6 @@ clickcount.cnool.net
 clicki.cn
 clickm.fang.com
 clickn.fang.com
-clickserve.dartsearch.net
 clickserver.googleads.com
 clickx.autohome.com.cn
 client-api.ele.me
@@ -1999,6 +1999,7 @@ drcn-weather.cloud.huawei.com
 drdwy.com
 dreemdmbabys.oss-cn-guangzhou.aliyuncs.com
 dreport.meituan.net
+drivethelife.com
 drovs.excelliance.cn
 ds.ruanwengfa.com
 ds1.kaijia.com
@@ -4496,11 +4497,13 @@ qwer220.cn
 qzs.gdtimg.com
 r.51wnl-cq.com
 r.browser.intl.miui.com
+r.dmp.sina.com.cn
 r.mail.163.com
 r.sg.sec.miui.com
 r.zlongad.com
 r01.3dwwwgame.com
 r01.g1c5.com
+r1.snnd.co
 r39-g003-h8ig0w-u8f0we8-fgw0rgf-0we880e-rhgth.obs.ap-southeast-2.myhuaweicloud.com
 r528e.cn
 r75tia.cn
