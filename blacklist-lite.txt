@@ -936,7 +936,6 @@ api-u-ssl.xunlei.com
 api-unionid.meituan.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
-api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -1517,7 +1516,6 @@ cholor201115.cn
 chshcms.net
 chupl.icu
 chuzushijian.cn
-cippe.com.cn
 cisco-ironport.com.cn
 cj.qidian.com
 ck.ads.heytapmobi.com
@@ -1983,7 +1981,6 @@ doubleclick.net
 doumob.com
 douyaobuy.com
 down.54nb.com
-down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -2715,7 +2712,6 @@ hryspap.cn
 hseda.com
 hstpnetwork.com
 hswfj.cn
-hsych.com
 ht55.cn
 hthvc.icu
 htrace.wetvinfo.com
@@ -3470,7 +3466,6 @@ log.xiaozuowen.net
 log.ycapp.yiche.com
 log.yex.youdao.com
 log.yinshantech.cn
-log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -4495,7 +4490,6 @@ qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qnhi.cn
 qooic.com
-qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -4761,7 +4755,6 @@ sbisec-arrive.aqwirse.cn
 sc.shayugg.com
 sc.sonystyle.com.cn
 sc126.com
-sca-cota.vivoglobal.com
 sca-domaincfg.vivoglobal.com
 sca-err-up.vivoglobal.com
 sca-onrt-stsdk.vivoglobal.com
@@ -5112,7 +5105,6 @@ stat-z.xywy.com
 stat.10jqka.com.cn
 stat.360safe.com
 stat.56.com
-stat.browser.heytapmobi.com
 stat.browser.nearme.com.cn
 stat.browser.oppomobile.com
 stat.doc88.com
@@ -6061,6 +6053,7 @@ www.bangqidq.com
 www.bingdianhuanyuan.cn
 www.biqubao.com
 www.bodog.eu
+www.cippe.com.cn
 www.destinationurl.com
 www.feitianma.com
 www.gentags.com
