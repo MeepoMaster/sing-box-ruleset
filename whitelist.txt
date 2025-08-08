@@ -6,6 +6,7 @@ ac.ebis.ne.jp
 acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
+ad.kazakinfo.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
