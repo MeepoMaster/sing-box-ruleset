@@ -4793,7 +4793,6 @@ s.tantanapp.com
 s.zixuntop.com
 s.zlongad.com
 s1.hanlinzhijia.com
-s1.wesiedu.com
 s11.cn
 s2.zdmimg.com
 s8.pw
@@ -5670,6 +5669,7 @@ tttppp.oss-cn-guangzhou.aliyuncs.com
 tudou.com
 tudxhzj.cn
 tuhzjrr.cn
+tui.gtimg.com
 tui.weibo.com
 tui98.cn
 tuia.cn
