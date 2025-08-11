@@ -154,6 +154,7 @@
 7kjiiu.cn
 7moor.com
 7r227ut.cn
+7xi9g1.com1.z0.glb.clouddn.com
 8131.qizhihaotian.cn
 8181zx.com
 8684.com
@@ -1435,7 +1436,6 @@ cdnmaster.com
 cdnovs.multiopen.cn
 cdns.mbxt.net
 cdp.cloud.unity.cn
-cds-33-1327737665-aad.asia
 cdxyb.cn
 cee1.iteye.com
 cengqinglin.cn
@@ -4257,7 +4257,6 @@ pingma.qq.com
 pingmid.qq.com
 pingtas.qq.com
 pinkippp.com
-pinterhome.asia
 pis-tel-pcdn.youku.com
 pixel-insight.ucweb.com
 pixel.facebook.com
@@ -5146,7 +5145,6 @@ stats.studyquicks.com
 stats.v.duowan.com
 stats.wp.com
 statscollector-1-north-america.agora.io
-statscollector-1-oversea.agora.io
 statscollector-1.agora.io
 statscollector.sd-rtn.com
 statsigapi.net
@@ -5194,7 +5192,6 @@ suo.im
 super.cat898.com
 super.kdnet.net
 superads.cn
-supermate.cloud
 supply.inmobicdn.net
 support.hqts.com
 survey.china.alibaba.com
@@ -5452,7 +5449,6 @@ tr-ort-stsdk.vivoglobal.com
 tr-p.vivoglobal.com
 tr-romsp-unifyconfig.vivoglobal.com
 tr-st-sl.vivoglobal.com
-tr-stsdk.vivoglobal.com
 tr-timesync.vivoglobal.com
 tr-vcode-api.vivoglobal.com
 tr-vcode-od.vivoglobal.com
@@ -5829,7 +5825,6 @@ voteosi.eixxb.cn
 vpadn.com
 vpic.video.qq.com
 vpsgu.cn
-vrarmcar.cloud
 vrbrothers.com
 vreqnait.com
 vs.funshion.com
@@ -6095,7 +6090,6 @@ xifs.tanx.com
 xin-lian.cn
 xinbo-lora.cn
 xindalawyer.com
-xinwei757er.asia
 xiuxiu.android.dl.meitu.com
 xiuxiu.mobile.meitudata.com
 xjkugh.waterdropfilter.com
