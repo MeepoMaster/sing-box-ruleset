@@ -1,4 +1,5 @@
 5471782.fls.doubleclick.net
+79423.analytics.edgekey.net
 a.adwolf.ru
 a.sellpoint.net
 a0.app.xiaomi.com
@@ -166,6 +167,5 @@ webstatic.nero.com
 wtradv.market.xiaomi.com
 www.dogpile.com
 www.googleadservices.com
-www.jdoqocy.com
 www.statcounter.com
 wwwimage-tve.cbsstatic.com
