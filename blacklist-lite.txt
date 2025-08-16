@@ -941,7 +941,6 @@ apm-log-upload-os.hoyoverse.com
 apm-native.xiaohongshu.com
 apm-track.xiaohongshu.com
 apmplus.ap-southeast-1.volces.com
-apollo.caixin.com
 app-analytics-ru.huami.com
 app-analytics-services.com
 app-log-oversea.immomo.com
@@ -1647,7 +1646,6 @@ dchdmhf.cn
 dcintl.push.heytapmobi.com
 dd.browser.360.cn
 ddbuwo.cn
-de-gdpr-err-up.vivoglobal.com
 de-gdpr-vcode-od.vivoglobal.com
 de.as.pptv.com
 de.pandora.xiaomi.com
@@ -1899,7 +1897,6 @@ epoch-id.cdo.heytapmobi.com
 eqqi.cn
 err.ifengcloud.ifeng.com
 err.taobao.com
-err.up.vivoglobal.com
 errlog.umeng.com
 errnewlog.umeng.com
 errortracking.snapp.site
@@ -2921,7 +2918,6 @@ lives.l.ott.video.qq.com
 livetech.shopee.co.id.txlivecdn.com
 livetech.shopee.co.th.tlivecdn.com
 livetech.shopee.co.th.txlivecdn.com
-livetech.shopee.ph.txlivecdn.com
 livetech.shopee.vn.txlivecdn.com
 livewebbs2pcdn.msstatic.com
 lixiangmo.com
@@ -3122,7 +3118,6 @@ m-adash.m.taobao.com
 m-adnet.hiaiabc.com
 m.91heima.cn
 m.ad.zhangyue.com
-m.analytics.126.net.split.ntes53.netease.com
 m.atm.youku.com
 m.bchchk.cn
 m.doubleclick.net
@@ -3453,7 +3448,6 @@ nbsdk-baichuan.alicdn.com
 nbsdk-baichuan.taobao.com
 ncgqmzm.cn
 ndct-data.video.iqiyi.com
-neirong.funshion.com
 neolit.cn
 net.daraz.lk
 net.daraz.pk
@@ -4837,7 +4831,6 @@ tui98.cn
 tuia.cn
 tuiguang.meitu.com
 tuijian.baidu.com
-tulaoshi.com
 tumeite.cn
 tunion-api.m.taobao.com
 turbo2sdk-push.oupeng.com
