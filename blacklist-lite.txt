@@ -870,7 +870,6 @@ api-push.meizu.com
 api-rec.stellar.intl.miui.com
 api-z.weidian.com
 api-zhibo.qtfm.cn
-api.52youtu.com
 api.accelerator.intl.miui.com
 api.ad.xiaomi.com
 api.afdback.ppsimg.com
@@ -924,7 +923,6 @@ api.sve.cc
 api.taboola.sve.cc
 api.touch-moblie.com
 api.tusdk.com
-api.tv.sohu.com
 api.xmpush.global.xiaomi.com
 api.yfanads.com
 api.youngle.site
@@ -1414,7 +1412,6 @@ clog.skysrt.com
 clog.tanshudata.com
 clog.yuanfudao.com
 cloud-log.yy.com
-cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
 cloudoffice.net.cn
 cloudservice14.kingsoft-office-service.com
@@ -1651,7 +1648,6 @@ dchdmhf.cn
 dcintl.push.heytapmobi.com
 dd.browser.360.cn
 ddbuwo.cn
-de-gdpr-vcode-od.vivoglobal.com
 de.as.pptv.com
 de.pandora.xiaomi.com
 de.tynt.com
@@ -1747,7 +1743,6 @@ doubleclick.net
 doumob.com
 douyaobuy.com
 down.54nb.com
-down.nishuoa.com
 down.qqfarmer.com.cn
 download.350.com
 download.56.com
@@ -1956,7 +1951,6 @@ events-dra.op.dbankcloud.com
 events-dra.op.hicloud.com
 events-drcn.op.dbankcloud.cn
 events-drcn.op.dbankcloud.com
-events-dre-op-dbankcloud-com-dre.appacc-region.dbankedge.cn
 events-dre-op-dbankcloud-com-dre.appacc.dbankedge.cn
 events-dre-op-hicloud-com-dre.appacc.dbankedge.cn
 events-dre.op.dbankcloud.com
@@ -2141,7 +2135,6 @@ geofence.sys.miui.com
 gepush.com
 getui.cn
 getui.com
-gf.umenglog.com
 gg.0598yu.com
 gg.blueidea.com
 gg.caixin.com
@@ -2178,7 +2171,6 @@ gk.sina.cn
 gknybkl.cn
 gl.zle.com
 global-ad-extranet-pri-azams.alb.xiaomi.com
-global-ad-extranet-pri-azpn.alb.xiaomi.com
 global-ad-intl-pri-alisgp.alb.xiaomi.com
 global-staticplat.cdn.bcebos.com
 globalapi.ad.xiaomi.com
@@ -2390,7 +2382,6 @@ hryspap.cn
 hseda.com
 hstpnetwork.com
 hswfj.cn
-hsych.com
 hthvc.icu
 htrace.wetvinfo.com
 httpdns-api.aliyuncs.com
@@ -2452,7 +2443,6 @@ hw-p2p-pull.video-voip.com
 hw-p2p-v2.pull.yximgs.com
 hw-p2p.pull.yximgs.com
 hw-v2-web-player-tracker.biliapi.net
-hw.zuimeitianqi.com
 hwa.his.huawei.com
 hwpub-s01-drcn.cloud.dbankcloud.cn
 hy.huangye88.com.cn
@@ -2616,7 +2606,6 @@ in-vpushonrt-stsdk.vivoglobal.com
 in-vpushort-stsdk.vivoglobal.com
 in.treasuredata.com
 in.tv.global.mi.com
-in.vipliangmei.com
 inad.com
 indoeasia.edm.globalsources.com
 inf.miui.com
@@ -2705,7 +2694,6 @@ jaccs-whyo.onpassive.cn
 jaccs-wifeari.eywd.cn
 janapi.jd.com
 japps.cn
-jasu8.com
 jb.ecar168.cn
 jbzj.com
 jc1.dayfund.com.cn
@@ -3046,7 +3034,6 @@ log.wtlogin.qq.com
 log.xiaoyi.com
 log.ycapp.yiche.com
 log.yinshantech.cn
-log.ys7.com
 log.zijieapi.com
 log0-applog-lf.fqnovel.com
 log0-misc-alinc2.amemv.com
@@ -3099,7 +3086,6 @@ logservice-dra.platform.dbankcloud.com
 logservice-dra.platform.hicloud.com
 logservice-dre.platform.dbankcloud.cn
 logservice-dre.platform.dbankcloud.com
-logservice-dre.platform.hicloud.com
 logservice-rtm.agora.io
 logservice.agora.io
 logservice.dbankcloud.cn
@@ -3858,7 +3844,6 @@ ptyrk.cn
 pub.funshion.com
 pub.se.360.cn
 public.gdtimg.com
-publish-pic-cpu.baidu.com
 puds.ucweb.com
 pufhzpt.cn
 puma-api.iqiyi.com
@@ -3934,7 +3919,6 @@ qn-hydlpcdn.cdn.huya.com
 qn-livewebbs2pcdn.msstatic.com
 qnhi.cn
 qooic.com
-qp.ezfxpuo.cn
 qpb.sohu.com
 qpb0.sohu.com
 qpb1.sohu.com
@@ -4438,7 +4422,6 @@ stat.10jqka.com.cn
 stat.360safe.com
 stat.56.com
 stat.browser.nearme.com.cn
-stat.doc88.com
 stat.dongqiudi.com
 stat.download.xunlei.com
 stat.duokanbox.com
