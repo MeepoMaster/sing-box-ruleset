@@ -8,6 +8,7 @@ acs-m.daraz.com.bd
 acs-m.daraz.pk
 action.metaffiliation.com
 ad.kazakinfo.com
+ad.ourgame.com
 adblock.adguard.com
 admin.dable.io
 admin.mailchimp.com
