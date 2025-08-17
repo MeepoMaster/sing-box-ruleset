@@ -535,7 +535,6 @@ ads.huan.tv
 ads.huantest.com
 ads.icloseli.cn
 ads.inmobi.com
-ads.intergreat.com
 ads.jianchiapp.com
 ads.linkedin.cn
 ads.linkedin.com
@@ -765,7 +764,6 @@ analy.qq.com
 analy.tuniu.cn
 analyse.weather.com.cn
 analysis.chatglm.cn
-analysis.leetcode.cn
 analysis.yozocloud.cn
 analysys.cn
 analytics-api.samsunghealthcn.com
@@ -857,7 +855,6 @@ api-analytics-de.zepp.com
 api-analytics-us.zepp.com
 api-analytics-us3.zepp.com
 api-cn.cdo.heytapmobi.com
-api-data-collection.insta360.cn
 api-event.falconnet.app
 api-flow.flyme.cn
 api-fp-retry-bj.fengkongcloud.com
@@ -1422,7 +1419,6 @@ clkservice.youdao.com
 clog.miguvideo.com
 clog.skysrt.com
 clog.tanshudata.com
-clog.yuanfudao.com
 cloud-log.yy.com
 cloudcollect.meitudata.com
 cloudconf.fengkongcloud.com
@@ -1542,7 +1538,6 @@ crashlytics.163.com
 crashlyticsreports-pa.googleapis.com
 cre.dp.sina.cn
 cre.mix.sina.com.cn
-crm.ws.ctrip.com
 crosspromotion.weplayer.cc
 crs.baidu.com
 cs-feige.iqiyi.com
@@ -2594,7 +2589,6 @@ impression-asia.chinaliftoff.io
 impression-asia.liftoff.io
 impression.appsflyer.com
 improving.wuzhuiso.com
-impservice.dictapp.youdao.com
 impservice.youdao.com
 imtoken.org.cn
 in-ad-mkt-vivofs.vivoglobal.com
@@ -3311,7 +3305,6 @@ minisite.letv.com
 minisplat.cn
 minor-api-os.hoyoverse.com
 mipcache.bdstatic.com
-mipengine.baidu.com
 mipsa.ciae.ac.cn
 mis.g.mi.com
 misc.api.snaptube.app
