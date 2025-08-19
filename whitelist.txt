@@ -147,10 +147,9 @@ sgqcvfjvr.onet.pl
 smtp.focusgroupresearch.com
 sobot.com
 stash.roistat.com
+stats.britishbaseball.org.uk
 str.hit.gemius.pl
 support-beacon.nakanohito.jp
-support-widget.nakanohito.jp
-surveymyopinion.researchnow.com
 tags.crwdcntrl.net
 taiga.maven.io
 tlh.gedidigital.it
