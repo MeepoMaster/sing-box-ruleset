@@ -697,6 +697,8 @@ aem.dentsuchina.cn
 aemetrics.aliexpress.ru
 af6s.icu
 afd.baidu.com
+afp.alicdn.com
+afpmm.alicdn.com
 africa.edm.globalsources.com
 afs.googlesyndication.com
 afterdg.cn
@@ -728,9 +730,9 @@ ali-p2p.pull.yximgs.com
 ali-web-player-tracker.biliapi.net
 alibaba-inc.kefu.helps.live
 aliblogger.com.cn
-alicdn.com
 alicoccdncnc-xn.inter.71edge.com
 alicoccdnct-xn.inter.71edge.com
+alimama.alicdn.com
 alime-pic.oss-cn-hangzhou.aliyuncs.com
 alimelog.taobao.com
 alipaylog.com
@@ -1003,6 +1005,7 @@ as.weixin.qq.com
 as1.m.hao123.com
 as1.wenku.baidu.com
 asdyui16.cn
+asearch.alicdn.com
 asia-abeacdataonrt-stsdk.vivoglobal.com
 asia-abeacdataort-stsdk.vivoglobal.com
 asia-ad-mkt-vivofs.vivoglobal.com
@@ -1044,6 +1047,8 @@ aspwg.cn
 assp.sohu.com
 asycxtz.cn
 at-af.outfit7.com
+atanx.alicdn.com
+atanx2.alicdn.com
 atb-stats-api.imolive.tv
 atiws.aipai.com
 ato.tooopen.com
@@ -1738,6 +1743,7 @@ domob.cn
 dongtukj.oss-cn-hongkong.aliyuncs.com
 dopa.com
 dopemobi.offerstrack.net
+dorangesource.alicdn.com
 dotcounter.douyucdn.cn
 dotcounter.douyutv.com
 dotserver.douyucdn.cn
@@ -2193,6 +2199,7 @@ globalapi.ad.xiaomi.com
 globaleducationexpert.com
 globalvideo.cdn.pandora.intl.xiaomi.com
 glwxw.net
+gma.alicdn.com
 gndmnrh.cn
 go.5211game.com
 go.bigo.tv
@@ -2406,6 +2413,7 @@ httpdns-api.aliyuncs.com
 httpdns-browser.platform.dbankcloud.cn
 httpdns-sc.aliyuncs.com
 httpdns-sdk.n.netease.com
+httpdns.alicdn.com
 httpdns.baidu.com
 httpdns.baidubce.com
 httpdns.bcelive.com
@@ -2526,6 +2534,7 @@ ii.gdt.qq.com
 ii1.chajiaotong.com
 iimedia.cn
 ijinshan.com
+ilce.alicdn.com
 ilkwork.com
 im-x.jd.com
 image-ad.sm.cn
@@ -3480,6 +3489,7 @@ nativeapp.toutiao.com
 nbcollect.kugou.com
 nbcollectretry.kugou.com
 nbfieef.cn
+nbsdk-baichuan.alicdn.com
 nbsdk-baichuan.taobao.com
 ncgqmzm.cn
 ndct-data.video.iqiyi.com
@@ -4663,6 +4673,7 @@ tbqpdef.cn
 tbsone.imtt.qq.com
 tc.ci123.com
 tcbox.baidu.com
+tce.alicdn.com
 tci.oss-ap-southeast-1.aliyuncs.com
 tdc.qq.com
 tdid.m.qq.com
@@ -4996,6 +5007,7 @@ ulogs2.gifshow.com
 ulogs2.ksapisrv.com
 ulogvg.gifshow.com
 ultrapay.net
+umc.danuoyi.alicdn.com
 umdc.aliapp.org
 umeng.com
 umengacs.m.taobao.com
