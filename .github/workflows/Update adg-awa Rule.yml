@@ -27,30 +27,25 @@ jobs:
 
     - name: Process block and noblock domains in JSON
       run: |
-        # 读取 block.txt 和 noblock.txt 中的域名，并将其转换为 jq 格式
         block_domains=$(jq -R -s -c 'split("\n")[:-1]' block.txt)
         noblock_domains=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
 
-        # 从原始 JSON 中删除 noblock.txt 的域名
         jq --argjson noblock "$noblock_domains" '
           .rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) |
           .rules[0].domain_keyword |= map(select(. as $d | $noblock | index($d) | not)) |
           .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
         ' AWAvenue.json > cleaned_awa.json
 
-        # 将 block.txt 中的域名加入到 "domain" 部分
         jq --argjson block "$block_domains" '
           .rules[0].domain += $block
         ' cleaned_awa.json > updated_awa.json
 
-        # 对各数组进行去重和排序，但保持空数组原样
         jq '
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
           .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end) |
           .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
         ' updated_awa.json > adg-awa.json
 
-        # 确认输出有效 JSON
         jq . adg-awa.json
 
     - name: Setup sing-box
@@ -70,5 +65,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add adg-awa.json adg-awa.srs
-        git commit -m "Update custom rules with block domains, remove noblock domains, and generate SRS" || echo "No changes to commit"
+        git commit -m "Update adg-awa rules with sorted files" || echo "No changes to commit"
         git push
