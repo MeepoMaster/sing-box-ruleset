@@ -33,7 +33,7 @@ jobs:
         # 从 domain_suffix 中删除 noblock.txt 里的域名
         jq --argjson filter "$filter" '
           .rules[0].domain_suffix |= map(select(. as $d | $filter | index($d) | not))
-        ' adblocksingbox.json > adg-dns.json
+        ' adblocksingboxlite.json > adg-dns-lite.json
 
         # 确认输出有效 JSON
         jq . adg-dns-lite.json
