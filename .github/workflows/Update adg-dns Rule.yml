@@ -1,9 +1,12 @@
 name: Update adg-dns Rule
 
-on:
+on: 
   schedule:
-    - cron: 0 0 * * *  # 每天 0 点执行一次
+    - cron: 0 0,8,16 * * *
   workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
 
 jobs:
   update-rules:
