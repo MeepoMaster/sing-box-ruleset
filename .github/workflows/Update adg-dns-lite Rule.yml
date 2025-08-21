@@ -27,24 +27,18 @@ jobs:
 
     - name: Process domains (remove noblock + add block + dedup + sort)
       run: |
-        # 读取 noblock.txt 和 block.txt
         noblock=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
         block=$(jq -R -s -c 'split("\n")[:-1]' block.txt)
 
         jq --argjson noblock "$noblock" --argjson block "$block" '
           .rules[0].domain_suffix |= (
-            # 1. 去掉 noblock 里的域名
             map(select(. as $d | $noblock | index($d) | not))
-            # 2. 追加 block 里的域名
             + $block
-            # 3. 去重
             | unique
-            # 4. 按字母顺序排序
             | sort
           )
         ' adblocksingboxlite.json > adg-dns-lite.json
 
-        # 确认输出 JSON 格式
         jq . adg-dns-lite.json
 
     - name: Setup sing-box
@@ -63,6 +57,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add adg-dns.json adg-dns.srs
-        git commit -m "Update adg-dns.json and adg-dns.srs" || echo "No changes to commit"
+        git add adg-dns-lite.json adg-dns-lite.srs
+        git commit -m "Update adg-dns-lite rules with sorted files" || echo "No changes to commit"
         git push
