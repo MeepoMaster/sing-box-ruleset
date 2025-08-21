@@ -43,11 +43,11 @@ jobs:
           .rules[0].domain += $block
         ' cleaned_awa.json > updated_awa.json
 
-        # 对所有数组进行去重并按字母排序
+        # 对各数组进行去重和排序，但保持空数组原样
         jq '
-          .rules[0].domain |= unique | sort |
-          .rules[0].domain_keyword |= unique | sort |
-          .rules[0].domain_suffix |= unique | sort
+          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
+          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end) |
+          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
         ' updated_awa.json > adg-awa.json
 
         # 确认输出有效 JSON
