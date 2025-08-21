@@ -25,26 +25,17 @@ jobs:
       run: |
         curl -o adblocksingboxlite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
 
-    - name: Process domains (remove noblock + add block + dedup + sort)
+    - name: Remove domains in noblock.txt
       run: |
-        # 读取 noblock.txt 和 block.txt
-        noblock=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
-        block=$(jq -R -s -c 'split("\n")[:-1]' block.txt)
+        # 将 noblock.txt 转换成 jq 过滤器参数
+        filter=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
 
-        jq --argjson noblock "$noblock" --argjson block "$block" '
-          .rules[0].domain_suffix |= (
-            # 1. 去掉 noblock 里的域名
-            map(select(. as $d | $noblock | index($d) | not))
-            # 2. 追加 block 里的域名
-            + $block
-            # 3. 去重
-            | unique
-            # 4. 按字母顺序排序
-            | sort
-          )
-        ' adblocksingboxlite.json > adg-dns-lite.json
+        # 从 domain_suffix 中删除 noblock.txt 里的域名
+        jq --argjson filter "$filter" '
+          .rules[0].domain_suffix |= map(select(. as $d | $filter | index($d) | not))
+        ' adblocksingbox.json > adg-dns.json
 
-        # 确认输出 JSON 格式
+        # 确认输出有效 JSON
         jq . adg-dns-lite.json
 
     - name: Setup sing-box
