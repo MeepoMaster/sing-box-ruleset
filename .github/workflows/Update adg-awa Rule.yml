@@ -9,62 +9,49 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  update-awa-rules:
+  update-rules:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install requests
         sudo apt-get update
-        sudo apt-get install -y jq
+        sudo apt-get install -y jq wget tar
 
-    - name: Download and clean AWAvenue Rule JSON
+    - name: Download base JSON
       run: |
-        curl -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox-regex.json
-        sed '/^\/\//d' AWAvenue.json > AWAvenue_clean.json
-        jq empty AWAvenue_clean.json
+        curl -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
 
-    - name: Extract domains and process blocklist
+    - name: Process block and noblock domains in JSON
       run: |
-        jq -r '.rules[0].domain[]' AWAvenue_clean.json > extracted_domains.txt
+        # 读取 block.txt 和 noblock.txt 中的域名，并将其转换为 jq 格式
+        block_domains=$(jq -R -s -c 'split("\n")[:-1]' block.txt)
+        noblock_domains=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
 
-        cat block.txt extracted_domains.txt | sort -u > raw_block.txt
+        # 从原始 JSON 中删除 noblock.txt 的域名
+        jq --argjson noblock "$noblock_domains" '
+          .rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) |
+          .rules[0].domain_keyword |= map(select(. as $d | $noblock | index($d) | not)) |
+          .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
+        ' AWAvenue.json > cleaned_awa.json
 
-        grep -vxFf whitelist.txt raw_block.txt | grep -vxFf noblock.txt > final_block.txt
+        # 将 block.txt 中的域名加入到 "domain" 部分
+        jq --argjson block "$block_domains" '
+          .rules[0].domain += $block
+        ' cleaned_awa.json > updated_awa.json
 
-        sed 's/.*/"&",/' final_block.txt | sed '$ s/,$//' > domain_suffix_formatted.txt
+        # 对所有数组进行去重并按字母排序
+        jq '
+          .rules[0].domain |= unique | sort |
+          .rules[0].domain_keyword |= unique | sort |
+          .rules[0].domain_suffix |= unique | sort
+        ' updated_awa.json > adg-awa.json
 
-    - name: Extract domain_regex and build adg-awa.json
-      run: |
-        domain_regex=$(jq '.rules[0].domain_regex' AWAvenue_clean.json)
-
-        {
-          echo '{
-            "version": 3,
-            "rules": [
-              {
-                "domain_suffix": ['
-          cat domain_suffix_formatted.txt
-          echo '],
-                "domain_regex":'
-          echo "$domain_regex"
-          echo '              }
-            ]
-          }'
-        } > adg-awa.json
-
-        jq . adg-awa.json > tmp.json && mv tmp.json adg-awa.json
-
-        jq empty adg-awa.json
+        # 确认输出有效 JSON
+        jq . adg-awa.json
 
     - name: Setup sing-box
       run: |
@@ -74,7 +61,7 @@ jobs:
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
-    - name: Convert adg-awa.json to adg-awa.srs
+    - name: Convert JSON to SRS
       run: |
         sing-box rule-set compile --output adg-awa.srs adg-awa.json
 
@@ -82,6 +69,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add adg-awa.json adg-awa.srs
-        git commit -m "Force update AWA rules with sorted files" || echo "No changes to commit"
+        git add final_awa.json final_awa.srs
+        git commit -m "Update custom rules with block domains, remove noblock domains, and generate SRS" || echo "No changes to commit"
         git push
