@@ -1,12 +1,12 @@
 name: Update adg-dns Rule
 
-on: 
+on:
   schedule:
     - cron: 0 0,8,16 * * *
   workflow_dispatch:
 
 env:
-  TZ: Asia/Shanghai
+  TZ: Asia/Shanghai  
 
 jobs:
   update-rules:
@@ -16,44 +16,43 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install dependencies
+    - name: Download and process rules
       run: |
-        sudo apt-get update
-        sudo apt-get install -y jq wget tar
-
-    - name: Download base JSON
-      run: |
+        # 下载原始 JSON
         curl -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
 
-    - name: Remove domains in noblock.txt
+        # 从 noblock.txt 中读取域名
+        NOBLOCK_DOMAINS=$(cat noblock.txt)
+
+        # 从 block.txt 中读取域名
+        BLOCK_DOMAINS=$(cat block.txt)
+
+        # 移除 JSON 中的 noblock.txt 域名，并添加 block.txt 中的域名
+        jq --argjson noblock "$(echo "$NOBLOCK_DOMAINS" | jq -R . | jq -s .)" \
+           --argjson block "$(echo "$BLOCK_DOMAINS" | jq -R . | jq -s .)" \
+           '
+            .rules[0].domain_suffix |=
+            map(select(. as $domain | ($noblock | index($domain)) | not)) + $block
+           ' adblocksingbox.json > adblocksingbox_processed.json
+
+        # 去重并排序域名
+        jq '.rules[0].domain_suffix |= sort | unique' adblocksingbox_processed.json > adblocksingbox_sorted.json
+
+    - name: Convert adg-dns.json to adg-dns.srs
       run: |
-        # 将 noblock.txt 转换成 jq 过滤器参数
-        filter=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
-
-        # 从 domain_suffix 中删除 noblock.txt 里的域名
-        jq --argjson filter "$filter" '
-          .rules[0].domain_suffix |= map(select(. as $d | $filter | index($d) | not))
-        ' adblocksingbox.json > adg-dns.json
-
-        # 确认输出有效 JSON
-        jq . adg-dns.json
-
-    - name: Setup sing-box
-      run: |
+        # 安装 sing-box
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
         sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
-        sing-box version
 
-    - name: Convert JSON to SRS
-      run: |
-        sing-box rule-set compile --output adg-dns.srs adg-dns.json
+        # 转换 JSON 为 SRS 格式
+        sing-box rule-set compile --output adg-dns.srs adblocksingbox_sorted.json
 
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add adg-dns.json adg-dns.srs
-        git commit -m "Update adg-dns.json and adg-dns.srs" || echo "No changes to commit"
+        git add adblocksingbox_sorted.json adg-dns.srs
+        git commit -m "Update DNS rules with new blocklist and whitelist" || echo "No changes to commit"
         git push
