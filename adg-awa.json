@@ -2,7 +2,8 @@
   "version": 3,
   "rules": [
     {
-      "domain_suffix": [
+      "ip_cidr": [],
+      "domain": [
         "1500020991.vodplayer.wxamedia.com",
         "1500022744.vodplayer.wxamedia.com",
         "1500026601.vodplayer.wxamedia.com",
@@ -249,9 +250,11 @@
         "bgg.baidu.com",
         "bianxian.com",
         "bingads.microsoft.com",
+        "biz.weibo.com",
         "bj.ad.track.66mobi.com",
         "black.qimo.ink",
         "books-analytics-events.apple.com",
+        "bootpreload.uve.weibo.com",
         "browser.sentry-cdn.com",
         "browsercfg-drcn.cloud.dbankcloud.cn",
         "bsrv.qq.com",
@@ -402,6 +405,7 @@
         "heads-ak.spotify.com.edgesuite.net",
         "heads-fa.spotify.com",
         "hexagon-analytics.com",
+        "hlog.bigda.com",
         "hm.baidu.com",
         "hmma.baidu.com",
         "hotupgrade.hpplay.cn",
@@ -543,6 +547,7 @@
         "mini-prog-drm.vodplayvideo.net",
         "mission-pub.smart-tv.cn",
         "miui-fxcse.avlyun.com",
+        "mlog.bigda.com",
         "mmgame.qpic.cn",
         "mnqlog.ldmnq.com",
         "moatads.com",
@@ -551,6 +556,7 @@
         "mobads.baidu.com",
         "mobaliyun.res.mgtv.com",
         "mobile.da.mgtv.com",
+        "mobilead.kuwo.cn",
         "mobilelog.upqzfile.com",
         "monitor-ads-test.huan.tv",
         "monitor-uu.play.aiseet.atianqi.com",
@@ -817,6 +823,7 @@
         "umengacs.m.taobao.com",
         "umengjmacs.m.taobao.com",
         "umini.shujupie.com",
+        "union-mlog.bigda.com",
         "union.baidu.cn",
         "union.baidu.com",
         "update.avlyun.sec.miui.com",
@@ -896,26 +903,27 @@
         "zhihu-web-analytics.zhihu.com",
         "zxid-m.mobileservice.cn"
       ],
-      "domain_regex": [
-        ".*.1rtb.com",
-        ".*.a.market.xiaomi.com",
-        ".*.ad.gameley.com",
-        ".*.adintl.cn",
-        ".*.adx.adwangmai.com",
-        ".*.data.hicloud.com",
-        ".*.log.aliyuncs.com",
-        ".*.ubixioe.com",
-        ".*.vlion.cn",
-        ".*.yfanads.com",
-        ".*.zhangyuyidong.cn",
-        "[a-zA-Z0-9.-]*-ad-[a-zA-Z0-9.-]*.byteimg.com",
-        "[a-zA-Z0-9.-]*-ad.sm.cn",
-        "[a-zA-Z0-9.-]*-ad.video.yximgs.com",
-        "[a-zA-Z0-9.-]*-ad.wtzw.com",
-        "[a-zA-Z0-9.-]*-be-pack-sign.pglstatp-toutiao.com",
-        "[a-zA-Z0-9.-]*-normal-[a-zA-Z0-9.-]*.zijieapi.com",
-        "[a-zA-Z0-9.-]*-normal.zijieapi.com"
-      ]
+      "domain_keyword": [
+        "-ad.sm.cn",
+        "-ad.video.yximgs.com",
+        "-ad.wtzw.com",
+        "-be-pack-sign.pglstatp-toutiao.com",
+        "-normal.zijieapi.com"
+      ],
+      "domain_suffix": [
+        "1rtb.com",
+        "a.market.xiaomi.com",
+        "ad.gameley.com",
+        "adintl.cn",
+        "adx.adwangmai.com",
+        "data.hicloud.com",
+        "log.aliyuncs.com",
+        "ubixioe.com",
+        "vlion.cn",
+        "yfanads.com",
+        "zhangyuyidong.cn"
+      ],
+      "domain_regex": []
     }
   ]
 }
