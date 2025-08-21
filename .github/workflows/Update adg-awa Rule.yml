@@ -69,6 +69,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add final_awa.json final_awa.srs
+        git add adg-awa.json adg-awa.srs
         git commit -m "Update custom rules with block domains, remove noblock domains, and generate SRS" || echo "No changes to commit"
         git push
