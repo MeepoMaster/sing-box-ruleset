@@ -58,5 +58,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add adg-dns.json adg-dns.srs
-        git commit -m "Update adg-dns rules with sorted files" || echo "No changes to commit"
+        git commit -m "Update adg-dns rules" || echo "No changes to commit"
         git push
