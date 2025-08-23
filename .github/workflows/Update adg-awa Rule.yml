@@ -65,5 +65,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add adg-awa.json adg-awa.srs
-        git commit -m "Update adg-awa rules with sorted files" || echo "No changes to commit"
+        git commit -m "Update adg-awa rules" || echo "No changes to commit"
         git push
