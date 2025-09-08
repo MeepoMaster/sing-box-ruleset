@@ -1,0 +1,57 @@
+name: Update app Rule
+
+on:
+  schedule:
+    - cron: "45 0,8,16 * * *"
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  update-rules:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq wget tar
+
+    - name: Download base JSON
+      run: |
+        curl -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/applications.json
+
+    - name: Process process_name in JSON
+      run: |
+        process_names=$(jq -R -s -c 'split("\n")[:-1]' process.txt)
+
+        jq --argjson process "$process_names" '
+          .rules[0].process_name += $process |
+          .rules[0].process_name = (if .rules[0].process_name | length > 0 then .rules[0].process_name | unique | sort else .rules[0].process_name end)
+        ' applications.json > app.json
+
+        jq . app.json
+
+    - name: Setup sing-box
+      run: |
+        LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
+        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
+
+    - name: Convert JSON to SRS
+      run: |
+        sing-box rule-set compile --output app.srs app.json
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add app.json app.srs
+        git commit -m "Update app rules" || echo "No changes to commit"
+        git push
