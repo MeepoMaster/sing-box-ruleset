@@ -1,0 +1,10 @@
+Xshell
+Xshell.exe
+qimiao
+qimiao.exe
+pure_live
+pure_live.exe
+dota2
+dota2.exe
+cs2
+cs2.exe
