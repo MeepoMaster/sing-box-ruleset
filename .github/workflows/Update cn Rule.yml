@@ -2,7 +2,7 @@ name: Update cn Rule
 
 on:
   schedule:
-    - cron: "50 0,8,16 * * *"
+    - cron: "15 1,9,17 * * *"
   workflow_dispatch:
 
 env:
