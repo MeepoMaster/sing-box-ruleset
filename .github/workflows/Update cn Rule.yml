@@ -1,4 +1,4 @@
-name: Update CN Rule
+name: Update cn Rule
 
 on:
   schedule:
