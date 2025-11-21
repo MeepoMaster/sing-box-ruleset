@@ -1,2 +1,5 @@
-mpyit.com
+domain:
 passport.qianwen.com
+
+domain_suffix:
+mpyit.com
