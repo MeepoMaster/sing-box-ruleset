@@ -1,4 +1,4 @@
-name: Update cn Rule
+name: Update CN Rule
 
 on:
   schedule:
@@ -25,16 +25,60 @@ jobs:
       run: |
         curl -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/cn.json
 
-    - name: Process local rules in JSON
+    - name: Process and Merge Rules
       run: |
-        local_rules=$(jq -R -s -c 'split("\n")[:-1]' cn.txt)
+        touch domain_list.txt
+        touch suffix_list.txt
 
-        jq --argjson new_rules "$local_rules" '
-          .rules[0].domain_suffix += $new_rules |
+        current_mode="suffix"
+
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            line=$(echo "$line" | xargs)
+
+            if [[ -z "$line" ]]; then continue; fi
+
+            if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then
+                current_mode="domain"
+                echo "Switched to DOMAIN mode"
+                continue
+            fi
+
+            if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then
+                current_mode="suffix"
+                echo "Switched to SUFFIX mode"
+                continue
+            fi
+
+            if [[ "$current_mode" == "domain" ]]; then
+                echo "$line" >> domain_list.txt
+            else
+                echo "$line" >> suffix_list.txt
+            fi
+        done < cn.txt
+
+        if [ -s domain_list.txt ]; then
+            local_domains=$(jq -R -s -c 'split("\n")[:-1]' domain_list.txt)
+        else
+            local_domains="[]"
+        fi
+
+        if [ -s suffix_list.txt ]; then
+            local_suffixes=$(jq -R -s -c 'split("\n")[:-1]' suffix_list.txt)
+        else
+            local_suffixes="[]"
+        fi
+
+        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" '
+          .rules[0].domain = (.rules[0].domain // []) + $new_domains |
+          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
+
+          .rules[0].domain_suffix = (.rules[0].domain_suffix // []) + $new_suffixes |
           .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
         ' upstream_cn.json > cn.json
 
-        jq . cn.json
+        echo "=== Processing Summary ==="
+        echo "Entries in local domain list: $(jq length <<< "$local_domains")"
+        echo "Entries in local suffix list: $(jq length <<< "$local_suffixes")"
 
     - name: Setup sing-box
       run: |
@@ -53,5 +97,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add cn.json cn.srs
-        git commit -m "Update cn rules" || echo "No changes to commit"
+        git commit -m "Update cn rules with group parsing" || echo "No changes to commit"
         git push
