@@ -23,7 +23,7 @@ jobs:
 
     - name: Download base JSON
       run: |
-        curl -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/applications.json
+        curl -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
 
     - name: Process process_name in JSON
       run: |
