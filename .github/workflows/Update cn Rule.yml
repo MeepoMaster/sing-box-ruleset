@@ -23,7 +23,7 @@ jobs:
 
     - name: Download base JSON
       run: |
-        curl -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset/cn.json
+        curl -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
 
     - name: Process and Merge Rules
       run: |
