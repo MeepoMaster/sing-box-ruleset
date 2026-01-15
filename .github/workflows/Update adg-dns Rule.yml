@@ -1,17 +1,14 @@
 name: Update adg-dns Rule
-
 on: 
   schedule:
     - cron: 0 0,8,16 * * *
   workflow_dispatch:
-
 env:
   TZ: Asia/Shanghai
 
 jobs:
   update-rules:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -21,32 +18,93 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y jq wget tar
 
-    - name: Download base JSON
+    - name: Download Upstream Rules
       run: |
-        curl -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+        # 下载源 1 (217heidai)
+        curl -sL -o source1.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+        # 下载源 2 (AWAvenue)
+        curl -sL -o source2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
 
-    - name: Process domains (remove noblock + add block + dedup + sort)
+    - name: Merge and Process Rules (Python)
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Execute Python Merge Script
       run: |
-        noblock=$(jq -R -s -c 'split("\n")[:-1]' noblock.txt)
-        block=$(jq -R -s -c 'split("\n")[:-1]' block.txt)
+        python -c '
+        import json
+        import os
 
-        jq --argjson noblock "$noblock" --argjson block "$block" '
-          .rules[0].domain_suffix |= (
-            map(select(. as $d | $noblock | index($d) | not))
-            + $block
-            | unique
-            | sort
-          )
-        ' adblocksingbox.json > adg-dns.json
+        # 定义需要处理的规则字段
+        rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
+        
+        # 初始化最终的数据结构，使用 set 自动去重
+        merged_data = {k: set() for k in rule_keys}
 
-        jq . adg-dns.json
+        # 1. 读取本地白名单 (noblock.txt)
+        noblock_set = set()
+        if os.path.exists("noblock.txt"):
+            with open("noblock.txt", "r") as f:
+                noblock_set = {line.strip() for line in f if line.strip()}
+
+        # 2. 读取本地黑名单 (block.txt)
+        block_set = set()
+        if os.path.exists("block.txt"):
+            with open("block.txt", "r") as f:
+                block_set = {line.strip() for line in f if line.strip()}
+
+        # 辅助函数：处理单个文件
+        def process_file(filename):
+            try:
+                with open(filename, "r") as f:
+                    data = json.load(f)
+                    # 兼容不同格式，提取 rules 数组中的第一项或遍历所有项
+                    rules = data.get("rules", [])
+                    for rule in rules:
+                        for key in rule_keys:
+                            if key in rule and rule[key]:
+                                merged_data[key].update(rule[key])
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
+
+        # 3. 处理两个上游文件
+        process_file("source1.json")
+        process_file("source2.json")
+
+        # 4. 融合逻辑
+        # A. 将本地黑名单加入到 domain_suffix
+        merged_data["domain_suffix"].update(block_set)
+
+        # B. 执行白名单剔除 (从所有域名相关的字段中剔除)
+        for key in ["domain", "domain_suffix", "domain_keyword"]:
+            merged_data[key] = merged_data[key] - noblock_set
+
+        # 5. 生成最终 JSON
+        final_rule_object = {}
+        for key in rule_keys:
+            if merged_data[key]: # 只有非空才写入，优雅处理空字段
+                final_rule_object[key] = sorted(list(merged_data[key]))
+
+        output_json = {
+            "version": 3,
+            "rules": [final_rule_object]
+        }
+
+        with open("adg-dns.json", "w") as f:
+            json.dump(output_json, f, indent=2, ensure_ascii=False)
+        
+        print("JSON merge complete. Rules generated.")
+        '
 
     - name: Setup sing-box
       run: |
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${LATEST_VERSION#v}-linux-amd64.tar.gz
-        sudo mv sing-box-${LATEST_VERSION#v}-linux-amd64/sing-box /usr/local/bin/
+        # 移除 v 前缀以防万一
+        VERSION_NUM=${LATEST_VERSION#v}
+        echo "Installing sing-box version: $VERSION_NUM"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
+        sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
     - name: Convert JSON to SRS
@@ -58,5 +116,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add adg-dns.json adg-dns.srs
-        git commit -m "Update adg-dns rules" || echo "No changes to commit"
+        git commit -m "Update adg-dns rules: Merge upstream and local policies" || echo "No changes to commit"
         git push
