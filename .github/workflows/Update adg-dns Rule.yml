@@ -1,14 +1,19 @@
 name: Update adg-dns Rule
+
 on: 
   schedule:
     - cron: 0 0,8,16 * * *
   workflow_dispatch:
+
 env:
   TZ: Asia/Shanghai
 
 jobs:
   update-rules:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -25,7 +30,7 @@ jobs:
         # 下载源 2 (AWAvenue)
         curl -sL -o source2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
 
-    - name: Merge and Process Rules (Python)
+    - name: Process Rules with Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.x'
@@ -35,56 +40,77 @@ jobs:
         import json
         import os
 
-        # 定义需要处理的规则字段
-        rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
+        # ==========================================
+        # 1. 定义顺序：按照 匹配效率/逻辑层级 排列
+        # ==========================================
+        # 顺序：IP -> 精确域名 -> 域名后缀 -> 域名关键字 -> 正则
+        rule_keys = ["ip_cidr", "domain", "domain_suffix", "domain_keyword", "domain_regex"]
         
-        # 初始化最终的数据结构，使用 set 自动去重
+        # 初始化最终的数据结构
         merged_data = {k: set() for k in rule_keys}
 
-        # 1. 读取本地白名单 (noblock.txt)
+        # 读取本地白名单
         noblock_set = set()
         if os.path.exists("noblock.txt"):
             with open("noblock.txt", "r") as f:
                 noblock_set = {line.strip() for line in f if line.strip()}
 
-        # 2. 读取本地黑名单 (block.txt)
+        # 读取本地黑名单
         block_set = set()
         if os.path.exists("block.txt"):
             with open("block.txt", "r") as f:
                 block_set = {line.strip() for line in f if line.strip()}
 
-        # 辅助函数：处理单个文件
         def process_file(filename):
             try:
                 with open(filename, "r") as f:
                     data = json.load(f)
-                    # 兼容不同格式，提取 rules 数组中的第一项或遍历所有项
+                    # 兼容处理：有些规则可能是直接的对象，有些在 rules 数组里
                     rules = data.get("rules", [])
                     for rule in rules:
                         for key in rule_keys:
                             if key in rule and rule[key]:
+                                # 确保转换为字符串以避免类型错误，并添加到集合
                                 merged_data[key].update(rule[key])
             except Exception as e:
                 print(f"Error processing {filename}: {e}")
 
-        # 3. 处理两个上游文件
+        # 处理上游文件
         process_file("source1.json")
         process_file("source2.json")
 
-        # 4. 融合逻辑
+        # ==========================================
+        # 2. 融合与清洗逻辑
+        # ==========================================
+        
         # A. 将本地黑名单加入到 domain_suffix
         merged_data["domain_suffix"].update(block_set)
 
-        # B. 执行白名单剔除 (从所有域名相关的字段中剔除)
+        # B. 执行白名单剔除 (从 domain, domain_suffix, domain_keyword 中剔除)
         for key in ["domain", "domain_suffix", "domain_keyword"]:
-            merged_data[key] = merged_data[key] - noblock_set
+            if merged_data[key]:
+                original_count = len(merged_data[key])
+                merged_data[key] = merged_data[key] - noblock_set
+                # print(f"Whitelist: Removed {original_count - len(merged_data[key])} items from {key}")
 
-        # 5. 生成最终 JSON
+        # C. 【深度清洗】：如果 domain 中的项已存在于 domain_suffix，则删除 domain 中的该项
+        # 解释：如果规则里有 "baidu.com" (suffix)，再存一个 "www.baidu.com" (domain) 是浪费空间
+        duplicates = merged_data["domain"] & merged_data["domain_suffix"]
+        if duplicates:
+            print(f"Optimization: Removed {len(duplicates)} redundant rules from domain covered by domain_suffix.")
+            merged_data["domain"] = merged_data["domain"] - duplicates
+
+        # ==========================================
+        # 3. 生成最终有序 JSON
+        # ==========================================
         final_rule_object = {}
+        # 按照 rule_keys 定义的顺序写入
         for key in rule_keys:
-            if merged_data[key]: # 只有非空才写入，优雅处理空字段
+            if merged_data[key]:
+                # 排序，保证每次生成的文件内容一致（对 Git 友好）
                 final_rule_object[key] = sorted(list(merged_data[key]))
 
+        # 注意：这里 version 设置为 3
         output_json = {
             "version": 3,
             "rules": [final_rule_object]
@@ -92,14 +118,13 @@ jobs:
 
         with open("adg-dns.json", "w") as f:
             json.dump(output_json, f, indent=2, ensure_ascii=False)
-        
-        print("JSON merge complete. Rules generated.")
+            
+        print("Success: adg-dns.json generated (Version 3).")
         '
 
     - name: Setup sing-box
       run: |
         LATEST_VERSION=$(curl -s https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        # 移除 v 前缀以防万一
         VERSION_NUM=${LATEST_VERSION#v}
         echo "Installing sing-box version: $VERSION_NUM"
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
@@ -116,5 +141,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add adg-dns.json adg-dns.srs
-        git commit -m "Update adg-dns rules: Merge upstream and local policies" || echo "No changes to commit"
+        git commit -m "Update adg-dns rules (v3)" || echo "No changes to commit"
         git push
