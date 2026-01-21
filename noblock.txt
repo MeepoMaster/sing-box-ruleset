@@ -3,3 +3,4 @@ amdc.alipay.com
 cn.app.chat.xiaomi.net
 resolver.msg.xiaomi.net
 wtradv.market.xiaomi.com
+iyes.youku.com
