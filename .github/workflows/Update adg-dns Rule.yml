@@ -44,7 +44,7 @@ jobs:
         # 1. 定义顺序：按照 匹配效率/逻辑层级 排列
         # ==========================================
         # 顺序：IP -> 精确域名 -> 域名后缀 -> 域名关键字 -> 正则
-        rule_keys = ["ip_cidr", "domain", "domain_suffix", "domain_keyword", "domain_regex"]
+        rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex"，"ip_cidr"]
         
         # 初始化最终的数据结构
         merged_data = {k: set() for k in rule_keys}
