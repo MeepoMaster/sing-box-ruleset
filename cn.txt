@@ -3,3 +3,4 @@ passport.qianwen.com
 
 domain_suffix:
 mpyit.com
+emos.best
