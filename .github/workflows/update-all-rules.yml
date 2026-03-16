@@ -63,9 +63,8 @@ jobs:
           else
             .
           end
-        ' source/emby.json > source/sorted_emby.json
-        jq . source/sorted_emby.json > source/formatted_emby.json
-        mv source/formatted_emby.json source/emby.json
+        ' source/emby.json | jq . > source/temp_emby.json
+        mv source/temp_emby.json source/emby.json
 
     - name: 6. 处理 adg-awa 规则
       continue-on-error: true
