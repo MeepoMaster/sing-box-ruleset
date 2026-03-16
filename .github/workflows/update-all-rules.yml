@@ -1,0 +1,254 @@
+name: Update All Routing Rules
+
+on:
+  # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
+  schedule:
+    - cron: '30 0,8,16 * * *'
+  # 2. 支持在 GitHub Actions 页面手动点击触发
+  workflow_dispatch:
+  # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
+  push:
+    branches:
+      - main  # 如果你的默认分支叫 master，请修改为 master
+    paths:
+      # 只监听纯手工维护的源文件，完美避开 Action 自身生成的 json 导致的死循环
+      - 'source/emby.json'
+      - 'source/block.txt'
+      - 'source/noblock.txt'
+      - 'source/process.txt'
+      - 'source/cn.txt'
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  update-all-rules:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: 1. 检出代码仓库
+      uses: actions/checkout@v3
+
+    - name: 2. 安装系统基础依赖
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y jq wget tar
+
+    - name: 3. 配置 Python 环境
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: 4. 安装 Sing-box (携带 GitHub Token 防止 API 限制)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        LATEST_VERSION=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
+        VERSION_NUM=${LATEST_VERSION#v}
+        echo "Installing sing-box version: $VERSION_NUM"
+        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
+        tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
+        sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
+        sing-box version
+
+    - name: 5. 处理 Emby 规则
+      continue-on-error: true
+      run: |
+        jq '
+          .rules[] |= 
+          if has("domain_suffix") then
+            .domain_suffix |= sort
+          else
+            .
+          end
+        ' source/emby.json > source/sorted_emby.json
+        jq . source/sorted_emby.json > source/formatted_emby.json
+        mv source/formatted_emby.json source/emby.json
+
+    - name: 6. 处理 adg-awa 规则
+      continue-on-error: true
+      run: |
+        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        block_domains=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
+        noblock_domains=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
+
+        jq --argjson noblock "$noblock_domains" '
+          .rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) |
+          .rules[0].domain_keyword |= map(select(. as $d | $noblock | index($d) | not)) |
+          .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
+        ' AWAvenue.json > cleaned_awa.json
+
+        jq --argjson block "$block_domains" '
+          .rules[0].domain += $block
+        ' cleaned_awa.json > updated_awa.json
+
+        jq '
+          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
+          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end) |
+          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
+        ' updated_awa.json > source/adg-awa.json
+        rm AWAvenue.json cleaned_awa.json updated_awa.json
+
+    - name: 7. 处理 adg-dns 规则
+      continue-on-error: true
+      run: |
+        curl -sfL -o source1.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+        curl -sfL -o source2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        
+        python -c '
+        import json
+        import os
+
+        rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
+        merged_data = {k: set() for k in rule_keys}
+
+        noblock_set = set()
+        if os.path.exists("source/noblock.txt"):
+            with open("source/noblock.txt", "r") as f:
+                noblock_set = {line.strip() for line in f if line.strip()}
+
+        block_set = set()
+        if os.path.exists("source/block.txt"):
+            with open("source/block.txt", "r") as f:
+                block_set = {line.strip() for line in f if line.strip()}
+
+        def process_file(filename):
+            try:
+                with open(filename, "r") as f:
+                    data = json.load(f)
+                    rules = data.get("rules", [])
+                    for rule in rules:
+                        for key in rule_keys:
+                            if key in rule and rule[key]:
+                                merged_data[key].update(rule[key])
+            except Exception as e:
+                print(f"Error processing {filename}: {e}")
+
+        process_file("source1.json")
+        process_file("source2.json")
+
+        merged_data["domain_suffix"].update(block_set)
+
+        for key in ["domain", "domain_suffix", "domain_keyword"]:
+            if merged_data[key]:
+                merged_data[key] = merged_data[key] - noblock_set
+
+        duplicates = merged_data["domain"] & merged_data["domain_suffix"]
+        if duplicates:
+            merged_data["domain"] = merged_data["domain"] - duplicates
+
+        final_rule_object = {}
+        for key in rule_keys:
+            if merged_data[key]:
+                final_rule_object[key] = sorted(list(merged_data[key]))
+
+        output_json = {
+            "version": 3,
+            "rules": [final_rule_object]
+        }
+
+        with open("source/adg-dns.json", "w") as f:
+            json.dump(output_json, f, indent=2, ensure_ascii=False)
+        '
+        rm source1.json source2.json
+
+    - name: 8. 处理 adg-dns-lite 规则
+      continue-on-error: true
+      run: |
+        curl -sfL -o adblocksingboxlite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
+        noblock=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
+        block=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
+
+        jq --argjson noblock "$noblock" --argjson block "$block" '
+          .rules[0].domain_suffix |= (
+            map(select(. as $d | $noblock | index($d) | not))
+            + $block
+            | unique
+            | sort
+          )
+        ' adblocksingboxlite.json > source/adg-dns-lite.json
+        rm adblocksingboxlite.json
+
+    - name: 9. 处理 App 规则
+      continue-on-error: true
+      run: |
+        curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
+        process_names=$(jq -R -s -c 'split("\n")[:-1]' source/process.txt)
+
+        jq --argjson process "$process_names" '
+          .rules[0].process_name += $process |
+          .rules[0].process_name = (if .rules[0].process_name | length > 0 then .rules[0].process_name | unique | sort else .rules[0].process_name end)
+        ' applications.json > source/app.json
+        rm applications.json
+
+    - name: 10. 处理 CN 规则
+      continue-on-error: true
+      run: |
+        curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
+        touch domain_list.txt suffix_list.txt
+        current_mode="suffix"
+
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            line=$(echo "$line" | xargs)
+            if [[ -z "$line" ]]; then continue; fi
+
+            if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then
+                current_mode="domain"
+                continue
+            fi
+
+            if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then
+                current_mode="suffix"
+                continue
+            fi
+
+            if [[ "$current_mode" == "domain" ]]; then
+                echo "$line" >> domain_list.txt
+            else
+                echo "$line" >> suffix_list.txt
+            fi
+        done < source/cn.txt
+
+        if [ -s domain_list.txt ]; then
+            local_domains=$(jq -R -s -c 'split("\n")[:-1]' domain_list.txt)
+        else
+            local_domains="[]"
+        fi
+
+        if [ -s suffix_list.txt ]; then
+            local_suffixes=$(jq -R -s -c 'split("\n")[:-1]' suffix_list.txt)
+        else
+            local_suffixes="[]"
+        fi
+
+        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" '
+          .rules[0].domain = (.rules[0].domain // []) + $new_domains |
+          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
+          .rules[0].domain_suffix = (.rules[0].domain_suffix // []) + $new_suffixes |
+          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
+        ' upstream_cn.json > source/cn.json
+        rm upstream_cn.json domain_list.txt suffix_list.txt
+
+    - name: 11. 批量编译所有 JSON 为 SRS
+      run: |
+        for file in emby adg-awa adg-dns adg-dns-lite app cn; do
+          if [ -f "source/$file.json" ]; then
+            echo "Compiling source/$file.json to $file.srs in root..."
+            sing-box rule-set compile --output "$file.srs" "source/$file.json"
+          else
+            echo "Warning: source/$file.json not found, skipping compile."
+          fi
+        done
+
+    - name: 12. 提交并推送更改
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # 自动追踪 source 文件夹下变动的源文件，以及根目录下生成的 srs 文件
+        git add source/*.json *.srs
+        
+        git commit -m "chore: auto-update all routing rules" || echo "No changes to commit"
+        git push
