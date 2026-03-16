@@ -20,6 +20,7 @@ on:
 
 env:
   TZ: Asia/Shanghai
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 强制使用 Node 24 消除官方插件弃用警告
 
 jobs:
   update-all-rules:
@@ -53,7 +54,58 @@ jobs:
         sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
         sing-box version
 
-    - name: 5. 处理 Emby 规则
+    - name: 5. 自动整理并去重本地 TXT 源文件
+      run: |
+        # 1. 遍历普通的纯列表文件（删除空行并排序去重）
+        for txt_file in source/block.txt source/noblock.txt source/process.txt; do
+          if [ -f "$txt_file" ]; then
+            echo "Sorting and deduplicating $txt_file..."
+            sed -i '/^[[:space:]]*$/d' "$txt_file"
+            sort -u -o "$txt_file" "$txt_file"
+          fi
+        done
+
+        # 2. 专门处理带分组的 cn.txt (组内排序去重，自动保留组间空行)
+        if [ -f "source/cn.txt" ]; then
+          echo "Sorting and deduplicating source/cn.txt by groups..."
+          python3 -c '
+        import os
+
+        file_path = "source/cn.txt"
+        domains = set()
+        suffixes = set()
+        current_mode = "suffix"
+
+        with open(file_path, "r", encoding="utf-8") as f:
+            for line in f:
+                val = line.strip()
+                if not val:
+                    continue
+                if val.lower() in ["domain:", "domain："]:
+                    current_mode = "domain"
+                elif val.lower() in ["domain_suffix:", "domain_suffix："]:
+                    current_mode = "suffix"
+                else:
+                    if current_mode == "domain":
+                        domains.add(val)
+                    else:
+                        suffixes.add(val)
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            if domains:
+                f.write("domain:\n")
+                for d in sorted(domains):
+                    f.write(f"{d}\n")
+            if domains and suffixes:
+                f.write("\n")  # 在两个组之间添加且只添加一个空行
+            if suffixes:
+                f.write("domain_suffix:\n")
+                for s in sorted(suffixes):
+                    f.write(f"{s}\n")
+        '
+        fi
+
+    - name: 6. 处理 Emby 规则
       continue-on-error: true
       run: |
         jq '
@@ -66,7 +118,7 @@ jobs:
         ' source/emby.json | jq . > source/temp_emby.json
         mv source/temp_emby.json source/emby.json
 
-    - name: 6. 处理 adg-awa 规则
+    - name: 7. 处理 adg-awa 规则
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
@@ -90,7 +142,7 @@ jobs:
         ' updated_awa.json > source/adg-awa.json
         rm AWAvenue.json cleaned_awa.json updated_awa.json
 
-    - name: 7. 处理 adg-dns 规则
+    - name: 8. 处理 adg-dns 规则
       continue-on-error: true
       run: |
         curl -sfL -o source1.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
@@ -153,7 +205,7 @@ jobs:
         '
         rm source1.json source2.json
 
-    - name: 8. 处理 adg-dns-lite 规则
+    - name: 9. 处理 adg-dns-lite 规则
       continue-on-error: true
       run: |
         curl -sfL -o adblocksingboxlite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
@@ -170,7 +222,7 @@ jobs:
         ' adblocksingboxlite.json > source/adg-dns-lite.json
         rm adblocksingboxlite.json
 
-    - name: 9. 处理 App 规则
+    - name: 10. 处理 App 规则
       continue-on-error: true
       run: |
         curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
@@ -182,7 +234,7 @@ jobs:
         ' applications.json > source/app.json
         rm applications.json
 
-    - name: 10. 处理 CN 规则
+    - name: 11. 处理 CN 规则
       continue-on-error: true
       run: |
         curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
@@ -230,7 +282,7 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 11. 批量编译所有 JSON 为 SRS
+    - name: 12. 批量编译所有 JSON 为 SRS
       run: |
         for file in emby adg-awa adg-dns adg-dns-lite app cn; do
           if [ -f "source/$file.json" ]; then
@@ -241,13 +293,13 @@ jobs:
           fi
         done
 
-    - name: 12. 提交并推送更改
+    - name: 13. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 自动追踪 source 文件夹下变动的源文件，以及根目录下生成的 srs 文件
-        git add source/*.json *.srs
+        # 自动追踪变动的源文件（包括整理好的 txt）、生成的 json 以及根目录生成的 srs 文件
+        git add source/*.txt source/*.json *.srs
         
         git commit -m "chore: auto-update all routing rules" || echo "No changes to commit"
         git push
