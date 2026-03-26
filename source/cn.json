@@ -221,6 +221,7 @@
         "itunes-apple.com.akadns.net",
         "itunes.apple.com",
         "itunesconnect.apple.com",
+        "izattime.qcomgeo2.com",
         "js-cdn.music.apple.com",
         "km.support.apple.com",
         "ksn-cinfo-geo.kaspersky-labs.com",
@@ -411,7 +412,8 @@
         "www.recaptcha.net",
         "www.support.apple.com",
         "www4-static.gog-statics.com",
-        "xp.apple.com"
+        "xp.apple.com",
+        "xtratime.qcomgeo2.com"
       ],
       "domain_suffix": [
         "0.zone",
