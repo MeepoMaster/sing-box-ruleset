@@ -132,7 +132,6 @@ jobs:
         
         python -c '
         import json, os
-        # 这里保留了 domain_regex，方便 Sing-box 继续使用正则，但在下一步 Mihomo 转换中会将其抛弃
         rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
         merged_data = {k: set() for k in rule_keys}
 
@@ -248,61 +247,83 @@ jobs:
           fi
         done
 
-    - name: 12.5 批量强力过滤并编译为 Mihomo MRS
+    - name: 12.5 终极防弹验证：编译 Mihomo MRS
       run: |
         mkdir -p mihomo_rules
         python3 -c '
-        import json, os
+        import json, os, ipaddress
 
-        def convert_json_to_text(json_path, text_path):
-            if not os.path.exists(json_path): return
+        def clean(s): return str(s).strip()
+
+        def convert(in_file, out_file):
+            if not os.path.exists(in_file): return
             try:
-                with open(json_path, "r", encoding="utf-8") as f:
+                with open(in_file, "r", encoding="utf-8") as f:
                     data = json.load(f)
-            except Exception as e:
-                print(f"Error loading {json_path}: {e}")
-                return
+            except: return
             
-            rules_list = []
-            
+            lines = set()
             for rule in data.get("rules", []):
+                # 1. 净化域名
                 for d in rule.get("domain", []):
-                    d = str(d).strip()
-                    if d: rules_list.append(f"DOMAIN,{d}")
+                    d = clean(d)
+                    if not d: continue
+                    # 强力解毒：带*的域名会让 Mihomo 崩溃，转化为 Keyword 匹配
+                    if "*" in d: 
+                        lines.add(f"DOMAIN-KEYWORD,{d.replace('*', '')}")
+                    else:
+                        lines.add(f"DOMAIN,{d}")
                 
+                # 2. 净化域名后缀
                 for ds in rule.get("domain_suffix", []):
-                    ds = str(ds).strip()
-                    if ds.startswith("."): ds = ds[1:]
-                    if ds: rules_list.append(f"DOMAIN-SUFFIX,{ds}")
+                    ds = clean(ds)
+                    # 清除可能导致崩溃的非法前缀
+                    while ds.startswith(".") or ds.startswith("*"):
+                        ds = ds[1:]
+                    if not ds: continue
+                    lines.add(f"DOMAIN-SUFFIX,{ds}")
                 
+                # 3. 提取关键字
                 for dk in rule.get("domain_keyword", []):
-                    dk = str(dk).strip()
-                    if dk: rules_list.append(f"DOMAIN-KEYWORD,{dk}")
+                    dk = clean(dk)
+                    if not dk: continue
+                    lines.add(f"DOMAIN-KEYWORD,{dk}")
                 
-                # ！！！彻底移除了对 domain_regex 的提取和拼接 ！！！
-                
+                # 4. 数学级 IP 验证 (Mihomo 极易在这里崩溃)
                 for ip in rule.get("ip_cidr", []):
-                    ip = str(ip).strip()
-                    if ip: rules_list.append(f"IP-CIDR,{ip}")
+                    ip = clean(ip)
+                    if not ip: continue
+                    try:
+                        # 如果不是合法的 IP/CIDR，直接抛弃！
+                        if "/" in ip: ipaddress.ip_network(ip, strict=False)
+                        else: ipaddress.ip_address(ip)
+                    except:
+                        continue 
+                    
+                    if ":" in ip: lines.add(f"IP-CIDR6,{ip}")
+                    else: lines.add(f"IP-CIDR,{ip}")
                 
+                # 5. 进程名
                 for p in rule.get("process_name", []):
-                    p = str(p).strip()
-                    if p: rules_list.append(f"PROCESS-NAME,{p}")
+                    p = clean(p)
+                    if not p: continue
+                    lines.add(f"PROCESS-NAME,{p}")
 
-            if rules_list:
-                with open(text_path, "w", encoding="utf-8") as f:
-                    f.write("\n".join(rules_list) + "\n")
+            if lines:
+                with open(out_file, "w", encoding="utf-8") as f:
+                    for line in sorted(lines):
+                        if line: f.write(line + "\n")
 
         files_to_convert = ["emby", "adg-awa", "adg-dns", "adg-dns-lite", "app", "cn"]
         for file in files_to_convert:
-            print(f"Generating valid text rule for {file}...")
-            convert_json_to_text(f"source/{file}.json", f"mihomo_rules/{file}.txt")
+            print(f"Generating bulletproof text rule for {file}...")
+            convert(f"source/{file}.json", f"mihomo_rules/{file}.txt")
         '
         cd mihomo_rules
         for txt_file in *.txt; do
           [ -e "$txt_file" ] || continue 
           mrs_file="${txt_file%.txt}.mrs"
-          echo "Compiling valid text format $txt_file to $mrs_file..."
+          echo "Compiling bulletproof format $txt_file to $mrs_file..."
           mihomo convert-ruleset classical text "$txt_file" "$mrs_file"
         done
         rm -f *.txt
