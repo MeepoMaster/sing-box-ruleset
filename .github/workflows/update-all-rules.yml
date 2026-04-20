@@ -38,7 +38,7 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: 4. 安装 Sing-box (携带 GitHub Token 防止 API 限制)
+    - name: 4. 安装 Sing-box
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -48,7 +48,7 @@ jobs:
         tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
         sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
 
-    - name: 4.5 安装 Mihomo (携带 GitHub Token 防止 API 限制)
+    - name: 4.5 安装 Mihomo
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -217,7 +217,7 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 12. 批量编译所有 JSON 为 SRS
+    - name: 12. 批量编译所有 JSON 为 Sing-box SRS
       run: |
         for file in emby adg-awa adg-dns adg-dns-lite app cn; do
           if [ -f "source/$file.json" ]; then
@@ -225,36 +225,48 @@ jobs:
           fi
         done
 
-    - name: 12.5 批量转换并编译所有 JSON 为 MRS (Mihomo)
+    - name: 12.5 批量转换并编译所有 JSON 为 Mihomo MRS
       run: |
         mkdir -p mihomo_rules
         python3 -c '
         import json, os
 
-        def convert_json_to_yaml(json_path, yaml_path):
+        def convert_json_to_text(json_path, text_path_prefix):
             if not os.path.exists(json_path): return
             with open(json_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             
-            with open(yaml_path, "w", encoding="utf-8") as f:
-                f.write("payload:\n")
-                for rule in data.get("rules", []):
-                    for d in rule.get("domain", []): f.write(f"  - DOMAIN,{d}\n")
-                    for ds in rule.get("domain_suffix", []): f.write(f"  - DOMAIN-SUFFIX,{ds}\n")
-                    for dk in rule.get("domain_keyword", []): f.write(f"  - DOMAIN-KEYWORD,{dk}\n")
-                    for ip in rule.get("ip_cidr", []): f.write(f"  - IP-CIDR,{ip}\n")
-                    for p in rule.get("process_name", []): f.write(f"  - PROCESS-NAME,{p}\n")
+            domains = []
+            ipcidrs = []
+            processes = []
+
+            for rule in data.get("rules", []):
+                for d in rule.get("domain", []): domains.append(f"DOMAIN,{d}")
+                for ds in rule.get("domain_suffix", []): domains.append(f"DOMAIN-SUFFIX,{ds}")
+                for dk in rule.get("domain_keyword", []): domains.append(f"DOMAIN-KEYWORD,{dk}")
+                for ip in rule.get("ip_cidr", []): ipcidrs.append(f"IP-CIDR,{ip}")
+                for p in rule.get("process_name", []): processes.append(f"PROCESS-NAME,{p}")
+
+            if domains:
+                with open(f"{text_path_prefix}_domain.txt", "w", encoding="utf-8") as f:
+                    f.write("\n".join(domains))
+            if ipcidrs:
+                with open(f"{text_path_prefix}_ip.txt", "w", encoding="utf-8") as f:
+                    f.write("\n".join(ipcidrs))
+            if processes:
+                with open(f"{text_path_prefix}_process.txt", "w", encoding="utf-8") as f:
+                    f.write("\n".join(processes))
 
         files_to_convert = ["emby", "adg-awa", "adg-dns", "adg-dns-lite", "app", "cn"]
         for file in files_to_convert:
-            convert_json_to_yaml(f"source/{file}.json", f"mihomo_rules/{file}.yaml")
+            convert_json_to_text(f"source/{file}.json", f"mihomo_rules/{file}")
         '
         cd mihomo_rules
-        for yaml_file in *.yaml; do
-          mrs_file="${yaml_file%.yaml}.mrs"
-          mihomo convert-ruleset classical yaml "$yaml_file" "$mrs_file"
+        for txt_file in *.txt; do
+          mrs_file="${txt_file%.txt}.mrs"
+          mihomo convert-ruleset classical text "$txt_file" "$mrs_file"
         done
-        rm *.yaml
+        rm *.txt
 
     - name: 13. 提交并推送更改
       run: |
