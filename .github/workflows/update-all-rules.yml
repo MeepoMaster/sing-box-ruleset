@@ -1,17 +1,13 @@
-name: Update All Routing Rules
+name: Update All Routing Rules (Dual-Kernel)
 
 on:
-  # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
   schedule:
     - cron: '30 0,8,16 * * *'
-  # 2. 支持在 GitHub Actions 页面手动点击触发
   workflow_dispatch:
-  # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
   push:
     branches:
-      - main  # 如果你的默认分支叫 master，请修改为 master
+      - main
     paths:
-      # 只监听纯手工维护的源文件，完美避开 Action 自身生成的 json 导致的死循环
       - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
@@ -20,7 +16,7 @@ on:
 
 env:
   TZ: Asia/Shanghai
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 强制使用 Node 24 消除官方插件弃用警告
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-all-rules:
@@ -35,7 +31,7 @@ jobs:
     - name: 2. 安装系统基础依赖
       run: |
         sudo apt-get update
-        sudo apt-get install -y jq wget tar
+        sudo apt-get install -y jq wget tar gzip
 
     - name: 3. 配置 Python 环境
       uses: actions/setup-python@v5
@@ -48,29 +44,32 @@ jobs:
       run: |
         LATEST_VERSION=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
         VERSION_NUM=${LATEST_VERSION#v}
-        echo "Installing sing-box version: $VERSION_NUM"
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
         tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
         sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
-        sing-box version
+
+    - name: 4.5 安装 Mihomo (携带 GitHub Token 防止 API 限制)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        MIHOMO_VERSION=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r .tag_name)
+        wget "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_VERSION}/mihomo-linux-amd64-compatible-${MIHOMO_VERSION}.gz"
+        gunzip "mihomo-linux-amd64-compatible-${MIHOMO_VERSION}.gz"
+        chmod +x mihomo-linux-amd64-compatible-${MIHOMO_VERSION}
+        sudo mv mihomo-linux-amd64-compatible-${MIHOMO_VERSION} /usr/local/bin/mihomo
 
     - name: 5. 自动整理并去重本地 TXT 源文件
       run: |
-        # 1. 遍历普通的纯列表文件（删除空行并排序去重）
         for txt_file in source/block.txt source/noblock.txt source/process.txt; do
           if [ -f "$txt_file" ]; then
-            echo "Sorting and deduplicating $txt_file..."
             sed -i '/^[[:space:]]*$/d' "$txt_file"
             sort -u -o "$txt_file" "$txt_file"
           fi
         done
 
-        # 2. 专门处理带分组的 cn.txt (组内排序去重，自动保留组间空行)
         if [ -f "source/cn.txt" ]; then
-          echo "Sorting and deduplicating source/cn.txt by groups..."
           python3 -c '
         import os
-
         file_path = "source/cn.txt"
         domains = set()
         suffixes = set()
@@ -79,44 +78,28 @@ jobs:
         with open(file_path, "r", encoding="utf-8") as f:
             for line in f:
                 val = line.strip()
-                if not val:
-                    continue
-                if val.lower() in ["domain:", "domain："]:
-                    current_mode = "domain"
-                elif val.lower() in ["domain_suffix:", "domain_suffix："]:
-                    current_mode = "suffix"
+                if not val: continue
+                if val.lower() in ["domain:", "domain："]: current_mode = "domain"
+                elif val.lower() in ["domain_suffix:", "domain_suffix："]: current_mode = "suffix"
                 else:
-                    if current_mode == "domain":
-                        domains.add(val)
-                    else:
-                        suffixes.add(val)
+                    if current_mode == "domain": domains.add(val)
+                    else: suffixes.add(val)
 
         with open(file_path, "w", encoding="utf-8") as f:
             if domains:
                 f.write("domain:\n")
-                for d in sorted(domains):
-                    f.write(f"{d}\n")
-            if domains and suffixes:
-                f.write("\n")  # 在两个组之间添加且只添加一个空行
+                for d in sorted(domains): f.write(f"{d}\n")
+            if domains and suffixes: f.write("\n")
             if suffixes:
                 f.write("domain_suffix:\n")
-                for s in sorted(suffixes):
-                    f.write(f"{s}\n")
+                for s in sorted(suffixes): f.write(f"{s}\n")
         '
         fi
 
     - name: 6. 处理 Emby 规则
       continue-on-error: true
       run: |
-        jq '
-          .rules[] |= 
-          if has("domain_suffix") then
-            .domain_suffix |= sort
-          else
-            .
-          end
-        ' source/emby.json | jq . > source/temp_emby.json
-        mv source/temp_emby.json source/emby.json
+        jq '.rules[] |= if has("domain_suffix") then .domain_suffix |= sort else . end' source/emby.json > source/temp.json && mv source/temp.json source/emby.json
 
     - name: 7. 处理 adg-awa 规则
       continue-on-error: true
@@ -133,14 +116,13 @@ jobs:
 
         jq --argjson block "$block_domains" '
           .rules[0].domain += $block
-        ' cleaned_awa.json > updated_awa.json
-
+        ' cleaned_awa.json | \
         jq '
-          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
-          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end) |
-          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
-        ' updated_awa.json > source/adg-awa.json
-        rm AWAvenue.json cleaned_awa.json updated_awa.json
+          .rules[0].domain |= (if length > 0 then unique | sort else . end) |
+          .rules[0].domain_keyword |= (if length > 0 then unique | sort else . end) |
+          .rules[0].domain_suffix |= (if length > 0 then unique | sort else . end)
+        ' > source/adg-awa.json
+        rm AWAvenue.json cleaned_awa.json
 
     - name: 8. 处理 adg-dns 规则
       continue-on-error: true
@@ -149,33 +131,25 @@ jobs:
         curl -sfL -o source2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         
         python -c '
-        import json
-        import os
-
+        import json, os
         rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
         merged_data = {k: set() for k in rule_keys}
 
         noblock_set = set()
         if os.path.exists("source/noblock.txt"):
-            with open("source/noblock.txt", "r") as f:
-                noblock_set = {line.strip() for line in f if line.strip()}
+            with open("source/noblock.txt", "r") as f: noblock_set = {line.strip() for line in f if line.strip()}
 
         block_set = set()
         if os.path.exists("source/block.txt"):
-            with open("source/block.txt", "r") as f:
-                block_set = {line.strip() for line in f if line.strip()}
+            with open("source/block.txt", "r") as f: block_set = {line.strip() for line in f if line.strip()}
 
         def process_file(filename):
             try:
                 with open(filename, "r") as f:
-                    data = json.load(f)
-                    rules = data.get("rules", [])
-                    for rule in rules:
+                    for rule in json.load(f).get("rules", []):
                         for key in rule_keys:
-                            if key in rule and rule[key]:
-                                merged_data[key].update(rule[key])
-            except Exception as e:
-                print(f"Error processing {filename}: {e}")
+                            if rule.get(key): merged_data[key].update(rule[key])
+            except Exception as e: print(f"Error processing {filename}: {e}")
 
         process_file("source1.json")
         process_file("source2.json")
@@ -183,25 +157,13 @@ jobs:
         merged_data["domain_suffix"].update(block_set)
 
         for key in ["domain", "domain_suffix", "domain_keyword"]:
-            if merged_data[key]:
-                merged_data[key] = merged_data[key] - noblock_set
+            if merged_data[key]: merged_data[key] -= noblock_set
 
         duplicates = merged_data["domain"] & merged_data["domain_suffix"]
-        if duplicates:
-            merged_data["domain"] = merged_data["domain"] - duplicates
+        if duplicates: merged_data["domain"] -= duplicates
 
-        final_rule_object = {}
-        for key in rule_keys:
-            if merged_data[key]:
-                final_rule_object[key] = sorted(list(merged_data[key]))
-
-        output_json = {
-            "version": 3,
-            "rules": [final_rule_object]
-        }
-
-        with open("source/adg-dns.json", "w") as f:
-            json.dump(output_json, f, indent=2, ensure_ascii=False)
+        final_rule_object = {k: sorted(list(v)) for k, v in merged_data.items() if v}
+        with open("source/adg-dns.json", "w") as f: json.dump({"version": 3, "rules": [final_rule_object]}, f, indent=2, ensure_ascii=False)
         '
         rm source1.json source2.json
 
@@ -211,14 +173,8 @@ jobs:
         curl -sfL -o adblocksingboxlite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
         noblock=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
         block=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
-
         jq --argjson noblock "$noblock" --argjson block "$block" '
-          .rules[0].domain_suffix |= (
-            map(select(. as $d | $noblock | index($d) | not))
-            + $block
-            | unique
-            | sort
-          )
+          .rules[0].domain_suffix |= (map(select(. as $d | $noblock | index($d) | not)) + $block | unique | sort)
         ' adblocksingboxlite.json > source/adg-dns-lite.json
         rm adblocksingboxlite.json
 
@@ -244,41 +200,20 @@ jobs:
         while IFS= read -r line || [[ -n "$line" ]]; do
             line=$(echo "$line" | xargs)
             if [[ -z "$line" ]]; then continue; fi
+            if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
+            if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
 
-            if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then
-                current_mode="domain"
-                continue
-            fi
-
-            if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then
-                current_mode="suffix"
-                continue
-            fi
-
-            if [[ "$current_mode" == "domain" ]]; then
-                echo "$line" >> domain_list.txt
-            else
-                echo "$line" >> suffix_list.txt
+            if [[ "$current_mode" == "domain" ]]; then echo "$line" >> domain_list.txt
+            else echo "$line" >> suffix_list.txt
             fi
         done < source/cn.txt
 
-        if [ -s domain_list.txt ]; then
-            local_domains=$(jq -R -s -c 'split("\n")[:-1]' domain_list.txt)
-        else
-            local_domains="[]"
-        fi
-
-        if [ -s suffix_list.txt ]; then
-            local_suffixes=$(jq -R -s -c 'split("\n")[:-1]' suffix_list.txt)
-        else
-            local_suffixes="[]"
-        fi
+        local_domains=$([ -s domain_list.txt ] && jq -R -s -c 'split("\n")[:-1]' domain_list.txt || echo "[]")
+        local_suffixes=$([ -s suffix_list.txt ] && jq -R -s -c 'split("\n")[:-1]' suffix_list.txt || echo "[]")
 
         jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" '
-          .rules[0].domain = (.rules[0].domain // []) + $new_domains |
-          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
-          .rules[0].domain_suffix = (.rules[0].domain_suffix // []) + $new_suffixes |
-          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
+          .rules[0].domain = (((.rules[0].domain // []) + $new_domains) | unique | sort) |
+          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $new_suffixes) | unique | sort)
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
@@ -286,20 +221,46 @@ jobs:
       run: |
         for file in emby adg-awa adg-dns adg-dns-lite app cn; do
           if [ -f "source/$file.json" ]; then
-            echo "Compiling source/$file.json to $file.srs in root..."
             sing-box rule-set compile --output "$file.srs" "source/$file.json"
-          else
-            echo "Warning: source/$file.json not found, skipping compile."
           fi
         done
+
+    - name: 12.5 批量转换并编译所有 JSON 为 MRS (Mihomo)
+      run: |
+        mkdir -p mihomo_rules
+        python3 -c '
+        import json, os
+
+        def convert_json_to_yaml(json_path, yaml_path):
+            if not os.path.exists(json_path): return
+            with open(json_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            
+            with open(yaml_path, "w", encoding="utf-8") as f:
+                f.write("payload:\n")
+                for rule in data.get("rules", []):
+                    for d in rule.get("domain", []): f.write(f"  - DOMAIN,{d}\n")
+                    for ds in rule.get("domain_suffix", []): f.write(f"  - DOMAIN-SUFFIX,{ds}\n")
+                    for dk in rule.get("domain_keyword", []): f.write(f"  - DOMAIN-KEYWORD,{dk}\n")
+                    for ip in rule.get("ip_cidr", []): f.write(f"  - IP-CIDR,{ip}\n")
+                    for p in rule.get("process_name", []): f.write(f"  - PROCESS-NAME,{p}\n")
+
+        files_to_convert = ["emby", "adg-awa", "adg-dns", "adg-dns-lite", "app", "cn"]
+        for file in files_to_convert:
+            convert_json_to_yaml(f"source/{file}.json", f"mihomo_rules/{file}.yaml")
+        '
+        cd mihomo_rules
+        for yaml_file in *.yaml; do
+          mrs_file="${yaml_file%.yaml}.mrs"
+          mihomo convert-ruleset classical yaml "$yaml_file" "$mrs_file"
+        done
+        rm *.yaml
 
     - name: 13. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 自动追踪变动的源文件（包括整理好的 txt）、生成的 json 以及根目录生成的 srs 文件
-        git add source/*.txt source/*.json *.srs
-        
-        git commit -m "chore: auto-update all routing rules" || echo "No changes to commit"
+        git add source/*.txt source/*.json *.srs mihomo_rules/
+        git commit -m "chore: auto-update routing rules (SRS & MRS)" || exit 0
         git push
