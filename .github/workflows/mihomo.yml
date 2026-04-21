@@ -70,18 +70,29 @@ jobs:
         block = load_lines("source/block.txt")
         process = load_lines("source/process.txt")
 
+        # 【核心改进】：按照你的思路，把 emby.json 也直接变成纯域名格式！
         if os.path.exists("source/emby.json"):
             try:
                 with open("source/emby.json", "r") as f:
                     emby_data = json.load(f)
                 emby_lines = set()
+                
+                # 检查是否含有不支持纯域名的规则 (如 keyword)
+                has_keyword = any(r.get("domain_keyword") for r in emby_data.get("rules", []))
+                
                 for r in emby_data.get("rules", []):
-                    for d in r.get("domain", []): emby_lines.add(f"DOMAIN,{d}")
-                    for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
-                    for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
+                    if has_keyword:
+                        for d in r.get("domain", []): emby_lines.add(f"DOMAIN,{d}")
+                        for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
+                        for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
+                    else:
+                        # 全面采用最简的纯域名格式，完美适配 Mihomo 编译
+                        for d in r.get("domain", []): emby_lines.add(d)
+                        for d in r.get("domain_suffix", []): emby_lines.add(f"+.{d}")
+                
                 with open("source/emby.list", "w") as f:
                     for line in sorted(emby_lines): f.write(f"{line}\n")
-                print("Successfully converted emby.json to emby.list")
+                print("Successfully converted emby.json to emby.list (Pure Domain Format)")
             except Exception as e: 
                 pass
 
@@ -110,8 +121,6 @@ jobs:
                     continue
                 out_lines.append(line.rstrip())
 
-            # 【核心修复】：极度严谨的 classical 格式探测
-            # 必须是以关键字+逗号开头，彻底排除 domain.cn 这种实名域名的干扰
             def check_classical(lines):
                 for ln in lines:
                     clean_ln = ln.lstrip(" -\x27\x22").upper()
@@ -189,21 +198,16 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            if grep -qi "PROCESS-NAME" "$list_file"; then
-              echo "⚠️ Skip compiling $list_file to .mrs (Contains PROCESS-NAME which is not supported in binary format)"
+            if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD|PROCESS-NAME)," "$list_file"; then
+              echo "⏭️  Skip compiling $list_file to .mrs (Classical format. Use pure text format instead.)"
               continue
             fi
 
-            if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD)," "$list_file"; then
-              rule_type="classical"
-            else
-              rule_type="domain"
-            fi
-
+            rule_type="domain"
             format_type="yaml"
             if [ "$ext" = "list" ]; then format_type="text"; fi
 
-            echo "Compiling $list_file to $name.mrs (Type: $rule_type, Format: $format_type)..."
+            echo "🚀 Compiling $list_file to $name.mrs (Type: $rule_type, Format: $format_type)..."
             mihomo convert-ruleset "$rule_type" "$format_type" "$list_file" "$name.mrs"
           fi
         done
