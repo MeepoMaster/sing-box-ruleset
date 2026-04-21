@@ -85,12 +85,11 @@ jobs:
                     for line in sorted(emby_lines): f.write(f"{line}\n")
                 print("Successfully converted emby.json to emby.list")
             except Exception as e: 
-                print("Emby List error:", e)
+                pass
 
         # 核心处理函数
         def process_mihomo_file(in_path, out_path, is_yaml, add_blocks=False, is_app=False, is_cn=False):
             if not os.path.exists(in_path): 
-                print(f"Missing input file: {in_path}")
                 return
             
             with open(in_path, "r", encoding="utf-8") as f: 
@@ -109,7 +108,7 @@ jobs:
                     if stripped == "payload:": payload_started = True
                     continue
 
-                # 智能提取核心域名 (修复了对纯域名 +.domain.com 的提取支持)
+                # 智能提取核心域名，通吃 classical 和 domain 写法
                 domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
                 if domain_part in noblock:
                     continue
@@ -118,11 +117,12 @@ jobs:
             # 智能探测上游文件使用的是 classical 经典格式，还是纯 domain 格式
             is_classical = any("DOMAIN" in ln.upper() or "IP-CIDR" in ln.upper() or "PROCESS-NAME" in ln.upper() for ln in out_lines)
 
-            # 注入 block
+            # 注入 block (智能适配 YAML 格式和 List 格式)
             if add_blocks:
                 for b in block:
                     if is_yaml:
-                        out_lines.append(f"  - DOMAIN-SUFFIX,{b}")
+                        # 使用 \x27 避免 Bash 单引号转义冲突
+                        out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_classical else f"  - \x27+.{b}\x27")
                     else:
                         out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
             
@@ -162,7 +162,10 @@ jobs:
 
             with open(out_path, "w", encoding="utf-8") as f:
                 for ln in out_lines: f.write(f"{ln}\n")
-            print(f"Successfully processed {out_path} (Format: {'Classical' if is_classical else 'Domain'})")
+            
+            # 使用独立变量避开 Bash 解析陷阱
+            format_name = "Classical" if is_classical else "Domain"
+            print(f"Successfully processed {out_path} (Format: {format_name})")
 
         # 开始任务
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
