@@ -7,7 +7,6 @@ payload:
   # Version: 20260422003147
   # Last modified: 2026/04/22 00:31:47
   # Blocked domains: 5613
-  #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.027dir.com'
