@@ -1,7 +1,22 @@
 name: Test Mihomo Rules Conversion
 
 on:
+  # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
+  schedule:
+    - cron: '40 0,8,16 * * *'
+  # 2. 支持在 GitHub Actions 页面手动点击触发
   workflow_dispatch:
+  # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
+  push:
+    branches:
+      - main  # 如果你的默认分支叫 master，请修改为 master
+    paths:
+      # 只监听纯手工维护的源文件，完美避开 Action 自身生成的 json 导致的死循环
+      - 'source/emby.json'
+      - 'source/block.txt'
+      - 'source/noblock.txt'
+      - 'source/process.txt'
+      - 'source/cn.txt'
 
 env:
   TZ: Asia/Shanghai
@@ -19,14 +34,14 @@ jobs:
     - name: 2. 安装系统基础依赖
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget gzip curl
+        sudo apt-get install -y wget gzip curl jq
 
     - name: 3. 配置 Python 环境
       uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
-    - name: 4. 安装 Mihomo 内核 (携带 Token 防止限流)
+    - name: 4. 安装 Mihomo 内核
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -50,8 +65,7 @@ jobs:
     - name: 6. 处理并转换 Mihomo (List / YAML) 规则
       run: |
         python -c '
-        import os, re, json
-        import urllib.request
+        import os, re, json, urllib.request
 
         def download(url, path):
             try:
@@ -70,124 +84,80 @@ jobs:
         block = load_lines("source/block.txt")
         process = load_lines("source/process.txt")
 
-        # 【核心改进】：按照你的思路，把 emby.json 也直接变成纯域名格式！
         if os.path.exists("source/emby.json"):
             try:
                 with open("source/emby.json", "r") as f:
                     emby_data = json.load(f)
                 emby_lines = set()
-                
-                # 检查是否含有不支持纯域名的规则 (如 keyword)
                 has_keyword = any(r.get("domain_keyword") for r in emby_data.get("rules", []))
-                
                 for r in emby_data.get("rules", []):
                     if has_keyword:
                         for d in r.get("domain", []): emby_lines.add(f"DOMAIN,{d}")
                         for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
                         for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
                     else:
-                        # 全面采用最简的纯域名格式，完美适配 Mihomo 编译
                         for d in r.get("domain", []): emby_lines.add(d)
                         for d in r.get("domain_suffix", []): emby_lines.add(f"+.{d}")
-                
                 with open("source/emby.list", "w") as f:
                     for line in sorted(emby_lines): f.write(f"{line}\n")
-                print("Successfully converted emby.json to emby.list (Pure Domain Format)")
-            except Exception as e: 
-                pass
+                print("Converted emby.json to emby.list")
+            except: pass
 
         def process_mihomo_file(in_path, out_path, is_yaml, add_blocks=False, is_app=False, is_cn=False):
-            if not os.path.exists(in_path): 
-                return
-            
-            with open(in_path, "r", encoding="utf-8") as f: 
-                raw_lines = f.readlines()
-
-            payload_started = False
-            out_lines = []
-
+            if not os.path.exists(in_path): return
+            with open(in_path, "r", encoding="utf-8") as f: raw_lines = f.readlines()
+            payload_started, out_lines = False, []
             for line in raw_lines:
                 stripped = line.strip()
-                if not stripped: continue
-                if stripped.startswith("#") and not is_yaml: continue
-                
+                if not stripped or (stripped.startswith("#") and not is_yaml): continue
                 if is_yaml and not payload_started:
                     out_lines.append(line.rstrip())
                     if stripped == "payload:": payload_started = True
                     continue
-
                 domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
-                if domain_part in noblock:
-                    continue
+                if domain_part in noblock: continue
                 out_lines.append(line.rstrip())
 
-            def check_classical(lines):
-                for ln in lines:
-                    clean_ln = ln.lstrip(" -\x27\x22").upper()
-                    if clean_ln.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")):
-                        return True
-                return False
-            
-            is_classical = check_classical(out_lines)
+            is_classical = any(any(x in ln.upper() for x in ["DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,"]) for ln in out_lines)
 
             if add_blocks:
                 for b in block:
-                    if is_yaml:
-                        out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_classical else f"  - \x27+.{b}\x27")
-                    else:
-                        out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
-            
+                    if is_yaml: out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_classical else f"  - \x27+.{b}\x27")
+                    else: out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
             if is_app:
-                for p in process: 
-                    out_lines.append(f"PROCESS-NAME,{p}")
-            
+                for p in process: out_lines.append(f"PROCESS-NAME,{p}")
             if is_cn and os.path.exists("source/cn.txt"):
-                current_mode = "suffix"
+                mode = "suffix"
                 with open("source/cn.txt", "r", encoding="utf-8") as f:
                     for ln in f:
                         v = ln.strip()
                         if not v: continue
-                        if v.lower() in ["domain:", "domain："]: 
-                            current_mode = "domain"
-                        elif v.lower() in ["domain_suffix:", "domain_suffix："]: 
-                            current_mode = "suffix"
-                        else: 
-                            if is_classical:
-                                out_lines.append(f"DOMAIN,{v}" if current_mode == "domain" else f"DOMAIN-SUFFIX,{v}")
-                            else:
-                                out_lines.append(v if current_mode == "domain" else f"+.{v}")
-
+                        if v.lower() in ["domain:", "domain："]: mode = "domain"
+                        elif v.lower() in ["domain_suffix:", "domain_suffix："]: mode = "suffix"
+                        else:
+                            if is_classical: out_lines.append(f"DOMAIN,{v}" if mode == "domain" else f"DOMAIN-SUFFIX,{v}")
+                            else: out_lines.append(v if mode == "domain" else f"+.{v}")
             if is_yaml:
                 header, body = [], set()
                 for ln in out_lines:
-                    if not ln.lstrip().startswith("-"):
-                        if ln not in header: header.append(ln)
-                    else: 
-                        body.add(ln)
+                    if not ln.lstrip().startswith("-"): header.append(ln)
+                    else: body.add(ln)
                 out_lines = header + sorted(list(body))
-            else:
-                out_lines = sorted(list(set(out_lines)))
-
+            else: out_lines = sorted(list(set(out_lines)))
             with open(out_path, "w", encoding="utf-8") as f:
                 for ln in out_lines: f.write(f"{ln}\n")
-            
-            format_name = "Classical" if is_classical else "Domain"
-            print(f"Successfully processed {out_path} (Format: {format_name})")
-
-        download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
-        process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
-
-        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "adg_in.yaml")
-        process_mihomo_file("adg_in.yaml", "source/adg-dns.yaml", is_yaml=True, add_blocks=True)
-
-        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "adg_lite_in.yaml")
-        process_mihomo_file("adg_lite_in.yaml", "source/adg-dns-lite.yaml", is_yaml=True, add_blocks=True)
-
-        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
-        process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
-
-        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn_in.list")
-        process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
+        
+        # 下载并转换
+        download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa.yaml")
+        process_mihomo_file("awa.yaml", "source/adg-awa.yaml", True, True)
+        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "dns.yaml")
+        process_mihomo_file("dns.yaml", "source/adg-dns.yaml", True, True)
+        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "lite.yaml")
+        process_mihomo_file("lite.yaml", "source/adg-dns-lite.yaml", True, True)
+        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app.list")
+        process_mihomo_file("app.list", "source/app.list", False, is_app=True)
+        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn.list")
+        process_mihomo_file("cn.list", "source/cn.list", False, is_cn=True)
         '
 
     - name: 7. 编译 Mihomo 二进制文件 (.mrs)
@@ -198,8 +168,10 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
+            # 只要包含经典格式特征，直接拷贝到根目录并跳过 MRS 编译
             if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD|PROCESS-NAME)," "$list_file"; then
-              echo "⏭️  Skip compiling $list_file to .mrs (Classical format. Use pure text format instead.)"
+              echo "⏭️  Skip binary compile for $list_file (Classical format). Copying to root."
+              cp "$list_file" ./"$filename"
               continue
             fi
 
@@ -207,17 +179,21 @@ jobs:
             format_type="yaml"
             if [ "$ext" = "list" ]; then format_type="text"; fi
 
-            echo "🚀 Compiling $list_file to $name.mrs (Type: $rule_type, Format: $format_type)..."
+            echo "🚀 Compiling $list_file to $name.mrs..."
             mihomo convert-ruleset "$rule_type" "$format_type" "$list_file" "$name.mrs"
+            
+            # 特别确保 app.list（即便作为 domain 格式）也被复制到根目录
+            if [ "$name" = "app" ]; then cp "$list_file" ./app.list; fi
           fi
         done
 
-    - name: 8. 提交并推送测试结果
+    - name: 8. 提交并推送结果
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        git add source/*.list source/*.yaml *.mrs
+        # 同时追踪 source 目录和根目录下的产物
+        git add source/*.list source/*.yaml *.mrs *.list *.yaml
         
-        git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
+        git commit -m "chore: auto-update mihomo rules and binaries" || echo "No changes to commit"
         git push
