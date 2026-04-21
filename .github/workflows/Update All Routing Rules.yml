@@ -129,43 +129,44 @@ jobs:
 
     - name: 11. 处理 CN 规则
       run: |
-        curl -sfL -o c_up.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
+        curl -sfL -o cn_temp.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
         python3 -c '
         import os, json
         d, s, m = set(), set(), "suffix"
-        for l in open("source/cn.txt"):
-            l = l.strip()
-            if not l: continue
-            if "domain:" in l.lower(): m = "domain"
-            elif "domain_suffix:" in l.lower(): m = "suffix"
-            else: (d.add(l) if m == "domain" else s.add(l))
-        with open("cn_up.json", "r") as f:
+        if os.path.exists("source/cn.txt"):
+            for l in open("source/cn.txt"):
+                l = l.strip()
+                if not l: continue
+                if "domain:" in l.lower(): m = "domain"
+                elif "domain_suffix:" in l.lower(): m = "suffix"
+                else: (d.add(l) if m == "domain" else s.add(l))
+        with open("cn_temp.json", "r") as f:
             j = json.load(f)
             j["rules"][0]["domain"] = sorted(list(set(j["rules"][0].get("domain", [])) | d))
             j["rules"][0]["domain_suffix"] = sorted(list(set(j["rules"][0].get("domain_suffix", [])) | s))
         json.dump(j, open("source/cn.json", "w"))
         '
-        rm c_up.json
+        rm cn_temp.json
 
     - name: 12. 规则转换与编译
       run: |
-        # Sing-box 编译
         for f in emby adg-awa adg-dns adg-dns-lite app cn; do
           if [ -f "source/$f.json" ]; then sing-box rule-set compile --output "$f.srs" "source/$f.json"; fi
         done
-        # Mihomo 转换与编译
         python3 -c '
         import os, re, json, urllib.request
         def dl(u, p):
             req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req) as r, open(p, "wb") as f: f.write(r.read())
-        nob, blo, pro = [set(l.strip() for l in open(f"source/{x}.txt") if l.strip()) for x in ["noblock", "block", "process"]]
-        # Emby 转换
+        nob = set(l.strip() for l in open("source/noblock.txt") if l.strip()) if os.path.exists("source/noblock.txt") else set()
+        blo = set(l.strip() for l in open("source/block.txt") if l.strip()) if os.path.exists("source/block.txt") else set()
+        pro = set(l.strip() for l in open("source/process.txt") if l.strip()) if os.path.exists("source/process.txt") else set()
         if os.path.exists("source/emby.json"):
+            data = json.load(open("source/emby.json"))
             lines = set()
-            for r in json.load(open("source/emby.json")).get("rules", []):
-                [lines.add(x) for x in r.get("domain", [])]
-                [lines.add(f"+.{x}") for x in r.get("domain_suffix", [])]
+            for r in data.get("rules", []):
+                for d in r.get("domain", []): lines.add(d)
+                for d in r.get("domain_suffix", []): lines.add(f"+.{d}")
             with open("source/emby.list", "w") as f: [f.write(f"{l}\n") for l in sorted(lines)]
         def proc(ip, op, is_y, add_b=False, is_a=False, is_c=False):
             if not os.path.exists(ip): return
@@ -175,7 +176,7 @@ jobs:
                 s = ln.strip()
                 if not s or (s.startswith("#") and not is_y): continue
                 if is_y and not std:
-                    out.append(ln.rstrip()); (std := True if s == "payload:" else False)
+                    out.append(ln.rstrip()); std = True if s == "payload:" else False
                     continue
                 dp = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", s).strip("\x27\x22 ")
                 if dp not in nob: out.append(ln.rstrip())
@@ -207,14 +208,14 @@ jobs:
             fn=$(basename -- "$lf"); base="${fn%.*}"; ext="${fn##*.}"
             if grep -qiE "DOMAIN,|IP-CIDR,|PROCESS-NAME," "$lf"; then cp "$lf" ./"$fn"; continue; fi
             mihomo convert-ruleset "domain" "$([ "$ext" = "list" ] && echo "text" || echo "yaml")" "$lf" "$base.mrs"
-            [ "$base" = "app" ] && cp "$lf" ./app.list
+            if [ "$base" = "app" ]; then cp "$lf" ./app.list; fi
           fi
         done
 
-    - name: 13. 提交推送
+    - name: 13. 提交推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add source/*.txt source/*.json source/*.list source/*.yaml *.srs *.mrs *.list *.yaml
-        git commit -m "chore: auto-update" || echo "No changes"
+        git commit -m "chore: auto-update rules" || echo "No changes"
         git push
