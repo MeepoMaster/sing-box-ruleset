@@ -102,7 +102,6 @@ jobs:
             for line in raw_lines:
                 stripped = line.strip()
                 if not stripped: continue
-                # 跳过注释行
                 if stripped.startswith("#") and not is_yaml: continue
                 
                 if is_yaml and not payload_started:
@@ -110,16 +109,22 @@ jobs:
                     if stripped == "payload:": payload_started = True
                     continue
 
-                # 智能提取域名核心，用于 noblock 过滤
-                domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27\+\.|\x27|\x22|\+)?", "", stripped).strip("\x27\x22 ")
+                # 智能提取核心域名 (修复了对纯域名 +.domain.com 的提取支持)
+                domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
                 if domain_part in noblock:
                     continue
                 out_lines.append(line.rstrip())
 
+            # 智能探测上游文件使用的是 classical 经典格式，还是纯 domain 格式
+            is_classical = any("DOMAIN" in ln.upper() or "IP-CIDR" in ln.upper() or "PROCESS-NAME" in ln.upper() for ln in out_lines)
+
             # 注入 block
             if add_blocks:
                 for b in block:
-                    out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_yaml else f"DOMAIN-SUFFIX,{b}")
+                    if is_yaml:
+                        out_lines.append(f"  - DOMAIN-SUFFIX,{b}")
+                    else:
+                        out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
             
             # 注入 process
             if is_app:
@@ -138,7 +143,10 @@ jobs:
                         elif v.lower() in ["domain_suffix:", "domain_suffix："]: 
                             current_mode = "suffix"
                         else: 
-                            out_lines.append(f"DOMAIN,{v}" if current_mode == "domain" else f"DOMAIN-SUFFIX,{v}")
+                            if is_classical:
+                                out_lines.append(f"DOMAIN,{v}" if current_mode == "domain" else f"DOMAIN-SUFFIX,{v}")
+                            else:
+                                out_lines.append(v if current_mode == "domain" else f"+.{v}")
 
             # 去重和排序
             if is_yaml:
@@ -154,7 +162,7 @@ jobs:
 
             with open(out_path, "w", encoding="utf-8") as f:
                 for ln in out_lines: f.write(f"{ln}\n")
-            print(f"Successfully processed {out_path}")
+            print(f"Successfully processed {out_path} (Format: {'Classical' if is_classical else 'Domain'})")
 
         # 开始任务
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
