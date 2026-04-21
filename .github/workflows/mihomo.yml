@@ -1,7 +1,6 @@
 name: Test Mihomo Rules Conversion
 
 on:
-  # 仅支持手动点击触发，方便随时测试而不干扰正常的定时任务
   workflow_dispatch:
 
 env:
@@ -71,7 +70,6 @@ jobs:
         block = load_lines("source/block.txt")
         process = load_lines("source/process.txt")
 
-        # 1. 转换本地的 emby.json 到 emby.list
         if os.path.exists("source/emby.json"):
             try:
                 with open("source/emby.json", "r") as f:
@@ -87,7 +85,6 @@ jobs:
             except Exception as e: 
                 pass
 
-        # 核心处理函数
         def process_mihomo_file(in_path, out_path, is_yaml, add_blocks=False, is_app=False, is_cn=False):
             if not os.path.exists(in_path): 
                 return
@@ -108,30 +105,33 @@ jobs:
                     if stripped == "payload:": payload_started = True
                     continue
 
-                # 智能提取核心域名，通吃 classical 和 domain 写法
                 domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
                 if domain_part in noblock:
                     continue
                 out_lines.append(line.rstrip())
 
-            # 智能探测上游文件使用的是 classical 经典格式，还是纯 domain 格式
-            is_classical = any("DOMAIN" in ln.upper() or "IP-CIDR" in ln.upper() or "PROCESS-NAME" in ln.upper() for ln in out_lines)
+            # 【核心修复】：极度严谨的 classical 格式探测
+            # 必须是以关键字+逗号开头，彻底排除 domain.cn 这种实名域名的干扰
+            def check_classical(lines):
+                for ln in lines:
+                    clean_ln = ln.lstrip(" -\x27\x22").upper()
+                    if clean_ln.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")):
+                        return True
+                return False
+            
+            is_classical = check_classical(out_lines)
 
-            # 注入 block (智能适配 YAML 格式和 List 格式)
             if add_blocks:
                 for b in block:
                     if is_yaml:
-                        # 使用 \x27 避免 Bash 单引号转义冲突
                         out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_classical else f"  - \x27+.{b}\x27")
                     else:
                         out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
             
-            # 注入 process
             if is_app:
                 for p in process: 
                     out_lines.append(f"PROCESS-NAME,{p}")
             
-            # 注入 cn
             if is_cn and os.path.exists("source/cn.txt"):
                 current_mode = "suffix"
                 with open("source/cn.txt", "r", encoding="utf-8") as f:
@@ -148,7 +148,6 @@ jobs:
                             else:
                                 out_lines.append(v if current_mode == "domain" else f"+.{v}")
 
-            # 去重和排序
             if is_yaml:
                 header, body = [], set()
                 for ln in out_lines:
@@ -163,11 +162,9 @@ jobs:
             with open(out_path, "w", encoding="utf-8") as f:
                 for ln in out_lines: f.write(f"{ln}\n")
             
-            # 使用独立变量避开 Bash 解析陷阱
             format_name = "Classical" if is_classical else "Domain"
             print(f"Successfully processed {out_path} (Format: {format_name})")
 
-        # 开始任务
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
         process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
 
@@ -192,14 +189,11 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            # 【防崩修复1】检测到 PROCESS-NAME 规则直接跳过
             if grep -qi "PROCESS-NAME" "$list_file"; then
               echo "⚠️ Skip compiling $list_file to .mrs (Contains PROCESS-NAME which is not supported in binary format)"
               continue
             fi
 
-            # 【防崩修复2】严格判定 classical 格式：关键字后必须紧跟逗号 (,) 
-            # 兼容带有单双引号的写法，完美避开纯域名 (如 domain.cn) 造成的误判
             if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD)," "$list_file"; then
               rule_type="classical"
             else
