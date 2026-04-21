@@ -181,9 +181,9 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            # 判断内容格式：存在 DOMAIN 等前缀为 classic，否则为 domain
+            # 判断内容格式：存在 DOMAIN 等前缀为 classical，否则为 domain
             if grep -qiE "^(\s*-?\s*)(DOMAIN|PROCESS-NAME|IP-CIDR)" "$list_file"; then
-              rule_type="classic"
+              rule_type="classical"
             else
               rule_type="domain"
             fi
