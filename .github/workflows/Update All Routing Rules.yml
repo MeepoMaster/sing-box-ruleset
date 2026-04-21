@@ -44,7 +44,6 @@ jobs:
       run: |
         LATEST_VERSION=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
         VERSION_NUM=${LATEST_VERSION#v}
-        echo "Installing sing-box version: $VERSION_NUM"
         wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
         tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
         sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
@@ -55,243 +54,167 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         MIHOMO_LATEST=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r .tag_name)
-        echo "Installing mihomo version: $MIHOMO_LATEST"
         wget -O mihomo.gz "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_LATEST}/mihomo-linux-amd64-compatible-${MIHOMO_LATEST}.gz"
         gzip -d mihomo.gz
         sudo mv mihomo /usr/local/bin/
         sudo chmod +x /usr/local/bin/mihomo
         mihomo -v
 
-    - name: 6. 自动整理并去重本地 TXT 源文件
+    - name: 6. 自动整理本地源文件
       run: |
-        for txt_file in source/block.txt source/noblock.txt source/process.txt; do
-          if [ -f "$txt_file" ]; then
-            sed -i '/^[[:space:]]*$/d' "$txt_file"
-            sort -u -o "$txt_file" "$txt_file"
-          fi
+        for f in source/block.txt source/noblock.txt source/process.txt; do
+          if [ -f "$f" ]; then sed -i '/^[[:space:]]*$/d' "$f"; sort -u -o "$f" "$f"; fi
         done
-
-        if [ -f "source/cn.txt" ]; then
-          cat << 'EOF' > format_cn.py
+        python3 -c '
         import os
-        file_path = "source/cn.txt"
-        domains, suffixes = set(), set()
-        current_mode = "suffix"
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                val = line.strip()
-                if not val: continue
-                if val.lower() in ["domain:", "domain："]: current_mode = "domain"
-                elif val.lower() in ["domain_suffix:", "domain_suffix："]: current_mode = "suffix"
-                else:
-                    if current_mode == "domain": domains.add(val)
-                    else: suffixes.add(val)
-        with open(file_path, "w", encoding="utf-8") as f:
-            if domains:
-                f.write("domain:\n")
-                for d in sorted(domains): f.write(f"{d}\n")
-            if domains and suffixes: f.write("\n")
-            if suffixes:
-                f.write("domain_suffix:\n")
-                for s in sorted(suffixes): f.write(f"{s}\n")
-        EOF
-          python3 format_cn.py
-          rm format_cn.py
-        fi
+        if os.path.exists("source/cn.txt"):
+            d, s, m = set(), set(), "suffix"
+            for l in open("source/cn.txt", "r", encoding="utf-8"):
+                v = l.strip()
+                if not v: continue
+                if "domain:" in v.lower(): m = "domain"
+                elif "domain_suffix:" in v.lower(): m = "suffix"
+                else: (d.add(v) if m == "domain" else s.add(v))
+            with open("source/cn.txt", "w", encoding="utf-8") as f:
+                if d: f.write("domain:\n")
+                [f.write(f"{i}\n") for i in sorted(d)]
+                if d and s: f.write("\n")
+                if s: f.write("domain_suffix:\n")
+                [f.write(f"{i}\n") for i in sorted(s)]
+        '
 
-    - name: 7. 处理 Sing-box: Emby 规则
-      continue-on-error: true
+    - name: 7. 处理 Emby 规则
       run: |
-        jq '.rules[0].domain_suffix |= sort' source/emby.json > source/temp_emby.json
-        mv source/temp_emby.json source/emby.json
+        jq ".rules[0].domain_suffix |= sort" source/emby.json > t.json && mv t.json source/emby.json
 
-    - name: 8. 处理 Sing-box: adg-awa 规则
-      continue-on-error: true
+    - name: 8. 处理 adg-awa 规则
       run: |
-        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        block_domains=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
-        noblock_domains=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
-        jq --argjson noblock "$noblock_domains" '.rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) | .rules[0].domain_keyword |= map(select(. as $d | $noblock | index($d) | not)) | .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))' AWAvenue.json > cleaned.json
-        jq --argjson block "$block_domains" '.rules[0].domain += $block' cleaned.json > updated.json
-        jq '.rules[0].domain |= (unique|sort) | .rules[0].domain_keyword |= (unique|sort) | .rules[0].domain_suffix |= (unique|sort)' updated.json > source/adg-awa.json
-        rm AWAvenue.json cleaned.json updated.json
+        curl -sfL -o awa.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        nb=$(jq -R -s -c "split(\"\n\")[:-1]" source/noblock.txt)
+        bl=$(jq -R -s -c "split(\"\n\")[:-1]" source/block.txt)
+        jq --argjson nb "$nb" ".rules[0].domain |= map(select(. as \$d | \$nb | index(\$d) | not)) | .rules[0].domain_keyword |= map(select(. as \$d | \$nb | index(\$d) | not)) | .rules[0].domain_suffix |= map(select(. as \$d | \$nb | index(\$d) | not))" awa.json > c.json
+        jq --argjson bl "$bl" ".rules[0].domain += \$bl" c.json | jq ".rules[0].domain |= (unique|sort) | .rules[0].domain_keyword |= (unique|sort) | .rules[0].domain_suffix |= (unique|sort)" > source/adg-awa.json
+        rm awa.json c.json
 
-    - name: 9. 处理 Sing-box: adg-dns 规则
-      continue-on-error: true
+    - name: 9. 处理 adg-dns 规则
       run: |
-        curl -sfL -o source1.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
-        curl -sfL -o source2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        cat << 'EOF' > merge_dns.py
+        curl -sfL -o s1.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+        curl -sfL -o s2.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        python3 -c '
         import json, os
-        rule_keys = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"]
-        merged_data = {k: set() for k in rule_keys}
-        noblock_set = set(line.strip() for line in open("source/noblock.txt")) if os.path.exists("source/noblock.txt") else set()
-        block_set = set(line.strip() for line in open("source/block.txt")) if os.path.exists("source/block.txt") else set()
-        def process_file(filename):
+        ks, md = ["domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr"], {}
+        for k in ks: md[k] = set()
+        nob = set(l.strip() for l in open("source/noblock.txt")) if os.path.exists("source/noblock.txt") else set()
+        blo = set(l.strip() for l in open("source/block.txt")) if os.path.exists("source/block.txt") else set()
+        for f in ["s1.json", "s2.json"]:
             try:
-                with open(filename, "r") as f:
-                    rules = json.load(f).get("rules", [])
-                    for rule in rules:
-                        for key in rule_keys:
-                            if key in rule and rule[key]: merged_data[key].update(rule[key])
+                for r in json.load(open(f))["rules"]:
+                    for k in ks: (md[k].update(r[k]) if k in r and r[k] else None)
             except: pass
-        process_file("source1.json")
-        process_file("source2.json")
-        merged_data["domain_suffix"].update(block_set)
-        for key in ["domain", "domain_suffix", "domain_keyword"]:
-            if merged_data[key]: merged_data[key] -= noblock_set
-        duplicates = merged_data["domain"] & merged_data["domain_suffix"]
-        if duplicates: merged_data["domain"] -= duplicates
-        final_rule_obj = {k: sorted(list(v)) for k, v in merged_data.items() if v}
-        with open("source/adg-dns.json", "w") as f:
-            json.dump({"version": 3, "rules": [final_rule_obj]}, f, indent=2, ensure_ascii=False)
-        EOF
-        python3 merge_dns.py
-        rm source1.json source2.json merge_dns.py
+        md["domain_suffix"].update(blo)
+        for k in ["domain", "domain_suffix", "domain_keyword"]: md[k] -= nob
+        md["domain"] -= (md["domain"] & md["domain_suffix"])
+        res = {k: sorted(list(v)) for k, v in md.items() if v}
+        json.dump({"version": 3, "rules": [res]}, open("source/adg-dns.json", "w"), indent=2, ensure_ascii=False)
+        '
+        rm s1.json s2.json
 
-    - name: 10. 处理 Sing-box: adg-dns-lite 规则
-      continue-on-error: true
+    - name: 10. 处理其他 Sing-box 规则
       run: |
-        curl -sfL -o lite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
-        noblock=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
-        block=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
-        jq --argjson noblock "$noblock" --argjson block "$block" '.rules[0].domain_suffix |= (map(select(. as $d | $noblock | index($d) | not)) + $block | unique | sort)' lite.json > source/adg-dns-lite.json
-        rm lite.json
+        curl -sfL -o l.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
+        jq --argjson nb "$(jq -R -s -c "split(\"\n\")[:-1]" source/noblock.txt)" --argjson bl "$(jq -R -s -c "split(\"\n\")[:-1]" source/block.txt)" ".rules[0].domain_suffix |= (map(select(. as \$d | \$nb | index(\$d) | not)) + \$bl | unique | sort)" l.json > source/adg-dns-lite.json
+        curl -sfL -o a.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
+        jq --argjson p "$(jq -R -s -c "split(\"\n\")[:-1]" source/process.txt)" ".rules[0].process_name += \$p | .rules[0].process_name |= (unique|sort)" a.json > source/app.json
+        rm l.json a.json
 
-    - name: 11. 处理 Sing-box: App 规则
-      continue-on-error: true
+    - name: 11. 处理 CN 规则
       run: |
-        curl -sfL -o app_up.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
-        p_names=$(jq -R -s -c 'split("\n")[:-1]' source/process.txt)
-        jq --argjson p "$p_names" '.rules[0].process_name += $p | .rules[0].process_name |= (unique|sort)' app_up.json > source/app.json
-        rm app_up.json
+        curl -sfL -o c_up.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
+        python3 -c '
+        import os, json
+        d, s, m = set(), set(), "suffix"
+        for l in open("source/cn.txt"):
+            l = l.strip()
+            if not l: continue
+            if "domain:" in l.lower(): m = "domain"
+            elif "domain_suffix:" in l.lower(): m = "suffix"
+            else: (d.add(l) if m == "domain" else s.add(l))
+        with open("cn_up.json", "r") as f:
+            j = json.load(f)
+            j["rules"][0]["domain"] = sorted(list(set(j["rules"][0].get("domain", [])) | d))
+            j["rules"][0]["domain_suffix"] = sorted(list(set(j["rules"][0].get("domain_suffix", [])) | s))
+        json.dump(j, open("source/cn.json", "w"))
+        '
+        rm c_up.json
 
-    - name: 12. 处理 Sing-box: CN 规则
-      continue-on-error: true
+    - name: 12. 规则转换与编译
       run: |
-        curl -sfL -o cn_up.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
-        touch d.txt s.txt
-        m="suffix"
-        while IFS= read -r l || [[ -n "$l" ]]; do
-          l=$(echo "$l" | xargs)
-          [[ -z "$l" ]] && continue
-          [[ "${l,,}" == "domain:" || "${l,,}" == "domain：" ]] && { m="domain"; continue; }
-          [[ "${l,,}" == "domain_suffix:" || "${l,,}" == "domain_suffix：" ]] && { m="suffix"; continue; }
-          [[ "$m" == "domain" ]] && echo "$l" >> d.txt || echo "$l" >> s.txt
-        done < source/cn.txt
-        ld=$([ -s d.txt ] && jq -R -s -c 'split("\n")[:-1]' d.txt || echo "[]")
-        ls=$([ -s s.txt ] && jq -R -s -c 'split("\n")[:-1]' s.txt || echo "[]")
-        jq --argjson nd "$ld" --argjson ns "$ls" '.rules[0].domain = (((.rules[0].domain // []) + $nd) | unique | sort) | .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $ns) | unique | sort)' cn_up.json > source/cn.json
-        rm cn_up.json d.txt s.txt
-
-    - name: 13. 处理 Mihomo: 规则转换
-      continue-on-error: true
-      run: |
-        cat << 'EOF' > conv.py
+        # Sing-box 编译
+        for f in emby adg-awa adg-dns adg-dns-lite app cn; do
+          if [ -f "source/$f.json" ]; then sing-box rule-set compile --output "$f.srs" "source/$f.json"; fi
+        done
+        # Mihomo 转换与编译
+        python3 -c '
         import os, re, json, urllib.request
-        def dl(url, path):
-            try:
-                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-                with urllib.request.urlopen(req) as r, open(path, "wb") as f: f.write(r.read())
-            except: pass
-        def load(p): return set(l.strip() for l in open(p, "r", encoding="utf-8") if l.strip()) if os.path.exists(p) else set()
-        nob, blo, pro = load("source/noblock.txt"), load("source/block.txt"), load("source/process.txt")
+        def dl(u, p):
+            req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req) as r, open(p, "wb") as f: f.write(r.read())
+        nob, blo, pro = [set(l.strip() for l in open(f"source/{x}.txt") if l.strip()) for x in ["noblock", "block", "process"]]
+        # Emby 转换
         if os.path.exists("source/emby.json"):
-            data = json.load(open("source/emby.json"))
             lines = set()
-            for r in data.get("rules", []):
-                for d in r.get("domain", []): lines.add(d)
-                for d in r.get("domain_suffix", []): lines.add(f"+.{d}")
-            with open("source/emby.list", "w") as f:
-                for l in sorted(lines): f.write(f"{l}\n")
+            for r in json.load(open("source/emby.json")).get("rules", []):
+                [lines.add(x) for x in r.get("domain", [])]
+                [lines.add(f"+.{x}") for x in r.get("domain_suffix", [])]
+            with open("source/emby.list", "w") as f: [f.write(f"{l}\n") for l in sorted(lines)]
         def proc(ip, op, is_y, add_b=False, is_a=False, is_c=False):
             if not os.path.exists(ip): return
-            with open(ip, "r", encoding="utf-8") as f: r_lines = f.readlines()
-            started, out = False, []
-            for ln in r_lines:
+            rl = open(ip, "r", encoding="utf-8").readlines()
+            std, out = False, []
+            for ln in rl:
                 s = ln.strip()
                 if not s or (s.startswith("#") and not is_y): continue
-                if is_y and not started:
-                    out.append(ln.rstrip())
-                    if s == "payload:": started = True
+                if is_y and not std:
+                    out.append(ln.rstrip()); (std := True if s == "payload:" else False)
                     continue
                 dp = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", s).strip("\x27\x22 ")
-                if dp in nob: continue
-                out.append(ln.rstrip())
-            def is_cl(lines):
-                for l in lines:
-                    c = l.lstrip(" -\x27\x22").upper()
-                    if c.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")): return True
-                return False
-            cl = is_cl(out)
-            if add_b:
-                for b in blo:
-                    if is_y: out.append(f"  - DOMAIN-SUFFIX,{b}" if cl else f"  - \x27+.{b}\x27")
-                    else: out.append(f"DOMAIN-SUFFIX,{b}" if cl else f"+.{b}")
-            if is_a:
-                for p in pro: out.append(f"PROCESS-NAME,{p}")
-            if is_c and os.path.exists("source/cn.txt"):
+                if dp not in nob: out.append(ln.rstrip())
+            cl = any(any(x in l.upper() for x in ["DOMAIN,", "IP-CIDR,", "PROCESS-NAME,"]) for l in out)
+            if add_b: [out.append(f"  - DOMAIN-SUFFIX,{b}" if is_y and cl else (f"  - \x27+.{b}\x27" if is_y else (f"DOMAIN-SUFFIX,{b}" if cl else f"+.{b}"))) for b in blo]
+            if is_a: [out.append(f"PROCESS-NAME,{p}") for p in pro]
+            if is_c:
                 m = "suffix"
-                with open("source/cn.txt", "r", encoding="utf-8") as f:
-                    for l in f:
-                        v = l.strip()
-                        if not v: continue
-                        if v.lower() in ["domain:", "domain："]: m = "domain"
-                        elif v.lower() in ["domain_suffix:", "domain_suffix："]: m = "suffix"
-                        else:
-                            if cl: out.append(f"DOMAIN,{v}" if m == "domain" else f"DOMAIN-SUFFIX,{v}")
-                            else: out.append(v if m == "domain" else f"+.{v}")
-            if is_y:
-                h, b = [], set()
-                for l in out:
-                    if not l.lstrip().startswith("-"): h.append(l)
-                    else: b.add(l)
-                out = h + sorted(list(b))
-            else: out = sorted(list(set(out)))
-            with open(op, "w", encoding="utf-8") as f:
-                for l in out: f.write(f"{l}\n")
-        dl("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa.y")
-        proc("awa.y", "source/adg-awa.yaml", True, True)
-        dl("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "dns.y")
-        proc("dns.y", "source/adg-dns.yaml", True, True)
-        dl("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "lite.y")
-        proc("lite.y", "source/adg-dns-lite.yaml", True, True)
-        dl("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app.l")
-        proc("app.l", "source/app.list", False, is_a=True)
+                for l in open("source/cn.txt"):
+                    v = l.strip()
+                    if not v: continue
+                    if "domain:" in v.lower(): m = "domain"
+                    elif "domain_suffix:" in v.lower(): m = "suffix"
+                    else: out.append((f"DOMAIN,{v}" if m=="domain" else f"DOMAIN-SUFFIX,{v}") if cl else (v if m=="domain" else f"+.{v}"))
+            with open(op, "w", encoding="utf-8") as f: [f.write(f"{l}\n") for l in sorted(list(set(out)) if not is_y else out)]
+        dl("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "aw.y")
+        proc("aw.y", "source/adg-awa.yaml", True, True)
+        dl("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "dn.y")
+        proc("dn.y", "source/adg-dns.yaml", True, True)
+        dl("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "lt.y")
+        proc("lt.y", "source/adg-dns-lite.yaml", True, True)
+        dl("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "ap.l")
+        proc("ap.l", "source/app.list", False, is_a=True)
         dl("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn.l")
         proc("cn.l", "source/cn.list", False, is_c=True)
-        EOF
-        python3 conv.py
-        rm conv.py awa.y dns.y lite.y app.l cn.l
-
-    - name: 14. 编译 Sing-box 规则 (.srs)
-      run: |
-        for f in emby adg-awa adg-dns adg-dns-lite app cn; do
-          if [ -f "source/$f.json" ]; then
-            sing-box rule-set compile --output "$f.srs" "source/$f.json"
-          fi
-        done
-
-    - name: 15. 编译 Mihomo 规则 (.mrs)
-      run: |
+        '
         for lf in source/*.list source/*.yaml; do
           if [ -f "$lf" ]; then
-            fn=$(basename -- "$lf")
-            base="${fn%.*}"
-            ext="${fn##*.}"
-            if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD|PROCESS-NAME)," "$lf"; then
-              cp "$lf" ./"$fn"
-              continue
-            fi
+            fn=$(basename -- "$lf"); base="${fn%.*}"; ext="${fn##*.}"
+            if grep -qiE "DOMAIN,|IP-CIDR,|PROCESS-NAME," "$lf"; then cp "$lf" ./"$fn"; continue; fi
             mihomo convert-ruleset "domain" "$([ "$ext" = "list" ] && echo "text" || echo "yaml")" "$lf" "$base.mrs"
             [ "$base" = "app" ] && cp "$lf" ./app.list
           fi
         done
 
-    - name: 16. 提交推送更改
+    - name: 13. 提交推送
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add source/*.txt source/*.json source/*.list source/*.yaml *.srs *.mrs *.list *.yaml
-        git commit -m "chore: auto-update rules" || echo "No changes"
+        git commit -m "chore: auto-update" || echo "No changes"
         git push
