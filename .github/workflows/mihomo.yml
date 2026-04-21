@@ -1,0 +1,207 @@
+name: Test Mihomo Rules Conversion
+
+on:
+  # 仅支持手动点击触发，方便随时测试而不干扰正常的定时任务
+  workflow_dispatch:
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  test-mihomo-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: 1. 检出代码仓库
+      uses: actions/checkout@v4
+
+    - name: 2. 安装系统基础依赖
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y wget gzip curl
+
+    - name: 3. 配置 Python 环境
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: 4. 安装 Mihomo 内核 (携带 Token 防止限流)
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        MIHOMO_LATEST=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r .tag_name)
+        echo "Installing mihomo version: $MIHOMO_LATEST"
+        wget -O mihomo.gz "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_LATEST}/mihomo-linux-amd64-compatible-${MIHOMO_LATEST}.gz"
+        gzip -d mihomo.gz
+        sudo mv mihomo /usr/local/bin/
+        sudo chmod +x /usr/local/bin/mihomo
+        mihomo -v
+
+    - name: 5. 纯文本格式化本地数据
+      run: |
+        for txt_file in source/block.txt source/noblock.txt source/process.txt; do
+          if [ -f "$txt_file" ]; then
+            sed -i '/^[[:space:]]*$/d' "$txt_file"
+            sort -u -o "$txt_file" "$txt_file"
+          fi
+        done
+
+    - name: 6. 处理并转换 Mihomo (List / YAML) 规则
+      run: |
+        python -c '
+        import os, re, json
+        import urllib.request
+
+        def download(url, path):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+                with urllib.request.urlopen(req) as resp, open(path, "wb") as f:
+                    f.write(resp.read())
+            except Exception as e:
+                print(f"Download failed {url}: {e}")
+
+        def load_lines(path):
+            if not os.path.exists(path): return set()
+            with open(path, "r", encoding="utf-8") as f:
+                return {line.strip() for line in f if line.strip()}
+
+        noblock = load_lines("source/noblock.txt")
+        block = load_lines("source/block.txt")
+        process = load_lines("source/process.txt")
+
+        # 1. 转换本地的 emby.json 到 emby.list
+        if os.path.exists("source/emby.json"):
+            try:
+                with open("source/emby.json", "r") as f:
+                    emby_data = json.load(f)
+                emby_lines = set()
+                for r in emby_data.get("rules", []):
+                    for d in r.get("domain", []): emby_lines.add(f"DOMAIN,{d}")
+                    for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
+                    for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
+                with open("source/emby.list", "w") as f:
+                    for line in sorted(emby_lines): f.write(f"{line}\n")
+                print("Successfully converted emby.json to emby.list")
+            except Exception as e: 
+                print("Emby List error:", e)
+
+        # 核心处理函数
+        def process_mihomo_file(in_path, out_path, is_yaml, add_blocks=False, is_app=False, is_cn=False):
+            if not os.path.exists(in_path): 
+                print(f"Missing input file: {in_path}")
+                return
+            
+            with open(in_path, "r", encoding="utf-8") as f: 
+                raw_lines = f.readlines()
+
+            payload_started = False
+            out_lines = []
+
+            for line in raw_lines:
+                stripped = line.strip()
+                if not stripped: continue
+                # 跳过注释行（除非是 yaml，yaml的注释通常在开头，但为了保险只过滤完全注释行）
+                if stripped.startswith("#") and not is_yaml: continue
+                
+                if is_yaml and not payload_started:
+                    out_lines.append(line.rstrip())
+                    if stripped == "payload:": payload_started = True
+                    continue
+
+                # 智能提取域名核心，用于 noblock 过滤
+                domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27\+\.|\x27|\x22|\+)?", "", stripped).strip("\x27\x22 ")
+                if domain_part in noblock:
+                    continue
+                out_lines.append(line.rstrip())
+
+            # 注入 block
+            if add_blocks:
+                for b in block:
+                    out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_yaml else f"DOMAIN-SUFFIX,{b}")
+            
+            # 注入 process
+            if is_app:
+                for p in process: 
+                    out_lines.append(f"PROCESS-NAME,{p}")
+            
+            # 注入 cn
+            if is_cn and os.path.exists("source/cn.txt"):
+                current_mode = "suffix"
+                with open("source/cn.txt", "r", encoding="utf-8") as f:
+                    for ln in f:
+                        v = ln.strip()
+                        if not v: continue
+                        if v.lower() in ["domain:", "domain："]: 
+                            current_mode = "domain"
+                        elif v.lower() in ["domain_suffix:", "domain_suffix："]: 
+                            current_mode = "suffix"
+                        else: 
+                            out_lines.append(f"DOMAIN,{v}" if current_mode == "domain" else f"DOMAIN-SUFFIX,{v}")
+
+            # 去重和排序
+            if is_yaml:
+                header, body = [], set()
+                for ln in out_lines:
+                    if not ln.lstrip().startswith("-"):
+                        if ln not in header: header.append(ln)
+                    else: 
+                        body.add(ln)
+                out_lines = header + sorted(list(body))
+            else:
+                out_lines = sorted(list(set(out_lines)))
+
+            with open(out_path, "w", encoding="utf-8") as f:
+                for ln in out_lines: f.write(f"{ln}\n")
+            print(f"Successfully processed {out_path}")
+
+        # 开始任务
+        download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
+        process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
+
+        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "adg_in.yaml")
+        process_mihomo_file("adg_in.yaml", "source/adg-dns.yaml", is_yaml=True, add_blocks=True)
+
+        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "adg_lite_in.yaml")
+        process_mihomo_file("adg_lite_in.yaml", "source/adg-dns-lite.yaml", is_yaml=True, add_blocks=True)
+
+        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
+        process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
+
+        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn_in.list")
+        process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
+        '
+
+    - name: 7. 编译 Mihomo 二进制文件 (.mrs)
+      run: |
+        for list_file in source/*.list source/*.yaml; do
+          if [ -f "$list_file" ]; then
+            filename=$(basename -- "$list_file")
+            name="${filename%.*}"
+            ext="${filename##*.}"
+
+            # 判断内容格式：存在 DOMAIN 等前缀为 classic，否则为 domain
+            if grep -qiE "^(\s*-?\s*)(DOMAIN|PROCESS-NAME|IP-CIDR)" "$list_file"; then
+              rule_type="classic"
+            else
+              rule_type="domain"
+            fi
+
+            format_type="yaml"
+            if [ "$ext" = "list" ]; then format_type="text"; fi
+
+            echo "Compiling $list_file to $name.mrs (Type: $rule_type, Format: $format_type)..."
+            mihomo convert-ruleset "$rule_type" "$format_type" "$list_file" "$name.mrs"
+          fi
+        done
+
+    - name: 8. 提交并推送测试结果
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        git add source/*.list source/*.yaml *.mrs
+        
+        git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
+        git push
