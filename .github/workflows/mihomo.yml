@@ -192,14 +192,15 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            # 【防崩修复】检测到 PROCESS-NAME 规则直接跳过
+            # 【防崩修复1】检测到 PROCESS-NAME 规则直接跳过
             if grep -qi "PROCESS-NAME" "$list_file"; then
               echo "⚠️ Skip compiling $list_file to .mrs (Contains PROCESS-NAME which is not supported in binary format)"
               continue
             fi
 
-            # 判断内容格式：存在 DOMAIN 等前缀为 classical，否则为 domain
-            if grep -qiE "^(\s*-?\s*)(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD)" "$list_file"; then
+            # 【防崩修复2】严格判定 classical 格式：关键字后必须紧跟逗号 (,) 
+            # 兼容带有单双引号的写法，完美避开纯域名 (如 domain.cn) 造成的误判
+            if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD)," "$list_file"; then
               rule_type="classical"
             else
               rule_type="domain"
