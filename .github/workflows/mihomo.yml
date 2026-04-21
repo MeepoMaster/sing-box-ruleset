@@ -102,7 +102,7 @@ jobs:
             for line in raw_lines:
                 stripped = line.strip()
                 if not stripped: continue
-                # 跳过注释行（除非是 yaml，yaml的注释通常在开头，但为了保险只过滤完全注释行）
+                # 跳过注释行
                 if stripped.startswith("#") and not is_yaml: continue
                 
                 if is_yaml and not payload_started:
@@ -181,8 +181,14 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
+            # 【防崩修复】检测到 PROCESS-NAME 规则直接跳过
+            if grep -qi "PROCESS-NAME" "$list_file"; then
+              echo "⚠️ Skip compiling $list_file to .mrs (Contains PROCESS-NAME which is not supported in binary format)"
+              continue
+            fi
+
             # 判断内容格式：存在 DOMAIN 等前缀为 classical，否则为 domain
-            if grep -qiE "^(\s*-?\s*)(DOMAIN|PROCESS-NAME|IP-CIDR)" "$list_file"; then
+            if grep -qiE "^(\s*-?\s*)(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD)" "$list_file"; then
               rule_type="classical"
             else
               rule_type="domain"
