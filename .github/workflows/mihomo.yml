@@ -281,12 +281,15 @@ jobs:
           fi
         done
 
-    - name: 8. 提交并推送测试结果
+    - name: 8. 清理临时文件并提交推送
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 【修复点】：将 *.list 替换为精准的 app.list，防止把临时文件提交上去
+        # 【彻底修复点 1：物理销毁】无情删掉所有带有 _in 的临时文件和残留的压缩包，斩草除根
+        rm -f *_in.yaml *_in.list mihomo.gz
+        
+        # 【彻底修复点 2：精准添加】只添加我们需要的成果文件
         git add source/*.list source/*.yaml *.mrs app.list
         
         git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
