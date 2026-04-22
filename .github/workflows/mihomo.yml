@@ -1,4 +1,4 @@
-name: Update Mihomo Rules
+name: Update Mihomo Remote Rules
 
 on:
   # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
