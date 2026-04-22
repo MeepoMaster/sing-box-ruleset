@@ -1,4 +1,4 @@
-name: Update All Routing Rules
+name: Update Singbox Remote Rules
 
 on:
   # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
