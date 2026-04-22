@@ -85,14 +85,13 @@ jobs:
         block = load_lines("source/block.txt")
         process = load_lines("source/process.txt")
 
-        # 【核心改进】：按照你的思路，把 emby.json 也直接变成纯域名格式！
+        # 将 emby.json 直接变成纯域名格式
         if os.path.exists("source/emby.json"):
             try:
                 with open("source/emby.json", "r") as f:
                     emby_data = json.load(f)
                 emby_lines = set()
                 
-                # 检查是否含有不支持纯域名的规则 (如 keyword)
                 has_keyword = any(r.get("domain_keyword") for r in emby_data.get("rules", []))
                 
                 for r in emby_data.get("rules", []):
@@ -101,7 +100,6 @@ jobs:
                         for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
                         for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
                     else:
-                        # 全面采用最简的纯域名格式，完美适配 Mihomo 编译
                         for d in r.get("domain", []): emby_lines.add(d)
                         for d in r.get("domain_suffix", []): emby_lines.add(f"+.{d}")
                 
@@ -119,75 +117,125 @@ jobs:
                 raw_lines = f.readlines()
 
             payload_started = False
-            out_lines = []
+            
+            # 1. 探测是否为 Classical 格式
+            def check_classical(lines):
+                for ln in lines:
+                    clean_ln = ln.strip().lstrip("- \x27\x22").upper()
+                    if clean_ln.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")):
+                        return True
+                return False
+            
+            is_classical = check_classical(raw_lines)
+            
+            # 2. 动态探测上游喜好是否偏向 +.
+            use_suffix = False
+            if not is_classical:
+                for ln in raw_lines:
+                    if "+." in ln:
+                        use_suffix = True
+                        break
 
+            header_lines = []
+            domain_map = {}  # 核心字典：去重、上游优先级
+            other_lines = []
+
+            # 3. 解析上游并提权剔除 noblock 域名
             for line in raw_lines:
                 stripped = line.strip()
                 if not stripped: continue
                 if stripped.startswith("#") and not is_yaml: continue
                 
                 if is_yaml and not payload_started:
-                    out_lines.append(line.rstrip())
+                    header_lines.append(line.rstrip())
                     if stripped == "payload:": payload_started = True
                     continue
 
                 domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
+                
+                # 【优先级1】：命中 noblock，无情剔除
                 if domain_part in noblock:
                     continue
-                out_lines.append(line.rstrip())
 
-            def check_classical(lines):
-                for ln in lines:
-                    clean_ln = ln.lstrip(" -\x27\x22").upper()
-                    if clean_ln.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")):
-                        return True
-                return False
-            
-            is_classical = check_classical(out_lines)
+                is_rule = False
+                if is_classical:
+                    if stripped.lstrip("- \x27\x22").upper().startswith(("DOMAIN", "DOMAIN-SUFFIX", "PROCESS-NAME", "IP-CIDR")):
+                        is_rule = True
+                else:
+                    if is_yaml:
+                        if stripped.startswith("-"): is_rule = True
+                    else:
+                        is_rule = True
 
+                if is_rule:
+                    domain_map[domain_part] = line.rstrip() # 【优先级2】：上游规则占位
+                else:
+                    other_lines.append(line.rstrip())
+
+            # 4. 追加 block.txt
             if add_blocks:
                 for b in block:
-                    if is_yaml:
-                        out_lines.append(f"  - DOMAIN-SUFFIX,{b}" if is_classical else f"  - \x27+.{b}\x27")
-                    else:
-                        out_lines.append(f"DOMAIN-SUFFIX,{b}" if is_classical else f"+.{b}")
+                    if b in noblock: continue
+                    # 【去重】：只有上游没有，才加自定义
+                    if b not in domain_map:
+                        if is_classical:
+                            domain_map[b] = f"  - DOMAIN-SUFFIX,{b}" if is_yaml else f"DOMAIN-SUFFIX,{b}"
+                        else:
+                            prefix = "+." if use_suffix else ""
+                            domain_map[b] = f"  - \x27{prefix}{b}\x27" if is_yaml else f"{prefix}{b}"
             
+            # 5. 追加 process.txt
             if is_app:
                 for p in process: 
-                    out_lines.append(f"PROCESS-NAME,{p}")
+                    other_lines.append(f"PROCESS-NAME,{p}" if not is_yaml else f"  - PROCESS-NAME,{p}")
             
+            # 6. 追加 cn.txt (保留用户分类与空行习惯)
             if is_cn and os.path.exists("source/cn.txt"):
                 current_mode = "suffix"
                 with open("source/cn.txt", "r", encoding="utf-8") as f:
                     for ln in f:
                         v = ln.strip()
-                        if not v: continue
+                        if not v: continue # 允许空行分隔
+                        
                         if v.lower() in ["domain:", "domain："]: 
                             current_mode = "domain"
                         elif v.lower() in ["domain_suffix:", "domain_suffix："]: 
                             current_mode = "suffix"
                         else: 
-                            if is_classical:
-                                out_lines.append(f"DOMAIN,{v}" if current_mode == "domain" else f"DOMAIN-SUFFIX,{v}")
-                            else:
-                                out_lines.append(v if current_mode == "domain" else f"+.{v}")
+                            if v in noblock: continue
+                            # 【去重】：只有上游没有，才加自定义
+                            if v not in domain_map:
+                                if is_classical:
+                                    r_type = "DOMAIN" if current_mode == "domain" else "DOMAIN-SUFFIX"
+                                    domain_map[v] = f"  - {r_type},{v}" if is_yaml else f"{r_type},{v}"
+                                else:
+                                    prefix = "" if current_mode == "domain" else "+."
+                                    domain_map[v] = f"  - \x27{prefix}{v}\x27" if is_yaml else f"{prefix}{v}"
+
+            # 7. 分组排序与合并输出 (纯域名在前，后缀域名在后)
+            exact_rules = []
+            suffix_rules = []
+            
+            for val in domain_map.values():
+                clean_val = val.lstrip(" -\x27\x22").upper()
+                if clean_val.startswith("+.") or clean_val.startswith("DOMAIN-SUFFIX"):
+                    suffix_rules.append(val)
+                else:
+                    exact_rules.append(val)
+
+            sorted_exact = sorted(exact_rules)
+            sorted_suffix = sorted(suffix_rules)
 
             if is_yaml:
-                header, body = [], set()
-                for ln in out_lines:
-                    if not ln.lstrip().startswith("-"):
-                        if ln not in header: header.append(ln)
-                    else: 
-                        body.add(ln)
-                out_lines = header + sorted(list(body))
+                out_lines = header_lines + other_lines + sorted_exact + sorted_suffix
             else:
-                out_lines = sorted(list(set(out_lines)))
+                out_lines = sorted(list(set(other_lines))) + sorted_exact + sorted_suffix
 
             with open(out_path, "w", encoding="utf-8") as f:
                 for ln in out_lines: f.write(f"{ln}\n")
             
             format_name = "Classical" if is_classical else "Domain"
-            print(f"Successfully processed {out_path} (Format: {format_name})")
+            print(f"Successfully processed {out_path} (Format: {format_name}, Upstream suffix preference: {use_suffix})")
 
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
         process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
@@ -213,6 +261,12 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
+            # 【修复点】确保在 continue 跳过之前将 app.list 复制到根目录
+            if [ "$name" = "app" ]; then 
+              cp "$list_file" ./app.list
+              echo "📄 Copied $list_file to root directory as app.list"
+            fi
+
             if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD|PROCESS-NAME)," "$list_file"; then
               echo "⏭️  Skip compiling $list_file to .mrs (Classical format. Use pure text format instead.)"
               continue
@@ -223,9 +277,7 @@ jobs:
             if [ "$ext" = "list" ]; then format_type="text"; fi
 
             echo "🚀 Compiling $list_file to $name.mrs..."
-            mihomo convert-ruleset "domain" "$([ "$ext" = "list" ] && echo "text" || echo "yaml")" "$list_file" "$name.mrs"
-            # 如果是 app.list，就算编译跳过了也要保证根目录下有一份文本版
-            if [ "$name" = "app" ]; then cp "$list_file" ./app.list; fi
+            mihomo convert-ruleset "domain" "$format_type" "$list_file" "$name.mrs"
           fi
         done
 
@@ -234,7 +286,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        git add source/*.list source/*.yaml *.mrs
+        git add source/*.list source/*.yaml *.mrs *.list
         
         git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
         git push
