@@ -286,7 +286,8 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        git add source/*.list source/*.yaml *.mrs *.list
+        # 【修复点】：将 *.list 替换为精准的 app.list，防止把临时文件提交上去
+        git add source/*.list source/*.yaml *.mrs app.list
         
         git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
         git push
