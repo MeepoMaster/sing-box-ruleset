@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、Hblock、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260423003114
-  # Last modified: 2026/04/23 00:31:14
-  # Blocked domains: 5701
+  # Version: 20260423085428
+  # Last modified: 2026/04/23 08:54:28
+  # Blocked domains: 5694
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -2407,7 +2407,6 @@ payload:
   - '+.h-adashx4sg.ut.taobao.com'
   - '+.h.baminw.cn'
   - '+.h1.kukuw.com'
-  - '+.h111g.xyz'
   - '+.h2tcbox.baidu.com'
   - '+.h3-binance.com.cn'
   - '+.h45pmx1.cn'
@@ -2769,11 +2768,7 @@ payload:
   - '+.ixjtpbj.cn'
   - '+.ixkuailian.com.cn'
   - '+.j2c03hoppk-default-cn.rum.aliyuncs.com'
-  - '+.j338o.xyz'
   - '+.j350b.xyz'
-  - '+.j353g.xyz'
-  - '+.j353q.xyz'
-  - '+.j357w.xyz'
   - '+.j3n6x.co'
   - '+.ja.gamersky.com'
   - '+.ja1.gamersky.com'
@@ -3997,7 +3992,6 @@ payload:
   - '+.ptmabek.cn'
   - '+.pub.funshion.com'
   - '+.pub.se.360.cn'
-  - '+.publicishub.com'
   - '+.pubstr.acs.org'
   - '+.puds.ucweb.com'
   - '+.pufhzpt.cn'
@@ -5048,7 +5042,6 @@ payload:
   - '+.u.zhugeapi.net'
   - '+.u1.img.mobile.sina.cn'
   - '+.u1.qyxxpd.com'
-  - '+.u103s.xyz'
   - '+.u7u9.com'
   - '+.u8.hujiang.com'
   - '+.u88.cn'
