@@ -1,7 +1,7 @@
 domain:
+cdnmobile.leyunykt.com
 passport.qianwen.com
 smct.fintechabchina.com
-cdnmobile.leyunykt.com
 zhstxcx.leyunykt.com
 
 domain_suffix:

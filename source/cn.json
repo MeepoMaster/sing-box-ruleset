@@ -3,10 +3,13 @@
   "rules": [
     {
       "domain": [
+        "cdnmobile.leyunykt.com",
         "izattime.qcomgeo2.com",
         "passport.qianwen.com",
+        "smct.fintechabchina.com",
         "time.xtracloud.net",
-        "xtratime.qcomgeo2.com"
+        "xtratime.qcomgeo2.com",
+        "zhstxcx.leyunykt.com"
       ],
       "domain_suffix": [
         "0.zone",
