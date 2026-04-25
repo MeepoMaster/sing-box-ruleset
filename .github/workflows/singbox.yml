@@ -22,6 +22,11 @@ env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 强制使用 Node 24 消除官方插件弃用警告
 
+# 新增：并发控制，防止多个 Action 同时运行导致推送冲突
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   update-all-rules:
     runs-on: ubuntu-latest
@@ -301,5 +306,14 @@ jobs:
         # 自动追踪变动的源文件（包括整理好的 txt）、生成的 json 以及根目录生成的 srs 文件
         git add source/*.txt source/*.json *.srs
         
-        git commit -m "chore: auto-update all routing rules" || echo "No changes to commit"
-        git push
+        # 只有在有文件变动时才执行 commit
+        if ! git diff --cached --quiet; then
+          git commit -m "chore: auto-update all routing rules"
+          
+          # 关键修复：在推送前拉取远程最新提交并变基，避免冲突
+          git pull --rebase origin main
+          
+          git push
+        else
+          echo "No changes to commit"
+        fi
