@@ -2,9 +2,8 @@ name: Split and Update CN IP Rules
 
 on:
   schedule:
-    # UTC 时间 0:50, 8:50, 16:50，对应北京时间 8:50, 16:50, 0:50
     - cron: '50 0,8,16 * * *'
-  workflow_dispatch: # 允许在 Actions 页面手动点击运行，方便测试
+  workflow_dispatch:
 
 jobs:
   update-ips:
@@ -13,31 +12,35 @@ jobs:
       - name: 检出代码仓库
         uses: actions/checkout@v4
 
-      - name: 下载并分离 IP 列表（严格剔除末尾空行）
+      - name: 下载、分离并执行字节级截断
         run: |
+          # 1. 下载原始数据
           curl -sSL https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cnip.list -o cnip_raw.txt
           
-          # 提取 IPv4 和 IPv6
+          # 2. 提取 IPv4 和 IPv6
           grep "\." cnip_raw.txt > cn_ip.txt
           grep ":" cnip_raw.txt > cn_ipv6.txt
           
-          # 核心操作：将文件作为整体读取，并使用正则强制删除最末尾的换行符
-          perl -0777 -pi -e 's/\n\z//' cn_ip.txt
-          perl -0777 -pi -e 's/\n\z//' cn_ipv6.txt
+          # 3. 字节级强制剔除末尾换行符
+          python3 -c "
+          for f in ['cn_ip.txt', 'cn_ipv6.txt']:
+              with open(f, 'rb') as file:
+                  data = file.read()
+              with open(f, 'wb') as file:
+                  # rstrip() 会剥离末尾所有的空白符、\r 和 \n
+                  file.write(data.rstrip())
+          "
           
-          # 清理临时文件
+          # 4. 清理临时文件
           rm cnip_raw.txt
 
       - name: 提交并推送到仓库
         run: |
-          # 配置 GitHub Actions 机器人的 git 信息
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # 添加生成的文件
           git add cn_ip.txt cn_ipv6.txt
           
-          # 检查是否有内容变更，只有发生变化时才提交
           if git diff-index --quiet HEAD --; then
             echo "IP 列表无变化，跳过提交。"
           else
