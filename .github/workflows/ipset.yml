@@ -15,16 +15,15 @@ jobs:
 
       - name: 下载并分离 IP 列表
         run: |
-          # 下载最新的 raw 数据
           curl -sSL https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cnip.list -o cnip_raw.txt
           
-          # 包含点号 "." 的提取为 IPv4
           grep "\." cnip_raw.txt > cn_ip.txt
-          
-          # 包含冒号 ":" 的提取为 IPv6
           grep ":" cnip_raw.txt > cn_ipv6.txt
           
-          # 清理临时文件
+          # 强制移除文件末尾的换行符
+          perl -pi -e 'chomp if eof' cn_ip.txt
+          perl -pi -e 'chomp if eof' cn_ipv6.txt
+          
           rm cnip_raw.txt
 
       - name: 提交并推送到仓库
