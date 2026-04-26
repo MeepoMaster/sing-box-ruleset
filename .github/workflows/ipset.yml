@@ -13,17 +13,19 @@ jobs:
       - name: 检出代码仓库
         uses: actions/checkout@v4
 
-      - name: 下载并分离 IP 列表
+      - name: 下载并分离 IP 列表（严格剔除末尾空行）
         run: |
           curl -sSL https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cnip.list -o cnip_raw.txt
           
+          # 提取 IPv4 和 IPv6
           grep "\." cnip_raw.txt > cn_ip.txt
           grep ":" cnip_raw.txt > cn_ipv6.txt
           
-          # 强制移除文件末尾的换行符
-          perl -pi -e 'chomp if eof' cn_ip.txt
-          perl -pi -e 'chomp if eof' cn_ipv6.txt
+          # 核心操作：将文件作为整体读取，并使用正则强制删除最末尾的换行符
+          perl -0777 -pi -e 's/\n\z//' cn_ip.txt
+          perl -0777 -pi -e 's/\n\z//' cn_ipv6.txt
           
+          # 清理临时文件
           rm cnip_raw.txt
 
       - name: 提交并推送到仓库
