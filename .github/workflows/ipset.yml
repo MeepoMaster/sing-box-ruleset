@@ -1,0 +1,45 @@
+name: Split and Update CN IP Rules
+
+on:
+  schedule:
+    # UTC 时间 0:50, 8:50, 16:50，对应北京时间 8:50, 16:50, 0:50
+    - cron: '50 0,8,16 * * *'
+  workflow_dispatch: # 允许在 Actions 页面手动点击运行，方便测试
+
+jobs:
+  update-ips:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码仓库
+        uses: actions/checkout@v4
+
+      - name: 下载并分离 IP 列表
+        run: |
+          # 下载最新的 raw 数据
+          curl -sSL https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cnip.list -o cnip_raw.txt
+          
+          # 包含点号 "." 的提取为 IPv4
+          grep "\." cnip_raw.txt > cn_ip.txt
+          
+          # 包含冒号 ":" 的提取为 IPv6
+          grep ":" cnip_raw.txt > cn_ipv6.txt
+          
+          # 清理临时文件
+          rm cnip_raw.txt
+
+      - name: 提交并推送到仓库
+        run: |
+          # 配置 GitHub Actions 机器人的 git 信息
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # 添加生成的文件
+          git add cn_ip.txt cn_ipv6.txt
+          
+          # 检查是否有内容变更，只有发生变化时才提交
+          if git diff-index --quiet HEAD --; then
+            echo "IP 列表无变化，跳过提交。"
+          else
+            git commit -m "Auto-update CN IP lists [skip ci]"
+            git push
+          fi
