@@ -1,7 +1,7 @@
 name: Update Mihomo Remote Rules
 
 on:
-  # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
+  # 1. 每天定时运行（北京时间 8:40, 16:40, 0:40）
   schedule:
     - cron: '40 0,8,16 * * *'
   # 2. 支持在 GitHub Actions 页面手动点击触发
@@ -20,6 +20,11 @@ on:
 
 env:
   TZ: Asia/Shanghai
+
+# 新增：并发控制，防止同一个工作流同时运行产生冲突
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-mihomo-build:
@@ -292,5 +297,32 @@ jobs:
         # 【彻底修复点 2：精准添加】只添加我们需要的成果文件
         git add source/*.list source/*.yaml *.mrs app.list
         
-        git commit -m "test: generate Mihomo lists, yamls and mrs files" || echo "No changes to commit"
-        git push
+        # 修复：只有在有文件变动时才执行提交和重试推送逻辑
+        if ! git diff --cached --quiet; then
+          git commit -m "test: generate Mihomo lists, yamls and mrs files"
+          
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          SUCCESS=false
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            # 推送前强制拉取最新变基
+            git pull --rebase origin main
+            
+            if git push; then
+              SUCCESS=true
+              break
+            fi
+            
+            echo "推送遇到并发锁，3秒后进行第 $((RETRY_COUNT+1)) 次重试..."
+            sleep 3
+            RETRY_COUNT=$((RETRY_COUNT+1))
+          done
+          
+          if [ "$SUCCESS" = false ]; then
+            echo "错误: 尝试推送 $MAX_RETRIES 次后仍然失败，请检查仓库状态。"
+            exit 1
+          fi
+        else
+          echo "No changes to commit"
+        fi
