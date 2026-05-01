@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、Hblock、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260501003838
-  # Last modified: 2026/05/01 00:38:38
-  # Blocked domains: 5439
+  # Version: 20260501090328
+  # Last modified: 2026/05/01 09:03:28
+  # Blocked domains: 5434
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -864,7 +864,6 @@ payload:
   - '+.api.newsfeed.intl.miui.com'
   - '+.api.pingstart.com'
   - '+.api.platform.letv.com'
-  - '+.api.qvpublish.com'
   - '+.api.revenuads.com'
   - '+.api.sec.intl.miui.com'
   - '+.api.sec.miui.com'
@@ -873,7 +872,6 @@ payload:
   - '+.api.sms.intl.miui.com'
   - '+.api.sve.cc'
   - '+.api.taboola.sve.cc'
-  - '+.api.touch-moblie.com'
   - '+.api.tusdk.com'
   - '+.api.tv.sohu.com'
   - '+.api.xmpush.global.xiaomi.com'
@@ -1251,7 +1249,6 @@ payload:
   - '+.c-nfa.jd.com'
   - '+.c.autohome.com.cn'
   - '+.c.baidu.com'
-  - '+.c.etoolads.cn'
   - '+.c.gj.qq.com'
   - '+.c.kuaiduizuoye.com'
   - '+.c.nuhcpf.com'
@@ -3329,6 +3326,7 @@ payload:
   - '+.mgs123.com'
   - '+.mgzjin.cn'
   - '+.miam4.cn'
+  - '+.miao.baidu.com'
   - '+.miaowu.baidu.com'
   - '+.miaozhen.com'
   - '+.miav-cse.avlyun.com'
@@ -3763,6 +3761,7 @@ payload:
   - '+.pcfg.wps.cn'
   - '+.pcm-img.zhls.qq.com'
   - '+.pcmactivity.chinacloudsites.cn'
+  - '+.pcmx.autohome.com.cn'
   - '+.pco-sm-log.tantanapp.com'
   - '+.pcookie.aliexpress.com'
   - '+.pcookie.taobao.com'
@@ -3880,7 +3879,6 @@ payload:
   - '+.puds.ucweb.com'
   - '+.puma-api.iqiyi.com'
   - '+.puma-api.ptqy.gitv.tv'
-  - '+.puma.api.iqiyi.com'
   - '+.pups.baidu.com'
   - '+.pups.bdimg.com'
   - '+.puqer.cn'
@@ -4779,7 +4777,6 @@ payload:
   - '+.track.libii.cn'
   - '+.track.msadcenter.rfjq.com'
   - '+.track.oasis.magictavern.com'
-  - '+.track.sgdmobile.com'
   - '+.track.sohu.com'
   - '+.track.tom.com'
   - '+.track.tomwx.net'
@@ -4792,7 +4789,6 @@ payload:
   - '+.tracker.fengkongcloud.com'
   - '+.tracker.gitee.com'
   - '+.tracker.kugou.com'
-  - '+.tracker.tianmu.mobi'
   - '+.trackercdnbj.kugou.com'
   - '+.trackercollect.ddxq.mobi'
   - '+.trackerfeed.ddxq.mobi'
@@ -5017,7 +5013,6 @@ payload:
   - '+.usp1.baidu.com'
   - '+.usrzh.cn'
   - '+.uss-pid.lenovomm.com'
-  - '+.ut2.shuqistat.com'
   - '+.utility.baidu.com'
   - '+.utrack.hexun.com'
   - '+.uu.qq.com'
