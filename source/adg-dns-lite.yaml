@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、Hblock、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260505165447
-  # Last modified: 2026/05/05 16:54:47
-  # Blocked domains: 5262
+  # Version: 20260506004147
+  # Last modified: 2026/05/06 00:41:47
+  # Blocked domains: 5249
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -218,7 +218,6 @@ payload:
   - '+.6v4.work'
   - '+.6v6.work'
   - '+.70cb3d599ddf1f1e.com'
-  - '+.72072.xyz'
   - '+.72c8b923d1594330.com'
   - '+.73336zubo25326.com'
   - '+.782eeb7d9c33b0ef.com'
@@ -1594,7 +1593,6 @@ payload:
   - '+.d0.sina.com.cn'
   - '+.d0.xcar.com.cn'
   - '+.d02ed5ef2eb60bad.com'
-  - '+.d1-binance.com.cn'
   - '+.d1.1ppt.com'
   - '+.d1.3158.cn'
   - '+.d1.sina.com.cn'
@@ -2074,7 +2072,6 @@ payload:
   - '+.fileshider.com'
   - '+.finance.needtoday.com'
   - '+.findapi.micloud.xiaomi.net'
-  - '+.finessa-co.cfd'
   - '+.fingerprint-upload.hellobike.com'
   - '+.first-hufu.oss-cn-shanghai.aliyuncs.com'
   - '+.fiwyjar.cn'
@@ -2497,7 +2494,6 @@ payload:
   - '+.id6.me'
   - '+.idcn-wps.com.cn'
   - '+.iddeea-ba-gov.shop'
-  - '+.iddeea-gov.shop'
   - '+.identify.hotjar.com'
   - '+.idm-su.baidu.com'
   - '+.idm.api.autohome.com.cn'
@@ -2684,7 +2680,6 @@ payload:
   - '+.jzclick.soso.com'
   - '+.jzdwl4.cn'
   - '+.jzt.jd.com'
-  - '+.k1-binance.com.cn'
   - '+.k1.wanwenwan.cn'
   - '+.k2n0f.cn'
   - '+.k69wes8q8.com'
@@ -2828,7 +2823,6 @@ payload:
   - '+.litchiads.com'
   - '+.live-api.immomo.com'
   - '+.live-ifs.tanx.com'
-  - '+.live-jnsports.com.cn'
   - '+.live-www-kaiyun.com.cn'
   - '+.liveats-vod.video.ptqy.gitv.tv'
   - '+.livemonitor.huan.tv'
@@ -3333,7 +3327,6 @@ payload:
   - '+.n-st.vip.com'
   - '+.n.mark.letv.com'
   - '+.n.vs108.com'
-  - '+.n1-binance.com.cn'
   - '+.n69.com'
   - '+.nadvideo.baidu.com'
   - '+.nadvideo2.baidu.com'
@@ -3547,7 +3540,6 @@ payload:
   - '+.p.zol-img.com.cn'
   - '+.p0y.cn'
   - '+.p0yixb3wfv.com'
-  - '+.p1-binance.com.cn'
   - '+.p1-feedback.byteimg.com'
   - '+.p1.360soucha.com'
   - '+.p2cdn.com'
@@ -4581,7 +4573,6 @@ payload:
   - '+.toutiaopage.com'
   - '+.tovbus.cn'
   - '+.tovppl.cn'
-  - '+.toyclaw.com.cn'
   - '+.tp2p.kg.qq.com'
   - '+.tpa-hcdn.iqiyi.com'
   - '+.tpc.googlesyndication-cn.com'
@@ -4689,8 +4680,6 @@ payload:
   - '+.tt-clashc.hl.cn'
   - '+.tt-clashd.hl.cn'
   - '+.tt-quickqy.hl.cn'
-  - '+.tt-shadowsocketa.hl.cn'
-  - '+.tt-shadowsocketw.hl.cn'
   - '+.tt-shanlian.hl.cn'
   - '+.ttdbh.com'
   - '+.tttppp.oss-cn-guangzhou.aliyuncs.com'
@@ -5174,7 +5163,6 @@ payload:
   - '+.xiaoxiuapp.com'
   - '+.xiaoyange.cn'
   - '+.xiaozhen.com'
-  - '+.xiazai-google-chrome.hl.cn'
   - '+.xibao100.com'
   - '+.xibvdjz2x2.com'
   - '+.xiezhuo038.cn'
@@ -5280,7 +5268,6 @@ payload:
   - '+.yodo1.com'
   - '+.yong.chazidian.com'
   - '+.youdao-fyi.hl.cn'
-  - '+.youdao-trans.com.cn'
   - '+.youdaoo-pc.hl.cn'
   - '+.youdaopaipan.com'
   - '+.youku-acs.m.taobao.com'
