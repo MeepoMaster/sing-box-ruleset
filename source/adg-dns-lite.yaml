@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、Hblock、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260508004121
-  # Last modified: 2026/05/08 00:41:21
-  # Blocked domains: 5321
+  # Version: 20260508085846
+  # Last modified: 2026/05/08 08:58:46
+  # Blocked domains: 5334
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -169,6 +169,7 @@ payload:
   - '+.4524229aa8cfd6ec.com'
   - '+.4af0d54f363e9972.com'
   - '+.4nfesm3itf.com'
+  - '+.4zw.cn'
   - '+.5017e4fc7e5818b7.com'
   - '+.50bang.org'
   - '+.50m.gkcyc.com'
@@ -187,6 +188,7 @@ payload:
   - '+.555sq.com.cn'
   - '+.55726zubo56686.com'
   - '+.56fba.cn'
+  - '+.56q8.cn'
   - '+.57573zubo36833.com'
   - '+.595image.com'
   - '+.599671c4b17628b6.com'
@@ -339,6 +341,7 @@ payload:
   - '+.abcd.5lu.com'
   - '+.abcd.zle.com'
   - '+.abdd56f81d36ce86.com'
+  - '+.abiq.cn'
   - '+.ablink.em.redmart.com'
   - '+.abroad-ad.kingsoft-office-service.com'
   - '+.abroad.api.comm.intl.miui.com'
@@ -356,6 +359,7 @@ payload:
   - '+.accoun.qivlexa.cn'
   - '+.accounts.bmwweb.systems'
   - '+.accscdn.m.taobao.com'
+  - '+.acfb.cn'
   - '+.acgshenshicha.cn'
   - '+.acjs.aliyun.com'
   - '+.acookie.alimama.com'
@@ -535,6 +539,7 @@ payload:
   - '+.adping.qq.com'
   - '+.adproxy.autohome.com.cn'
   - '+.adpublish.ydstatic.com'
+  - '+.adqa.cn'
   - '+.adquan.com'
   - '+.adreal.cn'
   - '+.adreq.vivo.com.cn'
@@ -2301,6 +2306,7 @@ payload:
   - '+.gpxxbyf.cn'
   - '+.gqdfgyz.cn'
   - '+.grand.ele.me'
+  - '+.greatliteautobest.cn'
   - '+.gridsum.com'
   - '+.gridsumdissector.com'
   - '+.gromore.pangolin-sdk-toutiao.com.230b2a2545cfa773.queniuck.com'
@@ -2447,6 +2453,7 @@ payload:
   - '+.hs.178yc.com'
   - '+.hseda.com'
   - '+.hsehk.cn'
+  - '+.hsp.cn'
   - '+.hsrgnac.cn'
   - '+.hsych.com'
   - '+.htrace.wetvinfo.com'
@@ -2525,6 +2532,7 @@ payload:
   - '+.hydravizoficial.info'
   - '+.hypers.com'
   - '+.hytzp.cn'
+  - '+.hzy.cn'
   - '+.i-fk.cn'
   - '+.i-sg01a.ocloud.heytapmobi.com'
   - '+.i-zoom.com.cn'
@@ -3177,6 +3185,7 @@ payload:
   - '+.matomo.lb-link.cn'
   - '+.matwbp.iask.sina.com.cn'
   - '+.max-files.oupeng.com'
+  - '+.maxisgt.vip'
   - '+.mazu.3g.qq.com'
   - '+.mazu.m.qq.com'
   - '+.mazu.sec.miui.com'
@@ -3293,6 +3302,7 @@ payload:
   - '+.mlstx.cn'
   - '+.mm.paizi.net'
   - '+.mmgame.qpic.cn'
+  - '+.mmjh.top'
   - '+.mmkkiivv.com'
   - '+.mngjrn.cn'
   - '+.mnqlog.ldmnq.com'
@@ -3861,6 +3871,7 @@ payload:
   - '+.pzyiku.hmctmy.cn'
   - '+.q1yv4669q6.com'
   - '+.q83v5haaz.com'
+  - '+.qafe.cn'
   - '+.qapm.baidu.com'
   - '+.qappcenterv6.3g.qq.com'
   - '+.qc1.cheshipin.com'
@@ -4328,6 +4339,7 @@ payload:
   - '+.splashimgbssdl.yun.kugou.com'
   - '+.splashqqlive.gtimg.com'
   - '+.sq59.cn'
+  - '+.sqij.cn'
   - '+.srbzw.cn'
   - '+.srd.simba.taobao.com'
   - '+.srtb.msn.cn'
@@ -5036,6 +5048,7 @@ payload:
   - '+.vx2tbw9xin.com'
   - '+.vxhsj.cn'
   - '+.vyye.cn'
+  - '+.vzmt.cn'
   - '+.vzvvifw.cn'
   - '+.w.gdown.baidu.com'
   - '+.w.inews.qq.com'
