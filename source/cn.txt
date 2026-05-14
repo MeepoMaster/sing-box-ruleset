@@ -1,5 +1,4 @@
 domain:
-passport.qianwen.com
 
 domain_suffix:
 emos.best
