@@ -3,15 +3,12 @@
   "rules": [
     {
       "domain": [
-        "cdnmobile.leyunykt.com",
         "end-api.shallow.ink",
         "end.shallow.ink",
         "izattime.qcomgeo2.com",
         "passport.qianwen.com",
-        "smct.fintechabchina.com",
         "time.xtracloud.net",
-        "xtratime.qcomgeo2.com",
-        "zhstxcx.leyunykt.com"
+        "xtratime.qcomgeo2.com"
       ],
       "domain_suffix": [
         "0.zone",
@@ -35399,6 +35396,7 @@
         "finogeeks.com",
         "finovo.com",
         "finshell-cib.com",
+        "fintechabchina.com",
         "fintechinchina.com",
         "fintechquan.com",
         "finupgroup.com",
@@ -61549,6 +61547,7 @@
         "leyuncn.com",
         "leyungame.com",
         "leyunge.com",
+        "leyunykt.com",
         "leyuxyz.com",
         "leyuz.com",
         "lezai.com",
