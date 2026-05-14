@@ -1,9 +1,8 @@
 domain:
-cdnmobile.leyunykt.com
 passport.qianwen.com
-smct.fintechabchina.com
-zhstxcx.leyunykt.com
 
 domain_suffix:
 emos.best
 mpyit.com
+fintechabchina.com
+leyunykt.com
