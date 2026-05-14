@@ -1,5 +1,3 @@
-domain:
-
 domain_suffix:
 emos.best
 fintechabchina.com
