@@ -3,6 +3,7 @@
   "rules": [
     {
       "domain": [
+        "cn.download.nvidia.com",
         "end-api.shallow.ink",
         "end.shallow.ink",
         "izattime.qcomgeo2.com",

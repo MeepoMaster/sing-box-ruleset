@@ -1,8 +1,8 @@
+domain:
+cn.download.nvidia.com
+
 domain_suffix:
 emos.best
 fintechabchina.com
 leyunykt.com
 mpyit.com
-
-domain:
-cn.download.nvidia.com
