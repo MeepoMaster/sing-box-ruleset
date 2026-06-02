@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260602020851
-  # Last modified: 2026/06/02 02:08:51
-  # Blocked domains: 4610
+  # Version: 20260602091313
+  # Last modified: 2026/06/02 09:13:13
+  # Blocked domains: 4612
   #
   - '+.027dir.com'
   - '+.0471fcw.com'
@@ -758,6 +758,7 @@ payload:
   - '+.api.newsfeed.intl.miui.com'
   - '+.api.pingstart.com'
   - '+.api.platform.letv.com'
+  - '+.api.qvpublish.com'
   - '+.api.revenuads.com'
   - '+.api.sec.intl.miui.com'
   - '+.api.sec.miui.com'
@@ -766,6 +767,7 @@ payload:
   - '+.api.sms.intl.miui.com'
   - '+.api.sve.cc'
   - '+.api.taboola.sve.cc'
+  - '+.api.touch-moblie.com'
   - '+.api.transfer.sec.miui.com'
   - '+.api.tusdk.com'
   - '+.api.tv.sohu.com'
@@ -1086,6 +1088,7 @@ payload:
   - '+.c-nfa.jd.com'
   - '+.c.autohome.com.cn'
   - '+.c.baidu.com'
+  - '+.c.etoolads.cn'
   - '+.c.gj.qq.com'
   - '+.c.kuaiduizuoye.com'
   - '+.c.nuhcpf.com'
@@ -1478,7 +1481,6 @@ payload:
   - '+.dlog.wanmei.com'
   - '+.dlogs.bwton.com'
   - '+.dlswbr.baidu.com'
-  - '+.dlt-sogou.com.cn'
   - '+.dlt-wps.com.cn'
   - '+.dluat.pokerbros.net'
   - '+.dm-hl.toutiao.com'
@@ -2051,8 +2053,6 @@ payload:
   - '+.heima8.com'
   - '+.hellogpt-bn.com.cn'
   - '+.hellogpt-gx.com.cn'
-  - '+.hellogpt-kt.com.cn'
-  - '+.hellogpt-qp.com.cn'
   - '+.hellogpt-vj.com.cn'
   - '+.hermes.hypers.com.cn'
   - '+.hffxc.com'
@@ -2868,7 +2868,6 @@ payload:
   - '+.mgzjin.cn'
   - '+.mh-clash.com.cn'
   - '+.miam4.cn'
-  - '+.miao.baidu.com'
   - '+.miaowu.baidu.com'
   - '+.miaozhen.com'
   - '+.miav-cse.avlyun.com'
@@ -3246,7 +3245,6 @@ payload:
   - '+.pcdn.xmcdn.com'
   - '+.pcfg.wps.cn'
   - '+.pcm-img.zhls.qq.com'
-  - '+.pcmx.autohome.com.cn'
   - '+.pco-sm-log.tantanapp.com'
   - '+.pcookie.aliexpress.com'
   - '+.pcookie.taobao.com'
@@ -3357,6 +3355,7 @@ payload:
   - '+.pubstr.acs.org'
   - '+.puds.ucweb.com'
   - '+.puma-api.iqiyi.com'
+  - '+.puma.api.iqiyi.com'
   - '+.pups.baidu.com'
   - '+.pups.bdimg.com'
   - '+.puqer.cn'
@@ -4197,6 +4196,7 @@ payload:
   - '+.track.libii.cn'
   - '+.track.msadcenter.rfjq.com'
   - '+.track.oasis.magictavern.com'
+  - '+.track.sgdmobile.com'
   - '+.track.sohu.com'
   - '+.track.tom.com'
   - '+.track.tomwx.net'
@@ -4209,6 +4209,7 @@ payload:
   - '+.tracker.fengkongcloud.com'
   - '+.tracker.gitee.com'
   - '+.tracker.kugou.com'
+  - '+.tracker.tianmu.mobi'
   - '+.tracker.zmaticoo.com'
   - '+.trackercdnbj.kugou.com'
   - '+.tracking-data-drru.platform.hihonorcloud.com'
@@ -4405,6 +4406,7 @@ payload:
   - '+.usp1.baidu.com'
   - '+.usrzh.cn'
   - '+.uss-pid.lenovomm.com'
+  - '+.ut2.shuqistat.com'
   - '+.utility.baidu.com'
   - '+.utrack.hexun.com'
   - '+.uu.qq.com'
