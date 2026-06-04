@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260604172907
-  # Last modified: 2026/06/04 17:29:07
-  # Blocked domains: 5127
+  # Version: 20260605011110
+  # Last modified: 2026/06/05 01:11:10
+  # Blocked domains: 5116
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -175,7 +175,6 @@ payload:
   - '+.55726zubo56686.com'
   - '+.56fba.cn'
   - '+.57573zubo36833.com'
-  - '+.58tg.com'
   - '+.595image.com'
   - '+.5azc.xyz'
   - '+.5b0a1c63v9.com'
@@ -211,7 +210,6 @@ payload:
   - '+.7moor.com'
   - '+.7s7bvoungt.com'
   - '+.7s8z7w24u.com'
-  - '+.7xi9g1.com1.z0.glb.clouddn.com'
   - '+.8181zx.com'
   - '+.81bkkx81zd.com'
   - '+.88362zubo95838.com'
@@ -766,7 +764,6 @@ payload:
   - '+.analytics.dsyqt.com'
   - '+.analytics.emqx.com'
   - '+.analytics.emqx.com.w.cdngslb.com'
-  - '+.analytics.escience.org.cn'
   - '+.analytics.facebook.com'
   - '+.analytics.fontke.com'
   - '+.analytics.ganji.com'
@@ -1069,7 +1066,6 @@ payload:
   - '+.audid-api.taobao.com'
   - '+.auth-em.hismarttv.com'
   - '+.auth-eu.hismarttv.com'
-  - '+.auth-jp.hismarttv.com'
   - '+.auth-launcher-em.hismarttv.com'
   - '+.auth-launcher-eu.hismarttv.com'
   - '+.auth-launcher-jp.hismarttv.com'
@@ -1086,7 +1082,6 @@ payload:
   - '+.awssgp0-files.fds.api.xiaomi.com'
   - '+.ax.ifeng.com'
   - '+.axbdlox.cn'
-  - '+.axyleu11gz-default-cn.rum.aliyuncs.com'
   - '+.ay.eastmoney.com'
   - '+.az.appstore.vivo.com.cn'
   - '+.azdxypf.cn'
@@ -1376,7 +1371,6 @@ payload:
   - '+.classic.39health.com'
   - '+.click.ali213.net'
   - '+.click.aliexpress.com'
-  - '+.click.aliyun.com'
   - '+.click.bes.baidu.com'
   - '+.click.bokecc.com'
   - '+.click.cheshi.com'
@@ -1488,7 +1482,6 @@ payload:
   - '+.countly.growatt.com'
   - '+.countly.haimawan.com'
   - '+.countly.mail.163.com'
-  - '+.countly.ulanzistudio.com'
   - '+.countpage.sznews.com'
   - '+.countpvn.light.fang.com'
   - '+.countubn.light.soufun.com'
@@ -2182,7 +2175,6 @@ payload:
   - '+.gromadzinwestin.com'
   - '+.gromore.pangolin-sdk-toutiao.com.230b2a2545cfa773.queniuck.com'
   - '+.gromore.pangolin-sdk-toutiao.com.bytedns1.com'
-  - '+.grow.nowcoder.com'
   - '+.growingio.com'
   - '+.grs.dbankcloud.com'
   - '+.grs.hicloud.com'
@@ -2600,7 +2592,6 @@ payload:
   - '+.ixjtpbj.cn'
   - '+.j.baminw.cn'
   - '+.j2c03hoppk-default-cn.rum.aliyuncs.com'
-  - '+.j65s.vip'
   - '+.j67c.vip'
   - '+.j67z.vip'
   - '+.j69t.vip'
@@ -3103,7 +3094,6 @@ payload:
   - '+.metok.sys.miui.com'
   - '+.metric.huya.com'
   - '+.metric.leigod.com'
-  - '+.metric.nuonuo.com'
   - '+.metrics-collector.xaidc.com'
   - '+.metrics-dra.dt.dbankcloud.cn'
   - '+.metrics-dra.dt.dbankcloud.com'
@@ -3159,7 +3149,6 @@ payload:
   - '+.mimg.126.net'
   - '+.minfo.wps.cn'
   - '+.mini-prog-drm.vodplayvideo.net'
-  - '+.mini.eastday.com'
   - '+.mini.hao123.com'
   - '+.miniapp.bilibili.com'
   - '+.minigame5-normal-hl.zijieapi.com'
@@ -3559,6 +3548,7 @@ payload:
   - '+.perfsight.wetest.net'
   - '+.pexnjio.cn'
   - '+.pfdth.cn'
+  - '+.pfp.sina.com.cn'
   - '+.pfqwbqs.cn'
   - '+.pg-ad-b1.nosdn.127.net'
   - '+.pg-ad-b1.ws.126.net'
@@ -3932,7 +3922,6 @@ payload:
   - '+.safew-appn-cn.com.cn'
   - '+.safew-appu-cn.com.cn'
   - '+.safew-appx-cn.com.cn'
-  - '+.safew-ca.org.cn'
   - '+.safew-pc.org.cn'
   - '+.safeweiji.com.cn'
   - '+.safewgo.org.cn'
@@ -4635,6 +4624,7 @@ payload:
   - '+.tsearch.snssdk.com'
   - '+.tttppp.oss-cn-guangzhou.aliyuncs.com'
   - '+.tuhzjrr.cn'
+  - '+.tui.gtimg.com'
   - '+.tui.weibo.com'
   - '+.tuia.cn'
   - '+.tuiguang.meitu.com'
@@ -4700,7 +4690,6 @@ payload:
   - '+.uimr.cn'
   - '+.ujian.cc'
   - '+.uk-timesync.vivoglobal.com'
-  - '+.ukfhqu.shop'
   - '+.ulog-sdk.gifshow.com'
   - '+.ulog-sdk.ksapisrv.com'
   - '+.ulog.gifshow.com'
