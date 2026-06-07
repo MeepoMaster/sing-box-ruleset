@@ -1,5 +1,6 @@
 domain:
 cn.download.nvidia.com
+fd.naruto.de5.net
 
 domain_suffix:
 emos.best
