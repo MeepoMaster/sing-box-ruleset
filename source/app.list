@@ -4,6 +4,9 @@ PROCESS-NAME,cs2
 PROCESS-NAME,cs2.exe
 PROCESS-NAME,dota2
 PROCESS-NAME,dota2.exe
+PROCESS-NAME,leigod
+PROCESS-NAME,leigod.exe
+PROCESS-NAME,leishenSdk.exe
 PROCESS-NAME,pure_live
 PROCESS-NAME,pure_live.exe
 PROCESS-NAME,qimiao
