@@ -4,10 +4,10 @@ cs2
 cs2.exe
 dota2
 dota2.exe
+leigod
+leigod.exe
+leishenSdk.exe
 pure_live
 pure_live.exe
 qimiao
 qimiao.exe
-leigod
-leigod.exe
-leishenSdk.exe
