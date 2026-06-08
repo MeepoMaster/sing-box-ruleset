@@ -8,3 +8,6 @@ pure_live
 pure_live.exe
 qimiao
 qimiao.exe
+leigod
+leigod.exe
+leishenSdk.exe
