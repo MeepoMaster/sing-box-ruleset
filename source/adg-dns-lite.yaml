@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260611173950
-  # Last modified: 2026/06/11 17:39:50
-  # Blocked domains: 4889
+  # Version: 20260612012253
+  # Last modified: 2026/06/12 01:22:53
+  # Blocked domains: 4893
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -55,7 +55,6 @@ payload:
   - '+.168.it168.com'
   - '+.16aq.cn'
   - '+.17.huanqiu.com'
-  - '+.1717.1000uc.com'
   - '+.192168.luyouwang.com'
   - '+.1fw35mn5y7h-sdk.rum.aliyuncs.com'
   - '+.1hlahoc4rpc-sdk.rum.aliyuncs.com'
@@ -1557,7 +1556,6 @@ payload:
   - '+.dingbu.bj.bcebos.com'
   - '+.dipan.com'
   - '+.discover.absciex.com.cn'
-  - '+.disk.accord1key.cn'
   - '+.diskclean.cn'
   - '+.disp.titan.mgtv.com'
   - '+.dispatcher.upmc.uc.cn'
@@ -1897,9 +1895,13 @@ payload:
   - '+.fm.duokanbox.com'
   - '+.focus-pl.shop'
   - '+.focusbatz.shop'
+  - '+.focusgardenmeble.shop'
   - '+.focusgardenmoda.shop'
   - '+.focusgardenshop.club'
+  - '+.focusgardm.shop'
+  - '+.focusgardom.shop'
   - '+.focusgpl.shop'
+  - '+.focussklep.shop'
   - '+.focustaze.shop'
   - '+.fodder.qq.com'
   - '+.fodder.tc.qq.com'
@@ -2108,6 +2110,7 @@ payload:
   - '+.gym-sport.club'
   - '+.gym-sports.club'
   - '+.gym-sportsl.club'
+  - '+.gymyoga.club'
   - '+.gyqpyr.utsource.net'
   - '+.gz-data.com'
   - '+.gz.apigw.tencentcs.com'
@@ -3403,6 +3406,7 @@ payload:
   - '+.perf.bblmw.com'
   - '+.perfsight.wetest.net'
   - '+.pexnjio.cn'
+  - '+.pf-focusgd.cyou'
   - '+.pfdth.cn'
   - '+.pfp.sina.com.cn'
   - '+.pfpip.sina.com'
@@ -3419,7 +3423,6 @@ payload:
   - '+.piccdn.igetget.com'
   - '+.pics.xgo-img.com.cn'
   - '+.picture.duokan.com'
-  - '+.pid.fly160.com'
   - '+.pig.pupuapi.com'
   - '+.pimlog.baidu.com'
   - '+.pimormebwf.com'
@@ -3430,6 +3433,7 @@ payload:
   - '+.pingtas.qq.com'
   - '+.pis-tel-pcdn.youku.com'
   - '+.pixel.facebook.com'
+  - '+.pl-focus.cfd'
   - '+.pl.cp31.ott.cibntv.net'
   - '+.pl.pvbhrq.top'
   - '+.pl.taniej-pl.shop'
@@ -3757,7 +3761,6 @@ payload:
   - '+.sandbox-elq.keysight.com.cn'
   - '+.sanghuangvip.com'
   - '+.sanya1.com'
-  - '+.save.jnrsmcu.com'
   - '+.saveu5-normal-lq.zijieapi.com'
   - '+.sax.sina.cn'
   - '+.sax.sina.com.cn'
@@ -3986,6 +3989,7 @@ payload:
   - '+.splashimgbssdl.yun.kugou.com'
   - '+.splashqqlive.gtimg.com'
   - '+.sportmora.shop'
+  - '+.sportzz.shop'
   - '+.srbzw.cn'
   - '+.srd.simba.taobao.com'
   - '+.srqxnvjdd.com'
