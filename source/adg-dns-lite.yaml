@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260612012253
-  # Last modified: 2026/06/12 01:22:53
-  # Blocked domains: 4893
+  # Version: 20260612091523
+  # Last modified: 2026/06/12 09:15:23
+  # Blocked domains: 4876
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -56,8 +56,6 @@ payload:
   - '+.16aq.cn'
   - '+.17.huanqiu.com'
   - '+.192168.luyouwang.com'
-  - '+.1fw35mn5y7h-sdk.rum.aliyuncs.com'
-  - '+.1hlahoc4rpc-sdk.rum.aliyuncs.com'
   - '+.1l1.cc'
   - '+.1mpi.com'
   - '+.1nevsf92q.com'
@@ -1253,7 +1251,6 @@ payload:
   - '+.centralstylemarket.shop'
   - '+.ceshi127722.obs.cn-north-4.myhuaweicloud.com'
   - '+.cfg.imtt.qq.com'
-  - '+.cg.play-analytics.com'
   - '+.cgicol.amap.com'
   - '+.cgigc.com.cn'
   - '+.chance-ad.com'
@@ -1590,7 +1587,6 @@ payload:
   - '+.dnconfig.cmpassport.com'
   - '+.dncvj.cn'
   - '+.dnet.mb.qq.com'
-  - '+.dnha.play-analytics.com'
   - '+.dnlog.cmpassport.com'
   - '+.dns.jd.com'
   - '+.dns.weibo.cn'
@@ -1731,9 +1727,6 @@ payload:
   - '+.ekpsn3kja.com'
   - '+.electronics.edm.globalsources.com'
   - '+.electronics.tradeshow.globalsources.com'
-  - '+.elite-ayx.com.cn'
-  - '+.elite-jinshayule.com.cn'
-  - '+.elite-xcsports.com.cn'
   - '+.eloqua.pearsonvue.com.cn'
   - '+.elq.keysight.com.cn'
   - '+.elq.mouser.cn'
@@ -1910,7 +1903,6 @@ payload:
   - '+.form-submission-workspace.ajo-stage.srv.smart.com'
   - '+.forms-emea.lenovo.com'
   - '+.forms.lenovo.com'
-  - '+.fortrans.com.cn'
   - '+.fotao9.com'
   - '+.fourier.alibaba.com'
   - '+.fourier.aliexpress.com'
@@ -2272,7 +2264,6 @@ payload:
   - '+.hw-p2p-pull.video-voip.com'
   - '+.hw-p2p-v2.pull.yximgs.com'
   - '+.hw-p2p.pull.yximgs.com'
-  - '+.hw-t.hypers.com.cn'
   - '+.hw-v2-web-player-tracker.biliapi.net'
   - '+.hwa.his.huawei.com'
   - '+.hwpub-s01-drcn.cloud.dbankcloud.cn'
@@ -3584,7 +3575,6 @@ payload:
   - '+.qujishu.com'
   - '+.qw2v.taoxiehui.cn'
   - '+.qwe0231141.bj.bcebos.com'
-  - '+.qzy2007.com'
   - '+.r-golsport.club'
   - '+.r-golsports.club'
   - '+.r.51wnl-cq.com'
@@ -3677,11 +3667,6 @@ payload:
   - '+.rodeoconfig.yodo1api.com'
   - '+.roi.soulapp.cn'
   - '+.roibest-report-sdk.qiliangjia.com'
-  - '+.rosy-feifansports.com.cn'
-  - '+.rosy-gysports.com.cn'
-  - '+.rosy-kaiyuan.com.cn'
-  - '+.rosy-yibeisports.com.cn'
-  - '+.rosy-yibosports.com.cn'
   - '+.rovz7ekw3r.com'
   - '+.rpahyhn.cn'
   - '+.rs.sinajs.cn'
@@ -4180,7 +4165,6 @@ payload:
   - '+.t.atpanel.com'
   - '+.t.dangdang.com'
   - '+.t.home.news.cn'
-  - '+.t.hypers.com.cn'
   - '+.t.uc.cn'
   - '+.t.zhipin.com'
   - '+.t1.a.market.xiaomi.com'
@@ -4534,7 +4518,6 @@ payload:
   - '+.untitled.dwstatic.com'
   - '+.unypud.cn'
   - '+.up-hl.3g.qq.com'
-  - '+.up.play-analytics.com'
   - '+.up.qingdaonews.com'
   - '+.up.wps.kingsoft.com'
   - '+.up4.ucweb.com'
