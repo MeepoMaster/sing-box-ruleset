@@ -4,9 +4,9 @@ payload:
   # Description: 适用于 Clash Meta(Mihomo) 的去广告合并规则，每 8 个小时更新一次。规则源：AdGuard Base filter、AdGuard Chinese filter、AdGuard Mobile Ads filter、AdGuard DNS filter、AdRules DNS List、CJX's Annoyance List、EasyList、EasyList China、EasyPrivacy、xinggsf mv、jiekouAD、AWAvenue Ads Rule、DNS-Blocklists Light、OISD Basic、StevenBlack hosts、Pollock hosts。Lite 版仅针对国内域名拦截。
   # Homepage: https://github.com/217heidai/adblockfilters
   # Source: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml
-  # Version: 20260622132823
-  # Last modified: 2026/06/22 13:28:23
-  # Blocked domains: 4843
+  # Version: 20260622180951
+  # Last modified: 2026/06/22 18:09:51
+  # Blocked domains: 4841
   #
   - '+.0001-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
   - '+.0002-metrics1-drcn-dt-dbankcloud-cn.geac.dbankedge.cn'
@@ -169,6 +169,7 @@ payload:
   - '+.7moor.com'
   - '+.7s7bvoungt.com'
   - '+.7s8z7w24u.com'
+  - '+.7xi9g1.com1.z0.glb.clouddn.com'
   - '+.8181zx.com'
   - '+.81bkkx81zd.com'
   - '+.88362zubo95838.com'
@@ -326,7 +327,6 @@ payload:
   - '+.ad.mh.163.com'
   - '+.ad.mi.com'
   - '+.ad.mobile.youku.com'
-  - '+.ad.moonton.cn'
   - '+.ad.nvdvr.cn'
   - '+.ad.open.api.jihuoniao.com'
   - '+.ad.ourgame.com'
@@ -436,7 +436,6 @@ payload:
   - '+.admob-cn.com'
   - '+.admobile.top'
   - '+.admon.cn'
-  - '+.admusicpic.music.126.net'
   - '+.adn-plus.com.cn'
   - '+.adp.cnool.net'
   - '+.adpai.thepaper.cn'
@@ -775,7 +774,6 @@ payload:
   - '+.api-access.pangolin-sdk-toutiao2.com'
   - '+.api-access.pangolin-sdk-toutiao3.com'
   - '+.api-access.pangolin-sdk-toutiao4.com'
-  - '+.api-ad-adapter-mb.wps.com'
   - '+.api-ad-adapter.wps.com'
   - '+.api-ad-callback.falconnet.app'
   - '+.api-ad-product.huxiu.com'
@@ -3704,7 +3702,6 @@ payload:
   - '+.s.bdstatic.com'
   - '+.s.btime.com'
   - '+.s.c-ctrip.com'
-  - '+.s.img.mix.sina.com.cn'
   - '+.s.lenovo.com'
   - '+.s.p.youku.com'
   - '+.s.zixuntop.com'
@@ -4958,6 +4955,7 @@ payload:
   - '+.zhihu.xmcimg.com'
   - '+.zhiziyun.com'
   - '+.zhongchouyan.com'
+  - '+.zhongkaowu.com'
   - '+.zhongsijiacheng.com'
   - '+.zio.xcar.com.cn'
   - '+.zlgymsport.shop'
