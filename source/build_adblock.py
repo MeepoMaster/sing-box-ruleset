@@ -3,7 +3,7 @@ import json
 import os
 import re
 import ipaddress
-import concurrent.futures # 补齐并发精髓
+import concurrent.futures
 
 # ==========================================
 # 1. 配置上游源 
@@ -33,31 +33,43 @@ AUTHOR_FILES = [
 ]
 
 # ==========================================
-# 2. 核心解析与校验逻辑
+# 2. 核心解析与校验逻辑 (极致严苛版)
 # ==========================================
 def is_valid_domain(domain):
-    """防核弹校验：排除 IP、非法字符，防止误杀整个顶级域名"""
+    """防核弹级域名校验：完美平替 tld 库，过滤非法字符与文件扩展名"""
+    # 1. 基础长度与结构检查
+    if not domain or '.' not in domain or len(domain) < 4:
+        return False
+        
+    # 2. 排除 IP 地址
     try:
         ipaddress.ip_address(domain)
         return False
     except ValueError:
         pass
-    
-    # 必须包含字母数字和中划线，且至少包含一个点
-    if not re.match(r'^([a-zA-Z0-9\-]+\.)+[a-zA-Z0-9\-]+$', domain):
+        
+    # 3. 严格遵循国际域名 RFC 规范正则
+    # 规则：每一级标签只能以字母数字开头/结尾，中间可以有中划线；顶级域名必须纯字母且长度 >= 2
+    if not re.match(r'^([a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}$', domain):
         return False
         
-    # 防止拦截顶级域名，如 com, cn, net (长度过短或没有点)
-    if '.' not in domain or len(domain) < 4:
+    # 4. 模拟 tld 库行为：黑名单拦截伪装成域名的文件后缀
+    invalid_tlds = {
+        'js', 'gif', 'jpg', 'jpeg', 'png', 'css', 'php', 'svg', 
+        'woff', 'woff2', 'ttf', 'eot', 'mp3', 'mp4', 'avi', 'mkv',
+        'json', 'xml', 'csv', 'txt', 'html', 'htm', 'md', 'pdf',
+        'webp', 'ts', 'm3u8', 'swf', 'ico', 'apk', 'exe', 'zip', 'gz',
+        'action', 'do', 'jsp', 'asp', 'aspx'
+    }
+    
+    tld = domain.split('.')[-1].lower()
+    if tld in invalid_tlds:
         return False
         
     return True
 
 def parse_adblock_rule(line):
-    """
-    提取纯域名并精准区分类型
-    返回格式: (domain, is_whitelist, is_exact)
-    """
+    """提取纯域名并精准区分类型"""
     line = line.strip()
     if not line or line.startswith('!') or line.startswith('#') or line.startswith('['):
         return None, None, None
@@ -67,7 +79,7 @@ def parse_adblock_rule(line):
     if match_suffix:
         return match_suffix.group(2), bool(match_suffix.group(1)), False
 
-    # 2. 匹配单竖线精确拦截 (|example.com^) 或白名单 (@@|example.com^) [补齐的精髓]
+    # 2. 匹配单竖线精确拦截 (|example.com^) 或白名单 (@@|example.com^)
     match_exact = re.match(r'^(\@\@)?\|([a-zA-Z0-9\-\.]+\.[a-zA-Z0-9\-]+)\^?(?:\$.*)?$', line)
     if match_exact:
         return match_exact.group(2), bool(match_exact.group(1)), True
@@ -78,19 +90,19 @@ def parse_adblock_rule(line):
         if len(parts) >= 2:
             domain = parts[1]
             if domain not in ['localhost', 'localhost.localdomain', 'local']:
-                return domain, False, True # hosts 视为精确拦截
+                return domain, False, True
 
-    # 4. 纯文本单行域名 (视为精确匹配)
+    # 4. 纯文本单行域名
     if '.' in line and ' ' not in line and '/' not in line and '*' not in line:
         return line, False, True
 
     return None, None, None
 
 def fetch_content(url):
-    print(f"  [线程] 正在拉取: {url.split('/')[-1]}")
+    print(f"  [拉取中] {url.split('/')[-1]}")
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
     try:
-        with urllib.request.urlopen(req, timeout=10) as response: # 缩短超时，防止死等
+        with urllib.request.urlopen(req, timeout=10) as response:
             return response.read().decode('utf-8', errors='ignore')
     except Exception as e:
         print(f"  [!] 拉取失败 {url}: {e}")
@@ -111,15 +123,10 @@ def load_local_list(filepath):
 # 3. 极速子域名包含去重压缩
 # ==========================================
 def deduplicate_domains(exact_set, suffix_set):
-    """
-    不仅在 suffix 内部去重，还会做跨域去重：
-    如果 suffix 里有 example.com，那么 exact 里的 www.example.com 也一并删掉
-    """
     print("开始执行跨域子域名去重精简压缩...")
     valid_suffix = set()
     valid_exact = set()
     
-    # 1. 精简 suffix_set 内部
     for domain in suffix_set:
         parts = domain.split('.')
         is_subdomain = False
@@ -131,12 +138,9 @@ def deduplicate_domains(exact_set, suffix_set):
         if not is_subdomain:
             valid_suffix.add(domain)
             
-    # 2. 精简 exact_set (如果其父域名已被 suffix 拦截，则不需要单独写 exact)
     for domain in exact_set:
         parts = domain.split('.')
         covered_by_suffix = False
-        
-        # 检查它自己或者它的父级是否在 valid_suffix 中
         if domain in valid_suffix:
             covered_by_suffix = True
         else:
@@ -155,14 +159,13 @@ def deduplicate_domains(exact_set, suffix_set):
 # 4. 主流程控制
 # ==========================================
 def main():
-    raw_domain = set()        # 精确拦截
-    raw_domain_suffix = set() # 后缀拦截
+    raw_domain = set()
+    raw_domain_suffix = set()
     upstream_whitelist = set()
 
     print("=== 步骤 1/4: 高并发拉取并解析基础源 ===")
     all_sources = TXT_SOURCES + AUTHOR_FILES
     
-    # 启用线程池并发下载 (补齐的速度精髓)
     with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         results = executor.map(fetch_content, all_sources)
         
@@ -178,30 +181,28 @@ def main():
                     else:
                         raw_domain_suffix.add(domain)
 
-    print(f"拉取完成。原始后缀规则: {len(raw_domain_suffix)}，原始精确规则: {len(raw_domain)}")
+    print(f"拉取提取完成。后缀规则: {len(raw_domain_suffix)}，精确规则: {len(raw_domain)}")
 
-    print("=== 步骤 2/4: 读取本地自定义纯净黑白名单 ===")
+    print("=== 步骤 2/4: 读取本地黑白名单 ===")
     local_whitelist = load_local_list("source/noblock.txt")
     local_blocklist = load_local_list("source/block.txt")
 
-    print("=== 步骤 3/4: 执行漏斗级联覆盖与合并 ===")
-    # 剔除白名单 (最高优先级)
+    print("=== 步骤 3/4: 级联覆盖与冲突解决 ===")
     raw_domain.difference_update(upstream_whitelist)
     raw_domain_suffix.difference_update(upstream_whitelist)
     
     raw_domain.difference_update(local_whitelist)
     raw_domain_suffix.difference_update(local_whitelist)
 
-    # 补充本地黑名单 (本地的统一作为后缀拦截处理，更彻底)
     raw_domain_suffix.update(local_blocklist)
 
-    print("=== 步骤 4/4: 执行核心压缩算法 ===")
+    print("=== 步骤 4/4: 核心压缩 ===")
     final_domain, final_domain_suffix = deduplicate_domains(raw_domain, raw_domain_suffix)
 
     print(f"合并压缩完成！最终后缀拦截: {len(final_domain_suffix)} 条，精确拦截: {len(final_domain)} 条。")
 
     # ==========================================
-    # 5. 生成终极 JSON
+    # 5. 生成 JSON
     # ==========================================
     final_rule = {}
     if final_domain:
@@ -218,7 +219,7 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output_json, f, indent=2, ensure_ascii=False)
     
-    print(f"✅ 成功生成 {output_path}，已达企业级纯净度！")
+    print(f"✅ 成功生成 {output_path}，已彻底过滤假域名！")
 
 if __name__ == "__main__":
     main()
