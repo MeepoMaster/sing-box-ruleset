@@ -11,7 +11,7 @@ on:
     branches:
       - main  # 如果你的默认分支叫 master，请修改为 master
     paths:
-      # 只监听纯手工维护的源文件，完美避开 Action 自身生成的 json 导致的死循环
+      # 只监听纯手工维护的源文件
       - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
@@ -67,7 +67,13 @@ jobs:
           fi
         done
 
-    - name: 6. 处理并转换 Mihomo (List / YAML) 规则
+    - name: 6. 处理 adg-dns 基础规则 (运行双端统一脚本)
+      continue-on-error: true
+      run: |
+        # 运行本地脚本，拉取 16 个上游源，生成极致压缩版的 source/adg-dns.json
+        python source/build_adblock.py
+
+    - name: 7. 处理并转换 Mihomo (List / YAML) 规则
       run: |
         python -c '
         import os, re, json
@@ -242,15 +248,25 @@ jobs:
             format_name = "Classical" if is_classical else "Domain"
             print(f"Successfully processed {out_path} (Format: {format_name}, Upstream suffix preference: {use_suffix})")
 
+
+        # 【核心 1】：处理 AWAvenue
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
         process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
 
-        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomo.yaml", "adg_in.yaml")
-        process_mihomo_file("adg_in.yaml", "source/adg-dns.yaml", is_yaml=True, add_blocks=True)
+        # 【核心 2】：完美对接 adg-dns，将其转换为 Mihomo 原生 Domain-Set YAML 格式
+        if os.path.exists("source/adg-dns.json"):
+            with open("source/adg-dns.json", "r", encoding="utf-8") as f:
+                dns_data = json.load(f)
+            dns_rules = dns_data.get("rules", [{}])[0]
+            with open("source/adg-dns.yaml", "w", encoding="utf-8") as f:
+                f.write("payload:\n")
+                for d in dns_rules.get("domain", []):
+                    f.write(f"  - \x27{d}\x27\n")
+                for d in dns_rules.get("domain_suffix", []):
+                    f.write(f"  - \x27+.{d}\x27\n")
+            print("Successfully converted adg-dns.json to adg-dns.yaml (Domain-Set format)")
 
-        download("https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblockmihomolite.yaml", "adg_lite_in.yaml")
-        process_mihomo_file("adg_lite_in.yaml", "source/adg-dns-lite.yaml", is_yaml=True, add_blocks=True)
-
+        # 【核心 3】：处理 App 和 CN
         download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
         process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
 
@@ -258,7 +274,7 @@ jobs:
         process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
         '
 
-    - name: 7. 编译 Mihomo 二进制文件 (.mrs)
+    - name: 8. 编译 Mihomo 二进制文件 (.mrs)
       run: |
         for list_file in source/*.list source/*.yaml; do
           if [ -f "$list_file" ]; then
@@ -266,7 +282,7 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            # 【修复点】确保在 continue 跳过之前将 app.list 复制到根目录
+            # 确保在 continue 跳过之前将 app.list 复制到根目录
             if [ "$name" = "app" ]; then 
               cp "$list_file" ./app.list
               echo "📄 Copied $list_file to root directory as app.list"
@@ -286,20 +302,19 @@ jobs:
           fi
         done
 
-    - name: 8. 清理临时文件并提交推送
+    - name: 9. 清理临时文件并提交推送
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 【彻底修复点 1：物理销毁】无情删掉所有带有 _in 的临时文件和残留的压缩包，斩草除根
+        # 无情删掉所有带有 _in 的临时文件和残留的压缩包，斩草除根
         rm -f *_in.yaml *_in.list mihomo.gz
         
-        # 【彻底修复点 2：精准添加】只添加我们需要的成果文件
-        git add source/*.list source/*.yaml *.mrs app.list
+        # 精准添加我们需要的文件 (新增了 *.json 防止两个内核的工作流抢占差异)
+        git add source/*.list source/*.yaml source/*.json *.mrs app.list
         
-        # 修复：只有在有文件变动时才执行提交和重试推送逻辑
         if ! git diff --cached --quiet; then
-          git commit -m "test: generate Mihomo lists, yamls and mrs files"
+          git commit -m "chore: auto-update all Mihomo routing rules"
           
           MAX_RETRIES=5
           RETRY_COUNT=0
