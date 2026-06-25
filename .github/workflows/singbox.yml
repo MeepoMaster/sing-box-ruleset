@@ -153,24 +153,7 @@ jobs:
         # 运行本地 Python 脚本，直接拉取 16 个上游源，进行合并、去重并应用本地黑白名单
         python source/build_adblock.py
 
-    - name: 9. 处理 adg-dns-lite 规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o adblocksingboxlite.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingboxlite.json
-        noblock=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
-        block=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
-
-        jq --argjson noblock "$noblock" --argjson block "$block" '
-          .rules[0].domain_suffix |= (
-            map(select(. as $d | $noblock | index($d) | not))
-            + $block
-            | unique
-            | sort
-          )
-        ' adblocksingboxlite.json > source/adg-dns-lite.json
-        rm adblocksingboxlite.json
-
-    - name: 10. 处理 App 规则
+    - name: 9. 处理 App 规则
       continue-on-error: true
       run: |
         curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
@@ -182,7 +165,7 @@ jobs:
         ' applications.json > source/app.json
         rm applications.json
 
-    - name: 11. 处理 CN 规则
+    - name: 10. 处理 CN 规则
       continue-on-error: true
       run: |
         curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
@@ -230,9 +213,9 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 12. 批量编译所有 JSON 为 SRS
+    - name: 11. 批量编译所有 JSON 为 SRS
       run: |
-        for file in emby adg-awa adg-dns adg-dns-lite app cn; do
+        for file in emby adg-awa adg-dns app cn; do
           if [ -f "source/$file.json" ]; then
             echo "Compiling source/$file.json to $file.srs in root..."
             sing-box rule-set compile --output "$file.srs" "source/$file.json"
@@ -241,7 +224,7 @@ jobs:
           fi
         done
 
-    - name: 13. 提交并推送更改
+    - name: 12. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
