@@ -32,28 +32,22 @@ AUTHOR_FILES = [
     "https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/myblock.txt"
 ]
 
+JSON_SOURCES = []
+
 # ==========================================
-# 2. 核心解析与校验逻辑 (极致严苛版)
+# 2. 核心解析与校验逻辑 
 # ==========================================
 def is_valid_domain(domain):
-    """防核弹级域名校验：完美平替 tld 库，过滤非法字符与文件扩展名"""
-    # 1. 基础长度与结构检查
     if not domain or '.' not in domain or len(domain) < 4:
         return False
-        
-    # 2. 排除 IP 地址
     try:
         ipaddress.ip_address(domain)
         return False
     except ValueError:
         pass
-        
-    # 3. 严格遵循国际域名 RFC 规范正则
-    # 规则：每一级标签只能以字母数字开头/结尾，中间可以有中划线；顶级域名必须纯字母且长度 >= 2
     if not re.match(r'^([a-zA-Z0-9]([a-zA-Z0-9\-]*[a-zA-Z0-9])?\.)+[a-zA-Z]{2,63}$', domain):
         return False
         
-    # 4. 模拟 tld 库行为：黑名单拦截伪装成域名的文件后缀
     invalid_tlds = {
         'js', 'gif', 'jpg', 'jpeg', 'png', 'css', 'php', 'svg', 
         'woff', 'woff2', 'ttf', 'eot', 'mp3', 'mp4', 'avi', 'mkv',
@@ -65,26 +59,22 @@ def is_valid_domain(domain):
     tld = domain.split('.')[-1].lower()
     if tld in invalid_tlds:
         return False
-        
     return True
 
 def parse_adblock_rule(line):
-    """提取纯域名并精准区分类型"""
     line = line.strip()
     if not line or line.startswith('!') or line.startswith('#') or line.startswith('['):
         return None, None, None
 
-    # 1. 匹配双竖线后缀拦截 (||example.com^) 或白名单 (@@||example.com^)
-    match_suffix = re.match(r'^(\@\@)?\|\|([a-zA-Z0-9\-\.]+\.[a-zA-Z0-9\-]+)\^?(?:\$.*)?$', line)
+    # 【精髓修复】：去掉了 (?:\$.*)?$ ，严格拒绝任何带有 $ 修饰符的复杂规则，彻底斩断对 baidu.com 等大站的误杀！
+    match_suffix = re.match(r'^(\@\@)?\|\|([a-zA-Z0-9\-\.]+\.[a-zA-Z0-9\-]+)\^?$', line)
     if match_suffix:
         return match_suffix.group(2), bool(match_suffix.group(1)), False
 
-    # 2. 匹配单竖线精确拦截 (|example.com^) 或白名单 (@@|example.com^)
-    match_exact = re.match(r'^(\@\@)?\|([a-zA-Z0-9\-\.]+\.[a-zA-Z0-9\-]+)\^?(?:\$.*)?$', line)
+    match_exact = re.match(r'^(\@\@)?\|([a-zA-Z0-9\-\.]+\.[a-zA-Z0-9\-]+)\^?$', line)
     if match_exact:
         return match_exact.group(2), bool(match_exact.group(1)), True
 
-    # 3. 兼容传统 hosts 文件 (精确匹配)
     if line.startswith('0.0.0.0 ') or line.startswith('127.0.0.1 '):
         parts = line.split()
         if len(parts) >= 2:
@@ -92,8 +82,7 @@ def parse_adblock_rule(line):
             if domain not in ['localhost', 'localhost.localdomain', 'local']:
                 return domain, False, True
 
-    # 4. 纯文本单行域名
-    if '.' in line and ' ' not in line and '/' not in line and '*' not in line:
+    if '.' in line and ' ' not in line and '/' not in line and '*' not in line and '$' not in line:
         return line, False, True
 
     return None, None, None
@@ -219,7 +208,7 @@ def main():
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(output_json, f, indent=2, ensure_ascii=False)
     
-    print(f"✅ 成功生成 {output_path}，已彻底过滤假域名！")
+    print(f"✅ 成功生成 {output_path}，规则已完美纯净！")
 
 if __name__ == "__main__":
     main()
