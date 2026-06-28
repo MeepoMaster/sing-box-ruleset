@@ -3,3 +3,4 @@ amdc.m.taobao.com
 cn.app.chat.xiaomi.net
 resolver.msg.xiaomi.net
 wtradv.market.xiaomi.com
+adashx.ut.taobao.com
