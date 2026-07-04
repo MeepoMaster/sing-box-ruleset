@@ -84,7 +84,8 @@ business-api.tiktok.com
 business.samsungusa.com
 careers.hotjar.com
 cdn-test.mouseflow.com
-cdn.jwplayer.compubads.g.doubleclick.net
+cdn.jwplayer.com
+pubads.g.doubleclick.net
 cdn.luckyorange.com
 cdn.mouseflow.com
 cdn.onetrust.com
@@ -105,7 +106,8 @@ config.samsungads.com
 config.unityads.unity3d.com
 consent.cookiebot.com
 consent.trustarc.com
-consent.trustarc.comapp.usercentrics.eu
+consent.trustarc.com
+app.usercentrics.eu
 consentcdn.cookiebot.com
 contextual.media.net
 cookies-data.onetrust.io
