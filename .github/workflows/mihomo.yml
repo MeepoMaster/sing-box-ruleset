@@ -35,11 +35,13 @@ jobs:
     steps:
     - name: 1. 检出代码仓库
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: 2. 安装系统基础依赖
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget gzip curl
+        sudo apt-get install -y wget gzip curl jq
 
     - name: 3. 配置 Python 环境
       uses: actions/setup-python@v5
@@ -60,18 +62,138 @@ jobs:
 
     - name: 5. 纯文本格式化本地数据
       run: |
-        for txt_file in source/block.txt source/noblock.txt source/process.txt; do
-          if [ -f "$txt_file" ]; then
-            sed -i '/^[[:space:]]*$/d' "$txt_file"
-            sort -u -o "$txt_file" "$txt_file"
-          fi
-        done
+        python3 -c '
+        import os
 
-    - name: 6. 处理 adg-dns 基础规则 (运行双端统一脚本)
+        # 需要处理的四个文本规则源文件
+        txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
+        
+        for file_path in txt_files:
+            if not os.path.exists(file_path):
+                continue
+
+            # 读取时剔除首尾空格及中间的多余空行
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = [line.strip() for line in f if line.strip()]
+
+            if not lines:
+                continue
+
+            # 判断该文件是否带有 domain 等分组标签
+            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
+            has_tags = any(line.lower() in tags for line in lines)
+
+            out_str = ""
+
+            if not has_tags:
+                # 纯列表去重排序（例如 process.txt）
+                sorted_lines = sorted(list(set(lines)))
+                out_str = "\n".join(sorted_lines)
+            else:
+                # 带标签列表分组去重排序（适配 cn.txt, block.txt, noblock.txt）
+                groups = {"domain": set(), "suffix": set(), "keyword": set()}
+                current = "domain" # 未标明标签时默认放入 domain 组
+
+                for line in lines:
+                    val = line.lower()
+                    if val in ["domain:", "domain："]:
+                        current = "domain"
+                    elif val in ["domain_suffix:", "domain_suffix："]:
+                        current = "suffix"
+                    elif val in ["domain_keyword:", "domain_keyword："]:
+                        current = "keyword"
+                    else:
+                        groups[current].add(line)
+
+                out_blocks = []
+                if groups["domain"]:
+                    out_blocks.append("domain:\n" + "\n".join(sorted(list(groups["domain"]))))
+                if groups["suffix"]:
+                    out_blocks.append("domain_suffix:\n" + "\n".join(sorted(list(groups["suffix"]))))
+                if groups["keyword"]:
+                    out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
+                
+                # 不同标签组之间保留且仅保留一个空行隔离
+                out_str = "\n\n".join(out_blocks)
+
+            # 统一写回文件。末尾追加 \n 是维持 Linux POSIX 规范
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(out_str + "\n")
+        '
+
+    - name: 6. 处理 adg-dns 基础规则 (合并上游并应用黑白名单)
       continue-on-error: true
       run: |
-        # 运行本地脚本，拉取 16 个上游源，生成极致压缩版的 source/adg-dns.json
-        python source/build_adblock.py
+        # 1. 下载上游的两个规则文件
+        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+
+        # 2. 合并两个规则（提取 domain, domain_keyword, domain_suffix 并去重）
+        jq -s '
+          {
+            version: 1,
+            rules: [
+              {
+                domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
+                domain_keyword: ((.[0].rules[0].domain_keyword // []) + (.[1].rules[0].domain_keyword // []) | unique),
+                domain_suffix: ((.[0].rules[0].domain_suffix // []) + (.[1].rules[0].domain_suffix // []) | unique)
+              }
+            ]
+          }
+        ' AWAvenue.json adblocksingbox.json > merged_adg.json
+
+        # 3. 解析 block.txt 和 noblock.txt，区分 domain 和 domain_suffix 
+        parse_list() {
+            local file=$1
+            local out_domain=$2
+            local out_suffix=$3
+            local current_mode="domain"
+            
+            touch "$out_domain" "$out_suffix"
+            if [ ! -f "$file" ]; then return; fi
+            
+            while IFS= read -r line || [[ -n "$line" ]]; do
+                line=$(echo "$line" | xargs)
+                if [[ -z "$line" ]]; then continue; fi
+                
+                if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
+                if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
+                
+                if [[ "$current_mode" == "domain" ]]; then
+                    echo "$line" >> "$out_domain"
+                else
+                    echo "$line" >> "$out_suffix"
+                fi
+            done < "$file"
+        }
+
+        parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
+        parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
+
+        # 4. 将 txt 内容转为 JSON 数组格式
+        b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
+        b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
+        nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
+        nb_s=$( [ -s nb_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_suffix.txt || echo "[]" )
+        
+        nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
+
+        # 5. 应用黑白名单逻辑
+        jq --argjson bd "$b_d" \
+           --argjson bs "$b_s" \
+           --argjson nbd "$nb_d" \
+           --argjson nbs "$nb_s" \
+           --argjson nball "$nb_all" '
+          .rules[0].domain = (((.rules[0].domain // []) + $bd) | map(select(. as $d | $nbd | index($d) | not)) | unique | sort) |
+          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $bs) | map(select(. as $d | $nbs | index($d) | not)) | unique | sort) |
+          .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
+          
+          .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
+        ' merged_adg.json > source/adg-dns.json
+
+        # 6. 清理临时文件
+        rm AWAvenue.json adblocksingbox.json merged_adg.json
+        rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
     - name: 7. 处理并转换 Mihomo (List / YAML) 规则
       run: |
@@ -89,8 +211,10 @@ jobs:
 
         def load_lines(path):
             if not os.path.exists(path): return set()
+            # 必须跳过标签名，否则它们会被当作域名塞进最终的规则里
+            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
             with open(path, "r", encoding="utf-8") as f:
-                return {line.strip() for line in f if line.strip()}
+                return {line.strip() for line in f if line.strip() and line.strip().lower() not in tags}
 
         noblock = load_lines("source/noblock.txt")
         block = load_lines("source/block.txt")
@@ -270,6 +394,7 @@ jobs:
         download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
         process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
 
+        # 【核心 4】：处理 CN
         download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn_in.list")
         process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
         '
@@ -310,8 +435,8 @@ jobs:
         # 无情删掉所有带有 _in 的临时文件和残留的压缩包，斩草除根
         rm -f *_in.yaml *_in.list mihomo.gz
         
-        # 精准添加我们需要的文件 (新增了 *.json 防止两个内核的工作流抢占差异)
-        git add source/*.list source/*.yaml source/*.json *.mrs app.list
+        # 精准添加我们需要的文件 (新增了 *.txt 确保自动整理后的文本能一并提交)
+        git add source/*.list source/*.yaml source/*.json source/*.txt *.mrs app.list
         
         if ! git diff --cached --quiet; then
           git commit -m "chore: auto-update all Mihomo routing rules"
