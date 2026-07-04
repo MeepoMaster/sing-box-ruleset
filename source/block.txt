@@ -6,19 +6,16 @@ aax.amazon-adsystem.com
 abtasty.com
 abtest.ai
 acdn.adnxs.com
-open.convertkit.com
 ad.admitad.com
 ad.dm.gg
 ad.doubleclick.net
 ad.linksynergy.com
 ad.samsungadhub.com
-pi.pardot.com
 ad.smartadserver.com
 ad.turn.com
 adc3-launch.adcolony.com
 addthis.com
 adfox.yandex.ru
-track.hubspot.com
 adfstat.yandex.ru
 adjust.com
 adm.hotjar.com
@@ -318,6 +315,7 @@ o0.ingest.sentry.io
 o2.mouseflow.com
 oca.telemetry.microsoft.com
 open.activecampaign.com
+open.convertkit.com
 open.oneplus.net
 openx.net
 optanon.blob.core.windows.net
@@ -326,6 +324,7 @@ pagead2.googlesyndication.com
 pagead2.googlevideo.com
 partnerads.ysm.yahoo.com
 pendo.io
+pi.pardot.com
 piwik.pro
 pixel.advertising.com
 pixel.aweber.com
@@ -428,6 +427,7 @@ tpc.googlesyndication.com
 tqlkg.com
 tr.outbrain.com
 tr.snapchat.com
+track.hubspot.com
 tracking.rus.miui.com
 trackjs.com
 trc.taboola.com
