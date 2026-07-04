@@ -1,3 +1,4 @@
+domain_suffix:
 a.teads.tv
 aan.amazon.com
 aax-eu.amazon.com
