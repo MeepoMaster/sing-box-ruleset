@@ -1,4 +1,3 @@
-domain_suffix:
 a0.app.xiaomi.com
 adash-c.ut.taobao.com
 adash.m.taobao.com
@@ -6,6 +5,7 @@ amdc.m.taobao.com
 apoll.m.taobao.com
 aq.mmstat.com
 cn.app.chat.xiaomi.net
+domain_suffix:
 mmstat.com
 resolver.msg.xiaomi.net
 wgo.mmstat.com
