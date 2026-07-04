@@ -36,6 +36,8 @@ jobs:
     steps:
     - name: 1. 检出代码仓库
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: 2. 安装系统基础依赖
       run: |
@@ -137,8 +139,10 @@ jobs:
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        block_domains=$(jq -R -s -c 'split("\n")[:-1]' source/block.txt)
-        noblock_domains=$(jq -R -s -c 'split("\n")[:-1]' source/noblock.txt)
+        
+        # 过滤掉带有冒号的标签行，只保留纯域名
+        block_domains=$(grep -vE ':$|：$' source/block.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
+        noblock_domains=$(grep -vE ':$|：$' source/noblock.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
 
         jq --argjson noblock "$noblock_domains" '
           .rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) |
@@ -146,14 +150,14 @@ jobs:
           .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
         ' AWAvenue.json > cleaned_awa.json
 
+        # 既然现在统一使用 domain_suffix，黑名单应追加到 domain_suffix 中
         jq --argjson block "$block_domains" '
-          .rules[0].domain += $block
+          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $block) | unique | sort)
         ' cleaned_awa.json > updated_awa.json
 
         jq '
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
-          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end) |
-          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
+          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end)
         ' updated_awa.json > source/adg-awa.json
         rm AWAvenue.json cleaned_awa.json updated_awa.json
 
@@ -312,10 +316,8 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 自动追踪变动的源文件（包括整理好的 txt）、生成的 json 以及根目录生成的 srs 文件
         git add source/*.txt source/*.json *.srs
         
-        # 修复：只有在有文件变动时才执行提交和重试推送逻辑
         if ! git diff --cached --quiet; then
           git commit -m "chore: auto-update all routing rules"
           
@@ -324,7 +326,7 @@ jobs:
           SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            # 推送前强制拉取最新变基
+            # 基础环境已完美，直接使用最干净的 rebase，保持提交历史为一条直线
             git pull --rebase origin main
             
             if git push; then
