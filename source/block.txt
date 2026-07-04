@@ -68,6 +68,7 @@ app.bugsnag.com
 app.convertkit.com
 app.getsentry.com
 app.link
+app.usercentrics.eu
 appmetrica.yandex.com
 appmetrica.yandex.ru
 assets.mailerlite.com
@@ -85,7 +86,6 @@ business.samsungusa.com
 careers.hotjar.com
 cdn-test.mouseflow.com
 cdn.jwplayer.com
-pubads.g.doubleclick.net
 cdn.luckyorange.com
 cdn.mouseflow.com
 cdn.onetrust.com
@@ -106,8 +106,6 @@ config.samsungads.com
 config.unityads.unity3d.com
 consent.cookiebot.com
 consent.trustarc.com
-consent.trustarc.com
-app.usercentrics.eu
 consentcdn.cookiebot.com
 contextual.media.net
 cookies-data.onetrust.io
