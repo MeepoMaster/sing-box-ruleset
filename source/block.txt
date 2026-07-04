@@ -85,8 +85,6 @@ fundingchoicesmessages.google.com
 gads.pubmatic.com
 gdeslon.ru
 go.skimresources.com
-google-analytics.com
-googleadservices.com
 googletagmanager.com
 heapanalytics.com
 hotjar.com
@@ -177,6 +175,10 @@ w1.luckyorange.com
 wd.adcolony.com
 webvisor.com
 ws-na.amazon-adsystem.com
+www.awin1.com
+www.google-analytics.com
+www.googleadservices.com
+www.googletagmanager.com
 www3.smartadserver.com
 xp.apple.com
 z-na.amazon-adsystem.com
