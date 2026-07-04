@@ -1,4 +1,3 @@
-domain_suffix:
 a.teads.tv
 aan.amazon.com
 aax-eu.amazon.com
@@ -208,6 +207,7 @@ dev.visualwebsiteoptimizer.com
 device-metrics-us.amazon.com
 didomi.io
 dis.criteo.com
+domain_suffix:
 dpbolvw.net
 dwin1.com
 edge.api.flagsmith.com
