@@ -61,54 +61,64 @@ jobs:
 
     - name: 5. 自动整理并去重本地 TXT 源文件
       run: |
-        # 1. 遍历普通的纯列表文件（删除空行并排序去重）
-        for txt_file in source/block.txt source/noblock.txt source/process.txt; do
-          if [ -f "$txt_file" ]; then
-            echo "Sorting and deduplicating $txt_file..."
-            sed -i '/^[[:space:]]*$/d' "$txt_file"
-            sort -u -o "$txt_file" "$txt_file"
-          fi
-        done
-
-        # 2. 专门处理带分组的 cn.txt (组内排序去重，自动保留组间空行)
-        if [ -f "source/cn.txt" ]; then
-          echo "Sorting and deduplicating source/cn.txt by groups..."
-          python3 -c '
+        python3 -c '
         import os
 
-        file_path = "source/cn.txt"
-        domains = set()
-        suffixes = set()
-        current_mode = "suffix"
+        # 需要处理的四个文本规则源文件
+        txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
+        
+        for file_path in txt_files:
+            if not os.path.exists(file_path):
+                continue
 
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                val = line.strip()
-                if not val:
-                    continue
-                if val.lower() in ["domain:", "domain："]:
-                    current_mode = "domain"
-                elif val.lower() in ["domain_suffix:", "domain_suffix："]:
-                    current_mode = "suffix"
-                else:
-                    if current_mode == "domain":
-                        domains.add(val)
+            # 读取时剔除首尾空格及中间的多余空行
+            with open(file_path, "r", encoding="utf-8") as f:
+                lines = [line.strip() for line in f if line.strip()]
+
+            if not lines:
+                continue
+
+            # 判断该文件是否带有 domain 等分组标签
+            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
+            has_tags = any(line.lower() in tags for line in lines)
+
+            out_str = ""
+
+            if not has_tags:
+                # 纯列表去重排序（例如 process.txt）
+                sorted_lines = sorted(list(set(lines)))
+                out_str = "\n".join(sorted_lines)
+            else:
+                # 带标签列表分组去重排序（适配 cn.txt, block.txt, noblock.txt）
+                groups = {"domain": set(), "suffix": set(), "keyword": set()}
+                current = "domain" # 未标明标签时默认放入 domain 组
+
+                for line in lines:
+                    val = line.lower()
+                    if val in ["domain:", "domain："]:
+                        current = "domain"
+                    elif val in ["domain_suffix:", "domain_suffix："]:
+                        current = "suffix"
+                    elif val in ["domain_keyword:", "domain_keyword："]:
+                        current = "keyword"
                     else:
-                        suffixes.add(val)
+                        groups[current].add(line)
 
-        with open(file_path, "w", encoding="utf-8") as f:
-            if domains:
-                f.write("domain:\n")
-                for d in sorted(domains):
-                    f.write(f"{d}\n")
-            if domains and suffixes:
-                f.write("\n")  # 在两个组之间添加且只添加一个空行
-            if suffixes:
-                f.write("domain_suffix:\n")
-                for s in sorted(suffixes):
-                    f.write(f"{s}\n")
+                out_blocks = []
+                if groups["domain"]:
+                    out_blocks.append("domain:\n" + "\n".join(sorted(list(groups["domain"]))))
+                if groups["suffix"]:
+                    out_blocks.append("domain_suffix:\n" + "\n".join(sorted(list(groups["suffix"]))))
+                if groups["keyword"]:
+                    out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
+                
+                # 不同标签组之间保留且仅保留一个空行隔离
+                out_str = "\n\n".join(out_blocks)
+
+            # 统一写回文件。末尾追加 \n 是维持 Linux POSIX 规范，防止后续 jq 的 [:-1] 误吞数据
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(out_str + "\n")
         '
-        fi
 
     - name: 6. 处理 Emby 规则
       continue-on-error: true
@@ -150,8 +160,81 @@ jobs:
     - name: 8. 处理 adg-dns 规则
       continue-on-error: true
       run: |
-        # 运行本地 Python 脚本，直接拉取 16 个上游源，进行合并、去重并应用本地黑白名单
-        python source/build_adblock.py
+        # 1. 下载上游的两个规则文件
+        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+        curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+
+        # 2. 合并两个规则（提取 domain, domain_keyword, domain_suffix 并去重）
+        jq -s '
+          {
+            version: 1,
+            rules: [
+              {
+                domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
+                domain_keyword: ((.[0].rules[0].domain_keyword // []) + (.[1].rules[0].domain_keyword // []) | unique),
+                domain_suffix: ((.[0].rules[0].domain_suffix // []) + (.[1].rules[0].domain_suffix // []) | unique)
+              }
+            ]
+          }
+        ' AWAvenue.json adblocksingbox.json > merged_adg.json
+
+        # 3. 解析 block.txt 和 noblock.txt，区分 domain 和 domain_suffix 
+        parse_list() {
+            local file=$1
+            local out_domain=$2
+            local out_suffix=$3
+            local current_mode="domain" # 默认模式，未带标签时视作 domain
+            
+            touch "$out_domain" "$out_suffix"
+            if [ ! -f "$file" ]; then return; fi
+            
+            while IFS= read -r line || [[ -n "$line" ]]; do
+                line=$(echo "$line" | xargs) # 去除首尾空格
+                if [[ -z "$line" ]]; then continue; fi
+                
+                # 检查模式切换标签 (忽略大小写)
+                if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
+                if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
+                
+                # 写入对应的临时文件
+                if [[ "$current_mode" == "domain" ]]; then
+                    echo "$line" >> "$out_domain"
+                else
+                    echo "$line" >> "$out_suffix"
+                fi
+            done < "$file"
+        }
+
+        # 提取并分离黑白名单
+        parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
+        parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
+
+        # 4. 将 txt 内容转为 JSON 数组格式，方便下面交由 jq 处理
+        b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
+        b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
+        nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
+        nb_s=$( [ -s nb_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_suffix.txt || echo "[]" )
+        
+        # 将白名单的所有项目都合并，用于排除 keyword 中可能被误杀的项
+        nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
+
+        # 5. 应用黑白名单逻辑：加上黑名单，剔除对应白名单，去重排序，清理空数组
+        jq --argjson bd "$b_d" \
+           --argjson bs "$b_s" \
+           --argjson nbd "$nb_d" \
+           --argjson nbs "$nb_s" \
+           --argjson nball "$nb_all" '
+          .rules[0].domain = (((.rules[0].domain // []) + $bd) | map(select(. as $d | $nbd | index($d) | not)) | unique | sort) |
+          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $bs) | map(select(. as $d | $nbs | index($d) | not)) | unique | sort) |
+          .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
+          
+          # 清理空的数组项，保持最终 JSON 规则集的美观与合规
+          .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
+        ' merged_adg.json > source/adg-dns.json
+
+        # 6. 清理所有临时文件
+        rm AWAvenue.json adblocksingbox.json merged_adg.json
+        rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
     - name: 9. 处理 App 规则
       continue-on-error: true
