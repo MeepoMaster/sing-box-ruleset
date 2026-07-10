@@ -58,6 +58,8 @@ PROCESS-NAME,frps
 PROCESS-NAME,frps.exe
 PROCESS-NAME,hysteria
 PROCESS-NAME,hysteria.exe
+PROCESS-NAME,io.tailscale.ipn.macos.network-extension
+PROCESS-NAME,io.tailscale.ipn.macsys.network-extension
 PROCESS-NAME,leaf
 PROCESS-NAME,leaf.exe
 PROCESS-NAME,naive
