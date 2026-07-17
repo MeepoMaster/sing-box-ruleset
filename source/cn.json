@@ -3,6 +3,7 @@
   "rules": [
     {
       "domain": [
+        "api.blipsandchitz.me",
         "cn.download.nvidia.com",
         "end-api.shallow.ink",
         "end.shallow.ink",
@@ -47020,6 +47021,7 @@
         "hrs100.com",
         "hrsalon.org",
         "hrsay.com",
+        "hrsecn.com",
         "hrsee.com",
         "hrsel.com",
         "hrsoft-china.com",
