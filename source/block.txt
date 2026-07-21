@@ -73,6 +73,7 @@ api.branch.io
 api.bugsnag.com
 api.crashlytics.com
 api.flagsmith.com
+api.hills.im
 api.honeybadger.io
 api.impact.com
 api.launchdarkly.com
@@ -467,4 +468,3 @@ www3.smartadserver.com
 xmr.omine.org
 xp.apple.com
 z-na.amazon-adsystem.com
-api.hills.im
