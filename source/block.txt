@@ -467,3 +467,4 @@ www3.smartadserver.com
 xmr.omine.org
 xp.apple.com
 z-na.amazon-adsystem.com
+api.hills.im
