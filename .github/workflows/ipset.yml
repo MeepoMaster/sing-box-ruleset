@@ -14,18 +14,24 @@ jobs:
 
       - name: 下载、清理并分离 IP 规则
         run: |
+          # 1. 下载并设置超时
           curl -sSL --max-time 60 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt -o cnip_raw.txt
           
+          # 2. 数据清洗：去除 \r 回车符，并同时剔除注释行和纯空行
           tr -d '\r' < cnip_raw.txt | grep -Ev "^(#|$)" > clean_ip.txt
           
-          grep "\." clean_ip.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ip.txt
+          # 3. 提取 IPv4：匹配包含小数点，且【排除包含冒号】的行，防止混入 ::ffff: 格式
+          grep "\." clean_ip.txt | grep -v ":" | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ip.txt
           
+          # 4. 提取 IPv6：匹配包含冒号的行（::ffff: 格式会正常归入此处）
           grep ":" clean_ip.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ipv6.txt
           
+          # 5. 安全配置 .gitattributes
           touch .gitattributes
           grep -q "cn_ip.txt -text" .gitattributes || echo "cn_ip.txt -text" >> .gitattributes
           grep -q "cn_ipv6.txt -text" .gitattributes || echo "cn_ipv6.txt -text" >> .gitattributes
           
+          # 6. 清理临时文件
           rm cnip_raw.txt clean_ip.txt
 
       - name: 提交并推送到仓库
