@@ -1,4 +1,4 @@
-name: Split and Update CN IP Rules (Zero EOF)
+name: Split and Update CN IP Rules
 
 on:
   schedule:
@@ -12,22 +12,21 @@ jobs:
       - name: 检出代码仓库
         uses: actions/checkout@v4
 
-      - name: 下载、分离并以无尾行模式重组
+      - name: 下载、清理并分离 IP 规则
         run: |
-          curl -sSL https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cnip.list -o cnip_raw.txt
+          curl -sSL --max-time 60 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt -o cnip_raw.txt
           
-          # 使用 awk 重组 IPv4：不输出末尾换行符
-          grep "\." cnip_raw.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ip.txt
+          tr -d '\r' < cnip_raw.txt | grep -Ev "^(#|$)" > clean_ip.txt
           
-          # 使用 awk 重组 IPv6：不输出末尾换行符
-          grep ":" cnip_raw.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ipv6.txt
+          grep "\." clean_ip.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ip.txt
           
-          # 锁定文件属性，警告 Git 绝对不许在提交时自作主张加空行
-          echo "cn_ip.txt -text" > .gitattributes
-          echo "cn_ipv6.txt -text" >> .gitattributes
+          grep ":" clean_ip.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ipv6.txt
           
-          # 清理临时文件
-          rm cnip_raw.txt
+          touch .gitattributes
+          grep -q "cn_ip.txt -text" .gitattributes || echo "cn_ip.txt -text" >> .gitattributes
+          grep -q "cn_ipv6.txt -text" .gitattributes || echo "cn_ipv6.txt -text" >> .gitattributes
+          
+          rm cnip_raw.txt clean_ip.txt
 
       - name: 提交并推送到仓库
         run: |
@@ -36,6 +35,7 @@ jobs:
           
           git add cn_ip.txt cn_ipv6.txt .gitattributes
           
+          # 检查是否有文件变动
           if git diff-index --quiet HEAD --; then
             echo "IP 列表无变化，跳过提交。"
           else
