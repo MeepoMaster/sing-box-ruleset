@@ -1,0 +1,59 @@
+name: Convert ChinaMax IP to SRS
+
+on:
+  schedule:
+    # 北京时间 12:30 (UTC 04:30) 每天执行
+    - cron: '50 4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download upstream rule file
+        run: |
+          curl -fsSL -o ChinaMax_IP.txt \
+            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt"
+          echo "Downloaded $(wc -l < ChinaMax_IP.txt) lines"
+
+      - name: Convert to sing-box JSON rule set
+        run: python3 source/convert_cnip.py
+
+      - name: Install sing-box (latest)
+        run: |
+          set -e
+          # 通过重定向获取最新 tag，避免 API 限流
+          TAG=$(curl -s -o /dev/null -w '%{url_effective}' \
+                -L https://github.com/SagerNet/sing-box/releases/latest \
+                | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+')
+          VER="${TAG#v}"
+          echo "sing-box version: ${TAG}"
+          curl -fsSL -o sing-box.tar.gz \
+            "https://github.com/SagerNet/sing-box/releases/download/${TAG}/sing-box-${VER}-linux-amd64.tar.gz"
+          tar xzf sing-box.tar.gz
+          install -m 0755 "sing-box-${VER}-linux-amd64/sing-box" /usr/local/bin/sing-box
+          sing-box version
+
+      - name: Compile SRS
+        run: |
+          mkdir -p main
+          sing-box rule-set compile source/cnip.json -o main/cnip.srs
+          ls -lh main/cnip.srs
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add source/cnip.json main/cnip.srs
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update ChinaMax IP rule set ($(date -u +%Y-%m-%d))"
+            git push
+          fi
