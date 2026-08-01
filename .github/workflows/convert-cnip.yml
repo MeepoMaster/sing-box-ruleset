@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  RULESET_VERSION: '5'   # 将来改 6/7/8 只改这一行
+
 jobs:
   convert:
     runs-on: ubuntu-latest
@@ -23,26 +26,28 @@ jobs:
 
       - name: Convert to sing-box JSON rule set
         run: python3 source/convert_cnip.py
+        env:
+          RULESET_VERSION: ${{ env.RULESET_VERSION }}
 
-      - name: Install sing-box (latest)
+      - name: Clone reF1nd sing-box (testing branch)
+        run: git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: /tmp/sb/go.mod
+          cache: false
+
+      - name: Build sing-box
         run: |
-          set -e
-          # 通过重定向获取最新 tag，避免 API 限流
-          TAG=$(curl -s -o /dev/null -w '%{url_effective}' \
-                -L https://github.com/SagerNet/sing-box/releases/latest \
-                | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+')
-          VER="${TAG#v}"
-          echo "sing-box version: ${TAG}"
-          curl -fsSL -o sing-box.tar.gz \
-            "https://github.com/SagerNet/sing-box/releases/download/${TAG}/sing-box-${VER}-linux-amd64.tar.gz"
-          tar xzf sing-box.tar.gz
-          install -m 0755 "sing-box-${VER}-linux-amd64/sing-box" /usr/local/bin/sing-box
-          sing-box version
+          cd /tmp/sb
+          CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
+          ./sing-box version
 
       - name: Compile SRS
         run: |
           mkdir -p main
-          sing-box rule-set compile source/cnip.json -o main/cnip.srs
+          /tmp/sb/sing-box rule-set compile source/cnip.json -o main/cnip.srs
           ls -lh main/cnip.srs
 
       - name: Commit and push
@@ -53,6 +58,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: update ChinaMax IP rule set ($(date -u +%Y-%m-%d))"
+            git commit -m "chore: update ChinaMax IP rule set (v${{ env.RULESET_VERSION }}, $(date -u +%Y-%m-%d))"
             git push
           fi
