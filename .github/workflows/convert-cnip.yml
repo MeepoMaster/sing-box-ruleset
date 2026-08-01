@@ -2,7 +2,7 @@ name: Convert ChinaMax IP to SRS
 
 on:
   schedule:
-    - cron: '20 0,8,16 * * *'
+    - cron: '20 0,8,16 * * *'  # 北京时间 12:30 (UTC 04:30)
   workflow_dispatch:
 
 permissions:
@@ -56,7 +56,12 @@ jobs:
           git add source/cnip.json cnip.srs
           if git diff --staged --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "chore: update ChinaMax IP rule set (v${{ env.RULESET_VERSION }}, $(date -u +%Y-%m-%d))"
-            git push
+            exit 0
           fi
+          git commit -m "chore: update ChinaMax IP rule set (v${{ env.RULESET_VERSION }}, $(date -u +%Y-%m-%d))"
+          if ! git pull --rebase --autostash origin ${{ github.ref_name }}; then
+            echo "Rebase conflict detected, aborting this push"
+            git rebase --abort
+            exit 0
+          fi
+          git push
