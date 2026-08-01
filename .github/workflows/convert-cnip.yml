@@ -2,8 +2,7 @@ name: Convert ChinaMax IP to SRS
 
 on:
   schedule:
-    # 北京时间 12:30 (UTC 04:30) 每天执行
-    - cron: '50 4 * * *'
+    - cron: '20 0,8,16 * * *'
   workflow_dispatch:
 
 permissions:
