@@ -46,15 +46,14 @@ jobs:
 
       - name: Compile SRS
         run: |
-          mkdir -p main
-          /tmp/sb/sing-box rule-set compile source/cnip.json -o main/cnip.srs
-          ls -lh main/cnip.srs
+          /tmp/sb/sing-box rule-set compile source/cnip.json -o cnip.srs
+          ls -lh cnip.srs
 
       - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add source/cnip.json main/cnip.srs
+          git add source/cnip.json cnip.srs
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
