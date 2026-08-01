@@ -2,16 +2,22 @@
 # -*- coding: utf-8 -*-
 """
 将 ChinaMax_IP.txt (Clash IP 规则列表) 转换为 sing-box JSON 规则集。
-输入: ChinaMax_IP.txt
-输出: source/cnip.json
+
+输入: <仓库根>/ChinaMax_IP.txt
+输出: <仓库根>/source/cnip.json
+
+version 由环境变量 RULESET_VERSION 控制，默认 5。
 """
 import json
 import ipaddress
 import os
 
-INPUT = "ChinaMax_IP.txt"
-OUTPUT_DIR = "source"
+# 脚本位于 .github/workflows/，仓库根 = 上两级
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+INPUT = os.path.join(ROOT, "ChinaMax_IP.txt")
+OUTPUT_DIR = os.path.join(ROOT, "source")
 OUTPUT = os.path.join(OUTPUT_DIR, "cnip.json")
+VERSION = int(os.environ.get("RULESET_VERSION", "5"))
 
 
 def normalize(raw):
@@ -51,7 +57,7 @@ def main():
                 cidrs.append(c)
 
     data = {
-        "version": 5,
+        "version": VERSION,
         "rules": [
             {"ip_cidr": cidrs}
         ],
@@ -62,6 +68,7 @@ def main():
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
+    print(f"Rule-set version: {VERSION}")
     print(f"Wrote {len(cidrs)} CIDRs to {OUTPUT}")
 
 
