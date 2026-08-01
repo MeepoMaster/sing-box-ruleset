@@ -12,8 +12,8 @@ import json
 import ipaddress
 import os
 
-# 脚本位于 .github/workflows/，仓库根 = 上两级
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+# 优先用 GitHub Actions 工作目录；本地调试则按脚本位置反推仓库根
+ROOT = os.environ.get("GITHUB_WORKSPACE") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INPUT = os.path.join(ROOT, "ChinaMax_IP.txt")
 OUTPUT_DIR = os.path.join(ROOT, "source")
 OUTPUT = os.path.join(OUTPUT_DIR, "cnip.json")
