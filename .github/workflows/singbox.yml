@@ -4,14 +4,13 @@ on:
   # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
   schedule:
     - cron: '30 0,8,16 * * *'
-  # 2. 支持在 GitHub Actions 页面手动点击触发
+  # 2. 支持手动点击触发
   workflow_dispatch:
-  # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
+  # 3. 修改本地源文件并推送时触发
   push:
     branches:
-      - main  # ⚠️ 如果你的默认分支叫 master，请把这里改成 master，否则 push 触发永远不生效
+      - main  # ⚠️ 如果默认分支是 master，请改成 master
     paths:
-      # 只监听纯手工维护的源文件
       - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
@@ -21,6 +20,7 @@ on:
 env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  # ⬇️ 唯一需要你维护的地方：想用 v6/v7/v20... 只改这一个数字
   RULESET_VERSION: '5'
 
 # 并发控制：防止同分支多个运行互相抢文件
@@ -30,66 +30,96 @@ concurrency:
 
 jobs:
   update-all-rules:
+    # 若本次 push 是本工作流自己的提交，干净地跳过，避免死循环/空跑
+    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update all routing rules')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-    - name: 0. 检出代码仓库
+    - name: 1. 检出代码仓库
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: 0.5 若由本工作流自身提交触发，直接跳过（防自触发空跑）
-      run: |
-        if [ "${{ github.event_name }}" = "push" ]; then
-          LAST_COMMITTER=$(git log -1 --format='%an')
-          echo "本次 push 的提交作者: $LAST_COMMITTER"
-          if [ "$LAST_COMMITTER" = "GitHub Action" ] || [ "$LAST_COMMITTER" = "github-actions[bot]" ]; then
-            echo "这是工作流自己的提交，跳过本次运行（避免死循环/空跑）"
-            exit 1
-          fi
-        fi
-
-    - name: 1. 安装系统基础依赖
+    - name: 2. 安装系统基础依赖
       run: |
         sudo apt-get update
         sudo apt-get install -y jq wget tar
 
-    - name: 2. 配置 Python 环境
+    - name: 3. 配置 Python 环境
       uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
-    - name: 3. 克隆 reF1nd sing-box（testing 分支）
+    - name: 4. 克隆 reF1nd sing-box（testing 分支）
       run: |
         git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
-        echo "克隆完成，分支存在则继续"
+        echo "克隆完成"
 
-    - name: 4. 配置 Go 环境
+    - name: 5. 配置 Go 环境
       uses: actions/setup-go@v5
       with:
         go-version-file: /tmp/sb/go.mod
         cache: false
 
-    - name: 5. 编译安装 Sing-box + 自检 v${{ env.RULESET_VERSION }} 支持
+    - name: 6. 编译安装 Sing-box + 自动探测并决定生效版本
       run: |
         cd /tmp/sb
         CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
         sudo mv sing-box /usr/local/bin/
         echo "===== sing-box 版本 ====="
         sing-box version
-        echo "===== 自检：该二进制能否编译 rule-set v${{ env.RULESET_VERSION }} ====="
-        echo "{\"version\": $RULESET_VERSION, \"rules\": [{\"domain_suffix\": [\"example.com\"]}]}" > /tmp/check_v5.json
-        if sing-box rule-set compile --output /tmp/check_v5.srs /tmp/check_v5.json && [ -s /tmp/check_v5.srs ]; then
-          echo "✅ 自检通过：该二进制支持 v${{ env.RULESET_VERSION }}，可以继续"
-        else
-          echo "❌ 自检失败：该二进制不支持 v${{ env.RULESET_VERSION }}（reF1nd 分支可能没装对，或版本号不对）"
+
+        # 探测范围跟着 RULESET_VERSION 走：写 5 探到 v5，写 20 探到 v20，永远无需维护
+        echo "===== 探测：从 v1 探测到 v$RULESET_VERSION ====="
+        SUPPORTED=""
+        FOUND_SUCCESS=0
+        for ((v=1; v<=RULESET_VERSION; v++)); do
+          echo "{\"version\": $v, \"rules\": [{\"domain_suffix\": [\"example.com\"]}]}" > /tmp/sbcheck.json
+          if sing-box rule-set compile --output /tmp/sbcheck.srs /tmp/sbcheck.json 2>/dev/null && [ -s /tmp/sbcheck.srs ]; then
+            echo "  v$v ✅"
+            SUPPORTED="$SUPPORTED $v"
+            FOUND_SUCCESS=1
+          else
+            if [ "$FOUND_SUCCESS" -eq 1 ]; then
+              echo "  v$v ❌（首次失败，探测结束）"
+              break
+            else
+              echo "  v$v ❌"
+            fi
+          fi
+          rm -f /tmp/sbcheck.srs
+        done
+        rm -f /tmp/sbcheck.json
+
+        MAX_SUPPORTED=$(echo "$SUPPORTED" | tr ' ' '\n' | grep -E '^[0-9]+$' | sort -n | tail -1)
+
+        echo "===== 版本决策 ====="
+        echo "目标 env.RULESET_VERSION = $RULESET_VERSION"
+        echo "该二进制支持:$SUPPORTED"
+
+        if [ -z "$MAX_SUPPORTED" ]; then
+          echo "❌ 该二进制不支持任何版本，请检查 reF1nd 分支是否安装正确"
           exit 1
         fi
-        rm -f /tmp/check_v5.json /tmp/check_v5.srs
 
-    - name: 6. 自动整理并去重本地 TXT 源文件
+        case " $SUPPORTED " in
+          *" $RULESET_VERSION "*)
+            EFFECTIVE_VERSION=$RULESET_VERSION
+            echo "✅ 目标 v$RULESET_VERSION 受支持，直接使用"
+            ;;
+          *)
+            EFFECTIVE_VERSION=$MAX_SUPPORTED
+            echo "⚠️  目标 v$RULESET_VERSION 暂不受支持（最高支持 v$MAX_SUPPORTED），自动回退到 v$EFFECTIVE_VERSION"
+            echo "   （以后想用更高版本，升级 reF1nd 分支即可，无需改任何代码）"
+            ;;
+        esac
+
+        echo "EFFECTIVE_VERSION=$EFFECTIVE_VERSION" >> "$GITHUB_ENV"
+        echo "===== 最终生效版本：v$EFFECTIVE_VERSION ====="
+
+    - name: 7. 自动整理并去重本地 TXT 源文件
       run: |
         python3 -c '
         import os
@@ -143,10 +173,10 @@ jobs:
                 f.write(out_str + "\n")
         '
 
-    - name: 7. 处理 Emby 规则（去重 + 排序 + 版本号）
+    - name: 8. 处理 Emby 规则（去重 + 排序 + 版本号）
       continue-on-error: true
       run: |
-        jq --argjson version "$RULESET_VERSION" '
+        jq --argjson version "$EFFECTIVE_VERSION" '
           .version = $version |
           .rules[] |= (
             if has("domain") then .domain |= (unique | sort) else . end |
@@ -156,7 +186,7 @@ jobs:
         ' source/emby.json | jq . > source/temp_emby.json
         mv source/temp_emby.json source/emby.json
 
-    - name: 8. 处理 adg-awa 规则
+    - name: 9. 处理 adg-awa 规则
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
@@ -174,20 +204,20 @@ jobs:
           .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $block) | unique | sort)
         ' cleaned_awa.json > updated_awa.json
 
-        jq --argjson version "$RULESET_VERSION" '
+        jq --argjson version "$EFFECTIVE_VERSION" '
           .version = $version |
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
           .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end)
         ' updated_awa.json > source/adg-awa.json
         rm AWAvenue.json cleaned_awa.json updated_awa.json
 
-    - name: 9. 处理 adg-dns 规则
+    - name: 10. 处理 adg-dns 规则
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
 
-        jq -s --argjson version "$RULESET_VERSION" '
+        jq -s --argjson version "$EFFECTIVE_VERSION" '
           {
             version: $version,
             rules: [
@@ -249,20 +279,20 @@ jobs:
         rm AWAvenue.json adblocksingbox.json merged_adg.json
         rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
-    - name: 10. 处理 App 规则
+    - name: 11. 处理 App 规则
       continue-on-error: true
       run: |
         curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
         process_names=$(jq -R -s -c 'split("\n")[:-1]' source/process.txt)
 
-        jq --argjson process "$process_names" --argjson version "$RULESET_VERSION" '
+        jq --argjson process "$process_names" --argjson version "$EFFECTIVE_VERSION" '
           .version = $version |
           .rules[0].process_name += $process |
           .rules[0].process_name = (if .rules[0].process_name | length > 0 then .rules[0].process_name | unique | sort else .rules[0].process_name end)
         ' applications.json > source/app.json
         rm applications.json
 
-    - name: 11. 处理 CN 规则
+    - name: 12. 处理 CN 规则
       continue-on-error: true
       run: |
         curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
@@ -302,7 +332,7 @@ jobs:
             local_suffixes="[]"
         fi
 
-        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" --argjson version "$RULESET_VERSION" '
+        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" --argjson version "$EFFECTIVE_VERSION" '
           .version = $version |
           .rules[0].domain = (.rules[0].domain // []) + $new_domains |
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
@@ -311,11 +341,12 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 12. 批量编译所有 JSON 为 SRS（逐文件容错）
+    - name: 13. 批量编译所有 JSON 为 SRS（逐文件容错）
       continue-on-error: true
       run: |
-        echo "===== sing-box 版本 ====="
+        echo "===== 最终编译使用的 sing-box ====="
         sing-box version
+        echo "===== 本次生效版本：v$EFFECTIVE_VERSION ====="
 
         FAILED=0
         GENERATED=0
@@ -338,17 +369,17 @@ jobs:
         echo "成功 $GENERATED / 5"
         ls -lh *.srs 2>/dev/null || echo "（没有任何 .srs 生成！）"
         if [ "$FAILED" -ne 0 ]; then
-          echo "存在失败项，请查看上方具体报错（最常见：sing-box 二进制不支持 rule-set v${{ env.RULESET_VERSION }}）"
+          echo "存在失败项，请查看上方具体报错"
         fi
         exit $FAILED
 
-    - name: 13. 提交并推送更改
+    - name: 14. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
 
         if ! ls *.srs >/dev/null 2>&1; then
-          echo "⚠️  未检测到任何 .srs 文件，请查看第 12 步编译日志！"
+          echo "⚠️  未检测到任何 .srs 文件，请查看第 13 步编译日志！"
         fi
 
         shopt -s nullglob
@@ -357,14 +388,13 @@ jobs:
         shopt -u nullglob
 
         if ! git diff --cached --quiet; then
-          git commit -m "chore: auto-update all routing rules (ruleset v${{ env.RULESET_VERSION }})"
+          git commit -m "chore: auto-update all routing rules (ruleset v${{ env.EFFECTIVE_VERSION }})"
           
           MAX_RETRIES=5
           RETRY_COUNT=0
           SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            # 跟随当前分支名，master/main 都能用
             git pull --rebase origin "${GITHUB_REF_NAME}"
             
             if git push; then
