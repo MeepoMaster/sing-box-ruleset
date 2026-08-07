@@ -21,6 +21,7 @@ on:
 env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 强制使用 Node 24 消除官方插件弃用警告
+  RULESET_VERSION: '5'   # 规则集版本号，将来升 6/7/8 只改这一行（与 cnip 工作流保持一致）
 
 # 新增：并发控制，防止同一个工作流同时运行产生冲突
 concurrency:
@@ -49,19 +50,25 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: 4. 安装 Sing-box (携带 GitHub Token 防止 API 限制)
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # ---- 以下三步与 cnip 工作流保持一致：用 reF1nd testing 分支编译 sing-box ----
+    - name: 4. 克隆 reF1nd sing-box（testing 分支，支持 rule-set version ${{ env.RULESET_VERSION }}）
       run: |
-        LATEST_VERSION=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/SagerNet/sing-box/releases/latest | jq -r .tag_name)
-        VERSION_NUM=${LATEST_VERSION#v}
-        echo "Installing sing-box version: $VERSION_NUM"
-        wget https://github.com/SagerNet/sing-box/releases/download/${LATEST_VERSION}/sing-box-${VERSION_NUM}-linux-amd64.tar.gz
-        tar -xzvf sing-box-${VERSION_NUM}-linux-amd64.tar.gz
-        sudo mv sing-box-${VERSION_NUM}-linux-amd64/sing-box /usr/local/bin/
+        git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
+
+    - name: 5. 配置 Go 环境
+      uses: actions/setup-go@v5
+      with:
+        go-version-file: /tmp/sb/go.mod
+        cache: false
+
+    - name: 6. 编译并安装 Sing-box
+      run: |
+        cd /tmp/sb
+        CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
+        sudo mv sing-box /usr/local/bin/
         sing-box version
 
-    - name: 5. 自动整理并去重本地 TXT 源文件
+    - name: 7. 自动整理并去重本地 TXT 源文件
       run: |
         python3 -c '
         import os
@@ -122,20 +129,20 @@ jobs:
                 f.write(out_str + "\n")
         '
 
-    - name: 6. 处理 Emby 规则
+    - name: 8. 处理 Emby 规则（域名去重 + 排序 + 版本号）
       continue-on-error: true
       run: |
-        jq '
-          .rules[] |= 
-          if has("domain_suffix") then
-            .domain_suffix |= sort
-          else
-            .
-          end
+        jq --argjson version "$RULESET_VERSION" '
+          .version = $version |
+          .rules[] |= (
+            if has("domain") then .domain |= (unique | sort) else . end |
+            if has("domain_suffix") then .domain_suffix |= (unique | sort) else . end |
+            if has("domain_keyword") then .domain_keyword |= (unique | sort) else . end
+          )
         ' source/emby.json | jq . > source/temp_emby.json
         mv source/temp_emby.json source/emby.json
 
-    - name: 7. 处理 adg-awa 规则
+    - name: 9. 处理 adg-awa 规则
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
@@ -155,13 +162,14 @@ jobs:
           .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $block) | unique | sort)
         ' cleaned_awa.json > updated_awa.json
 
-        jq '
+        jq --argjson version "$RULESET_VERSION" '
+          .version = $version |
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
           .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end)
         ' updated_awa.json > source/adg-awa.json
         rm AWAvenue.json cleaned_awa.json updated_awa.json
 
-    - name: 8. 处理 adg-dns 规则
+    - name: 10. 处理 adg-dns 规则
       continue-on-error: true
       run: |
         # 1. 下载上游的两个规则文件
@@ -169,9 +177,9 @@ jobs:
         curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
 
         # 2. 合并两个规则（提取 domain, domain_keyword, domain_suffix 并去重）
-        jq -s '
+        jq -s --argjson version "$RULESET_VERSION" '
           {
-            version: 1,
+            version: $version,
             rules: [
               {
                 domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
@@ -240,19 +248,20 @@ jobs:
         rm AWAvenue.json adblocksingbox.json merged_adg.json
         rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
-    - name: 9. 处理 App 规则
+    - name: 11. 处理 App 规则
       continue-on-error: true
       run: |
         curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
         process_names=$(jq -R -s -c 'split("\n")[:-1]' source/process.txt)
 
-        jq --argjson process "$process_names" '
+        jq --argjson process "$process_names" --argjson version "$RULESET_VERSION" '
+          .version = $version |
           .rules[0].process_name += $process |
           .rules[0].process_name = (if .rules[0].process_name | length > 0 then .rules[0].process_name | unique | sort else .rules[0].process_name end)
         ' applications.json > source/app.json
         rm applications.json
 
-    - name: 10. 处理 CN 规则
+    - name: 12. 处理 CN 规则
       continue-on-error: true
       run: |
         curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
@@ -292,7 +301,8 @@ jobs:
             local_suffixes="[]"
         fi
 
-        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" '
+        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" --argjson version "$RULESET_VERSION" '
+          .version = $version |
           .rules[0].domain = (.rules[0].domain // []) + $new_domains |
           .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
           .rules[0].domain_suffix = (.rules[0].domain_suffix // []) + $new_suffixes |
@@ -300,7 +310,7 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 11. 批量编译所有 JSON 为 SRS
+    - name: 13. 批量编译所有 JSON 为 SRS
       run: |
         for file in emby adg-awa adg-dns app cn; do
           if [ -f "source/$file.json" ]; then
@@ -311,7 +321,7 @@ jobs:
           fi
         done
 
-    - name: 12. 提交并推送更改
+    - name: 14. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -319,7 +329,7 @@ jobs:
         git add source/*.txt source/*.json *.srs
         
         if ! git diff --cached --quiet; then
-          git commit -m "chore: auto-update all routing rules"
+          git commit -m "chore: auto-update all routing rules (ruleset v${{ env.RULESET_VERSION }})"
           
           MAX_RETRIES=5
           RETRY_COUNT=0
