@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - main  # ⚠️ 若默认分支是 master，请改成 master
     paths:
       - 'source/emby.json'
       - 'source/block.txt'
@@ -23,7 +23,8 @@ concurrency:
 
 jobs:
   test-mihomo-build:
-    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update all Mihomo routing rules')) }}
+    # 跳过任何"chore: auto-update"开头的自动提交（含自己与 singbox 的），消除交叉触发
+    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -172,7 +173,7 @@ jobs:
           .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
           
           .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
-        ' merged_adg.json > source/adg-dns.json
+        ' merged_adg.json > /tmp/adg-dns.json
 
         rm AWAvenue.json adblocksingbox.json merged_adg.json
         rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
@@ -346,8 +347,8 @@ jobs:
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
         process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
 
-        if os.path.exists("source/adg-dns.json"):
-            with open("source/adg-dns.json", "r", encoding="utf-8") as f:
+        if os.path.exists("/tmp/adg-dns.json"):
+            with open("/tmp/adg-dns.json", "r", encoding="utf-8") as f:
                 dns_data = json.load(f)
             dns_rules = dns_data.get("rules", [{}])[0]
             with open("source/adg-dns.yaml", "w", encoding="utf-8") as f:
@@ -421,7 +422,8 @@ jobs:
         fi
 
         shopt -s nullglob
-        git add -f source/*.list source/*.yaml source/*.json source/*.txt *.mrs
+        # 不再 add source/*.json：adg-dns.json 已归 singbox 独占，mihomo 只提交自己的产物
+        git add -f source/*.list source/*.yaml source/*.txt *.mrs
         shopt -u nullglob
         if [ -f app.list ]; then
           git add -f app.list
