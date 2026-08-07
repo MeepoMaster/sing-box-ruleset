@@ -27,7 +27,7 @@ concurrency:
 jobs:
   update-all-rules:
     # 跳过任何"chore: auto-update"开头的自动提交（含自己与 mihomo 的），消除交叉触发
-    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}
+    if: "${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
     runs-on: ubuntu-latest
     permissions:
       contents: write
