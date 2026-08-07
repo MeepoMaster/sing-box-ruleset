@@ -50,7 +50,6 @@ jobs:
       with:
         python-version: '3.x'
 
-    # ---- 以下三步与 cnip 工作流保持一致：用 reF1nd testing 分支编译 sing-box ----
     - name: 4. 克隆 reF1nd sing-box（testing 分支，支持 rule-set version ${{ env.RULESET_VERSION }}）
       run: |
         git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
@@ -61,12 +60,21 @@ jobs:
         go-version-file: /tmp/sb/go.mod
         cache: false
 
-    - name: 6. 编译并安装 Sing-box
+    - name: 6. 编译安装 Sing-box + 自检 v${{ env.RULESET_VERSION }} 支持
       run: |
         cd /tmp/sb
         CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
         sudo mv sing-box /usr/local/bin/
         sing-box version
+        echo "--- 自检：验证二进制是否支持 rule-set v${{ env.RULESET_VERSION }} ---"
+        echo "{\"version\": $RULESET_VERSION, \"rules\": [{\"domain_suffix\": [\"example.com\"]}]}" > /tmp/check_v5.json
+        if sing-box rule-set compile --output /tmp/check_v5.srs /tmp/check_v5.json && [ -s /tmp/check_v5.srs ]; then
+          echo "✅ 该二进制支持 v${{ env.RULESET_VERSION }}"
+        else
+          echo "❌ 该二进制不支持 v${{ env.RULESET_VERSION }}，后续编译必然失败，请检查 reF1nd 分支是否正确安装"
+          exit 1
+        fi
+        rm -f /tmp/check_v5.json /tmp/check_v5.srs
 
     - name: 7. 自动整理并去重本地 TXT 源文件
       run: |
@@ -310,24 +318,52 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 13. 批量编译所有 JSON 为 SRS
+    - name: 13. 批量编译所有 JSON 为 SRS（逐文件容错，不中断）
+      continue-on-error: true
       run: |
+        echo "===== sing-box 版本 ====="
+        sing-box version
+
+        FAILED=0
+        GENERATED=0
         for file in emby adg-awa adg-dns app cn; do
           if [ -f "source/$file.json" ]; then
-            echo "Compiling source/$file.json to $file.srs in root..."
-            sing-box rule-set compile --output "$file.srs" "source/$file.json"
+            echo ">>> 编译 source/$file.json -> $file.srs"
+            if sing-box rule-set compile --output "$file.srs" "source/$file.json" && [ -s "$file.srs" ]; then
+              echo "✅ $file.srs OK（$(stat -c %s "$file.srs") 字节）"
+              GENERATED=$((GENERATED+1))
+            else
+              echo "❌ $file.json 编译失败或产物为空"
+              FAILED=1
+            fi
           else
-            echo "Warning: source/$file.json not found, skipping compile."
+            echo "⚠️  跳过：source/$file.json 不存在"
           fi
         done
+
+        echo "===== 编译汇总 ====="
+        echo "成功 $GENERATED / 5"
+        if [ "$FAILED" -ne 0 ]; then
+          echo "存在失败项，请查看上方具体报错（最常见：sing-box 二进制不支持 rule-set v${{ env.RULESET_VERSION }}）"
+        fi
+        exit $FAILED
 
     - name: 14. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        
-        git add source/*.txt source/*.json *.srs
-        
+
+        # 提示：如果这里没有任何 .srs，多半是编译失败或文件不存在
+        if ! ls *.srs >/dev/null 2>&1; then
+          echo "⚠️  未检测到任何 .srs 文件，请查看第 13 步编译日志！"
+        fi
+
+        # 开启 nullglob：没有匹配的通配符会被安全忽略，避免 git add 报 pathspec 错误
+        shopt -s nullglob
+        # -f 强制添加 *.srs：防止 .gitignore 把它们挡在提交之外（这是"JSON 更新了但 SRS 不更新"的常见原因之一）
+        git add -f source/*.txt source/*.json *.srs
+        shopt -u nullglob
+
         if ! git diff --cached --quiet; then
           git commit -m "chore: auto-update all routing rules (ruleset v${{ env.RULESET_VERSION }})"
           
