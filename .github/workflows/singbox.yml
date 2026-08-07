@@ -1,15 +1,12 @@
 name: Update Singbox Remote Rules
 
 on:
-  # 1. 每天定时运行（北京时间 8:30, 16:30, 0:30）
   schedule:
     - cron: '30 0,8,16 * * *'
-  # 2. 支持手动点击触发
   workflow_dispatch:
-  # 3. 修改本地源文件并推送时触发
   push:
     branches:
-      - main  # ⚠️ 如果默认分支是 master，请改成 master
+      - main  # ⚠️ 若默认分支是 master，请改成 master
     paths:
       - 'source/emby.json'
       - 'source/block.txt'
@@ -20,18 +17,17 @@ on:
 env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  # ⬇️ 唯一需要你维护的地方：想用 v6/v7/v20... 只改这一个数字
+  # 唯一需要维护的地方：想用 v6/v7/v20... 只改这一个数字
   RULESET_VERSION: '5'
 
-# 并发控制：防止同分支多个运行互相抢文件
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   update-all-rules:
-    # 若本次 push 是本工作流自己的提交，干净地跳过，避免死循环/空跑
-    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update all routing rules')) }}
+    # 跳过任何"chore: auto-update"开头的自动提交（含自己与 mihomo 的），消除交叉触发
+    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -71,7 +67,6 @@ jobs:
         echo "===== sing-box 版本 ====="
         sing-box version
 
-        # 探测范围跟着 RULESET_VERSION 走：写 5 探到 v5，写 20 探到 v20，永远无需维护
         echo "===== 探测：从 v1 探测到 v$RULESET_VERSION ====="
         SUPPORTED=""
         FOUND_SUCCESS=0
@@ -112,7 +107,6 @@ jobs:
           *)
             EFFECTIVE_VERSION=$MAX_SUPPORTED
             echo "⚠️  目标 v$RULESET_VERSION 暂不受支持（最高支持 v$MAX_SUPPORTED），自动回退到 v$EFFECTIVE_VERSION"
-            echo "   （以后想用更高版本，升级 reF1nd 分支即可，无需改任何代码）"
             ;;
         esac
 
@@ -383,7 +377,6 @@ jobs:
         fi
 
         shopt -s nullglob
-        # -f 强制添加：防止 .gitignore 把 *.srs 挡在提交外
         git add -f source/*.txt source/*.json *.srs
         shopt -u nullglob
 
