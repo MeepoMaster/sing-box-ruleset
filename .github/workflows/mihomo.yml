@@ -1,17 +1,13 @@
 name: Update Mihomo Remote Rules
 
 on:
-  # 1. 每天定时运行（北京时间 8:40, 16:40, 0:40）
   schedule:
     - cron: '40 0,8,16 * * *'
-  # 2. 支持在 GitHub Actions 页面手动点击触发
   workflow_dispatch:
-  # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
   push:
     branches:
-      - main  # 如果你的默认分支叫 master，请修改为 master
+      - main
     paths:
-      # 只监听纯手工维护的源文件
       - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
@@ -21,7 +17,6 @@ on:
 env:
   TZ: Asia/Shanghai
 
-# 新增：并发控制，防止同一个工作流同时运行产生冲突
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -48,7 +43,7 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: 4. 安装 Mihomo 内核 (携带 Token 防止限流)
+    - name: 4. 安装 Mihomo 内核
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -65,34 +60,29 @@ jobs:
         python3 -c '
         import os
 
-        # 需要处理的四个文本规则源文件
         txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
         
         for file_path in txt_files:
             if not os.path.exists(file_path):
                 continue
 
-            # 读取时剔除首尾空格及中间的多余空行
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = [line.strip() for line in f if line.strip()]
 
             if not lines:
                 continue
 
-            # 判断该文件是否带有 domain 等分组标签
             tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
             has_tags = any(line.lower() in tags for line in lines)
 
             out_str = ""
 
             if not has_tags:
-                # 纯列表去重排序（例如 process.txt）
                 sorted_lines = sorted(list(set(lines)))
                 out_str = "\n".join(sorted_lines)
             else:
-                # 带标签列表分组去重排序（适配 cn.txt, block.txt, noblock.txt）
                 groups = {"domain": set(), "suffix": set(), "keyword": set()}
-                current = "domain" # 未标明标签时默认放入 domain 组
+                current = "domain"
 
                 for line in lines:
                     val = line.lower()
@@ -113,25 +103,20 @@ jobs:
                 if groups["keyword"]:
                     out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
                 
-                # 不同标签组之间保留且仅保留一个空行隔离
                 out_str = "\n\n".join(out_blocks)
 
-            # 统一写回文件。末尾追加 \n 是维持 Linux POSIX 规范
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(out_str + "\n")
         '
 
-    - name: 6. 处理 adg-dns 基础规则 (合并上游并应用黑白名单)
+    - name: 6. 处理 adg-dns 基础规则
       continue-on-error: true
       run: |
-        # 1. 下载上游的两个规则文件
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
 
-        # 2. 合并两个规则（提取 domain, domain_keyword, domain_suffix 并去重）
         jq -s '
           {
-            version: 1,
             rules: [
               {
                 domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
@@ -142,7 +127,6 @@ jobs:
           }
         ' AWAvenue.json adblocksingbox.json > merged_adg.json
 
-        # 3. 解析 block.txt 和 noblock.txt，区分 domain 和 domain_suffix 
         parse_list() {
             local file=$1
             local out_domain=$2
@@ -170,7 +154,6 @@ jobs:
         parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
         parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
 
-        # 4. 将 txt 内容转为 JSON 数组格式
         b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
         b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
         nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
@@ -178,7 +161,6 @@ jobs:
         
         nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
 
-        # 5. 应用黑白名单逻辑
         jq --argjson bd "$b_d" \
            --argjson bs "$b_s" \
            --argjson nbd "$nb_d" \
@@ -191,11 +173,10 @@ jobs:
           .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
         ' merged_adg.json > source/adg-dns.json
 
-        # 6. 清理临时文件
         rm AWAvenue.json adblocksingbox.json merged_adg.json
         rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
-    - name: 7. 处理并转换 Mihomo (List / YAML) 规则
+    - name: 7. 处理并转换 Mihomo 规则
       run: |
         python -c '
         import os, re, json
@@ -211,7 +192,6 @@ jobs:
 
         def load_lines(path):
             if not os.path.exists(path): return set()
-            # 必须跳过标签名，否则它们会被当作域名塞进最终的规则里
             tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
             with open(path, "r", encoding="utf-8") as f:
                 return {line.strip() for line in f if line.strip() and line.strip().lower() not in tags}
@@ -220,7 +200,6 @@ jobs:
         block = load_lines("source/block.txt")
         process = load_lines("source/process.txt")
 
-        # 将 emby.json 直接变成纯域名格式
         if os.path.exists("source/emby.json"):
             try:
                 with open("source/emby.json", "r") as f:
@@ -253,7 +232,6 @@ jobs:
 
             payload_started = False
             
-            # 1. 探测是否为 Classical 格式
             def check_classical(lines):
                 for ln in lines:
                     clean_ln = ln.strip().lstrip("- \x27\x22").upper()
@@ -263,7 +241,6 @@ jobs:
             
             is_classical = check_classical(raw_lines)
             
-            # 2. 动态探测上游喜好是否偏向 +.
             use_suffix = False
             if not is_classical:
                 for ln in raw_lines:
@@ -272,10 +249,9 @@ jobs:
                         break
 
             header_lines = []
-            domain_map = {}  # 核心字典：去重、上游优先级
+            domain_map = {}
             other_lines = []
 
-            # 3. 解析上游并提权剔除 noblock 域名
             for line in raw_lines:
                 stripped = line.strip()
                 if not stripped: continue
@@ -288,7 +264,6 @@ jobs:
 
                 domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
                 
-                # 【优先级1】：命中 noblock，无情剔除
                 if domain_part in noblock:
                     continue
 
@@ -303,15 +278,13 @@ jobs:
                         is_rule = True
 
                 if is_rule:
-                    domain_map[domain_part] = line.rstrip() # 【优先级2】：上游规则占位
+                    domain_map[domain_part] = line.rstrip()
                 else:
                     other_lines.append(line.rstrip())
 
-            # 4. 追加 block.txt
             if add_blocks:
                 for b in block:
                     if b in noblock: continue
-                    # 【去重】：只有上游没有，才加自定义
                     if b not in domain_map:
                         if is_classical:
                             domain_map[b] = f"  - DOMAIN-SUFFIX,{b}" if is_yaml else f"DOMAIN-SUFFIX,{b}"
@@ -319,18 +292,16 @@ jobs:
                             prefix = "+." if use_suffix else ""
                             domain_map[b] = f"  - \x27{prefix}{b}\x27" if is_yaml else f"{prefix}{b}"
             
-            # 5. 追加 process.txt
             if is_app:
                 for p in process: 
                     other_lines.append(f"PROCESS-NAME,{p}" if not is_yaml else f"  - PROCESS-NAME,{p}")
             
-            # 6. 追加 cn.txt (保留用户分类与空行习惯)
             if is_cn and os.path.exists("source/cn.txt"):
                 current_mode = "suffix"
                 with open("source/cn.txt", "r", encoding="utf-8") as f:
                     for ln in f:
                         v = ln.strip()
-                        if not v: continue # 允许空行分隔
+                        if not v: continue
                         
                         if v.lower() in ["domain:", "domain："]: 
                             current_mode = "domain"
@@ -338,7 +309,6 @@ jobs:
                             current_mode = "suffix"
                         else: 
                             if v in noblock: continue
-                            # 【去重】：只有上游没有，才加自定义
                             if v not in domain_map:
                                 if is_classical:
                                     r_type = "DOMAIN" if current_mode == "domain" else "DOMAIN-SUFFIX"
@@ -347,7 +317,6 @@ jobs:
                                     prefix = "" if current_mode == "domain" else "+."
                                     domain_map[v] = f"  - \x27{prefix}{v}\x27" if is_yaml else f"{prefix}{v}"
 
-            # 7. 分组排序与合并输出 (纯域名在前，后缀域名在后)
             exact_rules = []
             suffix_rules = []
             
@@ -373,11 +342,9 @@ jobs:
             print(f"Successfully processed {out_path} (Format: {format_name}, Upstream suffix preference: {use_suffix})")
 
 
-        # 【核心 1】：处理 AWAvenue
         download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
         process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
 
-        # 【核心 2】：完美对接 adg-dns，将其转换为 Mihomo 原生 Domain-Set YAML 格式
         if os.path.exists("source/adg-dns.json"):
             with open("source/adg-dns.json", "r", encoding="utf-8") as f:
                 dns_data = json.load(f)
@@ -390,16 +357,14 @@ jobs:
                     f.write(f"  - \x27+.{d}\x27\n")
             print("Successfully converted adg-dns.json to adg-dns.yaml (Domain-Set format)")
 
-        # 【核心 3】：处理 App 和 CN
         download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
         process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
 
-        # 【核心 4】：处理 CN
         download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn_in.list")
         process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
         '
 
-    - name: 8. 编译 Mihomo 二进制文件 (.mrs)
+    - name: 8. 编译 Mihomo 二进制文件
       run: |
         for list_file in source/*.list source/*.yaml; do
           if [ -f "$list_file" ]; then
@@ -407,7 +372,6 @@ jobs:
             name="${filename%.*}"
             ext="${filename##*.}"
 
-            # 确保在 continue 跳过之前将 app.list 复制到根目录
             if [ "$name" = "app" ]; then 
               cp "$list_file" ./app.list
               echo "📄 Copied $list_file to root directory as app.list"
@@ -432,10 +396,8 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # 无情删掉所有带有 _in 的临时文件和残留的压缩包，斩草除根
         rm -f *_in.yaml *_in.list mihomo.gz
         
-        # 精准添加我们需要的文件 (新增了 *.txt 确保自动整理后的文本能一并提交)
         git add source/*.list source/*.yaml source/*.json source/*.txt *.mrs app.list
         
         if ! git diff --cached --quiet; then
@@ -446,7 +408,6 @@ jobs:
           SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            # 推送前强制拉取最新变基
             git pull --rebase origin main
             
             if git push; then
