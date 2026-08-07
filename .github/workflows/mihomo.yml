@@ -23,6 +23,7 @@ concurrency:
 
 jobs:
   test-mihomo-build:
+    if: ${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update all Mihomo routing rules')) }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -365,7 +366,10 @@ jobs:
         '
 
     - name: 8. 编译 Mihomo 二进制文件
+      continue-on-error: true
       run: |
+        FAILED=0
+        GENERATED=0
         for list_file in source/*.list source/*.yaml; do
           if [ -f "$list_file" ]; then
             filename=$(basename -- "$list_file")
@@ -387,9 +391,23 @@ jobs:
             if [ "$ext" = "list" ]; then format_type="text"; fi
 
             echo "🚀 Compiling $list_file to $name.mrs..."
-            mihomo convert-ruleset "domain" "$format_type" "$list_file" "$name.mrs"
+            if mihomo convert-ruleset "domain" "$format_type" "$list_file" "$name.mrs" && [ -s "$name.mrs" ]; then
+              echo "✅ $name.mrs OK（$(stat -c %s "$name.mrs") 字节）"
+              GENERATED=$((GENERATED+1))
+            else
+              echo "❌ $list_file 转换失败或产物为空"
+              FAILED=1
+            fi
           fi
         done
+
+        echo "===== 编译汇总 ====="
+        echo "成功 $GENERATED 个 .mrs"
+        ls -lh *.mrs 2>/dev/null || echo "（没有生成任何 .mrs）"
+        if [ "$FAILED" -ne 0 ]; then
+          echo "存在失败项，请查看上方日志"
+        fi
+        exit $FAILED
 
     - name: 9. 清理临时文件并提交推送
       run: |
@@ -397,8 +415,17 @@ jobs:
         git config --local user.name "GitHub Action"
         
         rm -f *_in.yaml *_in.list mihomo.gz
-        
-        git add source/*.list source/*.yaml source/*.json source/*.txt *.mrs app.list
+
+        if ! ls *.mrs >/dev/null 2>&1; then
+          echo "⚠️  未检测到任何 .mrs 文件，请查看第 8 步日志！"
+        fi
+
+        shopt -s nullglob
+        git add -f source/*.list source/*.yaml source/*.json source/*.txt *.mrs
+        shopt -u nullglob
+        if [ -f app.list ]; then
+          git add -f app.list
+        fi
         
         if ! git diff --cached --quiet; then
           git commit -m "chore: auto-update all Mihomo routing rules"
@@ -408,7 +435,7 @@ jobs:
           SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            git pull --rebase origin main
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             
             if git push; then
               SUCCESS=true
