@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main  # ⚠️ 若默认分支是 master，请改成 master
+      - main
     paths:
       - 'source/emby.json'
       - 'source/block.txt'
@@ -17,7 +17,6 @@ on:
 env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  # 唯一需要维护的地方：想用 v6/v7/v20... 只改这一个数字
   RULESET_VERSION: '5'
 
 concurrency:
@@ -26,7 +25,6 @@ concurrency:
 
 jobs:
   update-all-rules:
-    # 跳过任何"chore: auto-update"开头的自动提交（含自己与 mihomo 的），消除交叉触发
     if: "${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
     runs-on: ubuntu-latest
     permissions:
