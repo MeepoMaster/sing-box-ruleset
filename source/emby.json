@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 5,
   "rules": [
     {
       "domain_suffix": [
@@ -94,7 +94,6 @@
         "pilipiliultra.com",
         "potdot.de",
         "pushgoodcloud.com",
-        "qzz.io",
         "qzz.io",
         "rjf37.com",
         "rochub.xyz",
