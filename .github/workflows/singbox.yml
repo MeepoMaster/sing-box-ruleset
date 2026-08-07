@@ -9,9 +9,9 @@ on:
   # 3. 当你修改本地核心配置并推送到仓库时，立刻触发更新
   push:
     branches:
-      - main  # 如果你的默认分支叫 master，请修改为 master
+      - main  # ⚠️ 如果你的默认分支叫 master，请把这里改成 master，否则 push 触发永远不生效
     paths:
-      # 只监听纯手工维护的源文件，完美避开 Action 自身生成的 json 导致的死循环
+      # 只监听纯手工维护的源文件
       - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
@@ -20,10 +20,10 @@ on:
 
 env:
   TZ: Asia/Shanghai
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true # 强制使用 Node 24 消除官方插件弃用警告
-  RULESET_VERSION: '5'   # 规则集版本号，将来升 6/7/8 只改这一行（与 cnip 工作流保持一致）
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  RULESET_VERSION: '5'
 
-# 新增：并发控制，防止同一个工作流同时运行产生冲突
+# 并发控制：防止同分支多个运行互相抢文件
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -35,80 +35,88 @@ jobs:
       contents: write
 
     steps:
-    - name: 1. 检出代码仓库
+    - name: 0. 检出代码仓库
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
-    - name: 2. 安装系统基础依赖
+    - name: 0.5 若由本工作流自身提交触发，直接跳过（防自触发空跑）
+      run: |
+        if [ "${{ github.event_name }}" = "push" ]; then
+          LAST_COMMITTER=$(git log -1 --format='%an')
+          echo "本次 push 的提交作者: $LAST_COMMITTER"
+          if [ "$LAST_COMMITTER" = "GitHub Action" ] || [ "$LAST_COMMITTER" = "github-actions[bot]" ]; then
+            echo "这是工作流自己的提交，跳过本次运行（避免死循环/空跑）"
+            exit 1
+          fi
+        fi
+
+    - name: 1. 安装系统基础依赖
       run: |
         sudo apt-get update
         sudo apt-get install -y jq wget tar
 
-    - name: 3. 配置 Python 环境
+    - name: 2. 配置 Python 环境
       uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
-    - name: 4. 克隆 reF1nd sing-box（testing 分支，支持 rule-set version ${{ env.RULESET_VERSION }}）
+    - name: 3. 克隆 reF1nd sing-box（testing 分支）
       run: |
         git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
+        echo "克隆完成，分支存在则继续"
 
-    - name: 5. 配置 Go 环境
+    - name: 4. 配置 Go 环境
       uses: actions/setup-go@v5
       with:
         go-version-file: /tmp/sb/go.mod
         cache: false
 
-    - name: 6. 编译安装 Sing-box + 自检 v${{ env.RULESET_VERSION }} 支持
+    - name: 5. 编译安装 Sing-box + 自检 v${{ env.RULESET_VERSION }} 支持
       run: |
         cd /tmp/sb
         CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
         sudo mv sing-box /usr/local/bin/
+        echo "===== sing-box 版本 ====="
         sing-box version
-        echo "--- 自检：验证二进制是否支持 rule-set v${{ env.RULESET_VERSION }} ---"
+        echo "===== 自检：该二进制能否编译 rule-set v${{ env.RULESET_VERSION }} ====="
         echo "{\"version\": $RULESET_VERSION, \"rules\": [{\"domain_suffix\": [\"example.com\"]}]}" > /tmp/check_v5.json
         if sing-box rule-set compile --output /tmp/check_v5.srs /tmp/check_v5.json && [ -s /tmp/check_v5.srs ]; then
-          echo "✅ 该二进制支持 v${{ env.RULESET_VERSION }}"
+          echo "✅ 自检通过：该二进制支持 v${{ env.RULESET_VERSION }}，可以继续"
         else
-          echo "❌ 该二进制不支持 v${{ env.RULESET_VERSION }}，后续编译必然失败，请检查 reF1nd 分支是否正确安装"
+          echo "❌ 自检失败：该二进制不支持 v${{ env.RULESET_VERSION }}（reF1nd 分支可能没装对，或版本号不对）"
           exit 1
         fi
         rm -f /tmp/check_v5.json /tmp/check_v5.srs
 
-    - name: 7. 自动整理并去重本地 TXT 源文件
+    - name: 6. 自动整理并去重本地 TXT 源文件
       run: |
         python3 -c '
         import os
 
-        # 需要处理的四个文本规则源文件
         txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
         
         for file_path in txt_files:
             if not os.path.exists(file_path):
                 continue
 
-            # 读取时剔除首尾空格及中间的多余空行
             with open(file_path, "r", encoding="utf-8") as f:
                 lines = [line.strip() for line in f if line.strip()]
 
             if not lines:
                 continue
 
-            # 判断该文件是否带有 domain 等分组标签
             tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
             has_tags = any(line.lower() in tags for line in lines)
 
             out_str = ""
 
             if not has_tags:
-                # 纯列表去重排序（例如 process.txt）
                 sorted_lines = sorted(list(set(lines)))
                 out_str = "\n".join(sorted_lines)
             else:
-                # 带标签列表分组去重排序（适配 cn.txt, block.txt, noblock.txt）
                 groups = {"domain": set(), "suffix": set(), "keyword": set()}
-                current = "domain" # 未标明标签时默认放入 domain 组
+                current = "domain"
 
                 for line in lines:
                     val = line.lower()
@@ -129,15 +137,13 @@ jobs:
                 if groups["keyword"]:
                     out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
                 
-                # 不同标签组之间保留且仅保留一个空行隔离
                 out_str = "\n\n".join(out_blocks)
 
-            # 统一写回文件。末尾追加 \n 是维持 Linux POSIX 规范，防止后续 jq 的 [:-1] 误吞数据
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(out_str + "\n")
         '
 
-    - name: 8. 处理 Emby 规则（域名去重 + 排序 + 版本号）
+    - name: 7. 处理 Emby 规则（去重 + 排序 + 版本号）
       continue-on-error: true
       run: |
         jq --argjson version "$RULESET_VERSION" '
@@ -150,12 +156,11 @@ jobs:
         ' source/emby.json | jq . > source/temp_emby.json
         mv source/temp_emby.json source/emby.json
 
-    - name: 9. 处理 adg-awa 规则
+    - name: 8. 处理 adg-awa 规则
       continue-on-error: true
       run: |
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         
-        # 过滤掉带有冒号的标签行，只保留纯域名
         block_domains=$(grep -vE ':$|：$' source/block.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
         noblock_domains=$(grep -vE ':$|：$' source/noblock.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
 
@@ -165,7 +170,6 @@ jobs:
           .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
         ' AWAvenue.json > cleaned_awa.json
 
-        # 既然现在统一使用 domain_suffix，黑名单应追加到 domain_suffix 中
         jq --argjson block "$block_domains" '
           .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $block) | unique | sort)
         ' cleaned_awa.json > updated_awa.json
@@ -177,14 +181,12 @@ jobs:
         ' updated_awa.json > source/adg-awa.json
         rm AWAvenue.json cleaned_awa.json updated_awa.json
 
-    - name: 10. 处理 adg-dns 规则
+    - name: 9. 处理 adg-dns 规则
       continue-on-error: true
       run: |
-        # 1. 下载上游的两个规则文件
         curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
         curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
 
-        # 2. 合并两个规则（提取 domain, domain_keyword, domain_suffix 并去重）
         jq -s --argjson version "$RULESET_VERSION" '
           {
             version: $version,
@@ -198,25 +200,22 @@ jobs:
           }
         ' AWAvenue.json adblocksingbox.json > merged_adg.json
 
-        # 3. 解析 block.txt 和 noblock.txt，区分 domain 和 domain_suffix 
         parse_list() {
             local file=$1
             local out_domain=$2
             local out_suffix=$3
-            local current_mode="domain" # 默认模式，未带标签时视作 domain
+            local current_mode="domain"
             
             touch "$out_domain" "$out_suffix"
             if [ ! -f "$file" ]; then return; fi
             
             while IFS= read -r line || [[ -n "$line" ]]; do
-                line=$(echo "$line" | xargs) # 去除首尾空格
+                line=$(echo "$line" | xargs)
                 if [[ -z "$line" ]]; then continue; fi
                 
-                # 检查模式切换标签 (忽略大小写)
                 if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
                 if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
                 
-                # 写入对应的临时文件
                 if [[ "$current_mode" == "domain" ]]; then
                     echo "$line" >> "$out_domain"
                 else
@@ -225,20 +224,16 @@ jobs:
             done < "$file"
         }
 
-        # 提取并分离黑白名单
         parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
         parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
 
-        # 4. 将 txt 内容转为 JSON 数组格式，方便下面交由 jq 处理
         b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
         b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
         nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
         nb_s=$( [ -s nb_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_suffix.txt || echo "[]" )
         
-        # 将白名单的所有项目都合并，用于排除 keyword 中可能被误杀的项
         nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
 
-        # 5. 应用黑白名单逻辑：加上黑名单，剔除对应白名单，去重排序，清理空数组
         jq --argjson bd "$b_d" \
            --argjson bs "$b_s" \
            --argjson nbd "$nb_d" \
@@ -248,15 +243,13 @@ jobs:
           .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $bs) | map(select(. as $d | $nbs | index($d) | not)) | unique | sort) |
           .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
           
-          # 清理空的数组项，保持最终 JSON 规则集的美观与合规
           .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
         ' merged_adg.json > source/adg-dns.json
 
-        # 6. 清理所有临时文件
         rm AWAvenue.json adblocksingbox.json merged_adg.json
         rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
 
-    - name: 11. 处理 App 规则
+    - name: 10. 处理 App 规则
       continue-on-error: true
       run: |
         curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
@@ -269,7 +262,7 @@ jobs:
         ' applications.json > source/app.json
         rm applications.json
 
-    - name: 12. 处理 CN 规则
+    - name: 11. 处理 CN 规则
       continue-on-error: true
       run: |
         curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
@@ -318,7 +311,7 @@ jobs:
         ' upstream_cn.json > source/cn.json
         rm upstream_cn.json domain_list.txt suffix_list.txt
 
-    - name: 13. 批量编译所有 JSON 为 SRS（逐文件容错，不中断）
+    - name: 12. 批量编译所有 JSON 为 SRS（逐文件容错）
       continue-on-error: true
       run: |
         echo "===== sing-box 版本 ====="
@@ -343,24 +336,23 @@ jobs:
 
         echo "===== 编译汇总 ====="
         echo "成功 $GENERATED / 5"
+        ls -lh *.srs 2>/dev/null || echo "（没有任何 .srs 生成！）"
         if [ "$FAILED" -ne 0 ]; then
           echo "存在失败项，请查看上方具体报错（最常见：sing-box 二进制不支持 rule-set v${{ env.RULESET_VERSION }}）"
         fi
         exit $FAILED
 
-    - name: 14. 提交并推送更改
+    - name: 13. 提交并推送更改
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
 
-        # 提示：如果这里没有任何 .srs，多半是编译失败或文件不存在
         if ! ls *.srs >/dev/null 2>&1; then
-          echo "⚠️  未检测到任何 .srs 文件，请查看第 13 步编译日志！"
+          echo "⚠️  未检测到任何 .srs 文件，请查看第 12 步编译日志！"
         fi
 
-        # 开启 nullglob：没有匹配的通配符会被安全忽略，避免 git add 报 pathspec 错误
         shopt -s nullglob
-        # -f 强制添加 *.srs：防止 .gitignore 把它们挡在提交之外（这是"JSON 更新了但 SRS 不更新"的常见原因之一）
+        # -f 强制添加：防止 .gitignore 把 *.srs 挡在提交外
         git add -f source/*.txt source/*.json *.srs
         shopt -u nullglob
 
@@ -372,8 +364,8 @@ jobs:
           SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            # 基础环境已完美，直接使用最干净的 rebase，保持提交历史为一条直线
-            git pull --rebase origin main
+            # 跟随当前分支名，master/main 都能用
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             
             if git push; then
               SUCCESS=true
