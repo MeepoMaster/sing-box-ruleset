@@ -77,6 +77,8 @@ jobs:
           set -euo pipefail
           git clone --depth 1 -b "$MH_BRANCH" "$MH_REPO" /tmp/mh
           echo "rev=$(git -C /tmp/mh rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "MIHOMO_REV=$(git -C /tmp/mh rev-parse --short HEAD)" >> "$GITHUB_ENV"
+          echo "MIHOMO_DATE=$(git -C /tmp/mh log -1 --format=%cs)" >> "$GITHUB_ENV"
 
       - name: 恢复 Go 构建缓存
         uses: actions/cache@v4
@@ -91,29 +93,54 @@ jobs:
           go-version-file: /tmp/mh/go.mod
           cache: false
 
-      - name: 编译 mihomo
+      - name: 编译 mihomo（禁止任何无参数调用）
         run: |
           set -euo pipefail
           cd /tmp/mh
           CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o mihomo .
-          ./mihomo version
-          echo "MIHOMO_REV=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+          [ -x ./mihomo ] || { echo "❌ 编译产物不存在"; exit 1; }
 
-      - name: convert-ruleset 自检
+          echo "mihomo@${MIHOMO_REV} (${MIHOMO_DATE})"
+          echo "源码中可用子命令："
+          grep -n 'case "' /tmp/mh/main.go | head -20 || echo "（main.go 未匹配到 case，可能已重构）"
+
+          # 版本信息只用带超时的方式取；mihomo 没有 `version` 子命令，裸跑会启动服务
+          rc=0
+          timeout 10 ./mihomo -v > "$RUNNER_TEMP/mh_version.txt" 2>&1 || rc=$?
+          if [ "$rc" -eq 0 ]; then
+            head -5 "$RUNNER_TEMP/mh_version.txt" || true
+          else
+            echo "（-v 不可用，退出码 $rc，忽略——版本以 git 提交为准）"
+          fi
+
+      - name: convert-ruleset 能力自检
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/mrs"
-          printf '+.probe.example.com\nprobe.example.com\n' > "$RUNNER_TEMP/probe.txt"
-          if ! /tmp/mh/mihomo convert-ruleset domain text "$RUNNER_TEMP/probe.txt" "$RUNNER_TEMP/probe.mrs"; then
-            echo "❌ convert-ruleset 调用失败，以下是帮助信息："
-            /tmp/mh/mihomo convert-ruleset -h || true
+          MH=/tmp/mh/mihomo
+          cd "$RUNNER_TEMP"          # 万一误启动服务，配置只会落在临时目录
+
+          # 1) 先看源码里有没有这个子命令（零执行风险）
+          if ! grep -q 'convert-ruleset' /tmp/mh/main.go; then
+            echo "❌ /tmp/mh/main.go 中没有 convert-ruleset 子命令"
+            echo "可用子命令："
+            grep -n 'case "' /tmp/mh/main.go | head -20 || true
             exit 1
           fi
-          if [ ! -s "$RUNNER_TEMP/probe.mrs" ]; then
-            echo "❌ 自检产物为空"
+          echo "✅ 源码中存在 convert-ruleset"
+
+          # 2) 冒烟测试（必须套 timeout；退出码 124 = 说明落进了服务模式）
+          printf '+.probe.example.com\nprobe.example.com\n' > probe.txt
+          rc=0
+          timeout 30 "$MH" convert-ruleset domain text probe.txt probe.mrs || rc=$?
+          if [ "$rc" -ne 0 ]; then
+            echo "❌ 自检转换失败，退出码 $rc"
+            if [ "$rc" -eq 124 ]; then
+              echo "   → 124 表示命令超时：极可能是子命令/参数形式不对，mihomo 转去启动服务了"
+            fi
             exit 1
           fi
-          echo "✅ convert-ruleset 自检通过（$(stat -c %s "$RUNNER_TEMP/probe.mrs") 字节）"
+          [ -s probe.mrs ] || { echo "❌ 自检产物 probe.mrs 为空"; exit 1; }
+          echo "✅ 自检通过（$(stat -c %s probe.mrs) 字节）"
 
       - name: 拉取上游规则集
         run: |
@@ -143,7 +170,7 @@ jobs:
           lines=$(wc -l < "$RUNNER_TEMP/ChinaMax_IP.txt")
           echo "下载 $lines 行"
           if [ "$lines" -le 1000 ]; then
-            echo "❌ 行数异常（$lines）"
+            echo "❌ 行数异常（$lines），上游可能已变更"
             exit 1
           fi
 
@@ -157,44 +184,56 @@ jobs:
           set -euo pipefail
           python3 -u scripts/build_mrs.py
 
-      - name: 生成 mrs
+      - name: 生成 mrs（每次调用都套 timeout + 校验产物）
         run: |
           set -euo pipefail
+          MH=/tmp/mh/mihomo
           MRS="$RUNNER_TEMP/mrs"
+          cd "$RUNNER_TEMP"
+
           {
             echo ""
-            echo "### mihomo MRS（mihomo@${MIHOMO_REV}）"
+            echo "### mihomo MRS（mihomo@${MIHOMO_REV:-unknown} ${MIHOMO_DATE:-}）"
             echo ""
             echo "| MRS | 类型 | 大小(字节) | 结果 |"
             echo "| --- | --- | ---: | --- |"
           } >> "$GITHUB_STEP_SUMMARY"
 
           failed=""
+
           for f in $PRODUCTS_DOMAIN; do
-            if [ ! -f "$MRS/$f.txt" ]; then
-              echo "❌ 缺少 $MRS/$f.txt"
+            src="$MRS/$f.txt"
+            dst="$MRS/$f.mrs"
+            if [ ! -f "$src" ]; then
+              echo "❌ 缺少中间文件 $src"
               echo "| $f.mrs | domain | - | ❌ 缺少中间文件 |" >> "$GITHUB_STEP_SUMMARY"
               failed="$failed $f"
               continue
             fi
-            if /tmp/mh/mihomo convert-ruleset domain text "$MRS/$f.txt" "$MRS/$f.mrs" && [ -s "$MRS/$f.mrs" ]; then
-              size=$(stat -c %s "$MRS/$f.mrs")
+            rc=0
+            timeout 120 "$MH" convert-ruleset domain text "$src" "$dst" || rc=$?
+            if [ "$rc" -eq 0 ] && [ -s "$dst" ]; then
+              size=$(stat -c %s "$dst")
               echo "✅ $f.mrs ($size 字节)"
               echo "| $f.mrs | domain | $size | ✅ |" >> "$GITHUB_STEP_SUMMARY"
             else
-              echo "❌ $f.mrs 生成失败"
-              echo "| $f.mrs | domain | - | ❌ |" >> "$GITHUB_STEP_SUMMARY"
+              echo "❌ $f.mrs 生成失败（退出码 $rc$([ "$rc" -eq 124 ] && echo '，超时')）"
+              echo "| $f.mrs | domain | - | ❌ 退出码 $rc |" >> "$GITHUB_STEP_SUMMARY"
+              rm -f "$dst"
               failed="$failed $f"
             fi
           done
 
-          if /tmp/mh/mihomo convert-ruleset ipcidr text "$MRS/cnip.txt" "$MRS/cnip.mrs" && [ -s "$MRS/cnip.mrs" ]; then
+          rc=0
+          timeout 120 "$MH" convert-ruleset ipcidr text "$MRS/cnip.txt" "$MRS/cnip.mrs" || rc=$?
+          if [ "$rc" -eq 0 ] && [ -s "$MRS/cnip.mrs" ]; then
             size=$(stat -c %s "$MRS/cnip.mrs")
             echo "✅ cnip.mrs ($size 字节)"
             echo "| cnip.mrs | ipcidr | $size | ✅ |" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "❌ cnip.mrs 生成失败"
-            echo "| cnip.mrs | ipcidr | - | ❌ |" >> "$GITHUB_STEP_SUMMARY"
+            echo "❌ cnip.mrs 生成失败（退出码 $rc）"
+            echo "| cnip.mrs | ipcidr | - | ❌ 退出码 $rc |" >> "$GITHUB_STEP_SUMMARY"
+            rm -f "$MRS/cnip.mrs"
             failed="$failed cnip"
           fi
 
@@ -203,14 +242,28 @@ jobs:
             exit 1
           fi
 
-      - name: 落盘
+      - name: 落盘（先整体校验，再统一移动）
         run: |
           set -euo pipefail
           MRS="$RUNNER_TEMP/mrs"
+
+          bad=""
+          for f in $PRODUCTS_DOMAIN cnip; do
+            if [ ! -s "$MRS/$f.mrs" ]; then
+              echo "❌ 缺少或空文件：$MRS/$f.mrs"
+              bad="$bad $f"
+            fi
+          done
+          if [ -n "$bad" ]; then
+            echo "产物不完整：$bad"
+            exit 1
+          fi
+
           for f in $PRODUCTS_DOMAIN cnip; do
             mv "$MRS/$f.mrs" "./$f.mrs"
-            echo "✅ $f.mrs"
+            echo "✅ ./$f.mrs ($(stat -c %s "./$f.mrs") 字节)"
           done
+
           if [ -f "$RUNNER_TEMP/build/summary.md" ]; then
             cat "$RUNNER_TEMP/build/summary.md" >> "$GITHUB_STEP_SUMMARY"
           fi
@@ -231,7 +284,7 @@ jobs:
           fi
 
           git diff --cached --stat
-          git commit -m "chore: auto-update mihomo mrs rulesets"
+          git commit -m "chore: auto-update mihomo mrs rulesets (mihomo@${MIHOMO_REV:-unknown})"
 
           for i in 1 2 3 4 5; do
             if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
