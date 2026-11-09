@@ -1,407 +1,453 @@
-name: Update Singbox Remote Rules
+name: Update Sing-box Remote Rulesets
 
 on:
   schedule:
     - cron: '30 0,8,16 * * *'
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
       - 'source/process.txt'
       - 'source/cn.txt'
+      - 'source/emby.json'
 
 env:
   TZ: Asia/Shanghai
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  RULESET_VERSION: '5'
+  SB_REPO: https://github.com/reF1nd/sing-box.git
+  SB_BRANCH: reF1nd-testing
+  RULESET_VERSION_MAX: '5'
+  PRODUCTS: 'emby app adg-awa adg-dns cn'
+  AWA_URL: https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+  ADBLOCK_URL: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+  APPS_URL: https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
+  CN_URL: https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  update-all-rules:
-    if: "${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
+  update:
+    if: ${{ github.event_name != 'push' || (github.event.head_commit != null && !startsWith(github.event.head_commit.message, 'chore: auto-update')) }}
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
 
     steps:
-    - name: 1. 检出代码仓库
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: 2. 安装系统基础依赖
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y jq wget tar
+      - name: 安装基础依赖
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq curl
 
-    - name: 3. 配置 Python 环境
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    - name: 4. 克隆 reF1nd sing-box（testing 分支）
-      run: |
-        git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
-        echo "克隆完成"
+      - name: 克隆 reF1nd sing-box 并记录提交
+        id: sb
+        run: |
+          set -euo pipefail
+          git clone --depth 1 -b "$SB_BRANCH" "$SB_REPO" /tmp/sb
+          echo "rev=$(git -C /tmp/sb rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-    - name: 5. 配置 Go 环境
-      uses: actions/setup-go@v5
-      with:
-        go-version-file: /tmp/sb/go.mod
-        cache: false
+      - name: 恢复 Go 构建缓存
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: gobuild-${{ steps.sb.outputs.rev }}
+          restore-keys: gobuild-
 
-    - name: 6. 编译安装 Sing-box + 自动探测并决定生效版本
-      run: |
-        cd /tmp/sb
-        CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
-        sudo mv sing-box /usr/local/bin/
-        echo "===== sing-box 版本 ====="
-        sing-box version
+      - name: 配置 Go 环境
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: /tmp/sb/go.mod
+          cache: false
 
-        echo "===== 探测：从 v1 探测到 v$RULESET_VERSION ====="
-        SUPPORTED=""
-        FOUND_SUCCESS=0
-        for ((v=1; v<=RULESET_VERSION; v++)); do
-          echo "{\"version\": $v, \"rules\": [{\"domain_suffix\": [\"example.com\"]}]}" > /tmp/sbcheck.json
-          if sing-box rule-set compile --output /tmp/sbcheck.srs /tmp/sbcheck.json 2>/dev/null && [ -s /tmp/sbcheck.srs ]; then
-            echo "  v$v ✅"
-            SUPPORTED="$SUPPORTED $v"
-            FOUND_SUCCESS=1
-          else
-            if [ "$FOUND_SUCCESS" -eq 1 ]; then
-              echo "  v$v ❌（首次失败，探测结束）"
-              break
+      - name: 编译 sing-box 并探测支持的规则集版本
+        run: |
+          set -euo pipefail
+          cd /tmp/sb
+          CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o sing-box ./cmd/sing-box
+          sudo install -m 0755 sing-box /usr/local/bin/sing-box
+          sing-box version
+
+          probe() {
+            printf '{"version": %s, "rules": [{"domain": ["probe.example.com"], "domain_suffix": ["probe.example.com"], "domain_keyword": ["probe"], "ip_cidr": ["127.0.0.1"], "process_name": ["probe.exe"]}]}' "$1" > "$RUNNER_TEMP/probe.json"
+            sing-box rule-set compile --output "$RUNNER_TEMP/probe.srs" "$RUNNER_TEMP/probe.json" >/dev/null 2>&1 && [ -s "$RUNNER_TEMP/probe.srs" ]
+          }
+
+          SUPPORTED=""
+          for v in $(seq 1 "$RULESET_VERSION_MAX"); do
+            if probe "$v"; then
+              echo "  v$v ✅"
+              SUPPORTED="$SUPPORTED $v"
             else
               echo "  v$v ❌"
             fi
-          fi
-          rm -f /tmp/sbcheck.srs
-        done
-        rm -f /tmp/sbcheck.json
-
-        MAX_SUPPORTED=$(echo "$SUPPORTED" | tr ' ' '\n' | grep -E '^[0-9]+$' | sort -n | tail -1)
-
-        echo "===== 版本决策 ====="
-        echo "目标 env.RULESET_VERSION = $RULESET_VERSION"
-        echo "该二进制支持:$SUPPORTED"
-
-        if [ -z "$MAX_SUPPORTED" ]; then
-          echo "❌ 该二进制不支持任何版本，请检查 reF1nd 分支是否安装正确"
-          exit 1
-        fi
-
-        case " $SUPPORTED " in
-          *" $RULESET_VERSION "*)
-            EFFECTIVE_VERSION=$RULESET_VERSION
-            echo "✅ 目标 v$RULESET_VERSION 受支持，直接使用"
-            ;;
-          *)
-            EFFECTIVE_VERSION=$MAX_SUPPORTED
-            echo "⚠️  目标 v$RULESET_VERSION 暂不受支持（最高支持 v$MAX_SUPPORTED），自动回退到 v$EFFECTIVE_VERSION"
-            ;;
-        esac
-
-        echo "EFFECTIVE_VERSION=$EFFECTIVE_VERSION" >> "$GITHUB_ENV"
-        echo "===== 最终生效版本：v$EFFECTIVE_VERSION ====="
-
-    - name: 7. 自动整理并去重本地 TXT 源文件
-      run: |
-        python3 -c '
-        import os
-
-        txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
-        
-        for file_path in txt_files:
-            if not os.path.exists(file_path):
-                continue
-
-            with open(file_path, "r", encoding="utf-8") as f:
-                lines = [line.strip() for line in f if line.strip()]
-
-            if not lines:
-                continue
-
-            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
-            has_tags = any(line.lower() in tags for line in lines)
-
-            out_str = ""
-
-            if not has_tags:
-                sorted_lines = sorted(list(set(lines)))
-                out_str = "\n".join(sorted_lines)
-            else:
-                groups = {"domain": set(), "suffix": set(), "keyword": set()}
-                current = "domain"
-
-                for line in lines:
-                    val = line.lower()
-                    if val in ["domain:", "domain："]:
-                        current = "domain"
-                    elif val in ["domain_suffix:", "domain_suffix："]:
-                        current = "suffix"
-                    elif val in ["domain_keyword:", "domain_keyword："]:
-                        current = "keyword"
-                    else:
-                        groups[current].add(line)
-
-                out_blocks = []
-                if groups["domain"]:
-                    out_blocks.append("domain:\n" + "\n".join(sorted(list(groups["domain"]))))
-                if groups["suffix"]:
-                    out_blocks.append("domain_suffix:\n" + "\n".join(sorted(list(groups["suffix"]))))
-                if groups["keyword"]:
-                    out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
-                
-                out_str = "\n\n".join(out_blocks)
-
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(out_str + "\n")
-        '
-
-    - name: 8. 处理 Emby 规则（去重 + 排序 + 版本号）
-      continue-on-error: true
-      run: |
-        jq --argjson version "$EFFECTIVE_VERSION" '
-          .version = $version |
-          .rules[] |= (
-            if has("domain") then .domain |= (unique | sort) else . end |
-            if has("domain_suffix") then .domain_suffix |= (unique | sort) else . end |
-            if has("domain_keyword") then .domain_keyword |= (unique | sort) else . end
-          )
-        ' source/emby.json | jq . > source/temp_emby.json
-        mv source/temp_emby.json source/emby.json
-
-    - name: 9. 处理 adg-awa 规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        
-        block_domains=$(grep -vE ':$|：$' source/block.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
-        noblock_domains=$(grep -vE ':$|：$' source/noblock.txt | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
-
-        jq --argjson noblock "$noblock_domains" '
-          .rules[0].domain |= map(select(. as $d | $noblock | index($d) | not)) |
-          .rules[0].domain_keyword |= map(select(. as $d | $noblock | index($d) | not)) |
-          .rules[0].domain_suffix |= map(select(. as $d | $noblock | index($d) | not))
-        ' AWAvenue.json > cleaned_awa.json
-
-        jq --argjson block "$block_domains" '
-          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $block) | unique | sort)
-        ' cleaned_awa.json > updated_awa.json
-
-        jq --argjson version "$EFFECTIVE_VERSION" '
-          .version = $version |
-          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
-          .rules[0].domain_keyword = (if .rules[0].domain_keyword | length > 0 then .rules[0].domain_keyword | unique | sort else .rules[0].domain_keyword end)
-        ' updated_awa.json > source/adg-awa.json
-        rm AWAvenue.json cleaned_awa.json updated_awa.json
-
-    - name: 10. 处理 adg-dns 规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
-
-        jq -s --argjson version "$EFFECTIVE_VERSION" '
-          {
-            version: $version,
-            rules: [
-              {
-                domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
-                domain_keyword: ((.[0].rules[0].domain_keyword // []) + (.[1].rules[0].domain_keyword // []) | unique),
-                domain_suffix: ((.[0].rules[0].domain_suffix // []) + (.[1].rules[0].domain_suffix // []) | unique)
-              }
-            ]
-          }
-        ' AWAvenue.json adblocksingbox.json > merged_adg.json
-
-        parse_list() {
-            local file=$1
-            local out_domain=$2
-            local out_suffix=$3
-            local current_mode="domain"
-            
-            touch "$out_domain" "$out_suffix"
-            if [ ! -f "$file" ]; then return; fi
-            
-            while IFS= read -r line || [[ -n "$line" ]]; do
-                line=$(echo "$line" | xargs)
-                if [[ -z "$line" ]]; then continue; fi
-                
-                if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
-                if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
-                
-                if [[ "$current_mode" == "domain" ]]; then
-                    echo "$line" >> "$out_domain"
-                else
-                    echo "$line" >> "$out_suffix"
-                fi
-            done < "$file"
-        }
-
-        parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
-        parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
-
-        b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
-        b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
-        nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
-        nb_s=$( [ -s nb_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_suffix.txt || echo "[]" )
-        
-        nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
-
-        jq --argjson bd "$b_d" \
-           --argjson bs "$b_s" \
-           --argjson nbd "$nb_d" \
-           --argjson nbs "$nb_s" \
-           --argjson nball "$nb_all" '
-          .rules[0].domain = (((.rules[0].domain // []) + $bd) | map(select(. as $d | $nbd | index($d) | not)) | unique | sort) |
-          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $bs) | map(select(. as $d | $nbs | index($d) | not)) | unique | sort) |
-          .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
-          
-          .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
-        ' merged_adg.json > source/adg-dns.json
-
-        rm AWAvenue.json adblocksingbox.json merged_adg.json
-        rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
-
-    - name: 11. 处理 App 规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o applications.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
-        process_names=$(jq -R -s -c 'split("\n")[:-1]' source/process.txt)
-
-        jq --argjson process "$process_names" --argjson version "$EFFECTIVE_VERSION" '
-          .version = $version |
-          .rules[0].process_name += $process |
-          .rules[0].process_name = (if .rules[0].process_name | length > 0 then .rules[0].process_name | unique | sort else .rules[0].process_name end)
-        ' applications.json > source/app.json
-        rm applications.json
-
-    - name: 12. 处理 CN 规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o upstream_cn.json https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
-        touch domain_list.txt suffix_list.txt
-        current_mode="suffix"
-
-        while IFS= read -r line || [[ -n "$line" ]]; do
-            line=$(echo "$line" | xargs)
-            if [[ -z "$line" ]]; then continue; fi
-
-            if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then
-                current_mode="domain"
-                continue
-            fi
-
-            if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then
-                current_mode="suffix"
-                continue
-            fi
-
-            if [[ "$current_mode" == "domain" ]]; then
-                echo "$line" >> domain_list.txt
-            else
-                echo "$line" >> suffix_list.txt
-            fi
-        done < source/cn.txt
-
-        if [ -s domain_list.txt ]; then
-            local_domains=$(jq -R -s -c 'split("\n")[:-1]' domain_list.txt)
-        else
-            local_domains="[]"
-        fi
-
-        if [ -s suffix_list.txt ]; then
-            local_suffixes=$(jq -R -s -c 'split("\n")[:-1]' suffix_list.txt)
-        else
-            local_suffixes="[]"
-        fi
-
-        jq --argjson new_domains "$local_domains" --argjson new_suffixes "$local_suffixes" --argjson version "$EFFECTIVE_VERSION" '
-          .version = $version |
-          .rules[0].domain = (.rules[0].domain // []) + $new_domains |
-          .rules[0].domain = (if .rules[0].domain | length > 0 then .rules[0].domain | unique | sort else .rules[0].domain end) |
-          .rules[0].domain_suffix = (.rules[0].domain_suffix // []) + $new_suffixes |
-          .rules[0].domain_suffix = (if .rules[0].domain_suffix | length > 0 then .rules[0].domain_suffix | unique | sort else .rules[0].domain_suffix end)
-        ' upstream_cn.json > source/cn.json
-        rm upstream_cn.json domain_list.txt suffix_list.txt
-
-    - name: 13. 批量编译所有 JSON 为 SRS（逐文件容错）
-      continue-on-error: true
-      run: |
-        echo "===== 最终编译使用的 sing-box ====="
-        sing-box version
-        echo "===== 本次生效版本：v$EFFECTIVE_VERSION ====="
-
-        FAILED=0
-        GENERATED=0
-        for file in emby adg-awa adg-dns app cn; do
-          if [ -f "source/$file.json" ]; then
-            echo ">>> 编译 source/$file.json -> $file.srs"
-            if sing-box rule-set compile --output "$file.srs" "source/$file.json" && [ -s "$file.srs" ]; then
-              echo "✅ $file.srs OK（$(stat -c %s "$file.srs") 字节）"
-              GENERATED=$((GENERATED+1))
-            else
-              echo "❌ $file.json 编译失败或产物为空"
-              FAILED=1
-            fi
-          else
-            echo "⚠️  跳过：source/$file.json 不存在"
-          fi
-        done
-
-        echo "===== 编译汇总 ====="
-        echo "成功 $GENERATED / 5"
-        ls -lh *.srs 2>/dev/null || echo "（没有任何 .srs 生成！）"
-        if [ "$FAILED" -ne 0 ]; then
-          echo "存在失败项，请查看上方具体报错"
-        fi
-        exit $FAILED
-
-    - name: 14. 提交并推送更改
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-
-        if ! ls *.srs >/dev/null 2>&1; then
-          echo "⚠️  未检测到任何 .srs 文件，请查看第 13 步编译日志！"
-        fi
-
-        shopt -s nullglob
-        git add -f source/*.txt source/*.json *.srs
-        shopt -u nullglob
-
-        if ! git diff --cached --quiet; then
-          git commit -m "chore: auto-update all routing rules (ruleset v${{ env.EFFECTIVE_VERSION }})"
-          
-          MAX_RETRIES=5
-          RETRY_COUNT=0
-          SUCCESS=false
-          
-          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            
-            if git push; then
-              SUCCESS=true
-              break
-            fi
-            
-            echo "推送遇到并发锁，3秒后进行第 $((RETRY_COUNT+1)) 次重试..."
-            sleep 3
-            RETRY_COUNT=$((RETRY_COUNT+1))
+            rm -f "$RUNNER_TEMP/probe.srs"
           done
-          
-          if [ "$SUCCESS" = false ]; then
-            echo "错误: 尝试推送 $MAX_RETRIES 次后仍然失败，请检查仓库状态。"
+
+          MAX=$(echo $SUPPORTED | tr ' ' '\n' | sort -n | tail -1)
+          if [ -z "${MAX:-}" ]; then
+            echo "❌ 该二进制不支持任何规则集版本（探测样本已含 process_name）"
             exit 1
           fi
-        else
-          echo "No changes to commit"
-        fi
+          echo "本次生效版本：v$MAX"
+          echo "EFFECTIVE_VERSION=$MAX" >> "$GITHUB_ENV"
+
+      - name: 拉取上游规则集
+        run: |
+          set -uo pipefail
+          mkdir -p "$RUNNER_TEMP/up"
+          fetch() {
+            local url="$1" dest="$2"
+            if curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 90 -o "$dest.part" "$url" \
+               && [ -s "$dest.part" ] && jq -e '(.rules | length) > 0' "$dest.part" >/dev/null 2>&1; then
+              mv "$dest.part" "$dest"
+              echo "✅ $(basename "$dest")"
+            else
+              rm -f "$dest.part"
+              echo "⚠️ $(basename "$dest") 拉取或校验失败，将回退到上一次的产物"
+            fi
+          }
+          fetch "$AWA_URL"     "$RUNNER_TEMP/up/awa.json"
+          fetch "$ADBLOCK_URL" "$RUNNER_TEMP/up/adblock.json"
+          fetch "$APPS_URL"    "$RUNNER_TEMP/up/applications.json"
+          fetch "$CN_URL"      "$RUNNER_TEMP/up/cn.json"
+
+      - name: 组装并归一化（只写临时目录）
+        run: |
+          python3 - <<'PY'
+          import json, os, re
+          from pathlib import Path
+
+          TMP      = Path(os.environ["RUNNER_TEMP"])
+          SRC      = Path("source")
+          BUILD    = TMP / "build"
+          UP       = TMP / "up"
+          VER      = int(os.environ["EFFECTIVE_VERSION"])
+          PRODUCTS = os.environ["PRODUCTS"].split()
+          BUILD.mkdir(parents=True, exist_ok=True)
+
+          LABEL = {"domain:": "domain", "domain：": "domain",
+                   "domain_suffix:": "suffix", "domain_suffix：": "suffix",
+                   "domain_keyword:": "keyword", "domain_keyword：": "keyword",
+                   "domain_regex:": "regex", "domain_regex：": "regex"}
+          TITLE = {"domain": "domain:", "suffix": "domain_suffix:",
+                   "keyword": "domain_keyword:", "regex": "domain_regex:"}
+          DOM_KEYS = ("domain", "domain_suffix", "domain_keyword", "domain_regex")
+          WARN = {}
+
+          def warn(name, msg):
+              WARN.setdefault(name, []).append(msg)
+
+          def load(p):
+              with open(p, encoding="utf-8") as f:
+                  return json.load(f)
+
+          def dump(p, obj):
+              with open(p, "w", encoding="utf-8") as f:
+                  json.dump(obj, f, ensure_ascii=False, indent=2)
+                  f.write("\n")
+
+          # ---------- TXT 解析与就地整理 ----------
+          def parse_txt(p, default):
+              groups = {"domain": [], "suffix": [], "keyword": [], "regex": []}
+              cur, tagged = default, False
+              if not Path(p).exists():
+                  return groups, tagged
+              for raw in Path(p).read_text(encoding="utf-8").splitlines():
+                  s = raw.strip()
+                  if not s or s.startswith("#"):
+                      continue
+                  hit = LABEL.get(s.lower())
+                  if hit:
+                      cur, tagged = hit, True
+                      continue
+                  groups[cur].append(s)
+              return groups, tagged
+
+          def tidy_hosts(name, default):
+              p = SRC / name
+              groups, tagged = parse_txt(p, default)
+              if not groups["domain"] + groups["suffix"] + groups["keyword"] + groups["regex"]:
+                  return {}
+              out = {}
+              for k in ("domain", "suffix", "keyword", "regex"):
+                  vals = groups[k]
+                  if not vals:
+                      continue
+                  out[k] = sorted(set(vals)) if k == "regex" else sorted({v.lower() for v in vals})
+              bad = [v for k in ("domain", "suffix", "keyword") for v in out.get(k, [])
+                     if re.search(r"[*^/\\: ]", v)]
+              if bad:
+                  warn(name, "疑似非法条目（含 * / ^ : 空格）：%s" % "、".join(bad[:5]))
+              if tagged:
+                  blocks = ["%s\n%s" % (TITLE[k], "\n".join(out[k]))
+                            for k in ("domain", "suffix", "keyword", "regex") if out.get(k)]
+                  p.write_text("\n\n".join(blocks) + "\n", encoding="utf-8")
+              else:
+                  p.write_text("\n".join(out.get(default, [])) + "\n", encoding="utf-8")
+              return out
+
+          def tidy_flat(name):
+              p = SRC / name
+              if not p.exists():
+                  return []
+              vals = sorted({l.strip() for l in p.read_text(encoding="utf-8").splitlines()
+                             if l.strip() and not l.lstrip().startswith("#")})
+              p.write_text("\n".join(vals) + "\n", encoding="utf-8")
+              return vals
+
+          # ---------- 归一化 ----------
+          def covered(host, sufs):
+              return any(host == s or host.endswith("." + s) for s in sufs)
+
+          def norm_rule(rule, name):
+              for k in DOM_KEYS:
+                  if isinstance(rule.get(k), list):
+                      rule[k] = sorted({str(x).strip() for x in rule[k] if str(x).strip()})
+              sufs = rule.get("domain_suffix", [])
+              if sufs:
+                  rule["domain_suffix"] = sorted({s for s in sufs
+                                                  if not any(s != t and s.endswith("." + t) for t in sufs)})
+              kws = rule.get("domain_keyword", [])
+              if kws:
+                  rule["domain_keyword"] = sorted({t for t in kws
+                                                   if not any(t != u and u in t for u in kws)})
+              if rule.get("domain"):
+                  drop = [d for d in rule["domain"]
+                          if covered(d, rule.get("domain_suffix", []))
+                          or any(k in d for k in rule.get("domain_keyword", []))]
+                  if drop:
+                      warn(name, "删除 %d 条被 suffix/keyword 覆盖的 domain：%s"
+                           % (len(drop), "、".join(drop[:3])))
+                  rule["domain"] = [d for d in rule["domain"] if d not in drop]
+              for k in DOM_KEYS:
+                  if k in rule and not rule[k]:
+                      del rule[k]
+              return rule
+
+          def norm_doc(doc, name):
+              if not doc.get("rules"):
+                  doc["rules"] = [{}]
+              for rule in doc["rules"]:
+                  norm_rule(rule, name)
+              doc["version"] = VER
+              return doc
+
+          # ---------- 合并 / 白名单 ----------
+          def merge(rule, dom=None, suf=None, kw=None):
+              for key, vals in (("domain", dom), ("domain_suffix", suf), ("domain_keyword", kw)):
+                  if vals:
+                      rule[key] = list(rule.get(key) or []) + list(vals)
+
+          def whitelist(rule, nb_all):
+              def hit(d):
+                  return any(d == x or d.startswith(x + ".") for x in nb_all)
+              for k in ("domain", "domain_suffix"):
+                  if rule.get(k):
+                      rule[k] = [d for d in rule[k] if not hit(d)]
+              if rule.get("domain_keyword"):
+                  rule["domain_keyword"] = [k for k in rule["domain_keyword"]
+                                            if not any(x in k for x in nb_all)]
+
+          def pick(name, ups):
+              if ups and all((UP / u).is_file() for u in ups):
+                  try:
+                      return [load(UP / u) for u in ups], "upstream"
+                  except Exception as e:
+                      warn(name, "上游解析失败：%s" % e)
+              prev = SRC / ("%s.json" % name)
+              if prev.is_file():
+                  warn(name, "上游不可用，回退到上一次产物（本次未更新上游内容）")
+                  return [load(prev)], "previous"
+              raise SystemExit("[%s] 上游与历史产物都不可用，无法生成" % name)
+
+          def first_rule(doc):
+              doc.setdefault("rules", [{}])
+              return doc["rules"][0]
+
+          # ---------- 各产物 ----------
+          block    = tidy_hosts("block.txt", "domain")
+          noblock  = tidy_hosts("noblock.txt", "domain")
+          cn_local = tidy_hosts("cn.txt", "suffix")
+          procs    = tidy_flat("process.txt")
+
+          nb_all = (noblock.get("domain") or []) + (noblock.get("suffix") or []) + (noblock.get("keyword") or [])
+
+          out = {}
+
+          emby_path = SRC / "emby.json"
+          if not emby_path.is_file():
+              raise SystemExit("缺少 source/emby.json（手工维护的原始规则集）")
+          doc = load(emby_path)
+          norm_doc(doc, "emby")
+          out["emby"] = (doc, "local")
+
+          docs, origin = pick("adg-awa", ["awa.json"])
+          doc = docs[0]; rule = first_rule(doc)
+          merge(rule, block.get("domain"), block.get("suffix"), block.get("keyword"))
+          whitelist(rule, nb_all)
+          norm_doc(doc, "adg-awa")
+          out["adg-awa"] = (doc, origin)
+
+          docs, origin = pick("adg-dns", ["awa.json", "adblock.json"])
+          if origin == "upstream" and len(docs) == 2:
+              merged = {"rules": [{}]}
+              for d in docs:
+                  src_rule = first_rule(d)
+                  for k in ("domain", "domain_suffix", "domain_keyword"):
+                      if src_rule.get(k):
+                          merged["rules"][0][k] = list(merged["rules"][0].get(k) or []) + src_rule[k]
+              doc = merged
+          else:
+              doc = docs[0]; first_rule(doc)
+          rule = doc["rules"][0]
+          merge(rule, block.get("domain"), block.get("suffix"), block.get("keyword"))
+          whitelist(rule, nb_all)
+          norm_doc(doc, "adg-dns")
+          out["adg-dns"] = (doc, origin)
+
+          docs, origin = pick("app", ["applications.json"])
+          doc = docs[0]; rule = first_rule(doc)
+          if procs:
+              exist = [str(x).strip() for x in (rule.get("process_name") or []) if str(x).strip()]
+              rule["process_name"] = sorted(set(exist) | set(procs))
+          norm_doc(doc, "app")
+          out["app"] = (doc, origin)
+
+          docs, origin = pick("cn", ["cn.json"])
+          doc = docs[0]; rule = first_rule(doc)
+          merge(rule, cn_local.get("domain"), cn_local.get("suffix"), cn_local.get("keyword"))
+          norm_doc(doc, "cn")
+          out["cn"] = (doc, origin)
+
+          # ---------- 校验 + 落地到临时目录 ----------
+          report = {}
+          for name in PRODUCTS:
+              if name not in out:
+                  raise SystemExit("未知产物：%s" % name)
+              doc, origin = out[name]
+              rule = doc["rules"][0]
+              cross = sum(1 for d in rule.get("domain", []) if covered(d, rule.get("domain_suffix", [])))
+              if cross:
+                  raise SystemExit("[%s] 归一化后仍有 %d 条 domain 被 domain_suffix 覆盖" % (name, cross))
+              dump(BUILD / ("%s.json" % name), doc)
+              report[name] = {"origin": origin,
+                              "counts": {k: len(rule.get(k, [])) for k in DOM_KEYS},
+                              "warnings": WARN.get(name, [])}
+
+          dump(BUILD / "report.json", report)
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+
+      - name: 校验产物并落盘到 source/
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          TMP   = Path(os.environ["RUNNER_TEMP"])
+          BUILD = TMP / "build"
+          SRC   = Path("source")
+          rep = json.loads((BUILD / "report.json").read_text(encoding="utf-8"))
+
+          origin_cn = {"upstream": "上游", "previous": "⚠️ 回退（旧产物）", "local": "本地"}
+          rows = ["| 产物 | 来源 | domain | domain_suffix | domain_keyword | domain_regex |",
+                  "| --- | --- | ---: | ---: | ---: | ---: |"]
+          for name, info in rep.items():
+              c = info["counts"]
+              rows.append("| %s | %s | %d | %d | %d | %d |" % (
+                  name, origin_cn.get(info["origin"], info["origin"]),
+                  c["domain"], c["domain_suffix"], c["domain_keyword"], c["domain_regex"]))
+
+          notes = ["- **%s**：%s" % (n, w) for n, i in rep.items() for w in i["warnings"]]
+          md = ["## 规则集构建结果", "", *rows, ""]
+          if notes:
+              md += ["### 归一化提示", "", *notes, ""]
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+              f.write("\n".join(md) + "\n")
+
+          for name in rep:
+              os.replace(BUILD / ("%s.json" % name), SRC / ("%s.json" % name))
+          print("已落盘 %d 个 JSON" % len(rep))
+          PY
+
+      - name: 编译为 SRS
+        run: |
+          set -euo pipefail
+          echo "===== sing-box ====="; sing-box version
+          echo "===== 生效版本 v$EFFECTIVE_VERSION ====="
+          {
+            echo ""
+            echo "### 编译结果"
+            echo ""
+            echo "| SRS | 大小(字节) | 结果 |"
+            echo "| --- | ---: | --- |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          failed=""
+          for f in $PRODUCTS; do
+            src="source/$f.json"
+            if [ ! -f "$src" ]; then
+              echo "❌ 缺少 $src"
+              echo "| $f.srs | - | ❌ 源文件缺失 |" >> "$GITHUB_STEP_SUMMARY"
+              failed="$failed $f"; continue
+            fi
+            if sing-box rule-set compile --output "$f.srs" "$src" && [ -s "$f.srs" ]; then
+              size=$(stat -c %s "$f.srs")
+              echo "✅ $f.srs ($size 字节)"
+              echo "| $f.srs | $size | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "❌ $f 编译失败"
+              echo "| $f.srs | - | ❌ |" >> "$GITHUB_STEP_SUMMARY"
+              failed="$failed $f"
+            fi
+          done
+          if [ -n "$failed" ]; then
+            echo "编译失败：$failed"
+            exit 1
+          fi
+
+      - name: 提交并推送
+        run: |
+          set -euo pipefail
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          shopt -s nullglob
+          git add -f source/*.txt source/*.json ./*.srs
+          shopt -u nullglob
+
+          if git diff --cached --quiet; then
+            echo "没有变化，跳过提交"
+            exit 0
+          fi
+
+          git diff --cached --stat
+          git commit -m "chore: auto-update rulesets (v${EFFECTIVE_VERSION})"
+
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
+              echo "✅ 推送成功"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "第 $i 次推送失败，3 秒后重试"
+            sleep 3
+          done
+          echo "❌ 推送重试 5 次仍失败"
+          exit 1
