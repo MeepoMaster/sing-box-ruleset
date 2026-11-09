@@ -1,457 +1,246 @@
-name: Update Mihomo Remote Rules
+name: Update mihomo MRS Rulesets
 
 on:
   schedule:
-    - cron: '40 0,8,16 * * *'
+    - cron: '15 1,9,17 * * *'
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - 'source/emby.json'
       - 'source/block.txt'
       - 'source/noblock.txt'
-      - 'source/process.txt'
       - 'source/cn.txt'
+      - 'source/emby.json'
+      - 'scripts/build_rules.py'
+      - 'scripts/build_mrs.py'
 
 env:
   TZ: Asia/Shanghai
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  MH_REPO: https://github.com/MetaCubeX/mihomo.git
+  MH_BRANCH: Alpha
+  # 只用于给中间 JSON 盖章，mihomo 侧不参与编译
+  EFFECTIVE_VERSION: "${{ vars.RULESET_VERSION || '5' }}"
+  PRODUCTS: 'emby app adg-awa adg-dns cn'
+  WHITELISTED: 'emby adg-awa adg-dns'
+  PRODUCTS_DOMAIN: 'emby adg-awa adg-dns cn'
+  BIG_ARRAY: '20000'
+  IP_URL: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt
+  AWA_URL: https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
+  ADBLOCK_URL: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
+  APPS_URL: https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
+  CN_URL: https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/cn.json
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  update-all-rules:
-    if: "${{ !(github.event_name == 'push' && github.event.head_commit.message != null && startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
+  build:
+    if: "${{ github.event_name != 'push' || (github.event.head_commit != null && !startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: write
 
     steps:
-    - name: 1. 检出代码仓库
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: 2. 安装系统基础依赖
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wget gzip curl jq
+      - name: 安装基础依赖
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq curl
 
-    - name: 3. 配置 Python 环境
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    - name: 4. 安装 Mihomo 内核
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        MIHOMO_LATEST=$(curl -sfL -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/repos/MetaCubeX/mihomo/releases/latest | jq -r .tag_name)
-        echo "Installing mihomo version: $MIHOMO_LATEST"
-        wget -O mihomo.gz "https://github.com/MetaCubeX/mihomo/releases/download/${MIHOMO_LATEST}/mihomo-linux-amd64-compatible-${MIHOMO_LATEST}.gz"
-        gzip -d mihomo.gz
-        sudo mv mihomo /usr/local/bin/
-        sudo chmod +x /usr/local/bin/mihomo
-        mihomo -v
-
-    - name: 5. 纯文本格式化本地数据
-      run: |
-        python3 -c '
-        import os
-
-        txt_files = ["source/block.txt", "source/noblock.txt", "source/process.txt", "source/cn.txt"]
-        
-        for file_path in txt_files:
-            if not os.path.exists(file_path):
-                continue
-
-            with open(file_path, "r", encoding="utf-8") as f:
-                lines = [line.strip() for line in f if line.strip()]
-
-            if not lines:
-                continue
-
-            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
-            has_tags = any(line.lower() in tags for line in lines)
-
-            out_str = ""
-
-            if not has_tags:
-                sorted_lines = sorted(list(set(lines)))
-                out_str = "\n".join(sorted_lines)
-            else:
-                groups = {"domain": set(), "suffix": set(), "keyword": set()}
-                current = "domain"
-
-                for line in lines:
-                    val = line.lower()
-                    if val in ["domain:", "domain："]:
-                        current = "domain"
-                    elif val in ["domain_suffix:", "domain_suffix："]:
-                        current = "suffix"
-                    elif val in ["domain_keyword:", "domain_keyword："]:
-                        current = "keyword"
-                    else:
-                        groups[current].add(line)
-
-                out_blocks = []
-                if groups["domain"]:
-                    out_blocks.append("domain:\n" + "\n".join(sorted(list(groups["domain"]))))
-                if groups["suffix"]:
-                    out_blocks.append("domain_suffix:\n" + "\n".join(sorted(list(groups["suffix"]))))
-                if groups["keyword"]:
-                    out_blocks.append("domain_keyword:\n" + "\n".join(sorted(list(groups["keyword"]))))
-                
-                out_str = "\n\n".join(out_blocks)
-
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(out_str + "\n")
-        '
-
-    - name: 6. 处理 adg-dns 基础规则
-      continue-on-error: true
-      run: |
-        curl -sfL -o AWAvenue.json https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
-        curl -sfL -o adblocksingbox.json https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
-
-        jq -s '
-          {
-            rules: [
-              {
-                domain: ((.[0].rules[0].domain // []) + (.[1].rules[0].domain // []) | unique),
-                domain_keyword: ((.[0].rules[0].domain_keyword // []) + (.[1].rules[0].domain_keyword // []) | unique),
-                domain_suffix: ((.[0].rules[0].domain_suffix // []) + (.[1].rules[0].domain_suffix // []) | unique)
-              }
-            ]
-          }
-        ' AWAvenue.json adblocksingbox.json > merged_adg.json
-
-        parse_list() {
-            local file=$1
-            local out_domain=$2
-            local out_suffix=$3
-            local current_mode="domain"
-            
-            touch "$out_domain" "$out_suffix"
-            if [ ! -f "$file" ]; then return; fi
-            
-            while IFS= read -r line || [[ -n "$line" ]]; do
-                line=$(echo "$line" | xargs)
-                if [[ -z "$line" ]]; then continue; fi
-                
-                if [[ "${line,,}" == "domain:" || "${line,,}" == "domain：" ]]; then current_mode="domain"; continue; fi
-                if [[ "${line,,}" == "domain_suffix:" || "${line,,}" == "domain_suffix：" ]]; then current_mode="suffix"; continue; fi
-                
-                if [[ "$current_mode" == "domain" ]]; then
-                    echo "$line" >> "$out_domain"
-                else
-                    echo "$line" >> "$out_suffix"
-                fi
-            done < "$file"
-        }
-
-        parse_list "source/block.txt" "b_domain.txt" "b_suffix.txt"
-        parse_list "source/noblock.txt" "nb_domain.txt" "nb_suffix.txt"
-
-        b_d=$( [ -s b_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' b_domain.txt || echo "[]" )
-        b_s=$( [ -s b_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' b_suffix.txt || echo "[]" )
-        nb_d=$( [ -s nb_domain.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_domain.txt || echo "[]" )
-        nb_s=$( [ -s nb_suffix.txt ] && jq -R -s -c 'split("\n")[:-1]' nb_suffix.txt || echo "[]" )
-        
-        nb_all=$(cat nb_domain.txt nb_suffix.txt 2>/dev/null | jq -R -s -c 'split("\n")[:-1] | map(select(length > 0))' || echo "[]")
-
-        jq --argjson bd "$b_d" \
-           --argjson bs "$b_s" \
-           --argjson nbd "$nb_d" \
-           --argjson nbs "$nb_s" \
-           --argjson nball "$nb_all" '
-          .rules[0].domain = (((.rules[0].domain // []) + $bd) | map(select(. as $d | $nbd | index($d) | not)) | unique | sort) |
-          .rules[0].domain_suffix = (((.rules[0].domain_suffix // []) + $bs) | map(select(. as $d | $nbs | index($d) | not)) | unique | sort) |
-          .rules[0].domain_keyword = ((.rules[0].domain_keyword // []) | map(select(. as $d | $nball | index($d) | not)) | unique | sort) |
-          
-          .rules[0] |= with_entries(select(.value | type == "array" and length > 0))
-        ' merged_adg.json > /tmp/adg-dns.json
-
-        rm AWAvenue.json adblocksingbox.json merged_adg.json
-        rm b_domain.txt b_suffix.txt nb_domain.txt nb_suffix.txt
-
-    - name: 7. 处理并转换 Mihomo 规则
-      run: |
-        python -c '
-        import os, re, json
-        import urllib.request
-
-        def download(url, path):
-            try:
-                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-                with urllib.request.urlopen(req) as resp, open(path, "wb") as f:
-                    f.write(resp.read())
-            except Exception as e:
-                print(f"Download failed {url}: {e}")
-
-        def load_lines(path):
-            if not os.path.exists(path): return set()
-            tags = {"domain:", "domain_suffix:", "domain_keyword:", "domain：", "domain_suffix：", "domain_keyword："}
-            with open(path, "r", encoding="utf-8") as f:
-                return {line.strip() for line in f if line.strip() and line.strip().lower() not in tags}
-
-        noblock = load_lines("source/noblock.txt")
-        block = load_lines("source/block.txt")
-        process = load_lines("source/process.txt")
-
-        if os.path.exists("source/emby.json"):
-            try:
-                with open("source/emby.json", "r") as f:
-                    emby_data = json.load(f)
-                emby_lines = set()
-                
-                has_keyword = any(r.get("domain_keyword") for r in emby_data.get("rules", []))
-                
-                for r in emby_data.get("rules", []):
-                    if has_keyword:
-                        for d in r.get("domain", []): emby_lines.add(f"DOMAIN,{d}")
-                        for d in r.get("domain_suffix", []): emby_lines.add(f"DOMAIN-SUFFIX,{d}")
-                        for d in r.get("domain_keyword", []): emby_lines.add(f"DOMAIN-KEYWORD,{d}")
-                    else:
-                        for d in r.get("domain", []): emby_lines.add(d)
-                        for d in r.get("domain_suffix", []): emby_lines.add(f"+.{d}")
-                
-                with open("source/emby.list", "w") as f:
-                    for line in sorted(emby_lines): f.write(f"{line}\n")
-                print("Successfully converted emby.json to emby.list (Pure Domain Format)")
-            except Exception as e: 
-                pass
-
-        def process_mihomo_file(in_path, out_path, is_yaml, add_blocks=False, is_app=False, is_cn=False):
-            if not os.path.exists(in_path): 
-                return
-            
-            with open(in_path, "r", encoding="utf-8") as f: 
-                raw_lines = f.readlines()
-
-            payload_started = False
-            
-            def check_classical(lines):
-                for ln in lines:
-                    clean_ln = ln.strip().lstrip("- \x27\x22").upper()
-                    if clean_ln.startswith(("DOMAIN,", "DOMAIN-SUFFIX,", "DOMAIN-KEYWORD,", "IP-CIDR,", "PROCESS-NAME,")):
-                        return True
-                return False
-            
-            is_classical = check_classical(raw_lines)
-            
-            use_suffix = False
-            if not is_classical:
-                for ln in raw_lines:
-                    if "+." in ln:
-                        use_suffix = True
-                        break
-
-            header_lines = []
-            domain_map = {}
-            other_lines = []
-
-            for line in raw_lines:
-                stripped = line.strip()
-                if not stripped: continue
-                if stripped.startswith("#") and not is_yaml: continue
-                
-                if is_yaml and not payload_started:
-                    header_lines.append(line.rstrip())
-                    if stripped == "payload:": payload_started = True
-                    continue
-
-                domain_part = re.sub(r"^(?:-\s*)?(?:DOMAIN-SUFFIX,|DOMAIN,|DOMAIN-KEYWORD,|PROCESS-NAME,|IP-CIDR,)?(?:\x27|\x22)?(?:\+\.)?", "", stripped).strip("\x27\x22 ")
-                
-                if domain_part in noblock:
-                    continue
-
-                is_rule = False
-                if is_classical:
-                    if stripped.lstrip("- \x27\x22").upper().startswith(("DOMAIN", "DOMAIN-SUFFIX", "PROCESS-NAME", "IP-CIDR")):
-                        is_rule = True
-                else:
-                    if is_yaml:
-                        if stripped.startswith("-"): is_rule = True
-                    else:
-                        is_rule = True
-
-                if is_rule:
-                    domain_map[domain_part] = line.rstrip()
-                else:
-                    other_lines.append(line.rstrip())
-
-            if add_blocks:
-                for b in block:
-                    if b in noblock: continue
-                    if b not in domain_map:
-                        if is_classical:
-                            domain_map[b] = f"  - DOMAIN-SUFFIX,{b}" if is_yaml else f"DOMAIN-SUFFIX,{b}"
-                        else:
-                            prefix = "+." if use_suffix else ""
-                            domain_map[b] = f"  - \x27{prefix}{b}\x27" if is_yaml else f"{prefix}{b}"
-            
-            if is_app:
-                for p in process: 
-                    other_lines.append(f"PROCESS-NAME,{p}" if not is_yaml else f"  - PROCESS-NAME,{p}")
-            
-            if is_cn and os.path.exists("source/cn.txt"):
-                current_mode = "suffix"
-                with open("source/cn.txt", "r", encoding="utf-8") as f:
-                    for ln in f:
-                        v = ln.strip()
-                        if not v: continue
-                        
-                        if v.lower() in ["domain:", "domain："]: 
-                            current_mode = "domain"
-                        elif v.lower() in ["domain_suffix:", "domain_suffix："]: 
-                            current_mode = "suffix"
-                        else: 
-                            if v in noblock: continue
-                            if v not in domain_map:
-                                if is_classical:
-                                    r_type = "DOMAIN" if current_mode == "domain" else "DOMAIN-SUFFIX"
-                                    domain_map[v] = f"  - {r_type},{v}" if is_yaml else f"{r_type},{v}"
-                                else:
-                                    prefix = "" if current_mode == "domain" else "+."
-                                    domain_map[v] = f"  - \x27{prefix}{v}\x27" if is_yaml else f"{prefix}{v}"
-
-            exact_rules = []
-            suffix_rules = []
-            
-            for val in domain_map.values():
-                clean_val = val.lstrip(" -\x27\x22").upper()
-                if clean_val.startswith("+.") or clean_val.startswith("DOMAIN-SUFFIX"):
-                    suffix_rules.append(val)
-                else:
-                    exact_rules.append(val)
-
-            sorted_exact = sorted(exact_rules)
-            sorted_suffix = sorted(suffix_rules)
-
-            if is_yaml:
-                out_lines = header_lines + other_lines + sorted_exact + sorted_suffix
-            else:
-                out_lines = sorted(list(set(other_lines))) + sorted_exact + sorted_suffix
-
-            with open(out_path, "w", encoding="utf-8") as f:
-                for ln in out_lines: f.write(f"{ln}\n")
-            
-            format_name = "Classical" if is_classical else "Domain"
-            print(f"Successfully processed {out_path} (Format: {format_name}, Upstream suffix preference: {use_suffix})")
-
-
-        download("https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml", "awa_in.yaml")
-        process_mihomo_file("awa_in.yaml", "source/adg-awa.yaml", is_yaml=True, add_blocks=True)
-
-        if os.path.exists("/tmp/adg-dns.json"):
-            with open("/tmp/adg-dns.json", "r", encoding="utf-8") as f:
-                dns_data = json.load(f)
-            dns_rules = dns_data.get("rules", [{}])[0]
-            with open("source/adg-dns.yaml", "w", encoding="utf-8") as f:
-                f.write("payload:\n")
-                for d in dns_rules.get("domain", []):
-                    f.write(f"  - \x27{d}\x27\n")
-                for d in dns_rules.get("domain_suffix", []):
-                    f.write(f"  - \x27+.{d}\x27\n")
-            print("Successfully converted adg-dns.json to adg-dns.yaml (Domain-Set format)")
-
-        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/applications.list", "app_in.list")
-        process_mihomo_file("app_in.list", "source/app.list", is_yaml=False, is_app=True)
-
-        download("https://raw.githubusercontent.com/DustinWin/ruleset_geodata/mihomo-ruleset/cn.list", "cn_in.list")
-        process_mihomo_file("cn_in.list", "source/cn.list", is_yaml=False, is_cn=True)
-        '
-
-    - name: 8. 编译 Mihomo 二进制文件
-      continue-on-error: true
-      run: |
-        FAILED=0
-        GENERATED=0
-        for list_file in source/*.list source/*.yaml; do
-          if [ -f "$list_file" ]; then
-            filename=$(basename -- "$list_file")
-            name="${filename%.*}"
-            ext="${filename##*.}"
-
-            if [ "$name" = "app" ]; then 
-              cp "$list_file" ./app.list
-              echo "📄 Copied $list_file to root directory as app.list"
+      - name: 检查构建脚本
+        run: |
+          set -euo pipefail
+          for f in scripts/build_rules.py scripts/build_mrs.py; do
+            if [ ! -f "$f" ]; then
+              echo "❌ 缺少 $f"
+              exit 1
             fi
-
-            if grep -qiE "^[[:space:]]*(-[[:space:]]*)?['\"]?(DOMAIN|IP-CIDR|DOMAIN-SUFFIX|DOMAIN-KEYWORD|PROCESS-NAME)," "$list_file"; then
-              echo "⏭️  Skip compiling $list_file to .mrs (Classical format. Use pure text format instead.)"
-              continue
-            fi
-
-            rule_type="domain"
-            format_type="yaml"
-            if [ "$ext" = "list" ]; then format_type="text"; fi
-
-            echo "🚀 Compiling $list_file to $name.mrs..."
-            if mihomo convert-ruleset "domain" "$format_type" "$list_file" "$name.mrs" && [ -s "$name.mrs" ]; then
-              echo "✅ $name.mrs OK（$(stat -c %s "$name.mrs") 字节）"
-              GENERATED=$((GENERATED+1))
-            else
-              echo "❌ $list_file 转换失败或产物为空"
-              FAILED=1
-            fi
-          fi
-        done
-
-        echo "===== 编译汇总 ====="
-        echo "成功 $GENERATED 个 .mrs"
-        ls -lh *.mrs 2>/dev/null || echo "（没有生成任何 .mrs）"
-        if [ "$FAILED" -ne 0 ]; then
-          echo "存在失败项，请查看上方日志"
-        fi
-        exit $FAILED
-
-    - name: 9. 清理临时文件并提交推送
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        
-        rm -f *_in.yaml *_in.list mihomo.gz
-
-        if ! ls *.mrs >/dev/null 2>&1; then
-          echo "⚠️  未检测到任何 .mrs 文件，请查看第 8 步日志！"
-        fi
-
-        shopt -s nullglob
-        # 不再 add source/*.json：adg-dns.json 已归 singbox 独占，mihomo 只提交自己的产物
-        git add -f source/*.list source/*.yaml source/*.txt *.mrs
-        shopt -u nullglob
-        if [ -f app.list ]; then
-          git add -f app.list
-        fi
-        
-        if ! git diff --cached --quiet; then
-          git commit -m "chore: auto-update all Mihomo routing rules"
-          
-          MAX_RETRIES=5
-          RETRY_COUNT=0
-          SUCCESS=false
-          
-          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            
-            if git push; then
-              SUCCESS=true
-              break
-            fi
-            
-            echo "推送遇到并发锁，3秒后进行第 $((RETRY_COUNT+1)) 次重试..."
-            sleep 3
-            RETRY_COUNT=$((RETRY_COUNT+1))
           done
-          
-          if [ "$SUCCESS" = false ]; then
-            echo "错误: 尝试推送 $MAX_RETRIES 次后仍然失败，请检查仓库状态。"
+          echo "构建脚本就绪"
+
+      - name: 克隆 mihomo 并记录提交
+        id: mh
+        run: |
+          set -euo pipefail
+          git clone --depth 1 -b "$MH_BRANCH" "$MH_REPO" /tmp/mh
+          echo "rev=$(git -C /tmp/mh rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: 恢复 Go 构建缓存
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: gobuild-mihomo-${{ steps.mh.outputs.rev }}
+          restore-keys: gobuild-mihomo-
+
+      - name: 配置 Go 环境
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: /tmp/mh/go.mod
+          cache: false
+
+      - name: 编译 mihomo
+        run: |
+          set -euo pipefail
+          cd /tmp/mh
+          CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o mihomo .
+          ./mihomo version
+          echo "MIHOMO_REV=$(git rev-parse --short HEAD)" >> "$GITHUB_ENV"
+
+      - name: convert-ruleset 自检
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mrs"
+          printf '+.probe.example.com\nprobe.example.com\n' > "$RUNNER_TEMP/probe.txt"
+          if ! /tmp/mh/mihomo convert-ruleset domain text "$RUNNER_TEMP/probe.txt" "$RUNNER_TEMP/probe.mrs"; then
+            echo "❌ convert-ruleset 调用失败，以下是帮助信息："
+            /tmp/mh/mihomo convert-ruleset -h || true
             exit 1
           fi
-        else
-          echo "No changes to commit"
-        fi
+          if [ ! -s "$RUNNER_TEMP/probe.mrs" ]; then
+            echo "❌ 自检产物为空"
+            exit 1
+          fi
+          echo "✅ convert-ruleset 自检通过（$(stat -c %s "$RUNNER_TEMP/probe.mrs") 字节）"
+
+      - name: 拉取上游规则集
+        run: |
+          set -uo pipefail
+          mkdir -p "$RUNNER_TEMP/up"
+          fetch() {
+            local url="$1" dest="$2"
+            if curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 120 -o "$dest.part" "$url" \
+               && [ -s "$dest.part" ] && jq -e '(.rules | length) > 0' "$dest.part" >/dev/null 2>&1; then
+              mv "$dest.part" "$dest"
+              echo "✅ $(basename "$dest") ($(stat -c %s "$dest") 字节)"
+            else
+              rm -f "$dest.part"
+              echo "⚠️ $(basename "$dest") 拉取或校验失败，将回退到上一次的产物"
+            fi
+          }
+          fetch "$AWA_URL"     "$RUNNER_TEMP/up/awa.json"
+          fetch "$ADBLOCK_URL" "$RUNNER_TEMP/up/adblock.json"
+          fetch "$APPS_URL"    "$RUNNER_TEMP/up/applications.json"
+          fetch "$CN_URL"      "$RUNNER_TEMP/up/cn.json"
+
+      - name: 下载 ChinaMax IP
+        run: |
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 120 \
+            -o "$RUNNER_TEMP/ChinaMax_IP.txt" "$IP_URL"
+          lines=$(wc -l < "$RUNNER_TEMP/ChinaMax_IP.txt")
+          echo "下载 $lines 行"
+          if [ "$lines" -le 1000 ]; then
+            echo "❌ 行数异常（$lines）"
+            exit 1
+          fi
+
+      - name: 组装规则集 JSON（与 sing-box 完全同源）
+        run: |
+          set -euo pipefail
+          python3 -u scripts/build_rules.py
+
+      - name: 转 mrs 中间文本
+        run: |
+          set -euo pipefail
+          python3 -u scripts/build_mrs.py
+
+      - name: 生成 mrs
+        run: |
+          set -euo pipefail
+          MRS="$RUNNER_TEMP/mrs"
+          {
+            echo ""
+            echo "### mihomo MRS（mihomo@${MIHOMO_REV}）"
+            echo ""
+            echo "| MRS | 类型 | 大小(字节) | 结果 |"
+            echo "| --- | --- | ---: | --- |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          failed=""
+          for f in $PRODUCTS_DOMAIN; do
+            if [ ! -f "$MRS/$f.txt" ]; then
+              echo "❌ 缺少 $MRS/$f.txt"
+              echo "| $f.mrs | domain | - | ❌ 缺少中间文件 |" >> "$GITHUB_STEP_SUMMARY"
+              failed="$failed $f"
+              continue
+            fi
+            if /tmp/mh/mihomo convert-ruleset domain text "$MRS/$f.txt" "$MRS/$f.mrs" && [ -s "$MRS/$f.mrs" ]; then
+              size=$(stat -c %s "$MRS/$f.mrs")
+              echo "✅ $f.mrs ($size 字节)"
+              echo "| $f.mrs | domain | $size | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "❌ $f.mrs 生成失败"
+              echo "| $f.mrs | domain | - | ❌ |" >> "$GITHUB_STEP_SUMMARY"
+              failed="$failed $f"
+            fi
+          done
+
+          if /tmp/mh/mihomo convert-ruleset ipcidr text "$MRS/cnip.txt" "$MRS/cnip.mrs" && [ -s "$MRS/cnip.mrs" ]; then
+            size=$(stat -c %s "$MRS/cnip.mrs")
+            echo "✅ cnip.mrs ($size 字节)"
+            echo "| cnip.mrs | ipcidr | $size | ✅ |" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "❌ cnip.mrs 生成失败"
+            echo "| cnip.mrs | ipcidr | - | ❌ |" >> "$GITHUB_STEP_SUMMARY"
+            failed="$failed cnip"
+          fi
+
+          if [ -n "$failed" ]; then
+            echo "生成失败：$failed"
+            exit 1
+          fi
+
+      - name: 落盘
+        run: |
+          set -euo pipefail
+          MRS="$RUNNER_TEMP/mrs"
+          for f in $PRODUCTS_DOMAIN cnip; do
+            mv "$MRS/$f.mrs" "./$f.mrs"
+            echo "✅ $f.mrs"
+          done
+          if [ -f "$RUNNER_TEMP/build/summary.md" ]; then
+            cat "$RUNNER_TEMP/build/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: 提交并推送
+        run: |
+          set -euo pipefail
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          shopt -s nullglob
+          git add -f ./*.mrs
+          shopt -u nullglob
+
+          if git diff --cached --quiet; then
+            echo "没有变化，跳过提交"
+            exit 0
+          fi
+
+          git diff --cached --stat
+          git commit -m "chore: auto-update mihomo mrs rulesets"
+
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
+              echo "✅ 推送成功"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "第 $i 次推送失败，3 秒后重试"
+            sleep 3
+          done
+          echo "❌ 推送重试 5 次仍失败"
+          exit 1
