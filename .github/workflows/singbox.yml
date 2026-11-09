@@ -160,7 +160,7 @@ jobs:
               bad="$bad $f"
               continue
             fi
-            if ! jq -e '(.rules | length) > 0 and (.version != null)' "$BUILD/$f.json" > /dev/null 2>&1; then
+            if ! jq -e '(.rules | length) > 0 and (.version | type) == "number"' "$BUILD/$f.json" > /dev/null 2>&1; then
               echo "❌ $f.json 校验失败"
               bad="$bad $f"
             fi
