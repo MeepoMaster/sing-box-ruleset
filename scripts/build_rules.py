@@ -7,7 +7,7 @@ TMP      = Path(os.environ.get("RUNNER_TEMP", "/tmp"))
 SRC      = Path("source")
 BUILD    = TMP / "build"
 UP       = TMP / "up"
-VER      = os.environ["EFFECTIVE_VERSION"]
+VER      = int(os.environ["EFFECTIVE_VERSION"])
 PRODUCTS    = os.environ.get("PRODUCTS", "emby app adg-awa adg-dns cn").split()
 WHITELISTED = os.environ.get("WHITELISTED", "emby adg-awa adg-dns").split()
 BIG         = int(os.environ.get("BIG_ARRAY", "20000"))
@@ -50,7 +50,7 @@ def _arr_lines(key, vals, ind):
     return ['%s"%s": [' % (kp, key), body, kp + "]"]
 
 def dump(path, doc):
-    out = ["{", '  "version": %s,' % json.dumps(doc["version"]), '  "rules": [']
+    out = ["{", '  "version": %d,' % doc["version"], '  "rules": [']
     rules = doc.get("rules") or []
     for ri, rule in enumerate(rules):
         out.append("    {")
