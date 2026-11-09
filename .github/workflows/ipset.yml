@@ -4,47 +4,105 @@ on:
   schedule:
     - cron: '50 0,8,16 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/cn-ip-split.yml'
+
+env:
+  TZ: Asia/Shanghai
+  IP_URL: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   update-ips:
+    if: "${{ github.event_name != 'push' || (github.event.head_commit != null && !startsWith(github.event.head_commit.message, 'Auto-update')) }}"
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
     steps:
-      - name: 检出代码仓库
+      - name: 检出仓库
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: 下载、清理并分离 IP 规则
         run: |
-          # 1. 下载并设置超时
-          curl -sSL --max-time 60 https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt -o cnip_raw.txt
-          
-          # 2. 数据清洗：去除 \r 回车符，并同时剔除注释行和纯空行
-          tr -d '\r' < cnip_raw.txt | grep -Ev "^(#|$)" > clean_ip.txt
-          
-          # 3. 提取 IPv4：匹配包含小数点，且【排除包含冒号】的行，防止混入 ::ffff: 格式
-          grep "\." clean_ip.txt | grep -v ":" | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ip.txt
-          
-          # 4. 提取 IPv6：匹配包含冒号的行（::ffff: 格式会正常归入此处）
-          grep ":" clean_ip.txt | awk 'NR==1 {printf "%s", $0} NR>1 {printf "\n%s", $0}' > cn_ipv6.txt
-          
-          # 5. 安全配置 .gitattributes
-          touch .gitattributes
-          grep -q "cn_ip.txt -text" .gitattributes || echo "cn_ip.txt -text" >> .gitattributes
-          grep -q "cn_ipv6.txt -text" .gitattributes || echo "cn_ipv6.txt -text" >> .gitattributes
-          
-          # 6. 清理临时文件
-          rm cnip_raw.txt clean_ip.txt
+          set -euo pipefail
 
-      - name: 提交并推送到仓库
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          
-          git add cn_ip.txt cn_ipv6.txt .gitattributes
-          
-          # 检查是否有文件变动
-          if git diff-index --quiet HEAD --; then
-            echo "IP 列表无变化，跳过提交。"
-          else
-            git commit -m "Auto-update CN IP lists (Strict no-EOF) [skip ci]"
-            git push
+          curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 120 \
+            -o cnip_raw.txt "$IP_URL"
+
+          tr -d '\r' < cnip_raw.txt \
+            | sed 's/[[:space:]]*$//' \
+            | grep -Ev '^[[:space:]]*(#|$)' > clean_ip.txt || true
+
+          total=$(wc -l < clean_ip.txt)
+          echo "清理后 $total 行"
+          if [ "$total" -le 1000 ]; then
+            echo "❌ 行数异常（$total），上游可能已变更"
+            exit 1
           fi
+
+          spool() { awk 'NR==1{printf "%s",$0} NR>1{printf "\n%s",$0}'; }
+
+          grep '\.' clean_ip.txt | grep -v ':' | spool > cn_ip.txt   || true
+          grep ':'  clean_ip.txt                | spool > cn_ipv6.txt || true
+
+          v4=$(wc -l < cn_ip.txt)
+          v6=$(wc -l < cn_ipv6.txt)
+          echo "cn_ip.txt=$v4  cn_ipv6.txt=$v6"
+          if [ "$v4" -le 100 ]; then
+            echo "❌ IPv4 条目异常"
+            exit 1
+          fi
+          if [ "$v6" -le 0 ]; then
+            echo "❌ IPv6 条目为空"
+            exit 1
+          fi
+
+          if [ ! -f .gitattributes ]; then : > .gitattributes; fi
+          grep -q 'cn_ip.txt -text'   .gitattributes || echo 'cn_ip.txt -text'   >> .gitattributes
+          grep -q 'cn_ipv6.txt -text' .gitattributes || echo 'cn_ipv6.txt -text' >> .gitattributes
+
+          rm -f cnip_raw.txt clean_ip.txt
+
+          {
+            echo "### CN IP 拆分"
+            echo ""
+            echo "| 文件 | 条目 |"
+            echo "| --- | ---: |"
+            echo "| cn_ip.txt | $v4 |"
+            echo "| cn_ipv6.txt | $v6 |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 提交并推送
+        run: |
+          set -euo pipefail
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add cn_ip.txt cn_ipv6.txt .gitattributes
+
+          if git diff --cached --quiet; then
+            echo "IP 列表无变化，跳过提交"
+            exit 0
+          fi
+
+          git commit -m "chore: auto-update CN IP lists"
+
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
+              echo "✅ 推送成功"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "第 $i 次推送失败，3 秒后重试"
+            sleep 3
+          done
+          echo "❌ 推送重试 5 次仍失败"
+          exit 1
