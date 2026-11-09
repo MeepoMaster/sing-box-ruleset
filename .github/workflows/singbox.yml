@@ -19,7 +19,8 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   SB_REPO: https://github.com/reF1nd/sing-box.git
   SB_BRANCH: reF1nd-testing
-  RULESET_VERSION_MAX: '5'
+  # 留空 = 自动二分探测；填 '5' 之类的数字 = 锁定该版本、不探测
+  RULESET_VERSION: ''
   PRODUCTS: 'emby app adg-awa adg-dns cn'
   WHITELISTED: 'emby adg-awa adg-dns'
   BIG_ARRAY: '20000'
@@ -87,7 +88,7 @@ jobs:
           go-version-file: /tmp/sb/go.mod
           cache: false
 
-      - name: 编译 sing-box 并探测支持的规则集版本
+      - name: 编译 sing-box 并确定规则集版本
         run: |
           set -euo pipefail
           cd /tmp/sb
@@ -96,28 +97,64 @@ jobs:
           sing-box version
 
           probe() {
-            printf '{"version": %s, "rules": [{"domain": ["probe.example.com"], "domain_suffix": ["probe.example.com"], "domain_keyword": ["probe"], "ip_cidr": ["127.0.0.1"], "process_name": ["probe.exe"]}]}' "$1" > "$RUNNER_TEMP/probe.json"
+            local mode="${2:-min}"
+            if [ "$mode" = full ]; then
+              printf '{"version": %s, "rules": [{"domain": ["probe.example.com"], "domain_suffix": ["probe.example.com"], "domain_keyword": ["probe"], "ip_cidr": ["127.0.0.1"], "process_name": ["probe.exe"]}]}' "$1" > "$RUNNER_TEMP/probe.json"
+            else
+              printf '{"version": %s, "rules": [{"domain_suffix": ["probe.example.com"], "ip_cidr": ["127.0.0.1"]}]}' "$1" > "$RUNNER_TEMP/probe.json"
+            fi
             sing-box rule-set compile --output "$RUNNER_TEMP/probe.srs" "$RUNNER_TEMP/probe.json" >/dev/null 2>&1 && [ -s "$RUNNER_TEMP/probe.srs" ]
           }
 
-          SUPPORTED=""
-          for v in $(seq 1 "$RULESET_VERSION_MAX"); do
-            if probe "$v"; then
-              echo "  v$v ✅"
-              SUPPORTED="$SUPPORTED $v"
+          if [ -n "${RULESET_VERSION:-}" ]; then
+            MODE="锁定模式（env.RULESET_VERSION=$RULESET_VERSION）"
+            if [ "$RULESET_VERSION" ~> /dev/null 2>&1 ] 2>/dev/null; then :; fi
+            if probe "$RULESET_VERSION" full; then
+              MAX="$RULESET_VERSION"
             else
-              echo "  v$v ❌"
+              echo "❌ 当前二进制不接受 v$RULESET_VERSION（或该版本不支持全部字段），各版本实测："
+              for v in $(seq 1 8); do
+                if probe "$v" full; then echo "  v$v ✅"; else echo "  v$v ❌"; fi
+              done
+              echo "→ 请把 env.RULESET_VERSION 改成上面 ✅ 的数字，或清空以启用自动探测"
+              exit 1
             fi
-            rm -f "$RUNNER_TEMP/probe.srs"
-          done
+          else
+            MODE="自动探测（二分，无硬编码上限）"
+            if probe 1 min; then
+              lo=1; hi=255
+              while [ $((hi - lo)) -gt 1 ]; do
+                mid=$(( (lo + hi) / 2 ))
+                if probe "$mid" min; then lo=$mid; else hi=$mid; fi
+              done
+              MAX=$lo
+            else
+              MAX=0
+              for v in $(seq 2 16); do
+                if probe "$v" min; then MAX=$v; fi
+              done
+            fi
+            while [ "${MAX:-0}" -gt 0 ] && ! probe "$MAX" full; do
+              echo "  v$MAX 接受版本号但不接受全字段，降级 → v$((MAX - 1))"
+              MAX=$(( MAX - 1 ))
+            done
+          fi
 
-          MAX=$(echo $SUPPORTED | tr ' ' '\n' | sort -n | tail -1)
-          if [ -z "${MAX:-}" ]; then
-            echo "❌ 该二进制不支持任何规则集版本（探测样本已含 process_name）"
+          if [ "${MAX:-0}" -eq 0 ]; then
+            echo "❌ 探测失败：该二进制不接受任何规则集版本"
             exit 1
           fi
-          echo "本次生效版本：v$MAX"
+          echo "本次生效版本：v$MAX（$MODE）"
           echo "EFFECTIVE_VERSION=$MAX" >> "$GITHUB_ENV"
+          {
+            echo "### sing-box 规则集版本"
+            echo ""
+            echo "| 项 | 值 |"
+            echo "| --- | --- |"
+            echo "| sing-box | $(sing-box version | head -1) |"
+            echo "| 规则集版本 | **v$MAX** |"
+            echo "| 判定方式 | $MODE |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 拉取上游规则集
         run: |
