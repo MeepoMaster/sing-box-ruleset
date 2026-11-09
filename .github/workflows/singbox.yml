@@ -12,6 +12,7 @@ on:
       - 'source/process.txt'
       - 'source/cn.txt'
       - 'source/emby.json'
+      - 'scripts/build_rules.py'
 
 env:
   TZ: Asia/Shanghai
@@ -21,6 +22,7 @@ env:
   RULESET_VERSION_MAX: '5'
   PRODUCTS: 'emby app adg-awa adg-dns cn'
   WHITELISTED: 'emby adg-awa adg-dns'
+  BIG_ARRAY: '20000'
   AWA_URL: https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.json
   ADBLOCK_URL: https://raw.githubusercontent.com/217heidai/adblockfilters/main/rules/adblocksingbox.json
   APPS_URL: https://raw.githubusercontent.com/DustinWin/ruleset_geodata/sing-box-ruleset-compatible/applications.json
@@ -54,6 +56,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: 检查构建脚本
+        run: |
+          set -euo pipefail
+          if [ ! -f scripts/build_rules.py ]; then
+            echo "❌ 缺少 scripts/build_rules.py，请先把构建脚本提交到仓库"
+            exit 1
+          fi
+          python3 --version
+          echo "构建脚本就绪"
 
       - name: 克隆 reF1nd sing-box 并记录提交
         id: sb
@@ -113,10 +125,10 @@ jobs:
           mkdir -p "$RUNNER_TEMP/up"
           fetch() {
             local url="$1" dest="$2"
-            if curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 90 -o "$dest.part" "$url" \
+            if curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 120 -o "$dest.part" "$url" \
                && [ -s "$dest.part" ] && jq -e '(.rules | length) > 0' "$dest.part" >/dev/null 2>&1; then
               mv "$dest.part" "$dest"
-              echo "✅ $(basename "$dest")"
+              echo "✅ $(basename "$dest") ($(stat -c %s "$dest") 字节)"
             else
               rm -f "$dest.part"
               echo "⚠️ $(basename "$dest") 拉取或校验失败，将回退到上一次的产物"
@@ -130,374 +142,46 @@ jobs:
       - name: 组装并归一化（只写临时目录）
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import json, os, re
-          from pathlib import Path
+          python3 -u scripts/build_rules.py
 
-          TMP        = Path(os.environ["RUNNER_TEMP"])
-          SRC        = Path("source")
-          BUILD      = TMP / "build"
-          UP         = TMP / "up"
-          VER        = int(os.environ["EFFECTIVE_VERSION"])
-          PRODUCTS   = os.environ["PRODUCTS"].split()
-          WHITELISTED = os.environ["WHITELISTED"].split()
-          BUILD.mkdir(parents=True, exist_ok=True)
-
-          LABEL = {"domain:": "domain", "domain：": "domain",
-                   "domain_suffix:": "suffix", "domain_suffix：": "suffix",
-                   "domain_keyword:": "keyword", "domain_keyword：": "keyword",
-                   "domain_regex:": "regex", "domain_regex：": "regex"}
-          TITLE = {"domain": "domain:", "suffix": "domain_suffix:",
-                   "keyword": "domain_keyword:", "regex": "domain_regex:"}
-          ORDER    = ("domain", "suffix", "keyword", "regex")
-          DOM_KEYS = ("domain", "domain_suffix", "domain_keyword", "domain_regex")
-          NOTES    = {}
-
-          def note(key, msg):
-              NOTES.setdefault(key, []).append(msg)
-
-          def load(p):
-              with open(p, encoding="utf-8") as f:
-                  return json.load(f)
-
-          def dump(p, obj):
-              with open(p, "w", encoding="utf-8") as f:
-                  json.dump(obj, f, ensure_ascii=False, indent=2)
-                  f.write("\n")
-
-          # ---------- TXT ----------
-          def parse_txt(p, default):
-              groups = {k: [] for k in ORDER}
-              cur, tagged = default, False
-              if not Path(p).exists():
-                  return groups, tagged
-              for raw in Path(p).read_text(encoding="utf-8").splitlines():
-                  s = raw.strip()
-                  if not s or s.startswith("#"):
-                      continue
-                  hit = LABEL.get(s.lower())
-                  if hit:
-                      cur, tagged = hit, True
-                      continue
-                  groups[cur].append(s)
-              return groups, tagged
-
-          def tidy_hosts(name, default):
-              p = SRC / name
-              groups, tagged = parse_txt(p, default)
-              if not any(groups.values()):
-                  return groups
-              for k in ORDER:
-                  if groups[k]:
-                      groups[k] = sorted(set(groups[k])) if k == "regex" \
-                                  else sorted({v.lower() for v in groups[k]})
-              if tagged:
-                  blocks = ["%s\n%s" % (TITLE[k], "\n".join(groups[k]))
-                            for k in ORDER if groups[k]]
-                  p.write_text("\n\n".join(blocks) + "\n", encoding="utf-8")
-              else:
-                  p.write_text("\n".join(groups[default]) + "\n", encoding="utf-8")
-              bad = [v for k in ("domain", "suffix", "keyword") for v in groups[k]
-                     if re.search(r"[*^/\\: ]", v)]
-              if bad:
-                  note(name, "疑似非法条目（含 * / ^ : 空格）：%s" % "、".join(bad[:5]))
-              suf = groups["suffix"]
-              inner = [s for s in suf if any(s != t and s.endswith("." + t) for t in suf)]
-              if inner:
-                  note(name, "有 %d 条后缀被同文件更宽的后缀覆盖（产物会自动去掉，输入可自行清理）：%s"
-                       % (len(inner), "、".join(inner[:6])))
-              return groups
-
-          def tidy_flat(name):
-              p = SRC / name
-              if not p.exists():
-                  return []
-              vals = sorted({l.strip() for l in p.read_text(encoding="utf-8").splitlines()
-                             if l.strip() and not l.lstrip().startswith("#")})
-              p.write_text("\n".join(vals) + "\n", encoding="utf-8")
-              return vals
-
-          # ---------- 归一化 ----------
-          def sub(host, x):
-              return host == x or host.endswith("." + x)
-
-          def norm_rule(rule, name):
-              for k in DOM_KEYS:
-                  if isinstance(rule.get(k), list):
-                      rule[k] = sorted({str(x).strip() for x in rule[k] if str(x).strip()})
-
-              sufs = rule.get("domain_suffix", [])
-              if sufs:
-                  drop = [s for s in sufs if any(s != t and s.endswith("." + t) for t in sufs)]
-                  if drop:
-                      note(name, "后缀被更宽后缀覆盖，去掉 %d 条（如 %s）" % (len(drop), "、".join(drop[:4])))
-                  rule["domain_suffix"] = [s for s in sufs if s not in drop]
-
-              kws = rule.get("domain_keyword", [])
-              if kws:
-                  drop = [t for t in kws if any(t != u and u in t for u in kws)]
-                  if drop:
-                      note(name, "关键词被更短关键词覆盖，去掉 %d 条（如 %s）" % (len(drop), "、".join(drop[:4])))
-                  rule["domain_keyword"] = [t for t in kws if t not in drop]
-
-              dom = rule.get("domain", [])
-              if dom:
-                  drop = [d for d in dom
-                          if any(sub(d, s) for s in rule.get("domain_suffix", []))
-                          or any(k in d for k in rule.get("domain_keyword", []))]
-                  if drop:
-                      note(name, "domain 被 suffix/keyword 覆盖，去掉 %d 条（如 %s）" % (len(drop), "、".join(drop[:4])))
-                  rule["domain"] = [d for d in dom if d not in drop]
-
-              for k in DOM_KEYS:
-                  if k in rule and not rule[k]:
-                      del rule[k]
-              return rule
-
-          def norm_doc(doc, name):
-              if not doc.get("rules"):
-                  doc["rules"] = [{}]
-              for rule in doc["rules"]:
-                  norm_rule(rule, name)
-              doc["version"] = VER
-              return doc
-
-          # ---------- 白名单（父域覆盖子域，方向必须正确） ----------
-          class Whitelist:
-              def __init__(self, g):
-                  self.dom = g.get("domain") or []
-                  self.suf = g.get("suffix") or []
-                  self.kw  = g.get("keyword") or []
-                  self.used = set()
-                  self.hits = 0
-                  self.conflicts = []
-
-              def _hit(self, section, value):
-                  self.used.add("%s:%s" % (section, value))
-                  self.hits += 1
-
-              def exact(self, d):
-                  for x in self.dom:
-                      if d == x:
-                          self._hit("domain", x); return True
-                  for x in self.suf:
-                      if d == x or d.endswith("." + x):
-                          self._hit("suffix", x); return True
-                  for x in self.kw:
-                      if x in d:
-                          self._hit("keyword", x); return True
-                  return False
-
-              def suffix(self, s):
-                  for x in self.dom:
-                      if s == x:
-                          self._hit("domain", x); return True
-                      if x.endswith("." + s):
-                          self.conflicts.append((s, "domain:" + x))
-                  for x in self.suf:
-                      if s == x or s.endswith("." + x):
-                          self._hit("suffix", x); return True
-                      if x.endswith("." + s):
-                          self.conflicts.append((s, "suffix:" + x))
-                  for x in self.kw:
-                      if x in s:
-                          self._hit("keyword", x); return True
-                  return False
-
-              def keyword(self, k):
-                  for x in self.dom:
-                      if x in k:
-                          self._hit("domain", x); return True
-                  for x in self.suf:
-                      if x in k:
-                          self._hit("suffix", x); return True
-                  return False
-
-              def report(self):
-                  entries = (["domain:" + x for x in self.dom]
-                             + ["suffix:" + x for x in self.suf]
-                             + ["keyword:" + x for x in self.kw])
-                  return {"entries": len(entries), "removed": self.hits,
-                          "unused": sorted(set(entries) - self.used),
-                          "conflicts": sorted(set(self.conflicts))}
-
-          def apply_wl(rule, wl, name):
-              before = wl.hits
-              for key, fn in (("domain", wl.exact),
-                              ("domain_suffix", wl.suffix),
-                              ("domain_keyword", wl.keyword)):
-                  if rule.get(key):
-                      rule[key] = [v for v in rule[key] if not fn(v)]
-              removed = wl.hits - before
-              if removed:
-                  note(name, "白名单剔除 %d 条（noblock.txt 优先）" % removed)
-
-          # ---------- 组装 ----------
-          def merge(rule, g, keys=("domain", "suffix", "keyword")):
-              for gk, rk in (("domain", "domain"), ("suffix", "domain_suffix"), ("keyword", "domain_keyword")):
-                  if gk in keys and g.get(gk):
-                      rule[rk] = list(rule.get(rk) or []) + list(g[gk])
-
-          def pick(name, ups):
-              if ups and all((UP / u).is_file() for u in ups):
-                  try:
-                      docs = [load(UP / u) for u in ups]
-                      if all(isinstance(d.get("rules"), list) for d in docs):
-                          return docs, "upstream"
-                  except Exception as e:
-                      note(name, "上游解析失败：%s" % e)
-              prev = SRC / ("%s.json" % name)
-              if prev.is_file():
-                  note(name, "⚠️ 上游不可用，回退到上一次产物（本次未更新上游内容）")
-                  return [load(prev)], "previous"
-              raise SystemExit("[%s] 上游与历史产物都不可用，无法生成" % name)
-
-          def first_rule(doc):
-              if not doc.get("rules"):
-                  doc["rules"] = [{}]
-              return doc["rules"][0]
-
-          def delta(name, rule):
-              prev = SRC / ("%s.json" % name)
-              if not prev.is_file():
-                  return "新建"
-              try:
-                  old = load(prev)["rules"][0]
-              except Exception:
-                  return "-"
-              add = rem = 0
-              for k in ("domain", "domain_suffix", "domain_keyword"):
-                  add += len(set(rule.get(k) or []) - set(old.get(k) or []))
-                  rem += len(set(old.get(k) or []) - set(rule.get(k) or []))
-              return "+%d/−%d" % (add, rem)
-
-          block    = tidy_hosts("block.txt", "domain")
-          noblock  = tidy_hosts("noblock.txt", "domain")
-          cn_local = tidy_hosts("cn.txt", "suffix")
-          procs    = tidy_flat("process.txt")
-          wl       = Whitelist(noblock)
-
-          out = {}
-
-          emby_path = SRC / "emby.json"
-          if not emby_path.is_file():
-              raise SystemExit("缺少 source/emby.json（手工维护的原始规则集）")
-          doc = load(emby_path)
-          apply_wl(first_rule(doc), wl, "emby")
-          norm_doc(doc, "emby")
-          out["emby"] = (doc, "local")
-
-          docs, origin = pick("adg-awa", ["awa.json"])
-          doc = docs[0]; rule = first_rule(doc)
-          merge(rule, block)
-          apply_wl(rule, wl, "adg-awa")
-          norm_doc(doc, "adg-awa")
-          out["adg-awa"] = (doc, origin)
-
-          docs, origin = pick("adg-dns", ["awa.json", "adblock.json"])
-          if origin == "upstream" and len(docs) == 2:
-              doc = {"rules": [{}]}
-              for d in docs:
-                  sr = first_rule(d)
-                  merge(doc["rules"][0], {"domain": sr.get("domain") or [],
-                                          "suffix": sr.get("domain_suffix") or [],
-                                          "keyword": sr.get("domain_keyword") or []})
-          else:
-              doc = docs[0]; first_rule(doc)
-          rule = doc["rules"][0]
-          merge(rule, block)
-          apply_wl(rule, wl, "adg-dns")
-          norm_doc(doc, "adg-dns")
-          out["adg-dns"] = (doc, origin)
-
-          docs, origin = pick("app", ["applications.json"])
-          doc = docs[0]; rule = first_rule(doc)
-          if procs:
-              exist = [str(x).strip() for x in (rule.get("process_name") or []) if str(x).strip()]
-              rule["process_name"] = sorted(set(exist) | set(procs))
-          norm_doc(doc, "app")
-          out["app"] = (doc, origin)
-
-          docs, origin = pick("cn", ["cn.json"])
-          doc = docs[0]; rule = first_rule(doc)
-          merge(rule, cn_local)
-          norm_doc(doc, "cn")
-          out["cn"] = (doc, origin)
-
-          # ---------- 校验 + 落地到临时目录 ----------
-          report = {"version": VER, "products": {}, "files": NOTES, "whitelist": wl.report()}
-          for name in PRODUCTS:
-              if name not in out:
-                  raise SystemExit("未知产物：%s" % name)
-              doc, origin = out[name]
-              rule = doc["rules"][0]
-              cross = sum(1 for d in rule.get("domain", [])
-                          if any(sub(d, s) for s in rule.get("domain_suffix", [])))
-              if cross:
-                  raise SystemExit("[%s] 归一化后仍有 %d 条 domain 被 domain_suffix 覆盖" % (name, cross))
-              dump(BUILD / ("%s.json" % name), doc)
-              report["products"][name] = {
-                  "origin": origin,
-                  "counts": {k: len(rule.get(k, [])) for k in DOM_KEYS},
-                  "delta": delta(name, rule),
-                  "notes": NOTES.get(name, []),
-              }
-          dump(BUILD / "report.json", report)
-          print(json.dumps(report, ensure_ascii=False, indent=2))
-          PY
-
-      - name: 校验产物并落盘到 source/
+      - name: 校验并落盘到 source/
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import json, os
-          from pathlib import Path
+          BUILD="$RUNNER_TEMP/build"
 
-          TMP   = Path(os.environ["RUNNER_TEMP"])
-          BUILD = TMP / "build"
-          SRC   = Path("source")
-          rep   = json.loads((BUILD / "report.json").read_text(encoding="utf-8"))
+          if [ -f "$BUILD/summary.md" ]; then
+            cat "$BUILD/summary.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
-          ORIGIN = {"upstream": "上游", "previous": "⚠️ 回退（旧产物）", "local": "本地"}
-          md = ["## 规则集构建结果（v%d）" % rep["version"], "",
-                "| 产物 | 来源 | domain | domain_suffix | domain_keyword | domain_regex | 变更 |",
-                "| --- | --- | ---: | ---: | ---: | ---: | --- |"]
-          for name, info in rep["products"].items():
-              c = info["counts"]
-              md.append("| %s | %s | %d | %d | %d | %d | %s |" % (
-                  name, ORIGIN.get(info["origin"], info["origin"]),
-                  c["domain"], c["domain_suffix"], c["domain_keyword"], c["domain_regex"],
-                  info.get("delta", "")))
+          bad=""
+          for f in $PRODUCTS; do
+            if [ ! -f "$BUILD/$f.json" ]; then
+              echo "❌ 缺少 $BUILD/$f.json"
+              bad="$bad $f"
+              continue
+            fi
+            if ! jq -e '(.rules | length) > 0 and (.version != null)' "$BUILD/$f.json" > /dev/null 2>&1; then
+              echo "❌ $f.json 校验失败"
+              bad="$bad $f"
+            fi
+          done
 
-          prod_notes = ["- **%s**：%s" % (n, w) for n, i in rep["products"].items() for w in i["notes"]]
-          file_notes = ["- **%s**：%s" % (n, w) for n, ws in rep["files"].items() for w in ws]
-          md += ["", "<details><summary>归一化提示</summary>", ""]
-          md += (prod_notes + file_notes) or ["- 无"]
-          md += ["", "</details>", ""]
+          if [ -n "$bad" ]; then
+            echo "存在校验失败产物：$bad"
+            exit 1
+          fi
 
-          wlr = rep["whitelist"]
-          md += ["<details><summary>白名单（noblock.txt）</summary>", "",
-                 "- 条目 %d 条，本次剔除 %d 条" % (wlr["entries"], wlr["removed"])]
-          if wlr["unused"]:
-              md.append("- 未命中任何条目（可能拼写有误或上游已不包含）：%s" % "、".join(wlr["unused"]))
-          if wlr["conflicts"]:
-              md.append("- ⚠️ 冲突：以下白名单项被更宽的封禁后缀盖住，无法逐条放行（请拆分该后缀）：")
-              for s, x in wlr["conflicts"]:
-                  md.append("  - `%s` ⊂ `%s`" % (x, s))
-          md += ["", "</details>", ""]
-
-          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
-              f.write("\n".join(md) + "\n")
-
-          for name in rep["products"]:
-              os.replace(BUILD / ("%s.json" % name), SRC / ("%s.json" % name))
-          print("已落盘 %d 个 JSON" % len(rep["products"]))
-          PY
+          for f in $PRODUCTS; do
+            mv "$BUILD/$f.json" "source/$f.json"
+            echo "✅ source/$f.json"
+          done
 
       - name: 编译为 SRS
         run: |
           set -euo pipefail
-          echo "===== sing-box ====="; sing-box version
+          echo "===== sing-box ====="
+          sing-box version
+          echo "===== 生效版本 v$EFFECTIVE_VERSION ====="
           {
             echo ""
             echo "### 编译结果"
@@ -512,7 +196,8 @@ jobs:
             if [ ! -f "$src" ]; then
               echo "❌ 缺少 $src"
               echo "| $f.srs | - | ❌ 源文件缺失 |" >> "$GITHUB_STEP_SUMMARY"
-              failed="$failed $f"; continue
+              failed="$failed $f"
+              continue
             fi
             if sing-box rule-set compile --output "$f.srs" "$src" && [ -s "$f.srs" ]; then
               size=$(stat -c %s "$f.srs")
@@ -524,6 +209,7 @@ jobs:
               failed="$failed $f"
             fi
           done
+
           if [ -n "$failed" ]; then
             echo "编译失败：$failed"
             exit 1
