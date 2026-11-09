@@ -1,3 +1,6 @@
+domain:
+shouji.sogou.com
+
 domain_suffix:
 a0.app.xiaomi.com
 adash-c.ut.taobao.com
@@ -7,5 +10,3 @@ apoll.m.taobao.com
 cn.app.chat.xiaomi.net
 resolver.msg.xiaomi.net
 wtradv.market.xiaomi.com
-domain:
-shouji.sogou.com
