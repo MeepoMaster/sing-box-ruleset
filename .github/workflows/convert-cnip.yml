@@ -2,66 +2,166 @@ name: Convert ChinaMax IP to SRS
 
 on:
   schedule:
-    - cron: '20 0,8,16 * * *'  # 北京时间 12:30 (UTC 04:30)
+    - cron: '10 0,8,16 * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
+  push:
+    paths:
+      - 'source/convert_cnip.py'
+      - '.github/workflows/chinaip-srs.yml'
 
 env:
-  RULESET_VERSION: '5'   # 将来改 6/7/8 只改这一行
+  TZ: Asia/Shanghai
+  SB_REPO: https://github.com/reF1nd/sing-box.git
+  SB_BRANCH: reF1nd-testing
+  # 与主流程共用一个数字：优先取仓库变量，未设置时回落 5
+  RULESET_VERSION: "${{ vars.RULESET_VERSION || '5' }}"
+  IP_URL: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt
+  OUT_JSON: source/cnip.json
+  OUT_SRS: cnip.srs
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   convert:
+    if: "${{ github.event_name != 'push' || (github.event.head_commit != null && !startsWith(github.event.head_commit.message, 'chore: auto-update')) }}"
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout
+      - name: 检出仓库
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Download upstream rule file
+      - name: 安装基础依赖
         run: |
-          curl -fsSL -o ChinaMax_IP.txt \
-            "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/ChinaMax/ChinaMax_IP.txt"
-          echo "Downloaded $(wc -l < ChinaMax_IP.txt) lines"
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq jq curl
 
-      - name: Convert to sing-box JSON rule set
-        run: python3 source/convert_cnip.py
-        env:
-          RULESET_VERSION: ${{ env.RULESET_VERSION }}
+      - name: 配置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-      - name: Clone reF1nd sing-box (testing branch)
-        run: git clone --depth 1 -b reF1nd-testing https://github.com/reF1nd/sing-box.git /tmp/sb
+      - name: 克隆 reF1nd sing-box 并记录提交
+        id: sb
+        run: |
+          set -euo pipefail
+          git clone --depth 1 -b "$SB_BRANCH" "$SB_REPO" /tmp/sb
+          echo "rev=$(git -C /tmp/sb rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      - name: Setup Go
+      - name: 恢复 Go 构建缓存
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/go-build
+          key: gobuild-${{ steps.sb.outputs.rev }}
+          restore-keys: gobuild-
+
+      - name: 配置 Go 环境
         uses: actions/setup-go@v5
         with:
           go-version-file: /tmp/sb/go.mod
           cache: false
 
-      - name: Build sing-box
+      - name: 编译 sing-box 并校验版本可用
         run: |
+          set -euo pipefail
           cd /tmp/sb
-          CGO_ENABLED=0 go build -trimpath -o sing-box ./cmd/sing-box
-          ./sing-box version
+          CGO_ENABLED=0 go build -trimpath -ldflags "-s -w" -o sing-box ./cmd/sing-box
+          sudo install -m 0755 sing-box /usr/local/bin/sing-box
+          sing-box version
 
-      - name: Compile SRS
-        run: |
-          /tmp/sb/sing-box rule-set compile source/cnip.json -o cnip.srs
-          ls -lh cnip.srs
+          probe() {
+            printf '{"version": %s, "rules": [{"domain": ["probe.example.com"], "domain_suffix": ["probe.example.com"], "domain_keyword": ["probe"], "ip_cidr": ["127.0.0.1"], "process_name": ["probe.exe"]}]}' "$1" > "$RUNNER_TEMP/probe.json"
+            sing-box rule-set compile --output "$RUNNER_TEMP/probe.srs" "$RUNNER_TEMP/probe.json" >/dev/null 2>&1 && [ -s "$RUNNER_TEMP/probe.srs" ]
+          }
 
-      - name: Commit and push
+          if probe "$RULESET_VERSION" full; then
+            echo "✅ v$RULESET_VERSION 受支持"
+          else
+            echo "❌ 当前二进制不接受 v$RULESET_VERSION，各版本实测："
+            for v in $(seq 1 8); do
+              if probe "$v" full; then echo "  v$v ✅"; else echo "  v$v ❌"; fi
+            done
+            echo "→ 请修改 env.RULESET_VERSION（或仓库变量 RULESET_VERSION）"
+            exit 1
+          fi
+
+      - name: 下载 ChinaMax IP
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add source/cnip.json cnip.srs
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
+          set -euo pipefail
+          curl -fsSL --retry 3 --retry-delay 3 --retry-all-errors --max-time 120 \
+            -o "$GITHUB_WORKSPACE/ChinaMax_IP.txt" "$IP_URL"
+          lines=$(wc -l < ChinaMax_IP.txt)
+          echo "下载 $lines 行"
+          if [ "$lines" -le 1000 ]; then
+            echo "❌ 行数异常（$lines），上游可能已变更"
+            exit 1
+          fi
+
+      - name: 转换为 sing-box JSON（失败自动回滚）
+        run: |
+          set -euo pipefail
+          if [ -f "$OUT_JSON" ]; then cp "$OUT_JSON" "$RUNNER_TEMP/cnip.bak"; fi
+
+          python3 -u source/convert_cnip.py
+
+          if ! jq -e '(.version | type) == "number" and (.rules | length) > 0' "$OUT_JSON" > /dev/null 2>&1; then
+            echo "❌ $OUT_JSON 校验失败（version 必须是 JSON 数字，不能是字符串）"
+            if [ -f "$RUNNER_TEMP/cnip.bak" ]; then cp "$RUNNER_TEMP/cnip.bak" "$OUT_JSON"; fi
+            exit 1
+          fi
+          jq -r '"ip_cidr=" + ((.rules[0].ip_cidr // []) | length | tostring)' "$OUT_JSON"
+
+      - name: 编译 SRS 并校验
+        run: |
+          set -euo pipefail
+          sing-box rule-set compile --output "$RUNNER_TEMP/cnip.srs" "$OUT_JSON"
+          if [ ! -s "$RUNNER_TEMP/cnip.srs" ]; then
+            echo "❌ cnip.srs 为空"
+            exit 1
+          fi
+          size=$(stat -c %s "$RUNNER_TEMP/cnip.srs")
+          echo "✅ cnip.srs $size 字节"
+          {
+            echo ""
+            echo "### ChinaMax IP → SRS（v$RULESET_VERSION）"
+            echo ""
+            echo "| 文件 | 大小(字节) |"
+            echo "| --- | ---: |"
+            echo "| cnip.srs | $size |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 落盘并提交
+        run: |
+          set -euo pipefail
+          mv "$RUNNER_TEMP/cnip.srs" "$OUT_SRS"
+
+          git config --local user.name  "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -f "$OUT_JSON" "$OUT_SRS"
+
+          if git diff --cached --quiet; then
+            echo "没有变化，跳过提交"
             exit 0
           fi
-          git commit -m "chore: update ChinaMax IP rule set (v${{ env.RULESET_VERSION }}, $(date -u +%Y-%m-%d))"
-          if ! git pull --rebase --autostash origin ${{ github.ref_name }}; then
-            echo "Rebase conflict detected, aborting this push"
-            git rebase --abort
-            exit 0
-          fi
-          git push
+
+          git commit -m "chore: auto-update ChinaMax IP ruleset (v${RULESET_VERSION})"
+
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin "$GITHUB_REF_NAME" && git push; then
+              echo "✅ 推送成功"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "第 $i 次推送失败，3 秒后重试"
+            sleep 3
+          done
+          echo "❌ 推送重试 5 次仍失败"
+          exit 1
